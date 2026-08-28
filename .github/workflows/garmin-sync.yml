@@ -30,7 +30,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          python -c "import garminconnect; print('garminconnect', garminconnect.__version__)"
+          python -c "import garminconnect; print('garminconnect installed')"
 
       - name: Restore Garmin token (private)
         env:
