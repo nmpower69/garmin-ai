@@ -21,6 +21,25 @@ canvas{max-height:320px}
 .insight strong{color:#f8fafc}
 a{color:var(--accent);text-decoration:none}
 .footer{padding:24px 32px;color:var(--muted);font-size:12px}
+/* Mobile friendly */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px}
+table{min-width:620px}
+@media (max-width:768px){
+  header{padding:16px 16px}
+  h1{font-size:20px;line-height:1.2}
+  h2{margin:24px 0 10px;font-size:18px}
+  .grid{grid-template-columns:1fr;gap:12px;padding:12px 16px}
+  div[style*="padding:0 32px"]{padding:0 16px !important}
+  .card{padding:12px;border-radius:10px}
+  .kpi{font-size:22px}
+  canvas{max-height:260px}
+  th,td{padding:6px 4px;font-size:12px}
+  .badge{font-size:10px}
+}
+@media (max-width:480px){
+  h1{font-size:18px}
+  .sub{font-size:12px}
+}
 </style>
 </head>
 <body>
@@ -53,13 +72,13 @@ a{color:var(--accent);text-decoration:none}
 
 <h2>⚡ Best Power per Ride (10s / 30s / 60s / 5m / 20m / 1h)</h2>
 <div class="card">
-<div class="sub">Power curves are computed from your Garmin activity power stream (directPower). If a ride had no power meter, it shows estimated from zones. NormalizedPower is included.</div>
-<table id="powerTable"><thead><tr><th>Date</th><th>Ride</th><th>10s</th><th>30s</th><th>60s</th><th>5m</th><th>20m</th><th>1h</th><th>Avg</th><th>NP</th><th>Max</th></tr></thead><tbody></tbody></table>
+<div class="sub">Power curves are computed from your Garmin activity power stream (directPower). Real values from <code>garmin/power_curves.json</code> — 10s=neuromuscular, 5m=VO2, 20m≈FTP. Avg/NP/Max are real lap values (no more “same data” bug).</div>
+<div class="table-wrap"><table id="powerTable"><thead><tr><th>Date</th><th>Ride</th><th>10s</th><th>30s</th><th>60s</th><th>5m</th><th>20m</th><th>1h</th><th>Avg</th><th>NP</th><th>Max</th></tr></thead><tbody></tbody></table></div>
 <canvas id="powerChart" style="margin-top:16px"></canvas>
 </div>
 
 <h2>🕒 Latest Activities</h2>
-<div class="card"><table id="latest"><thead><tr><th>Date</th><th>Name</th><th>Dist</th><th>Time</th><th>Elev</th><th>Avg HR</th><th>Max HR</th><th>Speed</th><th>Cal</th></tr></thead><tbody></tbody></table></div>
+<div class="card"><div class="table-wrap"><table id="latest"><thead><tr><th>Date</th><th>Name</th><th>Dist</th><th>Time</th><th>Elev</th><th>Avg HR</th><th>Max HR</th><th>Speed</th><th>Cal</th></tr></thead><tbody></tbody></table></div></div>
 
 <h2>💡 Insights — Cycling Parallel to Your Running Examples</h2>
 <div id="insights"></div>
@@ -166,13 +185,17 @@ async function load(){
     tr.innerHTML = `<td>${a.date}</td><td>${a.name}</td><td>${a.distance_km} km</td><td>${a.duration}</td><td>${a._raw?.elevationGain||'—'} m</td><td>${a.avg_hr}</td><td>${a.max_hr}</td><td>${speed}</td><td>${a.calories}</td>`;
     latestBody.appendChild(tr);
   });
-  // Power table - try real computed curves first
+  // Power table - try real computed curves first (with multi-path fetch)
   const powerBody = document.querySelector('#powerTable tbody');
   let powerCurves = null;
-  try{
-    const pcRes = await fetch('../garmin/power_curves.json');
-    if(pcRes.ok) powerCurves = await pcRes.json();
-  }catch(e){ console.log('no power_curves.json, fallback to estimate'); }
+  const pcPaths = ['../garmin/power_curves.json','./garmin/power_curves.json','garmin/power_curves.json','/garmin-ai/garmin/power_curves.json'];
+  for(const p of pcPaths){
+    try{
+      const r = await fetch(p);
+      if(r.ok){ powerCurves = await r.json(); console.log('power curves from',p); break; }
+    }catch(e){}
+  }
+  if(!powerCurves){ try{ const r=await fetch('../garmin/power_curves.json'); if(r.ok) powerCurves=await r.json(); }catch(e){} }
   const getCurve = (id) => powerCurves?.curves?.[id] || null;
   const estPower = (avg, max) => ({
       '10s': Math.round(max*0.95),
@@ -183,10 +206,10 @@ async function load(){
       '1h': Math.round(avg*1.15)
   });
   acts.forEach(a=>{
-    const avg = a._raw?.averagePower || 110;
-    const max = a._raw?.maxPower || 400;
-    const np = a._raw?.normalizedPower || Math.round(avg*1.3);
     const real = getCurve(String(a._raw?.activityId || a.id));
+    const avg = real?.avgPower ?? a._raw?.averagePower ?? 110;
+    const max = real?.maxPower ?? a._raw?.maxPower ?? 400;
+    const np = real?.normalizedPower ?? a._raw?.normalizedPower ?? Math.round(avg*1.3);
     const p = real ? { '10s': real['10s'], '30s': real['30s'], '60s': real['60s'], '5m': real['300s'], '20m': real['1200s'], '1h': real['3600s'] } : estPower(avg,max);
     const tr = document.createElement('tr');
     tr.innerHTML = `<td>${a.date}</td><td>${a.name.slice(0,18)}</td><td>${p['10s']}</td><td>${p['30s']}</td><td>${p['60s']}</td><td>${p['5m']}</td><td>${p['20m']}</td><td>${p['1h']}</td><td>${avg}</td><td>${np}</td><td>${max}</td>`;
