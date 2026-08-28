@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T16:27:58.109900",
+  "generated_at": "2026-08-28T16:34:24.611673",
   "date_range": [
     "2026-08-22",
     "2026-08-28"
@@ -51545,16 +51545,6 @@
           "minHeartRate": 48,
           "restingHeartRate": 49,
           "lastSevenDaysAvgRestingHeartRate": 50,
-          "heartRateValueDescriptors": [
-            {
-              "index": 0,
-              "key": "timestamp"
-            },
-            {
-              "index": 1,
-              "key": "heartrate"
-            }
-          ],
           "heartRateValues": [
             [
               1787682600000,
@@ -54412,6 +54402,16 @@
               1787768880000,
               62
             ]
+          ],
+          "heartRateValueDescriptors": [
+            {
+              "index": 0,
+              "key": "timestamp"
+            },
+            {
+              "index": 1,
+              "key": "heartrate"
+            }
           ]
         },
         "sleep": {
@@ -73857,8 +73857,8 @@
           "minHeartRate": null,
           "restingHeartRate": null,
           "lastSevenDaysAvgRestingHeartRate": null,
-          "heartRateValueDescriptors": null,
-          "heartRateValues": null
+          "heartRateValues": null,
+          "heartRateValueDescriptors": null
         },
         "sleep": {
           "dailySleepDTO": {
@@ -74119,9 +74119,9 @@
         "endTimeGMT": "2026-08-23 05:27:19",
         "qualifyingDive": false,
         "activityUUID": "642e621a-771a-46cd-b5e9-b437018fc21b",
+        "pr": false,
         "favorite": false,
         "purposeful": false,
-        "pr": false,
         "parent": false,
         "decoDive": false,
         "manualActivity": false,
@@ -74292,9 +74292,9 @@
         "endTimeGMT": "2026-08-27 02:18:55",
         "qualifyingDive": false,
         "activityUUID": "cc202490-7df8-4fef-a6a8-d5054b7166c8",
+        "pr": false,
         "favorite": false,
         "purposeful": false,
-        "pr": false,
         "parent": false,
         "decoDive": false,
         "manualActivity": false,
