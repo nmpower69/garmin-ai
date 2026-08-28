@@ -1,5 +1,5 @@
-# AI Insights — not configured yet
+# AI Insights — generation failed 2026-08-28T16:20:32.584644
 
-Add `OPENROUTER_API_KEY` as a repo secret (Settings → Secrets and variables → Actions) and re-run the Garmin Daily Sync workflow.
+Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions
 
-Once set, this file will show 10 fresh cycling insights each morning at 10 AM IST.
+Check `OPENROUTER_API_KEY` secret and OpenRouter quota for model `nvidia/nemotron-3-ultra-550b-a55b:free`.

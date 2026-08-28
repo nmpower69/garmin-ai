@@ -1,0 +1,48 @@
+You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
+
+Context: Today is 2026-08-28. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+
+Daily wellness last 7 days:
+2026-08-22: steps=10083 sleep=6h 57m ({'value': 78, 'qualifierKey': 'FAIR'}) hrv=83 rhr=47 bb=79 stress=35 readiness=82
+2026-08-23: steps=5626 sleep=N/A (N/A) hrv=75 rhr=51 bb=34 stress=46 readiness=85
+2026-08-24: steps=13248 sleep=5h 53m ({'value': 72, 'qualifierKey': 'FAIR'}) hrv=65 rhr=55 bb=53 stress=32 readiness=58
+2026-08-25: steps=6122 sleep=7h 12m ({'value': 89, 'qualifierKey': 'GOOD'}) hrv=71 rhr=52 bb=83 stress=31 readiness=81
+2026-08-26: steps=4612 sleep=5h 19m ({'value': 64, 'qualifierKey': 'FAIR'}) hrv=81 rhr=49 bb=78 stress=36 readiness=78
+2026-08-27: steps=375 sleep=6h 25m ({'value': 76, 'qualifierKey': 'FAIR'}) hrv=77 rhr=45 bb=75 stress=14 readiness=80
+2026-08-28: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-08-28', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
+
+Recent rides last 7:
+2026-08-23 Daund Sub-District Road Cycling 81.05km 3h 0m avgHR=158.0 maxHR=187.0 elev=452.0 cals=1377.0
+2026-08-27 Kolhapur Road Cycling 40.14km 1h 27m avgHR=143.0 maxHR=179.0 elev=259.0 cals=588.0
+
+Best power per ride (real directPower rolling maxima):
+2026-08-14 52381: 10s=374 30s=279 60s=262 5m=187 20m=143 1h=127 avg=120.0 NP=148.0 max=535.0
+2026-08-17 39152: 10s=283 30s=232 60s=216 5m=170 20m=154 1h=142 avg=136.0 NP=151.0 max=368.0
+2026-08-19 65697: 10s=270 30s=238 60s=221 5m=174 20m=145 1h=128 avg=117.0 NP=143.0 max=381.0
+2026-08-21 64834: 10s=439 30s=333 60s=224 5m=187 20m=156 1h=134 avg=89.0 NP=106.0 max=301.0
+2026-08-23 63099: 10s=344 30s=262 60s=225 5m=198 20m=160 1h=160 avg=127.0 NP=147.0 max=593.0
+2026-08-27 95490: 10s=421 30s=305 60s=264 5m=186 20m=153 1h=153 avg=112.0 NP=154.0 max=501.0
+
+Additional: HR zones: LTHR 175, Max 196 => Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172. Power zones: FTP 271W (stale 2025-03-04) => Z1<148, Z2 148-203, Z3 203-244, Z4 244-284, Z5 284-324, Z6 324-406, Z7>406. VO2max null.
+FTP is stale (271W from 2025-03-04). 20m bests are 143-204W, so true FTP likely ~150-195W. Training readiness, HRV, RHR, sleep are volatile.
+
+Task: Generate exactly 10 insights as JSON array. Each insight must have: "title" (short, like "Insight 1: Aug 12 ride breached easy ceiling by ~8 bpm") and "description" (2-3 sentences, plain English, specific to cycling, referencing actual dates/numbers above, actionable for happiness). Make them parallel to these running examples but cycling-appropriate:
+Insight 1: Aug 20 run, breached easy ceiling by 3 beats.
+Insight 2: Long run, vertical load is high for a road marathon block
+Insight 3: Three-run day August 24 flags recovery sequencing risk
+Insight 4: Marathon progression (now Cycling progression)
+Insight 5: Zone model (recalibrated 2026-08-09)
+Insight 6: Polarized 80/20
+Insight 7: Recovery/warning signs
+Insight 8: Strength - maximal/reactive
+Insight 9: Activity suggestion for Vo2max improvements.
+Insight 10: FTP suggestions
+
+For cycling, adapt: e.g., Insight 1 = easy ride too hard, Insight 2 = long ride vert load, Insight 3 = high ride density week, etc. Use actual numbers, not generic. Be concise, friendly, no racing pressure. Return ONLY JSON array, no markdown, no extra text. Example format:
+[
+  {"title": "Insight 1: ...", "description": "...", "badge": "warn", "badgeText": "Zone drift"},
+  ...
+]
+Badge must be one of ok/warn/bad.
+
+If any data missing (e.g., no power), say so in description but still produce 10.
