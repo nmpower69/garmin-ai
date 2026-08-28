@@ -82,13 +82,6 @@ table{min-width:620px}
 <h2>💡 Insights — Cycling Parallel to Your Running Examples</h2>
 <div id="insights"></div>
 
-<h2>📖 How this dashboard works & How to host it</h2>
-<div class="card">
-<p><strong>Option A — GitHub Pages (Recommended, free, you already have it):</strong> In your repo <code>nmpower69/garmin-ai</code> → Settings → Pages → Source: <code>Deploy from a branch</code> → Branch: <code>main</code> → Folder: <code>/dashboard</code> → Save. Your site will be at <code>https://nmpower69.github.io/garmin-ai/</code> within 2 min. Every 10 AM IST, the sync workflow updates <code>garmin/data.json</code> and the site refreshes automatically (no backend needed).</p>
-<p><strong>Option B — Vercel / Netlify / Cloudflare Pages (also free):</strong> Import the same GitHub repo, set output directory to <code>dashboard</code>, deploy. They give you a faster CDN + custom domain option. Same static files.</p>
-<p><strong>Option C — Streamlit Cloud (if you want Python interactivity):</strong> Add a <code>streamlit_app.py</code> that reads <code>garmin/data.json</code> and plots with Plotly — I can convert this HTML to Streamlit for you.</p>
-<p class="sub">All options are read-only and free. Your Garmin token stays as GitHub secret <code>GARMINTOKENS</code>, never exposed to the website.</p>
-</div>
 </div>
 
 <div class="footer">Generated locally from <code>garmin/data.json</code> • Casual cyclist &lt;3h • Happiness first • Next sync daily 10 AM IST</div>
