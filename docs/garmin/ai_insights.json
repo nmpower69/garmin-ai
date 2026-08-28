@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: Aug 23 ride pushed beyond easy pace",
-    "description": "Your 3-hour ride on Aug 23 averaged 127W but included a 593W peak, indicating you rode faster than your recovery threshold. Combined with elevated resting heart rate (81 bpm) on Aug 24, this suggests the effort may have been too intense for your current recovery capacity.",
-    "badge": "warn",
-    "badgeText": "AI"
+    "title": "Insight 1: AI generation failed \u2014 using fallback",
+    "description": "Error: Expecting value: line 1 column 1 (char 0). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 2: Vertical load on Aug 23 was substantial",
-    "description": "The Aug 23 ride covered 81.05km over 3 hours with 452m of elevation gain—a significant amount of climbing for Kolhapur's relatively flat terrain. While manageable, sustained vertical effort elevates cardiovascular demand compared to pure flat-distance riding.",
-    "badge": "ok",
-    "badgeText": "AI"
+    "title": "Insight 2: AI generation failed \u2014 using fallback",
+    "description": "Error: Expecting value: line 1 column 1 (char 0). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 3: High-density triple-day risk on Aug 24",
-    "description": "August 24 was packed with activity — a 40km ride plus other commitments — creating a dense workload. The rider should prioritize recovery and listen to rising readiness scores (dropping from 85 to 58) to avoid cumulative fatigue.",
-    "badge": "warn",
-    "badgeText": "AI"
+    "title": "Insight 3: AI generation failed \u2014 using fallback",
+    "description": "Error: Expecting value: line 1 column 1 (char 0). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 4: Progressive build toward longer rides",
-    "description": "The progression from short, easy rides (Aug 23–25) to a 3-hour effort (Aug 23) mirrors the gradual buildup needed before tackling longer distances. Consistent pacing on future long rides will help maintain aerobic efficiency.",
-    "badge": "ok",
-    "badgeText": "AI"
+    "title": "Insight 4: AI generation failed \u2014 using fallback",
+    "description": "Error: Expecting value: line 1 column 1 (char 0). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 5: Recalibrated zone model for 2026 returns",
-    "description": "With FTP estimated at ~150-195W based on recent 20m efforts (143-204W), apply new zones: Z1 (<148W), Z2 (148-203W), Z3 (203-244W). This refined framework better matches real-world ride data than older estimates.",
-    "badge": "ok",
-    "badgeText": "AI"
+    "title": "Insight 5: AI generation failed \u2014 using fallback",
+    "description": "Error: Expecting value: line 1 column 1 (char 0). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 6: Polarized 80/20 approach recommended",
-    "description": "To sustain happiness and avoid burnout, limit hard efforts to 20% of weekly volume. Aim for one moderate-long ride (Z2-Z3) plus brief power bursts, with mostly easy zone (Z1) cruising to recover between sessions.",
-    "badge": "ok",
-    "badgeText": "AI"
+    "title": "Insight 6: AI generation failed \u2014 using fallback",
+    "description": "Error: Expecting value: line 1 column 1 (char 0). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 7: Rising recovery signals need attention",
-    "description": "Morning heart rate climbed from 47 bpm (Aug 23) to 52 bpm (Aug 24) and HRV dropped from 83 to 65, indicating the body is accumulating stress. Readiness scores also declined, signaling a need for reduced intensity until these metrics stabilize.",
-    "badge": "warn",
-    "badgeText": "AI"
+    "title": "Insight 7: AI generation failed \u2014 using fallback",
+    "description": "Error: Expecting value: line 1 column 1 (char 0). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 8: Single-speed endurance builds reactive strength",
-    "description": "Incorporate one steady-state effort per week at 110-130W (about 60-90 minutes) to develop the muscular endurance needed for longer rides without increasing injury risk. Pair this with tempo-based sessions for varied fitness gains.",
-    "badge": "ok",
-    "badgeText": "AI"
+    "title": "Insight 8: AI generation failed \u2014 using fallback",
+    "description": "Error: Expecting value: line 1 column 1 (char 0). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 9: Targeted vo2max progression paths",
-    "description": "Improve aerobic capacity with one hill-repeat session monthly, maintaining averages under 135W—below your typical FTP to prevent excessive fatigue. Combine with steady intervals (90s-2min) to boost lactate clearance and time-to-exhaustion.",
-    "badge": "ok",
-    "badgeText": "AI"
+    "title": "Insight 9: AI generation failed \u2014 using fallback",
+    "description": "Error: Expecting value: line 1 column 1 (char 0). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 10: FTP refresh using recent 20-minute efforts",
-    "description": "Since the old FTP (271W from 2025-03-04) is outdated, use your latest 20-minute efforts (142-155W range) as a proxy. Aim to increase this by 5-10% within 4 weeks as readiness stabilizes above 75.",
-    "badge": "ok",
-    "badgeText": "AI"
+    "title": "Insight 10: AI generation failed \u2014 using fallback",
+    "description": "Error: Expecting value: line 1 column 1 (char 0). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   }
 ]
