@@ -126,7 +126,7 @@ def call_openrouter(prompt, api_key, model=None):
                 {"role": "user", "content": prompt}
             ],
             "temperature": 0.7,
-            "max_tokens": 3000,
+            "max_tokens": 5000,
         }
         if is_reasoning:
             body["reasoning"] = {"enabled": True}
@@ -136,12 +136,17 @@ def call_openrouter(prompt, api_key, model=None):
         if resp.status_code == 200:
             j = resp.json()
             content = j["choices"][0]["message"]["content"] if j.get("choices") else ""
+            # Robust strip of ```json wrapper (handles truncated without closing ```)
             if "```" in content:
                 import re
                 m = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", content)
                 if m:
                     content = m.group(1)
-            print(f"Success with {mdl}")
+                else:
+                    # No closing ``` (truncated) — strip leading ```json
+                    content = re.sub(r"^.*?\n", "", content, count=1) if content.lstrip().startswith("```") else content
+                    content = content.replace("```", "").strip()
+            print(f"Success with {mdl} (raw head {content[:200]!r})")
             # Save which model succeeded for markdown header
             MODEL = mdl
             return content.strip()
