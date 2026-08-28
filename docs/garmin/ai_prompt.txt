@@ -3,13 +3,13 @@ You are a cycling coach for a casual happiness rider, not a racer. The rider is 
 Context: Today is 2026-08-28. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-08-22: steps=10083 sleep=6h 57m (78 (FAIR)) hrv=83 rhr=47 bb=79 stress=35 readiness=82
 2026-08-23: steps=5626 sleep=N/A (N/A) hrv=75 rhr=51 bb=34 stress=46 readiness=85
 2026-08-24: steps=13248 sleep=5h 53m (72 (FAIR)) hrv=65 rhr=55 bb=53 stress=32 readiness=58
 2026-08-25: steps=6122 sleep=7h 12m (89 (GOOD)) hrv=71 rhr=52 bb=83 stress=31 readiness=81
 2026-08-26: steps=4612 sleep=5h 19m (64 (FAIR)) hrv=81 rhr=49 bb=78 stress=36 readiness=78
 2026-08-27: steps=375 sleep=6h 25m (76 (FAIR)) hrv=77 rhr=45 bb=75 stress=14 readiness=80
 2026-08-28: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-08-28', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
+2026-08-29: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-08-29', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
 
 Recent rides last 7:
 2026-08-12 Kolhapur Road Cycling 50.02km 1h 41m avgHR=159.0 maxHR=184.0 elev=229.0 cals=755.0
