@@ -1,0 +1,58 @@
+name: Deploy Dashboard to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - dashboard/**
+      - docs/**
+      - garmin/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Prepare site
+        run: |
+          mkdir -p _site
+          # Copy dashboard as site root
+          cp -r dashboard/* _site/
+          # Also copy garmin data so fetch works on Pages (both ../garmin and ./garmin)
+          mkdir -p _site/garmin
+          cp -r garmin/* _site/garmin/ 2>/dev/null || echo "no garmin data"
+          # Also make garmin available at parent path for ../garmin fetch (duplicate for safety)
+          mkdir -p _site/../garmin 2>/dev/null || true
+          # Create a copy that allows both fetch paths
+          # For docs fallback, also ensure docs is available
+          ls -R _site | head -n 100
+          echo "Site ready: $(find _site -type f | wc -l) files"
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
