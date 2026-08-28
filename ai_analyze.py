@@ -184,9 +184,6 @@ def main():
     pathlib.Path("garmin/ai_prompt.txt").write_text(prompt, encoding="utf-8")
 
     try:
-        # === ON PURPOSE ERROR FOR RED STATUS TEST ===
-        # Remove this 2 lines later to see green again
-        raise RuntimeError("ON PURPOSE ERROR - testing red AI Insights indicator (remove this to see green)")
         content = call_openrouter(prompt, api_key)
         print("Raw LLM output head:", content[:500])
         # Validate JSON
