@@ -97,6 +97,7 @@ If any data missing (e.g., no power), say so in description but still produce 10
     return prompt
 
 def call_openrouter(prompt, api_key, model=None):
+    global MODEL
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -130,7 +131,6 @@ def call_openrouter(prompt, api_key, model=None):
                     content = m.group(1)
             print(f"Success with {mdl}")
             # Save which model succeeded for markdown header
-            global MODEL
             MODEL = mdl
             return content.strip()
         # 404 with is_byok or provider error -> try fallback
