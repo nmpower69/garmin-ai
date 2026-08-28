@@ -1,5 +1,33 @@
-# AI Insights — generation failed 2026-08-28T17:40:05.145827
+# AI Cycling Insights — 2026-08-28  (via nvidia/nemotron-3-ultra-550b-a55b:free)
 
-Error: ON PURPOSE ERROR - testing red AI Insights indicator (remove this to see green)
+_Model: `nvidia/nemotron-3-ultra-550b-a55b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-Check `OPENROUTER_API_KEY` secret and OpenRouter quota for model `nvidia/nemotron-3-ultra-550b-a55b:free`.
+### Insight 1: Aug 12 ride breached easy ceiling by ~0 bpm (at Z2 max)
+Your Aug 12 ride averaged 159 bpm, right at the top of your Z2 (139–159). Staying below 155 bpm on easy days keeps it truly easy and aids recovery.
+
+### Insight 2: Aug 23 long ride vertical load high for flat-rolling terrain
+The 81 km ride on Aug 23 packed 452 m of climbing into 3 hours — about 56 m per 10 km. On flat-rolling roads, that's a solid strength stimulus; consider a flatter recovery spin next time.
+
+### Insight 3: Seven rides in 16 days flags recovery sequencing risk
+You rode 7 times between Aug 12–27 with only 2–3 day gaps. Your readiness dipped to 58 on Aug 24 after the Aug 23 long ride. Insert an extra rest day after big efforts to keep joy high.
+
+### Insight 4: Cycling progression shows steady 20-min power around 150-160W
+Your 20-minute bests have hovered 153–160 W over the last three weeks (Aug 17, 21, 23, 27). That consistency suggests a stable base — great for happiness riding!
+
+### Insight 5: Zone model needs recalibration — FTP is stale (271W from Mar 2025)
+Your power zones are based on a 271 W FTP from March 2025, but recent 20-min efforts are 143–160 W. Updating FTP to ~155 W would make Z2 93–116 W, matching your easy rides better.
+
+### Insight 6: Training lacks polarization — all recent rides sit in Z2
+Every ride in the last two weeks averaged 140–159 bpm (Z2). For 80/20 balance, add 1–2 truly easy spins (<139 bpm) and one harder effort (e.g., 4×4 min at Z4) weekly.
+
+### Insight 7: Recovery signs volatile — readiness dropped to 58 post long ride
+After the Aug 23 3-hour ride, readiness fell to 58 (Aug 24) with HRV 65 and RHR 55. Your HRV swings 65–83; prioritize sleep (7+ h) and a rest day when readiness <70.
+
+### Insight 8: Sprint power strong — 10s peaks 281–439 W (1.8–2.8× estimated FTP)
+Your 10-second bursts (281–439 W) show good neuromuscular sharpness. Keep a fun sprint or two each week to maintain this reactive strength without fatigue.
+
+### Insight 9: VO2max boost — try 3×3 min at 105–110% FTP with 3 min recovery
+With estimated FTP ~155 W, ride 3×3 min at 165–170 W (Z4) once a week. It's short, fun, and lifts VO2max without long suffering.
+
+### Insight 10: Update FTP — do a 20-min test or use 95% of best 20-min (≈152 W)
+Your best 20-min power is 160 W (Aug 23). Set FTP to 152 W (95% of 160) or do a fresh 20-min test on a fresh day. Accurate zones make easy rides easier and hard rides effective.
