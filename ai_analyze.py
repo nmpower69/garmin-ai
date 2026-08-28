@@ -16,12 +16,19 @@ In GitHub Actions: secret OPENROUTER_API_KEY is injected.
 import json, os, sys, pathlib, datetime, textwrap, requests
 
 MODEL = os.getenv("AI_MODEL", "nvidia/nemotron-3-ultra-550b-a55b:free")
-# Fallbacks that work free without BYOK on OpenRouter
+# Current OpenRouter free models (2026-08-28) - auto-discovered via /api/v1/models
+# Primary needs Nvidia BYOK; fallbacks are true free without BYOK
 FALLBACK_MODELS = [
-    "google/gemini-2.0-flash-001:free",
-    "meta-llama/llama-3.3-70b-instruct:free",
-    "qwen/qwen-3-235b-a22b:free",
-    "mistralai/mistral-7b-instruct:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "google/gemma-4-31b-it:free",
+    "liquid/lfm-2.5-2.6b:free",
+    "z-ai/glm-5.2:free",
+    "minimax/minimax-m2.7:free",
+    "cohere/north-mini-code:free",
+    "thinkingmachines/inkling-small:free",
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+    "nvidia/nemotron-3-super-120b-a12b:free",
+    "dots-studio/dots-3-note-preview:free",
 ]
 DATA_JSON = pathlib.Path("garmin/data.json")
 CURVES_JSON = pathlib.Path("garmin/power_curves.json")
