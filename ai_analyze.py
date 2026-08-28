@@ -116,6 +116,8 @@ def call_openrouter(prompt, api_key, model=None):
     tried = [primary] + [m for m in FALLBACK_MODELS if m != primary]
     last_err = None
     for mdl in tried:
+        # Reasoning models (Nemotron) require reasoning.enabled per OpenRouter sample
+        is_reasoning = "nemotron" in mdl or "reasoning" in mdl
         body = {
             "model": mdl,
             "messages": [
@@ -125,6 +127,8 @@ def call_openrouter(prompt, api_key, model=None):
             "temperature": 0.7,
             "max_tokens": 3000,
         }
+        if is_reasoning:
+            body["reasoning"] = {"enabled": True}
         print(f"Calling OpenRouter {mdl}...")
         resp = requests.post(url, headers=headers, json=body, timeout=90)
         print(f"OpenRouter status {resp.status_code} for {mdl}")
