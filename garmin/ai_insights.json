@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: AI not configured yet",
-    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
-    "badge": "warn",
-    "badgeText": "Setup"
+    "title": "Insight 1: AI generation failed \u2014 using fallback",
+    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 2: AI not configured yet",
-    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
-    "badge": "warn",
-    "badgeText": "Setup"
+    "title": "Insight 2: AI generation failed \u2014 using fallback",
+    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 3: AI not configured yet",
-    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
-    "badge": "warn",
-    "badgeText": "Setup"
+    "title": "Insight 3: AI generation failed \u2014 using fallback",
+    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 4: AI not configured yet",
-    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
-    "badge": "warn",
-    "badgeText": "Setup"
+    "title": "Insight 4: AI generation failed \u2014 using fallback",
+    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 5: AI not configured yet",
-    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
-    "badge": "warn",
-    "badgeText": "Setup"
+    "title": "Insight 5: AI generation failed \u2014 using fallback",
+    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 6: AI not configured yet",
-    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
-    "badge": "warn",
-    "badgeText": "Setup"
+    "title": "Insight 6: AI generation failed \u2014 using fallback",
+    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 7: AI not configured yet",
-    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
-    "badge": "warn",
-    "badgeText": "Setup"
+    "title": "Insight 7: AI generation failed \u2014 using fallback",
+    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 8: AI not configured yet",
-    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
-    "badge": "warn",
-    "badgeText": "Setup"
+    "title": "Insight 8: AI generation failed \u2014 using fallback",
+    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 9: AI not configured yet",
-    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
-    "badge": "warn",
-    "badgeText": "Setup"
+    "title": "Insight 9: AI generation failed \u2014 using fallback",
+    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 10: AI not configured yet",
-    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
-    "badge": "warn",
-    "badgeText": "Setup"
+    "title": "Insight 10: AI generation failed \u2014 using fallback",
+    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   }
 ]
