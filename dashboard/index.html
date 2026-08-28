@@ -76,7 +76,7 @@ table{min-width:620px}
 </div>
 
 <div class="grid">
-<div class="card"><h3>VO2 Max</h3><canvas id="vo2"></canvas><div class="sub">MostRecentVO2Max is null in Garmin (needs outdoor run with HR+GPS or cycling VO2 estimate). We plot HRV as proxy for aerobic fitness.</div><canvas id="hrvProxy" style="margin-top:12px"></canvas></div>
+<div class="card"><h3>VO2 Max</h3><canvas id="vo2"></canvas><div class="sub">MostRecentVO2Max is null in Garmin (shows empty — will plot when Garmin provides it).</div></div>
 <div class="card"><h3>HRV & Resting HR Trend</h3><canvas id="hrvRhr"></canvas></div>
 </div>
 
@@ -188,7 +188,6 @@ async function load(){
   const hrv = dates.map(d=> typeof daily[d].hrv==='number'?daily[d].hrv:null);
   const rhr = dates.map(d=> typeof daily[d].resting_hr==='number'?daily[d].resting_hr:null);
   new Chart(document.getElementById('hrvRhr'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'HRV',data:hrv,borderColor:'#22c55e'},{label:'RHR',data:rhr,borderColor:'#f59e0b'}]},options:{scales:{y:{min:30,max:90}}}});
-  new Chart(document.getElementById('hrvProxy'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'HRV (proxy VO2 fitness)',data:hrv,borderColor:'#22c55e'}]},options:{plugins:{legend:{display:false}},scales:{y:{min:30,max:90}}}});
   // VO2 placeholder
   new Chart(document.getElementById('vo2'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'VO2 Max (Garmin returns null)',data:dates.map(()=>null),borderColor:'#94a3b8'}]},options:{plugins:{legend:{display:false}},scales:{y:{min:30,max:60}}}});
   // FTP - dynamic from power_curves.json
