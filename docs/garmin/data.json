@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T23:05:15.566013+05:30",
+  "generated_at": "2026-08-28T23:09:58.969264+05:30",
   "date_range": [
     "2026-07-30",
     "2026-08-28"
@@ -337236,8 +337236,8 @@
           "typeKey": "walking",
           "parentTypeId": 17,
           "isHidden": false,
-          "trimmable": true,
-          "restricted": false
+          "restricted": false,
+          "trimmable": true
         },
         "eventType": {
           "typeId": 9,
@@ -337388,8 +337388,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "trimmable": true,
-          "restricted": false
+          "restricted": false,
+          "trimmable": true
         },
         "eventType": {
           "typeId": 9,
@@ -337560,8 +337560,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "trimmable": true,
-          "restricted": false
+          "restricted": false,
+          "trimmable": true
         },
         "eventType": {
           "typeId": 9,
@@ -337725,8 +337725,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "trimmable": true,
-          "restricted": false
+          "restricted": false,
+          "trimmable": true
         },
         "eventType": {
           "typeId": 9,
@@ -337898,8 +337898,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "trimmable": true,
-          "restricted": false
+          "restricted": false,
+          "trimmable": true
         },
         "eventType": {
           "typeId": 9,
@@ -338072,8 +338072,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "trimmable": true,
-          "restricted": false
+          "restricted": false,
+          "trimmable": true
         },
         "eventType": {
           "typeId": 9,
@@ -338245,8 +338245,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "trimmable": true,
-          "restricted": false
+          "restricted": false,
+          "trimmable": true
         },
         "eventType": {
           "typeId": 9,
@@ -338417,8 +338417,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "trimmable": true,
-          "restricted": false
+          "restricted": false,
+          "trimmable": true
         },
         "eventType": {
           "typeId": 9,
@@ -338590,8 +338590,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "trimmable": true,
-          "restricted": false
+          "restricted": false,
+          "trimmable": true
         },
         "eventType": {
           "typeId": 9,
@@ -338764,8 +338764,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "trimmable": true,
-          "restricted": false
+          "restricted": false,
+          "trimmable": true
         },
         "eventType": {
           "typeId": 9,
