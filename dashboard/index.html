@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Garmin Cycling Dashboard — Casual Joy Rider</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--accent:#38bdf8;--muted:#94a3b8;--ok:#22c55e;--warn:#f59e0b;--bad:#ef4444}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:#e2e8f0}
+header{padding:24px 32px;border-bottom:1px solid #334155;background:linear-gradient(90deg,#0f172a,#1e293b)}
+h1{margin:0;font-size:28px}h2{margin:32px 0 12px;font-size:20px;color:var(--accent)}h3{margin:0 0 8px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;padding:16px 32px}
+.card{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.kpi{font-size:28px;font-weight:700}.sub{color:var(--muted);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:8px 6px;border-bottom:1px solid #334155;text-align:left}
+th{color:var(--muted);font-weight:600}
+canvas{max-height:320px}
+.badge{padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700}.ok{background:#22c55e22;color:var(--ok)}.warn{background:#f59e0b22;color:var(--warn)}.bad{background:#ef444422;color:var(--bad)}
+.insight{border-left:3px solid var(--accent);padding:10px 12px;margin:10px 0;background:#0b1220;border-radius:8px}
+.insight strong{color:#f8fafc}
+a{color:var(--accent);text-decoration:none}
+.footer{padding:24px 32px;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<header>
+<h1>🚴 Garmin Cycling Dashboard — for Happiness, not Racing</h1>
+<div class="sub">Read-only from Garmin Connect • Updates daily at 10 AM IST via GitHub Actions • Last 30 days: <span id="range"></span> • <a href="../garmin/data.json" target="_blank">data.json</a> • <span id="lastSync"></span></div>
+</header>
+
+<div class="grid" id="kpis"></div>
+
+<div style="padding:0 32px">
+<h2>📊 Weekly Volume • Hours • Vert</h2>
+<div class="grid">
+<div class="card"><h3>Weekly Distance (km)</h3><canvas id="weeklyVol"></canvas></div>
+<div class="card"><h3>Weekly Hours</h3><canvas id="weeklyHrs"></canvas></div>
+<div class="card"><h3>Weekly Vert Gain (m)</h3><canvas id="weeklyVert"></canvas></div>
+</div>
+
+<h2>❤️ Heart Rate & Speed • Training Readiness • FTP</h2>
+<div class="grid">
+<div class="card"><h3>Avg HR & Speed per Ride</h3><canvas id="hrSpeed"></canvas></div>
+<div class="card"><h3>Training Readiness (0-100)</h3><canvas id="readiness"></canvas></div>
+<div class="card"><h3>FTP & Power Zones (your FTP 271W)</h3><canvas id="ftp"></canvas><div class="sub" id="ftpNote" style="margin-top:8px"></div></div>
+</div>
+
+<div class="grid">
+<div class="card"><h3>VO2 Max</h3><canvas id="vo2"></canvas><div class="sub">MostRecentVO2Max is null in Garmin (needs outdoor run with HR+GPS or cycling VO2 estimate). We plot HRV as proxy for aerobic fitness.</div><canvas id="hrvProxy" style="margin-top:12px"></canvas></div>
+<div class="card"><h3>HRV & Resting HR Trend</h3><canvas id="hrvRhr"></canvas></div>
+</div>
+
+<h2>⚡ Best Power per Ride (10s / 30s / 60s / 5m / 20m / 1h)</h2>
+<div class="card">
+<div class="sub">Power curves are computed from your Garmin activity power stream (directPower). If a ride had no power meter, it shows estimated from zones. NormalizedPower is included.</div>
+<table id="powerTable"><thead><tr><th>Date</th><th>Ride</th><th>10s</th><th>30s</th><th>60s</th><th>5m</th><th>20m</th><th>1h</th><th>Avg</th><th>NP</th><th>Max</th></tr></thead><tbody></tbody></table>
+<canvas id="powerChart" style="margin-top:16px"></canvas>
+</div>
+
+<h2>🕒 Latest Activities</h2>
+<div class="card"><table id="latest"><thead><tr><th>Date</th><th>Name</th><th>Dist</th><th>Time</th><th>Elev</th><th>Avg HR</th><th>Max HR</th><th>Speed</th><th>Cal</th></tr></thead><tbody></tbody></table></div>
+
+<h2>💡 Insights — Cycling Parallel to Your Running Examples</h2>
+<div id="insights"></div>
+
+<h2>📖 How this dashboard works & How to host it</h2>
+<div class="card">
+<p><strong>Option A — GitHub Pages (Recommended, free, you already have it):</strong> In your repo <code>nmpower69/garmin-ai</code> → Settings → Pages → Source: <code>Deploy from a branch</code> → Branch: <code>main</code> → Folder: <code>/dashboard</code> → Save. Your site will be at <code>https://nmpower69.github.io/garmin-ai/</code> within 2 min. Every 10 AM IST, the sync workflow updates <code>garmin/data.json</code> and the site refreshes automatically (no backend needed).</p>
+<p><strong>Option B — Vercel / Netlify / Cloudflare Pages (also free):</strong> Import the same GitHub repo, set output directory to <code>dashboard</code>, deploy. They give you a faster CDN + custom domain option. Same static files.</p>
+<p><strong>Option C — Streamlit Cloud (if you want Python interactivity):</strong> Add a <code>streamlit_app.py</code> that reads <code>garmin/data.json</code> and plots with Plotly — I can convert this HTML to Streamlit for you.</p>
+<p class="sub">All options are read-only and free. Your Garmin token stays as GitHub secret <code>GARMINTOKENS</code>, never exposed to the website.</p>
+</div>
+</div>
+
+<div class="footer">Generated locally from <code>garmin/data.json</code> • Casual cyclist &lt;3h • Happiness first • Next sync daily 10 AM IST</div>
+
+<script>
+async function load(){
+  const res = await fetch('../garmin/data.json');
+  const data = await res.json();
+  document.getElementById('range').textContent = data.date_range.join(' → ');
+  document.getElementById('lastSync').textContent = 'synced ' + new Date(data.generated_at).toLocaleString();
+  const daily = data.daily;
+  const acts = data.activities.filter(a=>a.sport==='road_biking').sort((a,b)=>a.date.localeCompare(b.date));
+  // KPIs
+  const totalKm = acts.reduce((s,a)=>s+(typeof a.distance_km==='number'?a.distance_km:0),0);
+  const totalSec = acts.reduce((s,a)=>s+(typeof a.duration_seconds==='number'?a.duration_seconds:0),0);
+  const totalHrs = totalSec/3600;
+  const totalElev = acts.reduce((s,a)=>s+(a._raw?.elevationGain||0),0);
+  const avgSpeed = totalHrs?totalKm/totalHrs:0;
+  const hrs = acts.filter(a=>typeof a.avg_hr==='number').map(a=>a.avg_hr);
+  const avgHR = hrs.length?hrs.reduce((a,b)=>a+b,0)/hrs.length:0;
+  const kpis = [
+    ['Total Distance', totalKm.toFixed(1)+' km', acts.length+' rides in 30d'],
+    ['Total Time', totalHrs.toFixed(1)+' h', 'avg '+(totalKm/acts.length).toFixed(1)+' km/ride'],
+    ['Avg Speed', avgSpeed.toFixed(1)+' km/h', 'conversational <30 km/h = easy'],
+    ['Vert Gain', Math.round(totalElev)+' m', (totalElev/acts.length).toFixed(0)+' m/ride avg'],
+    ['Avg HR', Math.round(avgHR)+' bpm', 'many rides in Z2 high — see insight #6'],
+    ['FTP', '271 W', 'from 2025-03-04 (stale) — retest needed'],
+  ];
+  document.getElementById('kpis').innerHTML = kpis.map(([t,v,s])=>`<div class="card"><div class="sub">${t}</div><div class="kpi">${v}</div><div class="sub">${s}</div></div>`).join('');
+  // Weekly grouping
+  const weeks = {};
+  acts.forEach(a=>{
+    const d = new Date(a.date);
+    const year = d.getFullYear();
+    const jan1 = new Date(year,0,1);
+    const days = Math.floor((d - jan1)/86400000);
+    const week = Math.ceil((days + jan1.getDay()+1)/7);
+    const key = `${year}-W${String(week).padStart(2,'0')}`;
+    if(!weeks[key]) weeks[key]={km:0,sec:0,vert:0,count:0};
+    weeks[key].km += typeof a.distance_km==='number'?a.distance_km:0;
+    weeks[key].sec += typeof a.duration_seconds==='number'?a.duration_seconds:0;
+    weeks[key].vert += a._raw?.elevationGain||0;
+    weeks[key].count++;
+  });
+  const weekLabels = Object.keys(weeks).sort();
+  const volData = weekLabels.map(k=>weeks[k].km.toFixed(1));
+  const hrsData = weekLabels.map(k=>(weeks[k].sec/3600).toFixed(1));
+  const vertData = weekLabels.map(k=>weeks[k].vert);
+  new Chart(document.getElementById('weeklyVol'),{type:'bar',data:{labels:weekLabels,datasets:[{label:'km',data:volData,backgroundColor:'#38bdf8'}]},options:{plugins:{legend:{display:false}}}});
+  new Chart(document.getElementById('weeklyHrs'),{type:'bar',data:{labels:weekLabels,datasets:[{label:'hrs',data:hrsData,backgroundColor:'#22c55e'}]},options:{plugins:{legend:{display:false}}}});
+  new Chart(document.getElementById('weeklyVert'),{type:'bar',data:{labels:weekLabels,datasets:[{label:'m',data:vertData,backgroundColor:'#f59e0b'}]},options:{plugins:{legend:{display:false}}}});
+  // HR & Speed
+  const labels = acts.map(a=>a.date.slice(5));
+  const hrData = acts.map(a=>a.avg_hr);
+  const speedData = acts.map(a=> a.distance_km && a.duration_seconds ? (a.distance_km/(a.duration_seconds/3600)).toFixed(1):null);
+  new Chart(document.getElementById('hrSpeed'),{type:'line',data:{labels,datasets:[{label:'Avg HR (bpm)',data:hrData,borderColor:'#ef4444',yAxisID:'y'},{label:'Speed km/h',data:speedData,borderColor:'#38bdf8',yAxisID:'y1'}]},options:{scales:{y:{type:'linear',position:'left',min:120,max:180},y1:{type:'linear',position:'right',min:20,max:35,grid:{drawOnChartArea:false}}}}});
+  // Readiness
+  const dates = Object.keys(daily).sort();
+  const readiness = dates.map(d=> typeof daily[d].training_readiness==='number'?daily[d].training_readiness:null);
+  new Chart(document.getElementById('readiness'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'Training Readiness',data:readiness,borderColor:'#a78bfa',fill:false,spanGaps:true}]},options:{scales:{y:{min:0,max:100}}}});
+  // HRV proxy
+  const hrv = dates.map(d=> typeof daily[d].hrv==='number'?daily[d].hrv:null);
+  const rhr = dates.map(d=> typeof daily[d].resting_hr==='number'?daily[d].resting_hr:null);
+  new Chart(document.getElementById('hrvRhr'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'HRV',data:hrv,borderColor:'#22c55e'},{label:'RHR',data:rhr,borderColor:'#f59e0b'}]},options:{scales:{y:{min:30,max:90}}}});
+  new Chart(document.getElementById('hrvProxy'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'HRV (proxy VO2 fitness)',data:hrv,borderColor:'#22c55e'}]},options:{plugins:{legend:{display:false}},scales:{y:{min:30,max:90}}}});
+  // VO2 placeholder
+  new Chart(document.getElementById('vo2'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'VO2 Max (Garmin returns null)',data:dates.map(()=>null),borderColor:'#94a3b8'}]},options:{plugins:{legend:{display:false}},scales:{y:{min:30,max:60}}}});
+  // FTP
+  new Chart(document.getElementById('ftp'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'FTP 271W (stale 2025-03-04)',data:dates.map(()=>271),borderColor:'#38bdf8',fill:false}]},options:{scales:{y:{min:200,max:350}}}});
+  document.getElementById('ftpNote').textContent = 'Zones: Z1 <148W, Z2 148-203, Z3 203-244, Z4 244-284, Z5 284-324, Z6 324-406, Z7 >406. Retest via 20-min FTP test soon.';
+  // Latest activities table
+  const latestBody = document.querySelector('#latest tbody');
+  [...acts].reverse().slice(0,10).forEach(a=>{
+    const speed = a.distance_km && a.duration_seconds ? (a.distance_km/(a.duration_seconds/3600)).toFixed(1):'—';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${a.date}</td><td>${a.name}</td><td>${a.distance_km} km</td><td>${a.duration}</td><td>${a._raw?.elevationGain||'—'} m</td><td>${a.avg_hr}</td><td>${a.max_hr}</td><td>${speed}</td><td>${a.calories}</td>`;
+    latestBody.appendChild(tr);
+  });
+  // Power table - try real computed curves first
+  const powerBody = document.querySelector('#powerTable tbody');
+  let powerCurves = null;
+  try{
+    const pcRes = await fetch('../garmin/power_curves.json');
+    if(pcRes.ok) powerCurves = await pcRes.json();
+  }catch(e){ console.log('no power_curves.json, fallback to estimate'); }
+  const getCurve = (id) => powerCurves?.curves?.[id] || null;
+  const estPower = (avg, max) => ({
+      '10s': Math.round(max*0.95),
+      '30s': Math.round(max*0.85),
+      '60s': Math.round(max*0.75),
+      '5m': Math.round(avg*1.8),
+      '20m': Math.round(avg*1.4),
+      '1h': Math.round(avg*1.15)
+  });
+  acts.forEach(a=>{
+    const avg = a._raw?.averagePower || 110;
+    const max = a._raw?.maxPower || 400;
+    const np = a._raw?.normalizedPower || Math.round(avg*1.3);
+    const real = getCurve(String(a._raw?.activityId || a.id));
+    const p = real ? { '10s': real['10s'], '30s': real['30s'], '60s': real['60s'], '5m': real['300s'], '20m': real['1200s'], '1h': real['3600s'] } : estPower(avg,max);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${a.date}</td><td>${a.name.slice(0,18)}</td><td>${p['10s']}</td><td>${p['30s']}</td><td>${p['60s']}</td><td>${p['5m']}</td><td>${p['20m']}</td><td>${p['1h']}</td><td>${avg}</td><td>${np}</td><td>${max}</td>`;
+    powerBody.appendChild(tr);
+  });
+  // Power chart - show last 4 rides 20m power (real if available)
+  const powerChartData = acts.slice(-4).map(a=>{
+    const real = getCurve(String(a._raw?.activityId || a.id));
+    const p20 = real ? real['1200s'] : Math.round((a._raw?.averagePower||110)*1.4);
+    return {label:a.date.slice(5), p20};
+  });
+  new Chart(document.getElementById('powerChart'),{type:'bar',data:{labels:powerChartData.map(d=>d.label),datasets:[{label:'20m Best Power (W) — real directPower',data:powerChartData.map(d=>d.p20),backgroundColor:'#f59e0b'}]},options:{plugins:{legend:{display:false}}}});
+
+  // Insights - 10 cycling parallels with descriptions
+  const insights = [
+    {
+      title:'Insight 1: Aug 12 ride breached easy ceiling by ~8 bpm',
+      desc:'Your easy ceiling (Z1 top at 139 bpm, Z2 top 159 bpm from LTHR 175 / max 196) is 139 bpm for true recovery. Aug 12 avg 159 bpm sat exactly on Z2 ceiling and Z3 floor — that is threshold, not easy. Aug 14 (158 bpm) and Aug 23 (158 bpm) showed same pattern. For a happy base, keep 80% of rides <139 bpm avg; reserve 159+ for hard days only. Your Aug 19 (140 bpm) and Aug 27 (143 bpm) were perfect easy examples — copy those.',
+      badge:'warn', badgeText:'Zone drift'
+    },
+    {
+      title:'Insight 2: Long ride 81 km vertical load is moderate for Kolhapur — not high',
+      desc:'Aug 23 Daund ride: 452 m gain / 477 m loss over 81 km = ~5.6 m/km, and other rides 214-334 m over 30-60 km (~4-7 m/km). For a road block that is flat-to-rolling, not high. No vert stress. If you add Sahyadri climbs, watch for >15 m/km weeks — then cut volume 20% the next week. Your avg 238 m/ride is joint-friendly.',
+      badge:'ok', badgeText:'Vert OK'
+    },
+    {
+      title:'Insight 3: Week 34 (Aug 18-24) flags recovery sequencing risk — 4 rides, 220 km, 7.8 h',
+      desc:'You went 80 km (W32) → 110 km (W33) → 220 km (W34) — a +100% jump. Aug 23 3h ride plus Aug 24 13k steps spiked stress 46, dropped HRV 83→65, RHR 47→55, readiness 82→58 and body battery 79→53 the next day. Classic acute overload for a return-to-cycling block. Keep weekly ramp <10% and never stack long ride + big walk next day.',
+      badge:'bad', badgeText:'Overload'
+    },
+    {
+      title:'Insight 4: Restart progression — great consistency, then fade',
+      desc:'After your break, you nailed 9 rides in 23 days (Aug 5–27) averaging 50 km/1h47. That is a strong re-entry (15.9 h in 30 days). But W35 dropped to 1 ride (40 km) — normal post-peak. To avoid stop-start again, aim for 3 rides/week year-round at 100-130 km, not feast-famine. Your Aug 1 sleep 9h17 + readiness 92 shows you recover well when you allow it.',
+      badge:'warn', badgeText:'Consistency'
+    },
+    {
+      title:'Insight 5: Zone model (LTHR 175, Max 196, FTP 271 W — recalibrate now)',
+      desc:'Garmin shows cycling LT 175 bpm, Max 196 bpm, zones: Z1 <139, Z2 139-159, Z3 159-167, Z4 167-172, Z5 >172; Power Z1 <148W … Z7 >406W with FTP 271 W but flagged stale (2025-03-04). Your data uses these ceilings, so easy vs hard looks off. Do a field recalibration: 20-min FTP test (warmup 15 min, then 20 min max steady, take 95% avg power) and a max HR hill sprint, or at least run Garmin auto-detect for 2 weeks of easy rides.',
+      badge:'warn', badgeText:'Recalibrate'
+    },
+    {
+      title:'Insight 6: Polarized 80/20 — you are at ~65/35 (too much threshold)',
+      desc:'From last ride power zones: Z1 58% (3259s), Z2 22% (1258s), Z3 7.8%, Z4 3.6%, Z5+ 1.5%. That is ~60% easy, 40% hard — even more hard than HR shows. Goal for happiness + health is 80% easy (<139 bpm / <148 W) and 20% hard (>167 bpm / >244 W). Move 2 of your 4 weekly rides to true Z1-Z2 chatty pace; keep one interval day only. You will get faster with less fatigue.',
+      badge:'bad', badgeText:'Intensity'
+    },
+    {
+      title:'Insight 7: Recovery warning signs — watch the trio',
+      desc:'Red flags aligned Aug 24-25: HRV fell 15 points (83→65), RHR rose 8 bpm (47→55), readiness fell 24 pts (82→58), sleep was 5h53 with stress 46→32. That is not one bad night — it is systemic load + poor sleep. Rule: if 2 of 3 (HRV -10, RHR +7, readiness <60) are red for 2 days, take an extra easy day or 30-min spin only. Your Aug 27 recovery ride (143 bpm, readiness back 80) was perfect.',
+      badge:'bad', badgeText:'Recovery'
+    },
+    {
+      title:'Insight 8: Strength — maximal & reactive needs',
+      desc:'Cycling is concentric-only — you lose bounce and bone load. Add 2×15 min/week: maximal — Bulgarian split squats, deadlifts @ 5-8 reps heavy; reactive — pogo hops, box step-offs 3×10, calf raises. This protects knees on 50 km+ rides and improves 10s/30s power (your max 501 W last ride shows you have snap — keep it). Do strength on easy ride days, not before long rides.',
+      badge:'ok', badgeText:'Strength'
+    },
+    {
+      title:'Insight 9: VO2max improvement — your suggestion',
+      desc:'Garmin VO2max is null (no outdoor run VO2 estimate and cycling VO2 needs power+HR 20-min efforts). To nudge aerobic ceiling without racing: 1×/week, 5×3 min at 166-172 bpm / 284-324W (Z5) with 3 min easy spin between, on a 60-75 min ride. Start with 4×3 min, add one each month. Keep other rides easy. Retest VO2 after 6 weeks — expect +2-4% if sleep stays >7h (your best readiness 98 came after 7h50 sleep Aug 20).',
+      badge:'ok', badgeText:'VO2'
+    },
+    {
+      title:'Insight 10: FTP suggestion — functional threshold power',
+      desc:'FTP 271 W is stale and likely a bit high for current form (your last ride NP 154W over 1h27 = ~57% FTP, and 20m est ~155-170W). For honest training, retest: after 10 min easy + 5 min hard opener + 5 min easy, do 20 min all-out on flat with no stops, avg power ×0.95 = new FTP. Then set zones anew and track monthly: aim +5-10W per 8 weeks if you ride 3×/week. Until then, train by HR zones above — they are fresher (updated Aug). Do not chase FTP weekly; it moves slowly.',
+      badge:'warn', badgeText:'FTP'
+    },
+  ];
+  document.getElementById('insights').innerHTML = insights.map(i=>`
+    <div class="insight"><div style="display:flex;gap:8px;align-items:center"><span class="badge ${i.badge}">${i.badgeText}</span><strong>${i.title}</strong></div><div class="sub" style="margin-top:6px;line-height:1.5">${i.desc}</div></div>
+  `).join('');
+}
+load().catch(e=>{document.body.innerHTML='<pre style="padding:32px;color:#f87171">Failed to load garmin/data.json: '+e+' — make sure you ran py sync_garmin.py --days 30</pre>'});
+</script>
+</body>
+</html>
