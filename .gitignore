@@ -4,3 +4,13 @@ garmin_tokens.json
 __pycache__/
 *.pyc
 .venv/
+# Generated AI prompt (not needed in repo, may contain summary)
+garmin/ai_prompt.txt
+docs/garmin/ai_prompt.txt
+# Logs and env
+*.log
+.env
+_site/
+# OS
+.DS_Store
+Thumbs.db

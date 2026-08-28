@@ -10,6 +10,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: garmin-sync
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -47,9 +51,9 @@ jobs:
           chmod 600 ~/.garminconnect/garmin_tokens.json
           echo "Token restored (size: $(wc -c < ~/.garminconnect/garmin_tokens.json) bytes). Not shown for security."
 
-      - name: Sync Garmin (last 7 days)
+      - name: Sync Garmin (last 30 days, keeps dashboard 30d view)
         run: |
-          python sync_garmin.py --days 7 --sink files --out ./garmin
+          python sync_garmin.py --days 30 --sink files --out ./garmin
           echo "=== garmin folder ==="
           ls -R garmin || true
           echo "=== data.json head ==="
@@ -72,14 +76,16 @@ jobs:
         run: |
           git config user.name "garmin-bot"
           git config user.email "garmin-bot@users.noreply.github.com"
-          git add garmin/data.json garmin/daily garmin/activities garmin/README.md garmin/power_curves.json garmin/ai_insights.md garmin/ai_insights.json docs/garmin/power_curves.json docs/garmin/data.json || true
-          # Keep docs/garmin in sync for classic Pages /docs fallback
+          # Keep docs/garmin in sync for classic Pages /docs fallback (must copy BEFORE add)
           mkdir -p docs/garmin && cp -r garmin/* docs/garmin/ 2>/dev/null || true
-          git add docs/garmin/ || true
+          git add garmin/ docs/garmin/ || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
-          git commit -m "chore: garmin sync $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+          # Use IST for commit message to match dashboard
+          TZ=Asia/Kolkata git commit -m "chore: garmin sync $(TZ=Asia/Kolkata date +'%Y-%m-%d %H:%M IST')"
+          # Handle concurrent pushes gracefully
+          git pull --rebase || true
+          git push || (git pull --rebase && git push)
 

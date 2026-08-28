@@ -45,7 +45,7 @@ table{min-width:620px}
 <body>
 <header>
 <h1>🚴 Garmin Cycling Dashboard — for Happiness, not Racing</h1>
-<div class="sub">Read-only from Garmin Connect • Updates daily at 10 AM IST via GitHub Actions • Last 30 days: <span id="range"></span> • <a href="../garmin/data.json" target="_blank">data.json</a> • <span id="lastSync"></span></div>
+<div class="sub">Read-only from Garmin Connect • Updates daily at 10 AM IST via GitHub Actions • Last 30 days: <span id="range"></span> • <a id="dataLink" href="garmin/data.json" target="_blank">data.json</a> • <span id="lastSync"></span> <span id="aiBadge" style="margin-left:8px"></span></div>
 </header>
 
 <div class="grid" id="kpis"></div>
@@ -96,30 +96,39 @@ table{min-width:620px}
 
 <script>
 async function load(){
-  // Try multiple paths for local vs GitHub Pages
-  const paths = ['../garmin/data.json','./garmin/data.json','garmin/data.json','../garmin/data.json','docs/../garmin/data.json'];
-  let res = null, lastErr = null;
+  // Try multiple paths for local vs GitHub Pages - use baseURI first for Pages subpath
+  const paths = [];
+  try{ paths.push(new URL('garmin/data.json', document.baseURI).href); }catch(e){}
+  try{ paths.push(new URL('../garmin/data.json', document.baseURI).href); }catch(e){}
+  paths.push('../garmin/data.json','./garmin/data.json','garmin/data.json','docs/../garmin/data.json','/garmin-ai/garmin/data.json');
+  let res = null, lastErr = null, successPath=null;
   for(const p of paths){
     try{
       const r = await fetch(p);
-      if(r.ok){ res = r; console.log('Loaded from',p); break; }
+      if(r.ok){ res = r; successPath=p; console.log('Loaded from',p); break; }
       lastErr = p + ' -> ' + r.status;
     }catch(e){ lastErr = p + ' -> ' + e.message; }
   }
   if(!res){
-    // Also try absolute for GitHub Pages with repo name
     try{
       const repoPath = location.pathname.includes('/garmin-ai/') ? '/garmin-ai/garmin/data.json' : null;
-      if(repoPath){ const r = await fetch(repoPath); if(r.ok) res = r; }
+      if(repoPath){ const r = await fetch(repoPath); if(r.ok){ res = r; successPath=repoPath; } }
     }catch(e){}
   }
   if(!res) throw new Error('Tried ' + paths.join(', ') + ' — last: ' + lastErr + '. If you opened via file://, run a local server instead (see below).');
+  if(successPath) try{ document.getElementById('dataLink').href = successPath; }catch(e){}
   const data = await res.json();
   document.getElementById('range').textContent = data.date_range.join(' → ');
   document.getElementById('lastSync').textContent = 'synced ' + new Date(data.generated_at).toLocaleString();
   const daily = data.daily;
   const acts = data.activities.filter(a=>a.sport==='road_biking').sort((a,b)=>a.date.localeCompare(b.date));
-  // KPIs
+  // Early fetch power curves for dynamic FTP/zones (before KPIs)
+  let earlyPower = null;
+  try{ const r=await fetch(new URL('garmin/power_curves.json', document.baseURI)); if(r.ok) earlyPower=await r.json(); }catch(e){}
+  try{ if(!earlyPower){ const r2=await fetch('../garmin/power_curves.json'); if(r2.ok) earlyPower=await r2.json(); }}catch(e){}
+  const ftpVal = earlyPower?.ftp || 271;
+  const ftpStatus = earlyPower?.ftp_status || 'stale 2025-03-04 — retest needed';
+  // KPIs (guard divide-by-zero)
   const totalKm = acts.reduce((s,a)=>s+(typeof a.distance_km==='number'?a.distance_km:0),0);
   const totalSec = acts.reduce((s,a)=>s+(typeof a.duration_seconds==='number'?a.duration_seconds:0),0);
   const totalHrs = totalSec/3600;
@@ -127,13 +136,16 @@ async function load(){
   const avgSpeed = totalHrs?totalKm/totalHrs:0;
   const hrs = acts.filter(a=>typeof a.avg_hr==='number').map(a=>a.avg_hr);
   const avgHR = hrs.length?hrs.reduce((a,b)=>a+b,0)/hrs.length:0;
-  const kpis = [
+  const kpis = acts.length===0 ? [
+    ['No rides', '0 rides', 'rest week — check daily wellness'],
+    ['FTP', ftpVal+' W', ftpStatus],
+  ] : [
     ['Total Distance', totalKm.toFixed(1)+' km', acts.length+' rides in 30d'],
     ['Total Time', totalHrs.toFixed(1)+' h', 'avg '+(totalKm/acts.length).toFixed(1)+' km/ride'],
     ['Avg Speed', avgSpeed.toFixed(1)+' km/h', 'conversational <30 km/h = easy'],
     ['Vert Gain', Math.round(totalElev)+' m', (totalElev/acts.length).toFixed(0)+' m/ride avg'],
-    ['Avg HR', Math.round(avgHR)+' bpm', 'many rides in Z2 high — see insight #6'],
-    ['FTP', '271 W', 'from 2025-03-04 (stale) — retest needed'],
+    ['Avg HR', hrs.length?Math.round(avgHR)+' bpm':'—', hrs.length?'many rides in Z2 high — see insight #6':'no HR data'],
+    ['FTP', ftpVal+' W', ftpStatus],
   ];
   document.getElementById('kpis').innerHTML = kpis.map(([t,v,s])=>`<div class="card"><div class="sub">${t}</div><div class="kpi">${v}</div><div class="sub">${s}</div></div>`).join('');
   // Weekly grouping
@@ -174,9 +186,12 @@ async function load(){
   new Chart(document.getElementById('hrvProxy'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'HRV (proxy VO2 fitness)',data:hrv,borderColor:'#22c55e'}]},options:{plugins:{legend:{display:false}},scales:{y:{min:30,max:90}}}});
   // VO2 placeholder
   new Chart(document.getElementById('vo2'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'VO2 Max (Garmin returns null)',data:dates.map(()=>null),borderColor:'#94a3b8'}]},options:{plugins:{legend:{display:false}},scales:{y:{min:30,max:60}}}});
-  // FTP
-  new Chart(document.getElementById('ftp'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'FTP 271W (stale 2025-03-04)',data:dates.map(()=>271),borderColor:'#38bdf8',fill:false}]},options:{scales:{y:{min:200,max:350}}}});
-  document.getElementById('ftpNote').textContent = 'Zones: Z1 <148W, Z2 148-203, Z3 203-244, Z4 244-284, Z5 284-324, Z6 324-406, Z7 >406. Retest via 20-min FTP test soon.';
+  // FTP - dynamic from power_curves.json
+  const ftpLabel = `FTP ${ftpVal}W (${ftpStatus})`;
+  new Chart(document.getElementById('ftp'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:ftpLabel,data:dates.map(()=>ftpVal),borderColor:'#38bdf8',fill:false}]},options:{scales:{y:{min:Math.max(150,ftpVal-80),max:ftpVal+80}}}});
+  // Compute zones dynamically from FTP (approx 7-zone)
+  const z2 = Math.round(ftpVal*0.55), z3=Math.round(ftpVal*0.75), z4=Math.round(ftpVal*0.90), z5=Math.round(ftpVal*1.05), z6=Math.round(ftpVal*1.20), z7=Math.round(ftpVal*1.50);
+  document.getElementById('ftpNote').textContent = `Zones: Z1 <${z2}W, Z2 ${z2}-${z3}, Z3 ${z3}-${z4}, Z4 ${z4}-${z5}, Z5 ${z5}-${z6}, Z6 ${z6}-${z7}, Z7 >${z7}. ${ftpStatus}. Retest via 20-min FTP test soon.`;
   // Latest activities table
   const latestBody = document.querySelector('#latest tbody');
   [...acts].reverse().slice(0,10).forEach(a=>{
@@ -290,7 +305,7 @@ async function load(){
   ];
   }
   document.getElementById('insights').innerHTML = insights.map(i=>`
-    <div class="insight"><div style="display:flex;gap:8px;align-items:center"><span class="badge ${i.badge}">${i.badgeText}</span><strong>${i.title}</strong></div><div class="sub" style="margin-top:6px;line-height:1.5">${i.desc}</div></div>
+    <div class="insight"><div style="display:flex;gap:8px;align-items:center"><span class="badge ${i.badge}">${i.badgeText||i.badge}</span><strong>${i.title}</strong></div><div class="sub" style="margin-top:6px;line-height:1.5">${i.description || i.desc || ''}</div></div>
   `).join('');
 }
 load().catch(e=>{

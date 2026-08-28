@@ -33,6 +33,23 @@ from datetime import date, datetime, timedelta
 from getpass import getpass
 from pathlib import Path
 import stat
+try:
+    from zoneinfo import ZoneInfo
+    IST = ZoneInfo("Asia/Kolkata")
+except Exception:
+    IST = None
+
+def _now_ist():
+    try:
+        return datetime.now(IST) if IST else datetime.now()
+    except:
+        return datetime.now()
+
+def _today_ist():
+    try:
+        return _now_ist().date()
+    except:
+        return date.today()
 
 # Keep imports lazy so --help works even before deps are installed
 TOKENSTORE_DEFAULT = "~/.garminconnect"
@@ -44,9 +61,21 @@ def _secure_path(path: Path, is_dir: bool = False):
             mode = 0o700 if is_dir else 0o600
             os.chmod(path, mode)
         else:
-            # On Windows, try to restrict via chmod as well; Python maps it to read-only flags
-            # We still attempt it — no harm if it doesn't fully lock down.
-            pass
+            # On Windows, Python chmod only sets read-only flag — not real ACLs.
+            # Try icacls to restrict to current user only (best effort, may require no admin).
+            try:
+                import subprocess, getpass
+                user = getpass.getuser()
+                # Remove inherited permissions and grant only current user full control
+                # This is best-effort; if it fails, warn but don't crash (token still works, just less private).
+                subprocess.run(["icacls", str(path), "/inheritance:r", "/grant:r", f"{user}:(F)"], capture_output=True, timeout=5)
+            except Exception:
+                pass
+            # Also try chmod for read-only flag
+            try:
+                os.chmod(path, 0o600 if not is_dir else 0o700)
+            except:
+                pass
     except Exception:
         pass
 
@@ -152,10 +181,33 @@ def _extract_sleep(sleep_data):
     if seconds is None:
         seconds = dto.get("sleepTimeInSeconds")
     score = dto.get("sleepScores") or dto.get("sleepScore")
+    # Flatten score dict to string like "64 (FAIR)" or just value
     if isinstance(score, dict):
-        score = score.get("overall") or score.get("value") or score
+        # Handle nested overall/value
+        val = score.get("overall") or score.get("value") or score.get("score")
+        qual = score.get("qualifierKey") or score.get("qualifier")
+        if isinstance(val, dict):
+            qual = val.get("qualifierKey") or qual
+            val = val.get("value") or val.get("overall") or val
+        if val is not None and qual:
+            score = f"{val} ({qual})"
+        elif val is not None:
+            score = val
+        elif qual:
+            score = qual
+        else:
+            score = str(score)
     elif isinstance(score, list) and score:
-        score = score[0].get("overall") if isinstance(score[0], dict) else score[0]
+        first = score[0]
+        if isinstance(first, dict):
+            val = first.get("overall") or first.get("value") or first
+            qual = first.get("qualifierKey") or ""
+            if isinstance(val, dict):
+                qual = val.get("qualifierKey") or qual
+                val = val.get("value") or val
+            score = f"{val} ({qual})" if qual and val else (val if val is not None else str(first))
+        else:
+            score = first
     # Sleep stages if present
     deep = dto.get("deepSleepSeconds")
     light = dto.get("lightSleepSeconds")
@@ -290,7 +342,7 @@ def _extract_training_readiness(tr_data):
 
 def fetch_days(client, days: int):
     """Fetch wellness + activities for last N days. Returns dict with 'daily' and 'activities'."""
-    today = date.today()
+    today = _today_ist()
     dates = [(today - timedelta(days=i)).isoformat() for i in range(days)]
     dates = sorted(dates)  # oldest first
 
@@ -298,7 +350,7 @@ def fetch_days(client, days: int):
     start = dates[0]
     end = dates[-1]
 
-    print(f"Fetching {days} day(s): {start} to {end} ...")
+    print(f"Fetching {days} day(s): {start} to {end} ... (IST: {_now_ist().strftime('%Y-%m-%d %H:%M %Z')})")
     daily = {}
     for cdate in dates:
         # Call each API safely so one failing doesn't break the whole day
@@ -347,6 +399,25 @@ def fetch_days(client, days: int):
                 except Exception:
                     distance_km = dist_m
 
+        # Prune large PII/bloat fields before saving to data.json
+        # hr contains 720 heartRateValues per day (~10KB/day) and PII uuids - strip it
+        pruned_hr = None
+        if isinstance(hr, dict):
+            pruned_hr = {k: v for k, v in hr.items() if k != "heartRateValues"}
+            # keep only first 3 values as sample if needed, not full trace
+            if "heartRateValues" in hr and isinstance(hr["heartRateValues"], list) and hr["heartRateValues"]:
+                pruned_hr["heartRateValues_sample"] = hr["heartRateValues"][:3]
+                pruned_hr["heartRateValues_count"] = len(hr["heartRateValues"])
+            # strip PII
+            pruned_hr.pop("userProfileId", None)
+            pruned_hr.pop("userProfilePk", None)
+            pruned_hr.pop("uuid", None)
+        pruned_stats = None
+        if isinstance(stats, dict):
+            # keep only aggregated fields, drop PII and large arrays
+            keep = ["totalSteps","totalKilocalories","activeKilocalories","bmrKilocalories","totalDistanceMeters","restingHeartRate","averageStressLevel","maxStressLevel","moderateIntensityMinutes","vigorousIntensityMinutes"]
+            pruned_stats = {k: stats.get(k) for k in keep if k in stats}
+            pruned_stats["calendarDate"] = stats.get("calendarDate")
         daily[cdate] = {
             "date": cdate,
             "steps": steps,
@@ -363,10 +434,10 @@ def fetch_days(client, days: int):
             "body_battery": bb_val,
             "stress": stress_val,
             "training_readiness": tr_val,
-            # keep raw for data.json debugging (sanitized, no tokens)
+            # keep pruned raw for debugging (sanitized, no tokens, no HR trace, no PII)
             "_raw": {
-                "stats": stats,
-                "hr": hr,
+                "stats": pruned_stats,
+                "hr": pruned_hr,
                 "sleep": sleep,
                 "hrv": hrv,
                 "bodyBattery": bb,
@@ -519,7 +590,7 @@ def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
     json_path = out_dir / "data.json"
     # Prepare JSON without circular issues — ensure serializable
     serializable = {
-        "generated_at": datetime.now().isoformat(),
+        "generated_at": _now_ist().isoformat(),
         "date_range": [start, end],
         "daily": daily,
         "activities": activities,
@@ -545,7 +616,7 @@ def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
 - **Stress (avg):** {d['stress']}
 - **Training Readiness:** {d['training_readiness']}
 
-*Generated {datetime.now().strftime('%Y-%m-%d %H:%M')} — data.json has full detail.*
+*Generated {_now_ist().strftime('%Y-%m-%d %H:%M %Z')} — data.json has full detail.*
 
 ---
 
@@ -582,7 +653,7 @@ def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
 - **Calories:** {a['calories']} kcal
 - **Avg HR:** {a['avg_hr']} bpm | **Max HR:** {a['max_hr']} bpm
 
-*Generated {datetime.now().strftime('%Y-%m-%d %H:%M')} — full raw data is in data.json.*
+*Generated {_now_ist().strftime('%Y-%m-%d %H:%M %Z')} — full raw data is in data.json.*
 
 ---
 
@@ -598,7 +669,7 @@ def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
     # Also write friendly index
     index_md = out_dir / "README.md"
     with open(index_md, "w", encoding="utf-8") as f:
-        f.write(f"""# Garmin data — last sync {datetime.now().strftime('%Y-%m-%d %H:%M')}
+        f.write(f"""# Garmin data — last sync {_now_ist().strftime('%Y-%m-%d %H:%M %Z')}
 
 This folder is read-only from Garmin. It updates when you run `py sync_garmin.py`.
 

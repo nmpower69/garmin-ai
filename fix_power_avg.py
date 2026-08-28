@@ -20,13 +20,16 @@ except:
 pc.setdefault("curves", {})
 # fetch avg, NP, max for each
 for aid in aids:
+    splits = None
     try:
         act=g.get_activity(aid)
         # activity summary has more fields
         avg = act.get("averagePower") or act.get("avgPower") or act.get("averagePower") or None
         # also try details splits
         if avg is None:
-            splits=g.get_activity_splits(aid)
+            try:
+                splits=g.get_activity_splits(aid)
+            except: splits=None
             # splits may have lap avg
             if splits and "lapDTOs" in splits and splits["lapDTOs"]:
                 avg = splits["lapDTOs"][0].get("averagePower")
@@ -75,6 +78,9 @@ for aid in aids:
         try:
             d=g.get_activity_details(aid)
             descs={m["key"]:m["metricsIndex"] for m in d["metricDescriptors"]}
+            if "directPower" not in descs:
+                print(f"Skipping {aid} - no power meter data")
+                continue
             p_idx=descs["directPower"]
             metrics=d["activityDetailMetrics"]
             powers=[m["metrics"][p_idx] for m in metrics if m["metrics"][p_idx] is not None]
@@ -93,6 +99,9 @@ for aid in aids:
             print(f"Computing full power curve for new activity {aid}...")
             d=g.get_activity_details(aid)
             descs={m["key"]:m["metricsIndex"] for m in d["metricDescriptors"]}
+            if "directPower" not in descs or "directTimestamp" not in descs:
+                print(f"Skipping {aid} - no power/timestamp data")
+                continue
             p_idx=descs["directPower"]
             t_idx=descs["directTimestamp"]
             metrics=d["activityDetailMetrics"]

@@ -55,10 +55,11 @@ def build_prompt(data, curves):
     ride_lines=[]
     for a in sorted(acts, key=lambda x: x["date"])[-7:]:
         ride_lines.append(f"{a['date']} {a['name']} {a['distance_km']}km {a['duration']} avgHR={a.get('avg_hr')} maxHR={a.get('max_hr')} elev={a.get('_raw',{}).get('elevationGain')} cals={a.get('calories')}")
-    # Power curves compact
+    # Power curves compact - sorted by date, not insertion order
     curves_lines=[]
     if curves and "curves" in curves:
-        for k,v in list(curves["curves"].items())[-7:]:
+        sorted_curves = sorted([kv for kv in curves["curves"].items() if isinstance(kv[1], dict) and "10s" in kv[1]], key=lambda kv: kv[1].get("date",""))
+        for k,v in sorted_curves[-7:]:
             if isinstance(v, dict) and "10s" in v:
                 curves_lines.append(f"{v.get('date')} {k[-5:]}: 10s={v.get('10s')} 30s={v.get('30s')} 60s={v.get('60s')} 5m={v.get('300s')} 20m={v.get('1200s')} 1h={v.get('3600s')} avg={v.get('avgPower')} NP={v.get('normalizedPower')} max={v.get('maxPower')}")
     # FTP/HR zones from previous analysis (hardcoded from garmin profile, but also include if in data)
@@ -144,18 +145,13 @@ def call_openrouter(prompt, api_key, model=None):
             # Save which model succeeded for markdown header
             MODEL = mdl
             return content.strip()
-        # 404 with is_byok or provider error -> try fallback
         txt = resp.text[:2000]
         print(txt)
         last_err = f"{mdl}: {resp.status_code} {txt[:500]}"
-        # Only fallback on 404/400 provider errors, not on auth errors
-        if resp.status_code in (404, 400, 403) and ("is_byok" in txt or "Provider returned" in txt):
-            print(f"→ trying fallback model...")
-            continue
-        # For other errors, still try next model as well
-        if resp.status_code in (404, 429, 400):
-            continue
-        resp.raise_for_status()
+        # Try next model for any non-200 (401 auth, 404 no endpoint, 429 rate-limit, 5xx)
+        # Don't raise immediately — fall back to next free model
+        print(f"→ trying fallback model...")
+        continue
     raise RuntimeError(f"All models failed. Last: {last_err}")
 
 def main():
