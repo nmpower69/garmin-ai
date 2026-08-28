@@ -62,7 +62,7 @@ table{min-width:620px}
 <div class="grid">
 <div class="card"><h3>Avg HR & Speed per Ride</h3><canvas id="hrSpeed"></canvas></div>
 <div class="card"><h3>Training Readiness (0-100)</h3><canvas id="readiness"></canvas></div>
-<div class="card"><h3>FTP & Power Zones (your FTP 271W)</h3><canvas id="ftp"></canvas><div class="sub" id="ftpNote" style="margin-top:8px"></div></div>
+<div class="card"><h3 id="ftpTitle">FTP & Power Zones</h3><canvas id="ftp"></canvas><div class="sub" id="ftpNote" style="margin-top:8px"></div></div>
 </div>
 
 <div class="grid">
@@ -72,9 +72,8 @@ table{min-width:620px}
 
 <h2>⚡ Best Power per Ride (10s / 30s / 60s / 5m / 20m / 1h)</h2>
 <div class="card">
-<div class="sub">Power curves are computed from your Garmin activity power stream (directPower). Real values from <code>garmin/power_curves.json</code> — 10s=neuromuscular, 5m=VO2, 20m≈FTP. Avg/NP/Max are real lap values (no more “same data” bug).</div>
+<div class="sub">Power curves are computed from your Garmin activity power stream (directPower). Real values from <code>garmin/power_curves.json</code> — 10s=neuromuscular, 5m=VO2, 20m≈FTP. Avg/NP/Max are real lap values.</div>
 <div class="table-wrap"><table id="powerTable"><thead><tr><th>Date</th><th>Ride</th><th>10s</th><th>30s</th><th>60s</th><th>5m</th><th>20m</th><th>1h</th><th>Avg</th><th>NP</th><th>Max</th></tr></thead><tbody></tbody></table></div>
-<canvas id="powerChart" style="margin-top:16px"></canvas>
 </div>
 
 <h2>🕒 Latest Activities</h2>
@@ -188,6 +187,7 @@ async function load(){
   new Chart(document.getElementById('vo2'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'VO2 Max (Garmin returns null)',data:dates.map(()=>null),borderColor:'#94a3b8'}]},options:{plugins:{legend:{display:false}},scales:{y:{min:30,max:60}}}});
   // FTP - dynamic from power_curves.json
   const ftpLabel = `FTP ${ftpVal}W (${ftpStatus})`;
+  try{ document.getElementById('ftpTitle').textContent = ftpLabel; }catch(e){}
   new Chart(document.getElementById('ftp'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:ftpLabel,data:dates.map(()=>ftpVal),borderColor:'#38bdf8',fill:false}]},options:{scales:{y:{min:Math.max(150,ftpVal-80),max:ftpVal+80}}}});
   // Compute zones dynamically from FTP (approx 7-zone)
   const z2 = Math.round(ftpVal*0.55), z3=Math.round(ftpVal*0.75), z4=Math.round(ftpVal*0.90), z5=Math.round(ftpVal*1.05), z6=Math.round(ftpVal*1.20), z7=Math.round(ftpVal*1.50);
@@ -230,13 +230,6 @@ async function load(){
     tr.innerHTML = `<td>${a.date}</td><td>${a.name.slice(0,18)}</td><td>${p['10s']}</td><td>${p['30s']}</td><td>${p['60s']}</td><td>${p['5m']}</td><td>${p['20m']}</td><td>${p['1h']}</td><td>${avg}</td><td>${np}</td><td>${max}</td>`;
     powerBody.appendChild(tr);
   });
-  // Power chart - show last 4 rides 20m power (real if available)
-  const powerChartData = acts.slice(-4).map(a=>{
-    const real = getCurve(String(a._raw?.activityId || a.id));
-    const p20 = real ? real['1200s'] : Math.round((a._raw?.averagePower||110)*1.4);
-    return {label:a.date.slice(5), p20};
-  });
-  new Chart(document.getElementById('powerChart'),{type:'bar',data:{labels:powerChartData.map(d=>d.label),datasets:[{label:'20m Best Power (W) — real directPower',data:powerChartData.map(d=>d.p20),backgroundColor:'#f59e0b'}]},options:{plugins:{legend:{display:false}}}});
 
   // Insights - try AI first, fallback to static
   let insights = null;
