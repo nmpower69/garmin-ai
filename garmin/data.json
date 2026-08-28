@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T16:24:57.371432",
+  "generated_at": "2026-08-28T16:27:58.109900",
   "date_range": [
     "2026-08-22",
     "2026-08-28"
@@ -23061,6 +23061,16 @@
           "minHeartRate": 53,
           "restingHeartRate": 55,
           "lastSevenDaysAvgRestingHeartRate": 49,
+          "heartRateValueDescriptors": [
+            {
+              "index": 0,
+              "key": "timestamp"
+            },
+            {
+              "index": 1,
+              "key": "heartrate"
+            }
+          ],
           "heartRateValues": [
             [
               1787509800000,
@@ -25942,16 +25952,6 @@
               1787596080000,
               76
             ]
-          ],
-          "heartRateValueDescriptors": [
-            {
-              "index": 0,
-              "key": "timestamp"
-            },
-            {
-              "index": 1,
-              "key": "heartrate"
-            }
           ]
         },
         "sleep": {
@@ -64835,6 +64835,16 @@
           "minHeartRate": 45,
           "restingHeartRate": 45,
           "lastSevenDaysAvgRestingHeartRate": 49,
+          "heartRateValueDescriptors": [
+            {
+              "index": 0,
+              "key": "timestamp"
+            },
+            {
+              "index": 1,
+              "key": "heartrate"
+            }
+          ],
           "heartRateValues": [
             [
               1787769000000,
@@ -65792,16 +65802,6 @@
               1787797560000,
               130
             ]
-          ],
-          "heartRateValueDescriptors": [
-            {
-              "index": 0,
-              "key": "timestamp"
-            },
-            {
-              "index": 1,
-              "key": "heartrate"
-            }
           ]
         },
         "sleep": {
@@ -74122,12 +74122,12 @@
         "favorite": false,
         "purposeful": false,
         "pr": false,
-        "decoDive": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
-        "autoCalcCalories": false,
         "parent": false,
-        "manualActivity": false
+        "decoDive": false,
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -74295,12 +74295,12 @@
         "favorite": false,
         "purposeful": false,
         "pr": false,
-        "decoDive": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
-        "autoCalcCalories": false,
         "parent": false,
-        "manualActivity": false
+        "decoDive": false,
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     }
   ]
