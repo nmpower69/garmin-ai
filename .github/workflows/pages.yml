@@ -8,6 +8,11 @@ on:
       - docs/**
       - garmin/**
       - .github/workflows/pages.yml
+  # Auto-deploy after Garmin sync pushes via GITHUB_TOKEN (push trigger is blocked for GITHUB_TOKEN, so use workflow_run)
+  workflow_run:
+    workflows: ["Garmin Daily Sync"]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
