@@ -8,8 +8,12 @@
 <style>
 :root{--bg:#0f172a;--card:#1e293b;--accent:#38bdf8;--muted:#94a3b8;--ok:#22c55e;--warn:#f59e0b;--bad:#ef4444}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:#e2e8f0}
-header{padding:24px 32px;border-bottom:1px solid #334155;background:linear-gradient(90deg,#0f172a,#1e293b)}
+header{padding:20px 32px;border-bottom:1px solid #334155;background:linear-gradient(90deg,#0f172a,#1e293b);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 h1{margin:0;font-size:28px}h2{margin:32px 0 12px;font-size:20px;color:var(--accent)}h3{margin:0 0 8px;font-size:16px}
+.status{display:flex;align-items:center;gap:8px;background:#0b1220;border:1px solid #334155;border-radius:999px;padding:6px 12px;white-space:nowrap}
+.dot{width:12px;height:12px;border-radius:50%;background:#64748b;box-shadow:0 0 6px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.15)}
+.dot.ok{background:var(--ok);box-shadow:0 0 8px rgba(34,197,94,.6)}
+.dot.bad{background:var(--bad);box-shadow:0 0 8px rgba(239,68,68,.6)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;padding:16px 32px}
 .card{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
 .kpi{font-size:28px;font-weight:700}.sub{color:var(--muted);font-size:13px}
@@ -44,8 +48,14 @@ table{min-width:620px}
 </head>
 <body>
 <header>
+<div>
 <h1>🚴 Garmin Cycling Dashboard — for Happiness, not Racing</h1>
-<div class="sub">Read-only from Garmin Connect • Updates daily at 10 AM IST via GitHub Actions • Last 30 days: <span id="range"></span> • <a id="dataLink" href="garmin/data.json" target="_blank">data.json</a> • <span id="lastSync"></span> <span id="aiBadge" style="margin-left:8px"></span></div>
+<div class="sub">Read-only from Garmin Connect • Updates daily at 10 AM IST • Last 30 days: <span id="range"></span> • <a id="dataLink" href="garmin/data.json" target="_blank">data.json</a> • <span id="lastSync"></span></div>
+</div>
+<div class="status" id="aiStatus" title="AI Insights status">
+<span class="dot" id="aiDot"></span>
+<span style="font-size:13px;font-weight:700;letter-spacing:.3px" id="aiStatusText">AI …</span>
+</div>
 </header>
 
 <div class="grid" id="kpis"></div>
@@ -236,6 +246,8 @@ async function load(){
       } }catch(e){}
     }
   }catch(e){ console.log('AI insights not loaded',e); }
+  // Track if AI file was used
+  let usedAI = insights !== null;
   if(!insights){
   insights = [
     {
@@ -290,6 +302,27 @@ async function load(){
     },
   ];
   }
+  // AI Status indicator (green = real AI even via fallback, red = all failed/static)
+  try{
+    const dot = document.getElementById('aiDot');
+    const txt = document.getElementById('aiStatusText');
+    const first = (insights && insights[0] && insights[0].title || '').toLowerCase();
+    const isFailed = first.includes('failed') || first.includes('not configured') || first.includes('error') || first.includes('not configured yet');
+    const isRealAI = usedAI && insights && insights.length===10 && !isFailed;
+    if(dot && txt){
+      if(isRealAI){
+        dot.className = 'dot ok';
+        txt.textContent = 'AI Insights • Live';
+        txt.style.color = 'var(--ok)';
+        document.getElementById('aiStatus').title = 'AI insights live from OpenRouter (even via fallback model)';
+      } else {
+        dot.className = 'dot bad';
+        txt.textContent = 'AI Insights • Error';
+        txt.style.color = 'var(--bad)';
+        document.getElementById('aiStatus').title = 'AI insights failed — showing fallback/static';
+      }
+    }
+  }catch(e){ console.log('status err',e); }
   document.getElementById('insights').innerHTML = insights.map(i=>`
     <div class="insight"><div style="display:flex;gap:8px;align-items:center"><span class="badge ${i.badge}">${i.badgeText||i.badge}</span><strong>${i.title}</strong></div><div class="sub" style="margin-top:6px;line-height:1.5">${i.description || i.desc || ''}</div></div>
   `).join('');

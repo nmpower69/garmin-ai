@@ -178,6 +178,10 @@ def main():
         print("ERROR: garmin/data.json missing — run sync first")
         sys.exit(1)
 
+    # === ON PURPOSE ERROR FOR RED STATUS TEST ===
+    # Remove this block later to see green again
+    raise RuntimeError("ON PURPOSE ERROR - testing red AI Insights indicator (remove this to see green)")
+
     prompt = build_prompt(data, curves)
     print("Prompt chars:", len(prompt))
     # For debugging, also write prompt locally (not committed) — optional
