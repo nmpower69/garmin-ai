@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Insight 1: AI not configured yet",
+    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
+    "badge": "warn",
+    "badgeText": "Setup"
+  },
+  {
+    "title": "Insight 2: AI not configured yet",
+    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
+    "badge": "warn",
+    "badgeText": "Setup"
+  },
+  {
+    "title": "Insight 3: AI not configured yet",
+    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
+    "badge": "warn",
+    "badgeText": "Setup"
+  },
+  {
+    "title": "Insight 4: AI not configured yet",
+    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
+    "badge": "warn",
+    "badgeText": "Setup"
+  },
+  {
+    "title": "Insight 5: AI not configured yet",
+    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
+    "badge": "warn",
+    "badgeText": "Setup"
+  },
+  {
+    "title": "Insight 6: AI not configured yet",
+    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
+    "badge": "warn",
+    "badgeText": "Setup"
+  },
+  {
+    "title": "Insight 7: AI not configured yet",
+    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
+    "badge": "warn",
+    "badgeText": "Setup"
+  },
+  {
+    "title": "Insight 8: AI not configured yet",
+    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
+    "badge": "warn",
+    "badgeText": "Setup"
+  },
+  {
+    "title": "Insight 9: AI not configured yet",
+    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
+    "badge": "warn",
+    "badgeText": "Setup"
+  },
+  {
+    "title": "Insight 10: AI not configured yet",
+    "description": "Add OPENROUTER_API_KEY as GitHub secret and re-run workflow to generate real cycling insights from your Garmin data.",
+    "badge": "warn",
+    "badgeText": "Setup"
+  }
+]

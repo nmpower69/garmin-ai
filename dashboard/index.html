@@ -223,8 +223,20 @@ async function load(){
   });
   new Chart(document.getElementById('powerChart'),{type:'bar',data:{labels:powerChartData.map(d=>d.label),datasets:[{label:'20m Best Power (W) — real directPower',data:powerChartData.map(d=>d.p20),backgroundColor:'#f59e0b'}]},options:{plugins:{legend:{display:false}}}});
 
-  // Insights - 10 cycling parallels with descriptions
-  const insights = [
+  // Insights - try AI first, fallback to static
+  let insights = null;
+  try{
+    const aiPaths = ['../garmin/ai_insights.json','./garmin/ai_insights.json','garmin/ai_insights.json','/garmin-ai/garmin/ai_insights.json'];
+    for(const p of aiPaths){
+      try{ const r=await fetch(p); if(r.ok){ const j=await r.json(); if(Array.isArray(j) && j.length===10){ insights=j; console.log('Using AI insights from',p); // add banner
+        const hdr = document.querySelector('h2:nth-of-type(6)'); // insights h2 - brittle, just prepend banner
+        if(hdr){ const b=document.createElement('div'); b.className='card'; b.style.borderLeft='3px solid #22c55e'; b.innerHTML='<div class="sub">✨ <strong>AI-generated</strong> today via <code>nvidia/nemotron-3-ultra-550b-a55b:free</code> on OpenRouter — from your fresh Garmin data. Falls back to static if API not set.</div><div class="sub"><a href="../garmin/ai_insights.md" target="_blank">View garmin/ai_insights.md</a> • <a href="../garmin/ai_insights.json" target="_blank">JSON</a></div>'; hdr.parentNode.insertBefore(b, hdr.nextSibling); }
+        break; }
+      } }catch(e){}
+    }
+  }catch(e){ console.log('AI insights not loaded',e); }
+  if(!insights){
+  insights = [
     {
       title:'Insight 1: Aug 12 ride breached easy ceiling by ~8 bpm',
       desc:'Your easy ceiling (Z1 top at 139 bpm, Z2 top 159 bpm from LTHR 175 / max 196) is 139 bpm for true recovery. Aug 12 avg 159 bpm sat exactly on Z2 ceiling and Z3 floor — that is threshold, not easy. Aug 14 (158 bpm) and Aug 23 (158 bpm) showed same pattern. For a happy base, keep 80% of rides <139 bpm avg; reserve 159+ for hard days only. Your Aug 19 (140 bpm) and Aug 27 (143 bpm) were perfect easy examples — copy those.',
@@ -276,6 +288,7 @@ async function load(){
       badge:'warn', badgeText:'FTP'
     },
   ];
+  }
   document.getElementById('insights').innerHTML = insights.map(i=>`
     <div class="insight"><div style="display:flex;gap:8px;align-items:center"><span class="badge ${i.badge}">${i.badgeText}</span><strong>${i.title}</strong></div><div class="sub" style="margin-top:6px;line-height:1.5">${i.desc}</div></div>
   `).join('');

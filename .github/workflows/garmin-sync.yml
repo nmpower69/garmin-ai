@@ -54,12 +54,28 @@ jobs:
           ls -R garmin || true
           echo "=== data.json head ==="
           head -c 2000 garmin/data.json || true
+          # Also recompute power curves for dashboard (real 10s-1h from directPower)
+          python fix_power_avg.py || echo "power curves update failed (non-fatal)"
+          ls -lh garmin/power_curves.json || true
+
+      - name: AI Analysis via OpenRouter (nvidia/nemotron-3-ultra)
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          pip install requests
+          python ai_analyze.py || echo "::warning::AI analysis failed — check OPENROUTER_API_KEY / quota, but garmin data still committed"
+          echo "=== AI output ==="
+          ls -lh garmin/ai_insights.* || true
+          head -c 3000 garmin/ai_insights.md || true
 
       - name: Commit and push if changed
         run: |
           git config user.name "garmin-bot"
           git config user.email "garmin-bot@users.noreply.github.com"
-          git add garmin/data.json garmin/daily garmin/activities garmin/README.md || true
+          git add garmin/data.json garmin/daily garmin/activities garmin/README.md garmin/power_curves.json garmin/ai_insights.md garmin/ai_insights.json docs/garmin/power_curves.json docs/garmin/data.json || true
+          # Keep docs/garmin in sync for classic Pages /docs fallback
+          mkdir -p docs/garmin && cp -r garmin/* docs/garmin/ 2>/dev/null || true
+          git add docs/garmin/ || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
