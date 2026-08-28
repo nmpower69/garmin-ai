@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T22:43:26.432288+05:30",
+  "generated_at": "2026-08-28T23:05:15.566013+05:30",
   "date_range": [
     "2026-07-30",
     "2026-08-28"
@@ -337236,8 +337236,8 @@
           "typeKey": "walking",
           "parentTypeId": 17,
           "isHidden": false,
-          "restricted": false,
-          "trimmable": true
+          "trimmable": true,
+          "restricted": false
         },
         "eventType": {
           "typeId": 9,
@@ -337356,15 +337356,15 @@
         "endTimeGMT": "2026-08-02 02:47:07",
         "qualifyingDive": false,
         "activityUUID": "49441290-6b5a-4c4e-a605-edbe121a27d9",
-        "purposeful": false,
-        "manualActivity": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
-        "autoCalcCalories": false,
+        "purposeful": false,
+        "parent": false,
         "decoDive": false,
-        "parent": false
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -337388,8 +337388,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "restricted": false,
-          "trimmable": true
+          "trimmable": true,
+          "restricted": false
         },
         "eventType": {
           "typeId": 9,
@@ -337528,15 +337528,15 @@
         "endTimeGMT": "2026-08-05 02:03:26",
         "qualifyingDive": false,
         "activityUUID": "fc134839-3fe1-4271-847f-80d3fb79e73f",
-        "purposeful": false,
-        "manualActivity": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
-        "autoCalcCalories": false,
+        "purposeful": false,
+        "parent": false,
         "decoDive": false,
-        "parent": false
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -337560,8 +337560,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "restricted": false,
-          "trimmable": true
+          "trimmable": true,
+          "restricted": false
         },
         "eventType": {
           "typeId": 9,
@@ -337693,15 +337693,15 @@
         "endTimeGMT": "2026-08-09 02:35:40",
         "qualifyingDive": false,
         "activityUUID": "702d1f1f-dfbe-4fbc-b18d-63367042f843",
-        "purposeful": false,
-        "manualActivity": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
-        "autoCalcCalories": false,
+        "purposeful": false,
+        "parent": false,
         "decoDive": false,
-        "parent": false
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -337725,8 +337725,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "restricted": false,
-          "trimmable": true
+          "trimmable": true,
+          "restricted": false
         },
         "eventType": {
           "typeId": 9,
@@ -337866,15 +337866,15 @@
         "endTimeGMT": "2026-08-12 02:43:42",
         "qualifyingDive": false,
         "activityUUID": "4a8f5214-9f89-44db-8af2-6fcf5be828de",
-        "purposeful": false,
-        "manualActivity": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
-        "autoCalcCalories": false,
+        "purposeful": false,
+        "parent": false,
         "decoDive": false,
-        "parent": false
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -337898,8 +337898,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "restricted": false,
-          "trimmable": true
+          "trimmable": true,
+          "restricted": false
         },
         "eventType": {
           "typeId": 9,
@@ -338040,15 +338040,15 @@
         "endTimeGMT": "2026-08-14 03:09:53",
         "qualifyingDive": false,
         "activityUUID": "a1f3fee7-3402-44d0-9f5d-4569cfb46d31",
-        "purposeful": false,
-        "manualActivity": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
-        "autoCalcCalories": false,
+        "purposeful": false,
+        "parent": false,
         "decoDive": false,
-        "parent": false
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -338072,8 +338072,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "restricted": false,
-          "trimmable": true
+          "trimmable": true,
+          "restricted": false
         },
         "eventType": {
           "typeId": 9,
@@ -338213,15 +338213,15 @@
         "endTimeGMT": "2026-08-17 02:29:03",
         "qualifyingDive": false,
         "activityUUID": "ec2e1824-df3f-4f16-8b88-17b23501b8c8",
-        "purposeful": false,
-        "manualActivity": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
-        "autoCalcCalories": false,
+        "purposeful": false,
+        "parent": false,
         "decoDive": false,
-        "parent": false
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -338245,8 +338245,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "restricted": false,
-          "trimmable": true
+          "trimmable": true,
+          "restricted": false
         },
         "eventType": {
           "typeId": 9,
@@ -338385,15 +338385,15 @@
         "endTimeGMT": "2026-08-19 02:28:11",
         "qualifyingDive": false,
         "activityUUID": "bc249d3c-0340-48b7-8efd-9202e388097f",
-        "purposeful": false,
-        "manualActivity": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
-        "autoCalcCalories": false,
+        "purposeful": false,
+        "parent": false,
         "decoDive": false,
-        "parent": false
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -338417,8 +338417,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "restricted": false,
-          "trimmable": true
+          "trimmable": true,
+          "restricted": false
         },
         "eventType": {
           "typeId": 9,
@@ -338558,15 +338558,15 @@
         "endTimeGMT": "2026-08-21 02:39:36",
         "qualifyingDive": false,
         "activityUUID": "bb12bc49-9d5f-4819-a6d1-290110aefd4c",
-        "purposeful": false,
-        "manualActivity": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
-        "autoCalcCalories": false,
+        "purposeful": false,
+        "parent": false,
         "decoDive": false,
-        "parent": false
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -338590,8 +338590,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "restricted": false,
-          "trimmable": true
+          "trimmable": true,
+          "restricted": false
         },
         "eventType": {
           "typeId": 9,
@@ -338732,15 +338732,15 @@
         "endTimeGMT": "2026-08-23 05:27:19",
         "qualifyingDive": false,
         "activityUUID": "642e621a-771a-46cd-b5e9-b437018fc21b",
-        "purposeful": false,
-        "manualActivity": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
-        "autoCalcCalories": false,
+        "purposeful": false,
+        "parent": false,
         "decoDive": false,
-        "parent": false
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -338764,8 +338764,8 @@
           "typeKey": "road_biking",
           "parentTypeId": 2,
           "isHidden": false,
-          "restricted": false,
-          "trimmable": true
+          "trimmable": true,
+          "restricted": false
         },
         "eventType": {
           "typeId": 9,
@@ -338905,15 +338905,15 @@
         "endTimeGMT": "2026-08-27 02:18:55",
         "qualifyingDive": false,
         "activityUUID": "cc202490-7df8-4fef-a6a8-d5054b7166c8",
-        "purposeful": false,
-        "manualActivity": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
-        "autoCalcCalories": false,
+        "purposeful": false,
+        "parent": false,
         "decoDive": false,
-        "parent": false
+        "manualActivity": false,
+        "autoCalcCalories": false,
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     }
   ]
