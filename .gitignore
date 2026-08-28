@@ -1,0 +1,6 @@
+# Garmin tokens — private, never commit
+.garminconnect/
+garmin_tokens.json
+__pycache__/
+*.pyc
+.venv/

@@ -1,0 +1,69 @@
+name: Garmin Daily Sync
+
+# Runs daily at 10:00 AM IST (04:30 UTC) — IST is UTC+5:30
+# GitHub cron always uses UTC, so 10:00 IST = 04:30 UTC
+on:
+  schedule:
+    - cron: "30 4 * * *"
+  workflow_dispatch: {} # allow manual "Run workflow" button
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -c "import garminconnect; print('garminconnect', garminconnect.__version__)"
+
+      - name: Restore Garmin token (private)
+        env:
+          GARMINTOKENS: ${{ secrets.GARMINTOKENS }}
+        run: |
+          mkdir -p ~/.garminconnect
+          chmod 700 ~/.garminconnect
+          if [ -z "$GARMINTOKENS" ]; then
+            echo "::error::Missing GARMINTOKENS secret. Add your token JSON as a repo secret named GARMINTOKENS (Settings -> Secrets and variables -> Actions)."
+            exit 1
+          fi
+          # Secret contains the full garmin_tokens.json content (JSON, not a path)
+          printf "%s" "$GARMINTOKENS" > ~/.garminconnect/garmin_tokens.json
+          chmod 600 ~/.garminconnect/garmin_tokens.json
+          echo "Token restored (size: $(wc -c < ~/.garminconnect/garmin_tokens.json) bytes). Not shown for security."
+
+      - name: Sync Garmin (last 7 days)
+        run: |
+          python sync_garmin.py --days 7 --sink files --out ./garmin
+          echo "=== garmin folder ==="
+          ls -R garmin || true
+          echo "=== data.json head ==="
+          head -c 2000 garmin/data.json || true
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "garmin-bot"
+          git config user.email "garmin-bot@users.noreply.github.com"
+          git add garmin/data.json garmin/daily garmin/activities garmin/README.md || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: garmin sync $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
+
