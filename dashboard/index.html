@@ -98,6 +98,9 @@ table{min-width:620px}
 
 <script>
 async function load(){
+  // Cache-bust: GitHub Pages CDN caches JSON for ~10m, Chrome caches aggressively. Add ?v= and no-store.
+  const bust = `?v=${Date.now()}`;
+  const fetchNoCache = (url) => fetch(url + (url.includes('?')?'&':'?') + `v=${Date.now()}`, {cache: 'no-store'});
   // Try multiple paths for local vs GitHub Pages - use baseURI first for Pages subpath
   const paths = [];
   try{ paths.push(new URL('garmin/data.json', document.baseURI).href); }catch(e){}
@@ -106,7 +109,7 @@ async function load(){
   let res = null, lastErr = null, successPath=null;
   for(const p of paths){
     try{
-      const r = await fetch(p);
+      const r = await fetchNoCache(p);
       if(r.ok){ res = r; successPath=p; console.log('Loaded from',p); break; }
       lastErr = p + ' -> ' + r.status;
     }catch(e){ lastErr = p + ' -> ' + e.message; }
@@ -114,7 +117,7 @@ async function load(){
   if(!res){
     try{
       const repoPath = location.pathname.includes('/garmin-ai/') ? '/garmin-ai/garmin/data.json' : null;
-      if(repoPath){ const r = await fetch(repoPath); if(r.ok){ res = r; successPath=repoPath; } }
+      if(repoPath){ const r = await fetchNoCache(repoPath); if(r.ok){ res = r; successPath=repoPath; } }
     }catch(e){}
   }
   if(!res) throw new Error('Tried ' + paths.join(', ') + ' — last: ' + lastErr + '. If you opened via file://, run a local server instead (see below).');
@@ -124,10 +127,10 @@ async function load(){
   document.getElementById('lastSync').textContent = 'synced ' + new Date(data.generated_at).toLocaleString();
   const daily = data.daily;
   const acts = data.activities.filter(a=>a.sport==='road_biking').sort((a,b)=>a.date.localeCompare(b.date));
-  // Early fetch power curves for dynamic FTP/zones (before KPIs)
+  // Early fetch power curves for dynamic FTP/zones (before KPIs) - no cache
   let earlyPower = null;
-  try{ const r=await fetch(new URL('garmin/power_curves.json', document.baseURI)); if(r.ok) earlyPower=await r.json(); }catch(e){}
-  try{ if(!earlyPower){ const r2=await fetch('../garmin/power_curves.json'); if(r2.ok) earlyPower=await r2.json(); }}catch(e){}
+  try{ const r=await fetchNoCache(new URL('garmin/power_curves.json', document.baseURI).href); if(r.ok) earlyPower=await r.json(); }catch(e){}
+  try{ if(!earlyPower){ const r2=await fetchNoCache('../garmin/power_curves.json'); if(r2.ok) earlyPower=await r2.json(); }}catch(e){}
   const ftpVal = earlyPower?.ftp || 271;
   const ftpStatus = earlyPower?.ftp_status || 'stale 2025-03-04 — retest needed';
   // KPIs (guard divide-by-zero)
@@ -203,17 +206,17 @@ async function load(){
     tr.innerHTML = `<td>${a.date}</td><td>${a.name}</td><td>${a.distance_km} km</td><td>${a.duration}</td><td>${a._raw?.elevationGain||'—'} m</td><td>${a.avg_hr}</td><td>${a.max_hr}</td><td>${speed}</td><td>${a.calories}</td>`;
     latestBody.appendChild(tr);
   });
-  // Power table - try real computed curves first (with multi-path fetch)
+  // Power table - try real computed curves first (with multi-path fetch, no cache)
   const powerBody = document.querySelector('#powerTable tbody');
   let powerCurves = null;
   const pcPaths = ['../garmin/power_curves.json','./garmin/power_curves.json','garmin/power_curves.json','/garmin-ai/garmin/power_curves.json'];
   for(const p of pcPaths){
     try{
-      const r = await fetch(p);
+      const r = await fetchNoCache(p);
       if(r.ok){ powerCurves = await r.json(); console.log('power curves from',p); break; }
     }catch(e){}
   }
-  if(!powerCurves){ try{ const r=await fetch('../garmin/power_curves.json'); if(r.ok) powerCurves=await r.json(); }catch(e){} }
+  if(!powerCurves){ try{ const r=await fetchNoCache('../garmin/power_curves.json'); if(r.ok) powerCurves=await r.json(); }catch(e){} }
   const getCurve = (id) => powerCurves?.curves?.[id] || null;
   const estPower = (avg, max) => ({
       '10s': Math.round(max*0.95),
@@ -234,12 +237,12 @@ async function load(){
     powerBody.appendChild(tr);
   });
 
-  // Insights - try AI first, fallback to static
+  // Insights - try AI first, fallback to static (no cache)
   let insights = null;
   try{
     const aiPaths = ['../garmin/ai_insights.json','./garmin/ai_insights.json','garmin/ai_insights.json','/garmin-ai/garmin/ai_insights.json'];
     for(const p of aiPaths){
-      try{ const r=await fetch(p); if(r.ok){ const j=await r.json(); if(Array.isArray(j) && j.length===10){ insights=j; console.log('Using AI insights from',p); // add banner
+      try{ const r=await fetchNoCache(p); if(r.ok){ const j=await r.json(); if(Array.isArray(j) && j.length===10){ insights=j; console.log('Using AI insights from',p); // add banner
         const hdr = document.querySelector('h2:nth-of-type(6)'); // insights h2 - brittle, just prepend banner
         if(hdr){ const b=document.createElement('div'); b.className='card'; b.style.borderLeft='3px solid #22c55e'; b.innerHTML='<div class="sub">✨ <strong>AI-generated</strong> today via <code>nvidia/nemotron-3-ultra-550b-a55b:free</code> on OpenRouter — from your fresh Garmin data. Falls back to static if API not set.</div><div class="sub"><a href="../garmin/ai_insights.md" target="_blank">View garmin/ai_insights.md</a> • <a href="../garmin/ai_insights.json" target="_blank">JSON</a></div>'; hdr.parentNode.insertBefore(b, hdr.nextSibling); }
         break; }
