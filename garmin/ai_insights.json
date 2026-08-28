@@ -1,61 +1,61 @@
 [
   {
     "title": "Insight 1: AI generation failed \u2014 using fallback",
-    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "description": "Error: All models failed. Last: mistralai/mistral-7b-instruct:free: 404 {\"error\":{\"message\":\"No endpoints found for mistralai/mistral-7b-instruct:free.\",\"code\":404},\"user_id\":\"user_3IYEQbQMsrAEpHDK4nr5tM7rauF\"}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
     "badge": "bad",
     "badgeText": "Error"
   },
   {
     "title": "Insight 2: AI generation failed \u2014 using fallback",
-    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "description": "Error: All models failed. Last: mistralai/mistral-7b-instruct:free: 404 {\"error\":{\"message\":\"No endpoints found for mistralai/mistral-7b-instruct:free.\",\"code\":404},\"user_id\":\"user_3IYEQbQMsrAEpHDK4nr5tM7rauF\"}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
     "badge": "bad",
     "badgeText": "Error"
   },
   {
     "title": "Insight 3: AI generation failed \u2014 using fallback",
-    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "description": "Error: All models failed. Last: mistralai/mistral-7b-instruct:free: 404 {\"error\":{\"message\":\"No endpoints found for mistralai/mistral-7b-instruct:free.\",\"code\":404},\"user_id\":\"user_3IYEQbQMsrAEpHDK4nr5tM7rauF\"}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
     "badge": "bad",
     "badgeText": "Error"
   },
   {
     "title": "Insight 4: AI generation failed \u2014 using fallback",
-    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "description": "Error: All models failed. Last: mistralai/mistral-7b-instruct:free: 404 {\"error\":{\"message\":\"No endpoints found for mistralai/mistral-7b-instruct:free.\",\"code\":404},\"user_id\":\"user_3IYEQbQMsrAEpHDK4nr5tM7rauF\"}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
     "badge": "bad",
     "badgeText": "Error"
   },
   {
     "title": "Insight 5: AI generation failed \u2014 using fallback",
-    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "description": "Error: All models failed. Last: mistralai/mistral-7b-instruct:free: 404 {\"error\":{\"message\":\"No endpoints found for mistralai/mistral-7b-instruct:free.\",\"code\":404},\"user_id\":\"user_3IYEQbQMsrAEpHDK4nr5tM7rauF\"}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
     "badge": "bad",
     "badgeText": "Error"
   },
   {
     "title": "Insight 6: AI generation failed \u2014 using fallback",
-    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "description": "Error: All models failed. Last: mistralai/mistral-7b-instruct:free: 404 {\"error\":{\"message\":\"No endpoints found for mistralai/mistral-7b-instruct:free.\",\"code\":404},\"user_id\":\"user_3IYEQbQMsrAEpHDK4nr5tM7rauF\"}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
     "badge": "bad",
     "badgeText": "Error"
   },
   {
     "title": "Insight 7: AI generation failed \u2014 using fallback",
-    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "description": "Error: All models failed. Last: mistralai/mistral-7b-instruct:free: 404 {\"error\":{\"message\":\"No endpoints found for mistralai/mistral-7b-instruct:free.\",\"code\":404},\"user_id\":\"user_3IYEQbQMsrAEpHDK4nr5tM7rauF\"}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
     "badge": "bad",
     "badgeText": "Error"
   },
   {
     "title": "Insight 8: AI generation failed \u2014 using fallback",
-    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "description": "Error: All models failed. Last: mistralai/mistral-7b-instruct:free: 404 {\"error\":{\"message\":\"No endpoints found for mistralai/mistral-7b-instruct:free.\",\"code\":404},\"user_id\":\"user_3IYEQbQMsrAEpHDK4nr5tM7rauF\"}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
     "badge": "bad",
     "badgeText": "Error"
   },
   {
     "title": "Insight 9: AI generation failed \u2014 using fallback",
-    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "description": "Error: All models failed. Last: mistralai/mistral-7b-instruct:free: 404 {\"error\":{\"message\":\"No endpoints found for mistralai/mistral-7b-instruct:free.\",\"code\":404},\"user_id\":\"user_3IYEQbQMsrAEpHDK4nr5tM7rauF\"}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
     "badge": "bad",
     "badgeText": "Error"
   },
   {
     "title": "Insight 10: AI generation failed \u2014 using fallback",
-    "description": "Error: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "description": "Error: All models failed. Last: mistralai/mistral-7b-instruct:free: 404 {\"error\":{\"message\":\"No endpoints found for mistralai/mistral-7b-instruct:free.\",\"code\":404},\"user_id\":\"user_3IYEQbQMsrAEpHDK4nr5tM7rauF\"}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
     "badge": "bad",
     "badgeText": "Error"
   }
