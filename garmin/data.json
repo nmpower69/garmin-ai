@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T16:20:30.348759",
+  "generated_at": "2026-08-28T16:23:10.311661",
   "date_range": [
     "2026-08-22",
     "2026-08-28"
@@ -23061,6 +23061,16 @@
           "minHeartRate": 53,
           "restingHeartRate": 55,
           "lastSevenDaysAvgRestingHeartRate": 49,
+          "heartRateValueDescriptors": [
+            {
+              "index": 0,
+              "key": "timestamp"
+            },
+            {
+              "index": 1,
+              "key": "heartrate"
+            }
+          ],
           "heartRateValues": [
             [
               1787509800000,
@@ -25942,16 +25952,6 @@
               1787596080000,
               76
             ]
-          ],
-          "heartRateValueDescriptors": [
-            {
-              "index": 0,
-              "key": "timestamp"
-            },
-            {
-              "index": 1,
-              "key": "heartrate"
-            }
           ]
         },
         "sleep": {
@@ -74119,15 +74119,15 @@
         "endTimeGMT": "2026-08-23 05:27:19",
         "qualifyingDive": false,
         "activityUUID": "642e621a-771a-46cd-b5e9-b437018fc21b",
-        "parent": false,
-        "decoDive": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
         "purposeful": false,
+        "parent": false,
+        "decoDive": false,
+        "manualActivity": false,
         "autoCalcCalories": false,
-        "manualActivity": false
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     },
     {
@@ -74292,15 +74292,15 @@
         "endTimeGMT": "2026-08-27 02:18:55",
         "qualifyingDive": false,
         "activityUUID": "cc202490-7df8-4fef-a6a8-d5054b7166c8",
-        "parent": false,
-        "decoDive": false,
-        "elevationCorrected": false,
-        "atpActivity": false,
         "pr": false,
         "favorite": false,
         "purposeful": false,
+        "parent": false,
+        "decoDive": false,
+        "manualActivity": false,
         "autoCalcCalories": false,
-        "manualActivity": false
+        "elevationCorrected": false,
+        "atpActivity": false
       }
     }
   ]
