@@ -15,7 +15,14 @@ In GitHub Actions: secret OPENROUTER_API_KEY is injected.
 """
 import json, os, sys, pathlib, datetime, textwrap, requests
 
-MODEL = "nvidia/nemotron-3-ultra-550b-a55b:free"
+MODEL = os.getenv("AI_MODEL", "nvidia/nemotron-3-ultra-550b-a55b:free")
+# Fallbacks that work free without BYOK on OpenRouter
+FALLBACK_MODELS = [
+    "google/gemini-2.0-flash-001:free",
+    "meta-llama/llama-3.3-70b-instruct:free",
+    "qwen/qwen-3-235b-a22b:free",
+    "mistralai/mistral-7b-instruct:free",
+]
 DATA_JSON = pathlib.Path("garmin/data.json")
 CURVES_JSON = pathlib.Path("garmin/power_curves.json")
 OUT_MD = pathlib.Path("garmin/ai_insights.md")
@@ -89,41 +96,56 @@ If any data missing (e.g., no power), say so in description but still produce 10
 """
     return prompt
 
-def call_openrouter(prompt, api_key):
+def call_openrouter(prompt, api_key, model=None):
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
-        # Optional but recommended by OpenRouter
         "HTTP-Referer": "https://github.com/nmpower69/garmin-ai",
         "X-Title": "garmin-ai cycling dashboard",
     }
-    body = {
-        "model": MODEL,
-        "messages": [
-            {"role": "system", "content": "You are a helpful cycling coach. Return only valid JSON."},
-            {"role": "user", "content": prompt}
-        ],
-        "temperature": 0.7,
-        "max_tokens": 3000,
-    }
-    print(f"Calling OpenRouter {MODEL}...")
-    resp = requests.post(url, headers=headers, json=body, timeout=90)
-    print(f"OpenRouter status {resp.status_code}")
-    if resp.status_code != 200:
-        print(resp.text[:2000])
+    primary = model or MODEL
+    tried = [primary] + [m for m in FALLBACK_MODELS if m != primary]
+    last_err = None
+    for mdl in tried:
+        body = {
+            "model": mdl,
+            "messages": [
+                {"role": "system", "content": "You are a helpful cycling coach. Return only valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": 0.7,
+            "max_tokens": 3000,
+        }
+        print(f"Calling OpenRouter {mdl}...")
+        resp = requests.post(url, headers=headers, json=body, timeout=90)
+        print(f"OpenRouter status {resp.status_code} for {mdl}")
+        if resp.status_code == 200:
+            j = resp.json()
+            content = j["choices"][0]["message"]["content"] if j.get("choices") else ""
+            if "```" in content:
+                import re
+                m = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", content)
+                if m:
+                    content = m.group(1)
+            print(f"Success with {mdl}")
+            # Save which model succeeded for markdown header
+            global MODEL
+            MODEL = mdl
+            return content.strip()
+        # 404 with is_byok or provider error -> try fallback
+        txt = resp.text[:2000]
+        print(txt)
+        last_err = f"{mdl}: {resp.status_code} {txt[:500]}"
+        # Only fallback on 404/400 provider errors, not on auth errors
+        if resp.status_code in (404, 400, 403) and ("is_byok" in txt or "Provider returned" in txt):
+            print(f"→ trying fallback model...")
+            continue
+        # For other errors, still try next model as well
+        if resp.status_code in (404, 429, 400):
+            continue
         resp.raise_for_status()
-    j = resp.json()
-    # OpenRouter returns choices[0].message.content
-    content = j["choices"][0]["message"]["content"] if j.get("choices") else ""
-    # Sometimes wrapped in ```json ... ```
-    if "```" in content:
-        # extract between ```json and ```
-        import re
-        m = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", content)
-        if m:
-            content = m.group(1)
-    return content.strip()
+    raise RuntimeError(f"All models failed. Last: {last_err}")
 
 def main():
     api_key = os.getenv("OPENROUTER_API_KEY")
