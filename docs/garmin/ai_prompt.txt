@@ -3,19 +3,25 @@ You are a cycling coach for a casual happiness rider, not a racer. The rider is 
 Context: Today is 2026-08-28. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-08-22: steps=10083 sleep=6h 57m ({'value': 78, 'qualifierKey': 'FAIR'}) hrv=83 rhr=47 bb=79 stress=35 readiness=82
+2026-08-22: steps=10083 sleep=6h 57m (78 (FAIR)) hrv=83 rhr=47 bb=79 stress=35 readiness=82
 2026-08-23: steps=5626 sleep=N/A (N/A) hrv=75 rhr=51 bb=34 stress=46 readiness=85
-2026-08-24: steps=13248 sleep=5h 53m ({'value': 72, 'qualifierKey': 'FAIR'}) hrv=65 rhr=55 bb=53 stress=32 readiness=58
-2026-08-25: steps=6122 sleep=7h 12m ({'value': 89, 'qualifierKey': 'GOOD'}) hrv=71 rhr=52 bb=83 stress=31 readiness=81
-2026-08-26: steps=4612 sleep=5h 19m ({'value': 64, 'qualifierKey': 'FAIR'}) hrv=81 rhr=49 bb=78 stress=36 readiness=78
-2026-08-27: steps=375 sleep=6h 25m ({'value': 76, 'qualifierKey': 'FAIR'}) hrv=77 rhr=45 bb=75 stress=14 readiness=80
+2026-08-24: steps=13248 sleep=5h 53m (72 (FAIR)) hrv=65 rhr=55 bb=53 stress=32 readiness=58
+2026-08-25: steps=6122 sleep=7h 12m (89 (GOOD)) hrv=71 rhr=52 bb=83 stress=31 readiness=81
+2026-08-26: steps=4612 sleep=5h 19m (64 (FAIR)) hrv=81 rhr=49 bb=78 stress=36 readiness=78
+2026-08-27: steps=375 sleep=6h 25m (76 (FAIR)) hrv=77 rhr=45 bb=75 stress=14 readiness=80
 2026-08-28: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-08-28', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
 
 Recent rides last 7:
+2026-08-12 Kolhapur Road Cycling 50.02km 1h 41m avgHR=159.0 maxHR=184.0 elev=229.0 cals=755.0
+2026-08-14 Kolhapur Road Cycling 60.04km 2h 7m avgHR=158.0 maxHR=194.0 elev=334.0 cals=919.0
+2026-08-17 Kolhapur Road Cycling 50.02km 1h 41m avgHR=154.0 maxHR=176.0 elev=236.0 cals=827.0
+2026-08-19 Kolhapur Road Cycling 35.7km 1h 20m avgHR=140.0 maxHR=172.0 elev=227.0 cals=562.0
+2026-08-21 Kolhapur Road Cycling 54.04km 1h 43m avgHR=155.0 maxHR=183.0 elev=231.0 cals=821.0
 2026-08-23 Daund Sub-District Road Cycling 81.05km 3h 0m avgHR=158.0 maxHR=187.0 elev=452.0 cals=1377.0
 2026-08-27 Kolhapur Road Cycling 40.14km 1h 27m avgHR=143.0 maxHR=179.0 elev=259.0 cals=588.0
 
 Best power per ride (real directPower rolling maxima):
+2026-08-12 01587: 10s=281 30s=222 60s=205 5m=157 20m=157 1h=157 avg=124.0 NP=139.0 max=414.0
 2026-08-14 52381: 10s=374 30s=279 60s=262 5m=187 20m=143 1h=127 avg=120.0 NP=148.0 max=535.0
 2026-08-17 39152: 10s=283 30s=232 60s=216 5m=170 20m=154 1h=142 avg=136.0 NP=151.0 max=368.0
 2026-08-19 65697: 10s=270 30s=238 60s=221 5m=174 20m=145 1h=128 avg=117.0 NP=143.0 max=381.0
