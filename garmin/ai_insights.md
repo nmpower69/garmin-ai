@@ -1,33 +1,33 @@
-# AI Cycling Insights — 2026-08-28  (via nvidia/nemotron-3-ultra-550b-a55b:free)
+# AI Cycling Insights — 2026-08-29  (via nvidia/nemotron-3-ultra-550b-a55b:free)
 
 _Model: `nvidia/nemotron-3-ultra-550b-a55b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-### Insight 1: Aug 12 ride touched Z2 ceiling
-Your August 12 ride averaged 159 bpm, exactly at the top of your Z2 range (139–159 bpm). Keeping easy rides a few beats lower (around 155 bpm) will build aerobic fitness with less fatigue.
+### Insight 1: Aug 14 ride breached easy ceiling by ~19 bpm
+Your 60 km ride on 2026-08-14 averaged 158 bpm, well above the Z1 ceiling of 139 bpm (LTHR 175). That puts the effort in Z3 instead of a true recovery spin, adding unnecessary fatigue.
 
-### Insight 2: Aug 23 long ride vertical load high
-The 81 km ride on August 23 had 452 m of climbing, nearly double the elevation of your other rides (200–330 m). That extra vertical load adds leg fatigue—enjoy the hills but allow an extra recovery day after big climbing days.
+### Insight 2: Aug 23 long ride carries high vertical load for 3h
+The 81 km ride on 2026-08-23 climbed 452 m in 3 hours — about 150 m/hour. On flat‑rolling terrain that’s a steep gradient density, which can delay recovery more than distance alone suggests.
 
-### Insight 3: Three rides in a week flags density
-You rode three times in the last seven days (Aug 21, 23, 27) with a 3‑hour ride sandwiched between two shorter ones. This density is fine for now, but avoid adding a fourth ride until readiness stays above 75.
+### Insight 3: Three rides in seven days (Aug 23, 27, 29) flags recovery sequencing risk
+You rode 81 km (3h), 40 km (1h27m), and 50 km (1h40m) within a week. With readiness scores swinging 58–84 and HRV 65–81, the cluster leaves little low‑stress space for adaptation.
 
-### Insight 4: Cycling progression solid
-Your longest ride grew from 35 km (Aug 19) to 81 km (Aug 23) in two weeks—a great progression. Celebrate the distance gains, but keep weekly increases under 15% to stay happy and injury‑free.
+### Insight 4: Cycling progression shows steady distance build over the month
+From 35.7 km (1h20m) on Aug 19 to 81 km (3h) on Aug 23, your longest ride grew 127% in two weeks. That’s a healthy, gradual volume increase for a happiness rider.
 
-### Insight 5: Power zones need recalibration
-Your power zones still use an FTP of 271 W from March 2025, but recent 20‑minute bests are only 143–204 W. A realistic FTP is likely 150–195 W—update your zones so easy rides stay truly easy.
+### Insight 5: Power zones still based on stale FTP (271 W from Mar 2025)
+Your 20‑minute bests range 143–204 W (e.g., 160 W on Aug 23, 161 W on Aug 29), suggesting a true FTP near 150–195 W. Re‑testing will align zones and make easy rides truly easy.
 
-### Insight 6: Polarized 80/20 balance good
-About 80% of your ride time sits in Z2 (139–159 bpm), with only brief touches of Z3. That’s a great polarized balance for joyful improvement—keep the easy days easy and the hard days fun.
+### Insight 6: Ride intensity distribution leans heavy — little true Z1 time
+Across the last seven rides, average HR sits 140–158 bpm (Z2–Z3). An 80/20 polarized split would need ~80% of time under 139 bpm; currently only the Aug 19 ride (avg 140 bpm) brushes that line.
 
-### Insight 7: Recovery warning signs
-Readiness dipped to 58 on August 24 after only 5h 53m sleep, and HRV dropped to 65. Prioritize 7+ hours sleep and consider a very easy spin or rest day when readiness falls below 65.
+### Insight 7: Wellness volatility — HRV 65–81, readiness 58–84, sleep 5–8h
+Nightly sleep varies from 5h19m to 7h48m, and HRV swings 16 points. On days with readiness below 70 (Aug 24, 26) consider a very easy spin or rest instead of a moderate ride.
 
-### Insight 8: Sprint power shows leg speed
-Your 10‑second sprint power hit 439 W on August 21, showing good leg snap. If you enjoy sprints, add a few 10‑second all‑out efforts once a week to keep that reactivity without overdoing it.
+### Insight 8: Sprint power peaks show good maximal capacity (up to 439 W)
+Your 10‑second bests hit 439 W (Aug 21) and 421 W (Aug 27). That’s a solid reactive reserve — occasional 5‑second sprints on a quiet road can keep it sharp without taxing endurance.
 
-### Insight 9: VO2max interval suggestion
-To boost VO2max, try a fun session: warm up, then 3 × 4 minutes at 167–175 bpm (Z4–Z5) with 4 minutes easy spinning between. Do this once a week on a fresh day for a happy fitness lift.
+### Insight 9: VO₂max unknown — add a weekly 4×4‑min interval at ~105% estimated FTP
+With no VO₂max estimate, a simple block of four 4‑minute efforts at ~170 W (≈105% of a 160 W FTP) with 4‑minute recoveries once a week will boost aerobic ceiling and give a measurable benchmark.
 
-### Insight 10: FTP estimate from 20‑min best
-Your best 20‑minute power across recent rides is 160 W (Aug 23). A simple FTP estimate is 95% of that: ~152 W. Use 150–155 W for setting power zones until you do a proper test.
+### Insight 10: Estimated FTP ~160 W — schedule a 20‑min test to confirm
+Your best 20‑minute averages are 160 W (Aug 23) and 161 W (Aug 29). A formal 20‑minute test (warm‑up, then 20 min all‑out) will lock in a current FTP and let you set accurate power zones for joyful, structured rides.
