@@ -15,20 +15,13 @@ In GitHub Actions: secret OPENROUTER_API_KEY is injected.
 """
 import json, os, sys, pathlib, datetime, textwrap, requests
 
-MODEL = os.getenv("AI_MODEL", "nvidia/nemotron-3-ultra-550b-a55b:free")
-# Current OpenRouter free models (2026-08-28) - auto-discovered via /api/v1/models
-# Primary needs Nvidia BYOK; fallbacks are true free without BYOK
+MODEL = os.getenv("AI_MODEL", "liquid/lfm-2.5-2.6b:free")
+# Only models proven to work with your OPENROUTER_API_KEY without is_byok / No endpoints errors
+# nvidia/ultra needs BYOK (404), gemma-4 is 429 rate-limited on shared pool — removed per your request
 FALLBACK_MODELS = [
-    "google/gemma-4-26b-a4b-it:free",
-    "google/gemma-4-31b-it:free",
-    "liquid/lfm-2.5-2.6b:free",
+    # primary is liquid, fallbacks are other known-good free models (tested 2026-08-30)
     "z-ai/glm-5.2:free",
-    "minimax/minimax-m2.7:free",
-    "cohere/north-mini-code:free",
-    "thinkingmachines/inkling-small:free",
-    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
-    "nvidia/nemotron-3-super-120b-a12b:free",
-    "dots-studio/dots-3-note-preview:free",
+    "minimax/minimax-m3:free",
 ]
 DATA_JSON = pathlib.Path("garmin/data.json")
 CURVES_JSON = pathlib.Path("garmin/power_curves.json")
@@ -186,8 +179,34 @@ def main():
     try:
         content = call_openrouter(prompt, api_key)
         print("Raw LLM output head:", content[:500])
-        # Validate JSON
-        insights = json.loads(content)
+        # Validate JSON - try to repair truncated output (common with 550B reasoning models)
+        try:
+            insights = json.loads(content)
+        except json.JSONDecodeError as je:
+            print(f"JSON parse failed: {je} — trying to repair truncated output")
+            # If truncated mid-string, close the string and array
+            repaired = content
+            # If unterminated string, add closing quote
+            if "Unterminated string" in str(je):
+                repaired = content.rstrip() + '"'
+            # Try to close any open brackets/braces
+            open_brackets = repaired.count('[') - repaired.count(']')
+            open_braces = repaired.count('{') - repaired.count('}')
+            # Close open objects/arrays in reverse order (heuristic)
+            repaired += '"}' * max(0, open_braces - open_brackets) if open_braces > open_brackets else ''
+            repaired += ']' * max(0, open_brackets) if open_brackets>0 else ''
+            # If still not valid, try to truncate to last complete insight
+            try:
+                insights = json.loads(repaired)
+            except:
+                # Fallback: try to extract last complete `},` and close there
+                last_complete = repaired.rfind('},')
+                if last_complete != -1:
+                    repaired2 = repaired[:last_complete+1] + ']'
+                    insights = json.loads(repaired2)
+                    print(f"Repaired truncated JSON to {len(insights)} insights (was truncated)")
+                else:
+                    raise
         if not isinstance(insights, list) or len(insights) != 10:
             raise ValueError(f"Expected 10 insights, got {len(insights) if isinstance(insights, list) else type(insights)}")
         # Basic validation of fields
