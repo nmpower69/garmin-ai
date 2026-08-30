@@ -1,15 +1,15 @@
 You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is 2026-08-29. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is 2026-08-30. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-08-23: steps=5626 sleep=N/A (N/A) hrv=75 rhr=51 bb=34 stress=46 readiness=85
 2026-08-24: steps=13248 sleep=5h 53m (72 (FAIR)) hrv=65 rhr=55 bb=53 stress=32 readiness=58
 2026-08-25: steps=6122 sleep=7h 12m (89 (GOOD)) hrv=71 rhr=52 bb=83 stress=31 readiness=81
 2026-08-26: steps=4612 sleep=5h 19m (64 (FAIR)) hrv=81 rhr=49 bb=78 stress=36 readiness=78
 2026-08-27: steps=4860 sleep=6h 25m (76 (FAIR)) hrv=77 rhr=45 bb=76 stress=40 readiness=80
 2026-08-28: steps=4629 sleep=7h 48m (73 (FAIR)) hrv=73 rhr=51 bb=85 stress=34 readiness=75
 2026-08-29: steps=999 sleep=6h 25m (75 (FAIR)) hrv=69 rhr=49 bb=61 stress=17 readiness=84
+2026-08-30: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-08-30', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
 
 Recent rides last 7:
 2026-08-14 Kolhapur Road Cycling 60.04km 2h 7m avgHR=158.0 maxHR=194.0 elev=334.0 cals=919.0
@@ -27,7 +27,7 @@ Best power per ride (real directPower rolling maxima):
 2026-08-21 64834: 10s=439 30s=333 60s=224 5m=187 20m=156 1h=134 avg=89.0 NP=106.0 max=301.0
 2026-08-23 63099: 10s=344 30s=262 60s=225 5m=198 20m=160 1h=160 avg=127.0 NP=147.0 max=593.0
 2026-08-27 95490: 10s=421 30s=305 60s=264 5m=186 20m=153 1h=153 avg=112.0 NP=154.0 max=501.0
-2026-08-29 75322: 10s=373 30s=274 60s=226 5m=182 20m=161 1h=160 avg=132.9 NP=None max=None
+2026-08-29 75322: 10s=373 30s=274 60s=226 5m=182 20m=161 1h=160 avg=138.0 NP=158.0 max=405.0
 
 Additional: HR zones: LTHR 175, Max 196 => Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172. Power zones: FTP 271W (stale 2025-03-04) => Z1<148, Z2 148-203, Z3 203-244, Z4 244-284, Z5 284-324, Z6 324-406, Z7>406. VO2max null.
 FTP is stale (271W from 2025-03-04). 20m bests are 143-204W, so true FTP likely ~150-195W. Training readiness, HRV, RHR, sleep are volatile.

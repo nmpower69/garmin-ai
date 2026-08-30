@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: Aug 14 ride breached easy ceiling by ~19 bpm",
-    "description": "Your 60 km ride on 2026-08-14 averaged 158 bpm, well above the Z1 ceiling of 139 bpm (LTHR 175). That puts the effort in Z3 instead of a true recovery spin, adding unnecessary fatigue.",
-    "badge": "warn",
-    "badgeText": "Zone drift"
+    "title": "Insight 1: AI generation failed \u2014 using fallback",
+    "description": "Error: Unterminated string starting at: line 8 column 72 (char 1703). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 2: Aug 23 long ride carries high vertical load for 3h",
-    "description": "The 81 km ride on 2026-08-23 climbed 452 m in 3 hours — about 150 m/hour. On flat‑rolling terrain that’s a steep gradient density, which can delay recovery more than distance alone suggests.",
-    "badge": "warn",
-    "badgeText": "Vert load"
+    "title": "Insight 2: AI generation failed \u2014 using fallback",
+    "description": "Error: Unterminated string starting at: line 8 column 72 (char 1703). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 3: Three rides in seven days (Aug 23, 27, 29) flags recovery sequencing risk",
-    "description": "You rode 81 km (3h), 40 km (1h27m), and 50 km (1h40m) within a week. With readiness scores swinging 58–84 and HRV 65–81, the cluster leaves little low‑stress space for adaptation.",
-    "badge": "warn",
-    "badgeText": "Density risk"
+    "title": "Insight 3: AI generation failed \u2014 using fallback",
+    "description": "Error: Unterminated string starting at: line 8 column 72 (char 1703). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 4: Cycling progression shows steady distance build over the month",
-    "description": "From 35.7 km (1h20m) on Aug 19 to 81 km (3h) on Aug 23, your longest ride grew 127% in two weeks. That’s a healthy, gradual volume increase for a happiness rider.",
-    "badge": "ok",
-    "badgeText": "Progression"
+    "title": "Insight 4: AI generation failed \u2014 using fallback",
+    "description": "Error: Unterminated string starting at: line 8 column 72 (char 1703). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 5: Power zones still based on stale FTP (271 W from Mar 2025)",
-    "description": "Your 20‑minute bests range 143–204 W (e.g., 160 W on Aug 23, 161 W on Aug 29), suggesting a true FTP near 150–195 W. Re‑testing will align zones and make easy rides truly easy.",
-    "badge": "warn",
-    "badgeText": "FTP stale"
+    "title": "Insight 5: AI generation failed \u2014 using fallback",
+    "description": "Error: Unterminated string starting at: line 8 column 72 (char 1703). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 6: Ride intensity distribution leans heavy — little true Z1 time",
-    "description": "Across the last seven rides, average HR sits 140–158 bpm (Z2–Z3). An 80/20 polarized split would need ~80% of time under 139 bpm; currently only the Aug 19 ride (avg 140 bpm) brushes that line.",
-    "badge": "warn",
-    "badgeText": "Polarized"
+    "title": "Insight 6: AI generation failed \u2014 using fallback",
+    "description": "Error: Unterminated string starting at: line 8 column 72 (char 1703). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 7: Wellness volatility — HRV 65–81, readiness 58–84, sleep 5–8h",
-    "description": "Nightly sleep varies from 5h19m to 7h48m, and HRV swings 16 points. On days with readiness below 70 (Aug 24, 26) consider a very easy spin or rest instead of a moderate ride.",
-    "badge": "warn",
-    "badgeText": "Recovery"
+    "title": "Insight 7: AI generation failed \u2014 using fallback",
+    "description": "Error: Unterminated string starting at: line 8 column 72 (char 1703). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 8: Sprint power peaks show good maximal capacity (up to 439 W)",
-    "description": "Your 10‑second bests hit 439 W (Aug 21) and 421 W (Aug 27). That’s a solid reactive reserve — occasional 5‑second sprints on a quiet road can keep it sharp without taxing endurance.",
-    "badge": "ok",
-    "badgeText": "Power peaks"
+    "title": "Insight 8: AI generation failed \u2014 using fallback",
+    "description": "Error: Unterminated string starting at: line 8 column 72 (char 1703). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 9: VO₂max unknown — add a weekly 4×4‑min interval at ~105% estimated FTP",
-    "description": "With no VO₂max estimate, a simple block of four 4‑minute efforts at ~170 W (≈105% of a 160 W FTP) with 4‑minute recoveries once a week will boost aerobic ceiling and give a measurable benchmark.",
-    "badge": "ok",
-    "badgeText": "VO2max"
+    "title": "Insight 9: AI generation failed \u2014 using fallback",
+    "description": "Error: Unterminated string starting at: line 8 column 72 (char 1703). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   },
   {
-    "title": "Insight 10: Estimated FTP ~160 W — schedule a 20‑min test to confirm",
-    "description": "Your best 20‑minute averages are 160 W (Aug 23) and 161 W (Aug 29). A formal 20‑minute test (warm‑up, then 20 min all‑out) will lock in a current FTP and let you set accurate power zones for joyful, structured rides.",
-    "badge": "warn",
-    "badgeText": "FTP estimate"
+    "title": "Insight 10: AI generation failed \u2014 using fallback",
+    "description": "Error: Unterminated string starting at: line 8 column 72 (char 1703). Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
+    "badge": "bad",
+    "badgeText": "Error"
   }
 ]
