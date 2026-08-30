@@ -241,9 +241,12 @@ async function load(){
   try{
     const aiPaths = ['../garmin/ai_insights.json','./garmin/ai_insights.json','garmin/ai_insights.json','/garmin-ai/garmin/ai_insights.json'];
     for(const p of aiPaths){
-      try{ const r=await fetchNoCache(p); if(r.ok){ const j=await r.json(); if(Array.isArray(j) && j.length===10){ insights=j; console.log('Using AI insights from',p); // add banner
-        const hdr = document.querySelector('h2:nth-of-type(6)'); // insights h2 - brittle, just prepend banner
-        if(hdr){ const b=document.createElement('div'); b.className='card'; b.style.borderLeft='3px solid #22c55e'; b.innerHTML='<div class="sub">✨ <strong>AI-generated</strong> today via <code>nvidia/nemotron-3-ultra-550b-a55b:free</code> on OpenRouter — from your fresh Garmin data. Falls back to static if API not set.</div><div class="sub"><a href="../garmin/ai_insights.md" target="_blank">View garmin/ai_insights.md</a> • <a href="../garmin/ai_insights.json" target="_blank">JSON</a></div>'; hdr.parentNode.insertBefore(b, hdr.nextSibling); }
+      try{ const r=await fetchNoCache(p); if(r.ok){ const j=await r.json(); if(Array.isArray(j) && j.length===10){ insights=j; console.log('Using AI insights from',p);
+        // Dynamic banner: read model from ai_insights.md header if available
+        let modelName = 'OpenRouter';
+        try{ const mdR=await fetchNoCache(p.replace('.json','.md')); if(mdR.ok){ const md=await mdR.text(); const m=md.match(/via\s+`([^`]+)`/); if(m) modelName=m[1]; }}catch(e){}
+        const hdr = document.querySelector('h2:nth-of-type(6)');
+        if(hdr){ const b=document.createElement('div'); b.className='card'; b.style.borderLeft='3px solid #22c55e'; b.innerHTML=`<div class="sub">✨ <strong>AI-generated</strong> today via <code>${modelName}</code> on OpenRouter — from your fresh Garmin data.</div><div class="sub"><a href="../garmin/ai_insights.md" target="_blank">View garmin/ai_insights.md</a> • <a href="../garmin/ai_insights.json" target="_blank">JSON</a></div>`; hdr.parentNode.insertBefore(b, hdr.nextSibling); }
         break; }
       } }catch(e){}
     }
