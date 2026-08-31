@@ -1,15 +1,15 @@
 You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is 2026-08-30. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is 2026-08-31. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-08-24: steps=13248 sleep=5h 53m (72 (FAIR)) hrv=65 rhr=55 bb=53 stress=32 readiness=58
 2026-08-25: steps=6122 sleep=7h 12m (89 (GOOD)) hrv=71 rhr=52 bb=83 stress=31 readiness=81
 2026-08-26: steps=4612 sleep=5h 19m (64 (FAIR)) hrv=81 rhr=49 bb=78 stress=36 readiness=78
 2026-08-27: steps=4860 sleep=6h 25m (76 (FAIR)) hrv=77 rhr=45 bb=76 stress=40 readiness=80
 2026-08-28: steps=4629 sleep=7h 48m (73 (FAIR)) hrv=73 rhr=51 bb=85 stress=34 readiness=75
-2026-08-29: steps=999 sleep=6h 25m (75 (FAIR)) hrv=69 rhr=49 bb=61 stress=17 readiness=84
-2026-08-30: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-08-30', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
+2026-08-29: steps=5713 sleep=6h 25m (75 (FAIR)) hrv=69 rhr=49 bb=61 stress=49 readiness=84
+2026-08-30: steps=2275 sleep=6h 11m (50 (POOR)) hrv=49 rhr=54 bb=35 stress=33 readiness=43
+2026-08-31: steps=26 sleep=5h 18m (62 (FAIR)) hrv=65 rhr=53 bb=76 stress=15 readiness=61
 
 Recent rides last 7:
 2026-08-14 Kolhapur Road Cycling 60.04km 2h 7m avgHR=158.0 maxHR=194.0 elev=334.0 cals=919.0
