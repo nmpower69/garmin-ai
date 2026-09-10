@@ -330,7 +330,7 @@ async function load(){
   const fEl = document.getElementById('ftp');
   const zB = [0, Math.round(ftpVal*0.55), Math.round(ftpVal*0.75), Math.round(ftpVal*0.90), Math.round(ftpVal*1.05), Math.round(ftpVal*1.20), Math.round(ftpVal*1.50)];
   new Chart(fEl,{type:'line',data:{labels:shortDates,datasets:[{label:ftpLabel,data:shortDates.map(()=>ftpVal),borderColor:'#38bdf8',borderWidth:3,pointRadius:0,fill:false}]},
-    options:{plugins:{legend:{labels:{boxWidth:12}}},scales:{y:{min:Math.max(100,zB[0]),max:Math.round(ftpVal*1.6)}}}},
+    options:{plugins:{legend:{labels:{boxWidth:12}}},scales:{y:{min:Math.max(100,zB[0]),max:Math.round(ftpVal*1.6)}}},
     plugins:[bandPlugin([
       {yMin:zB[0],yMax:zB[1],color:'rgba(148,163,184,.10)'},{yMin:zB[1],yMax:zB[2],color:'rgba(56,189,248,.10)'},
       {yMin:zB[2],yMax:zB[3],color:'rgba(34,197,94,.10)'},{yMin:zB[3],yMax:zB[4],color:'rgba(245,158,11,.12)'},
