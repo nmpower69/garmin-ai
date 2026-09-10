@@ -1,7 +1,16 @@
 import os, json, pathlib
 from garminconnect import Garmin
-g=Garmin()
-g.login(os.path.expanduser("~/.garminconnect"))
+_tokenstore = os.path.expanduser("~/.garminconnect")
+_email = os.getenv("GARMIN_EMAIL")
+_password = os.getenv("GARMIN_PASSWORD")
+# Pass credentials when available so garminconnect>=0.3.6 can self-heal from
+# expired/poisoned cached tokens ("Failed to retrieve social profile").
+# Without credentials, an expired token file is fatal in CI.
+if _email and _password:
+    g = Garmin(email=_email, password=_password)
+else:
+    g = Garmin()
+g.login(_tokenstore)
 # Dynamic: read all activity IDs from garmin/data.json (fresh from sync)
 data_path = pathlib.Path("garmin/data.json")
 try:

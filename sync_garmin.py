@@ -729,18 +729,52 @@ def main():
         print("--days must be 1..365")
         sys.exit(1)
 
-    # Try to load existing tokens
+    # Try to load existing tokens, with credential fallback for CI self-healing.
+    # Newer garminconnect (>=0.3.6) auto-discards poisoned/expired cached tokens
+    # and does a fresh credential login — but ONLY if email+password were passed
+    # to the Garmin() constructor. So always pass them when available via env.
+    # This fixes the daily "No valid saved token (Failed to retrieve social profile)"
+    # failure: previously the Action only had the token file, so an expired token
+    # was fatal. Now GARMIN_EMAIL/GARMIN_PASSWORD secrets let it re-login alone.
+    email_env = os.getenv("GARMIN_EMAIL")
+    password_env = os.getenv("GARMIN_PASSWORD")
     client = None
+    logged_in = False
     try:
         # First try token-only
-        client = Garmin()
+        if email_env and password_env:
+            client = Garmin(email=email_env, password=password_env)
+        else:
+            client = Garmin()
         client.login(tokenstore_expanded)
         print(f"Logged in via saved token ({tokenstore_expanded}) — no password needed.")
+        logged_in = True
     except Exception as e:
         print(f"No valid saved token ({e}).")
-        print("Run: py sync_garmin.py --login  (you'll type email + hidden password once)")
-        # As a convenience, offer inline login if interactive
-        if sys.stdin.isatty():
+        # Non-interactive (GitHub Actions): try credential re-login once, else fail actionable
+        if email_env and password_env:
+            print("Saved token rejected/expired — trying fresh credential login (self-healing)...")
+            try:
+                # Fresh client so poisoned cache can't short-circuit the strategy chain
+                client = Garmin(email=email_env, password=password_env)
+                client.login(tokenstore_expanded)
+                print("Credential re-login succeeded — refreshed token saved for this run.")
+                print("NOTE: runners are ephemeral, so update the GARMINTOKENS repo secret")
+                print("with the refreshed file when convenient (or leave email/password secrets — they self-heal).")
+                logged_in = True
+            except Exception as e2:
+                print(f"Credential re-login also failed: {e2}")
+                print("Action needed:")
+                print("  1. Run locally: py sync_garmin.py --login, then update GARMINTOKENS secret, OR")
+                print("  2. Set GARMIN_EMAIL + GARMIN_PASSWORD repo secrets (recommended, self-healing).")
+                print("  3. If rate-limited (429) or MFA required, wait a few minutes and re-run.")
+                sys.exit(1)
+        else:
+            print("Run: py sync_garmin.py --login  (you'll type email + hidden password once)")
+            print("CI fix: add GARMIN_EMAIL + GARMIN_PASSWORD as repo secrets so the workflow can self-heal,")
+            print("or refresh the GARMINTOKENS secret with a fresh local login.")
+        # As a convenience, offer inline login if interactive (only if still not logged in)
+        if not logged_in and sys.stdin.isatty():
             print("\nYou can log in now instead. Press Enter to continue or Ctrl+C to cancel.")
             try:
                 input()
@@ -755,7 +789,7 @@ def main():
                     sys.exit(1)
             else:
                 sys.exit(1)
-        else:
+        elif not logged_in:
             sys.exit(1)
 
     # Ensure permissions on token file

@@ -39,19 +39,29 @@ jobs:
       - name: Restore Garmin token (private)
         env:
           GARMINTOKENS: ${{ secrets.GARMINTOKENS }}
+          GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
         run: |
           mkdir -p ~/.garminconnect
           chmod 700 ~/.garminconnect
           if [ -z "$GARMINTOKENS" ]; then
-            echo "::error::Missing GARMINTOKENS secret. Add your token JSON as a repo secret named GARMINTOKENS (Settings -> Secrets and variables -> Actions)."
-            exit 1
+            if [ -z "$GARMIN_EMAIL" ] || [ -z "$GARMIN_PASSWORD" ]; then
+              echo "::error::Missing GARMINTOKENS secret AND missing GARMIN_EMAIL/GARMIN_PASSWORD fallback. Add either: (1) token JSON as GARMINTOKENS, or (2) email+password as GARMIN_EMAIL/GARMIN_PASSWORD (recommended, self-healing)."
+              exit 1
+            fi
+            echo "No GARMINTOKENS secret — will rely on GARMIN_EMAIL/GARMIN_PASSWORD fresh login."
+          else
+            # Secret contains the full garmin_tokens.json content (JSON, not a path)
+            printf "%s" "$GARMINTOKENS" > ~/.garminconnect/garmin_tokens.json
+            chmod 600 ~/.garminconnect/garmin_tokens.json
+            echo "Token restored (size: $(wc -c < ~/.garminconnect/garmin_tokens.json) bytes). Not shown for security."
+            python -c "import json; d=json.load(open('/home/runner/.garminconnect/garmin_tokens.json')); print('token JSON valid, top-level keys:', list(d.keys())[:5])" || echo "::warning::GARMINTOKENS secret is not valid JSON — sync will try credential fallback"
           fi
-          # Secret contains the full garmin_tokens.json content (JSON, not a path)
-          printf "%s" "$GARMINTOKENS" > ~/.garminconnect/garmin_tokens.json
-          chmod 600 ~/.garminconnect/garmin_tokens.json
-          echo "Token restored (size: $(wc -c < ~/.garminconnect/garmin_tokens.json) bytes). Not shown for security."
 
       - name: Sync Garmin (last 30 days, keeps dashboard 30d view)
+        env:
+          GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
         run: |
           python sync_garmin.py --days 30 --sink files --out ./garmin
           echo "=== garmin folder ==="
