@@ -116,9 +116,9 @@ table{min-width:640px}
 <p class="section-sub">Every recovery signal normalized to 0–100, composite in bold white.</p>
 <div class="card"><canvas id="recoveryComp"></canvas><div class="chart-sub">Composite = mean of available signals. HRV scaled 40–90, RHR inverted 60–40, stress inverted. Bands: green ≥75 · amber 50–75 · red &lt;50.</div></div>
 
-<h2>🌊 Where Ride Time Flows</h2>
-<p class="section-sub">Total hours → intensity (by avg HR) → ride length. Ribbon width = hours.</p>
-<div class="card"><svg id="sankeySvg" viewBox="0 0 760 340" style="width:100%;height:auto;display:block"></svg><div class="chart-sub" id="sankeyNote">Easy &lt;139 bpm · Moderate 139–167 · Hard &gt;167. Short &lt;1h · Medium 1–2h · Long 2h+.</div></div>
+<h2>⏳ Ride Time: Intensity × Length</h2>
+<p class="section-sub">Bar height = intensity bucket, segments = ride length. Hover for exact hours.</p>
+<div class="card"><canvas id="flowBars"></canvas><div class="chart-sub" id="flowNote">Easy &lt;139 bpm · Moderate 139–167 · Hard &gt;167. Short &lt;1h · Medium 1–2h · Long 2h+.</div></div>
 
 <h2>🏆 Records &amp; Streaks</h2>
 <p class="section-sub">Bests in this window plus consistency.</p>
@@ -487,11 +487,9 @@ async function load(){
     options:{interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:12,usePointStyle:true}}},scales:{y:{min:0,max:100}}},
     plugins:[bandPlugin([{yMin:0,yMax:50,color:'rgba(248,113,113,.07)'},{yMin:50,yMax:75,color:'rgba(245,158,11,.07)'},{yMin:75,yMax:100,color:'rgba(34,197,94,.07)'}])]});
 
-  // ---- Sankey: ride time -> intensity -> length (hand-rolled SVG, no dependency) ----
+  // ---- Ride time: intensity x length (stacked bars) ----
   (function(){
-    const svg = document.getElementById('sankeySvg'); if(!svg) return;
-    const zn = ['Easy <139','Mod 139-167','Hard >167'], zc = ['#22c55e','#f59e0b','#f87171'];
-    const ln3 = ['Short <1h','Med 1-2h','Long 2h+'], lc = ['#7dd3fc','#38bdf8','#818cf8'];
+    const flEl = document.getElementById('flowBars'); if(!flEl) return;
     const skM = [[0,0,0],[0,0,0],[0,0,0]]; let skSkip = 0;
     acts.forEach(a=>{
       if(typeof a.avg_hr==='number' && typeof a.duration_seconds==='number'){
@@ -501,46 +499,18 @@ async function load(){
       } else { skSkip++; }
     });
     const zt = [skM[0][0]+skM[0][1]+skM[0][2], skM[1][0]+skM[1][1]+skM[1][2], skM[2][0]+skM[2][1]+skM[2][2]];
-    const lt = [skM[0][0]+skM[1][0]+skM[2][0], skM[0][1]+skM[1][1]+skM[2][1], skM[0][2]+skM[1][2]+skM[2][2]];
     const skTot = zt[0]+zt[1]+zt[2];
-    if(!(skTot>0)){ svg.outerHTML = '<div class="empty-state">Not enough HR data for flow.</div>'; return; }
-    const skW = 760, skTop = 30, skBot = 20, skNW = 18;
-    const skX = [150, 371, 592];
-    const skSc = (340-skTop-skBot)/skTot;
-    const zTop = [skTop,skTop,skTop], lTop = [skTop,skTop,skTop];
-    let yy = skTop; for(let i=0;i<3;i++){ zTop[i]=yy; yy+=zt[i]*skSc; }
-    yy = skTop; for(let j=0;j<3;j++){ lTop[j]=yy; yy+=lt[j]*skSc; }
-    const rib = (x0,y0,h0,x1,y1,h1,c)=>{
-      const mx = ((x0+x1)/2).toFixed(1);
-      return '<path d="M'+x0.toFixed(1)+','+y0.toFixed(1)+' C'+mx+','+y0.toFixed(1)+' '+mx+','+y1.toFixed(1)+' '+x1.toFixed(1)+','+y1.toFixed(1)+' L'+x1.toFixed(1)+','+(y1+h1).toFixed(1)+' C'+mx+','+(y1+h1).toFixed(1)+' '+mx+','+(y0+h0).toFixed(1)+' '+x0.toFixed(1)+','+(y0+h0).toFixed(1)+' Z" fill="'+c+'" opacity="0.45"><title>'+h0.toFixed(2)+' h</title></path>';
-    };
-    let skS = '';
-    skS += '<text x="'+(skX[0]+skNW/2)+'" y="14" text-anchor="middle" fill="#8ea0b8" font-size="11">TOTAL</text>';
-    skS += '<text x="'+(skX[1]+skNW/2)+'" y="14" text-anchor="middle" fill="#8ea0b8" font-size="11">INTENSITY</text>';
-    skS += '<text x="'+(skX[2]+skNW/2)+'" y="14" text-anchor="middle" fill="#8ea0b8" font-size="11">LENGTH</text>';
-    let yT = skTop; const zo=[0,0,0], lo=[0,0,0];
-    for(let i=0;i<3;i++){ for(let j=0;j<3;j++){
-      const h = skM[i][j]*skSc;
-      const y0t = yT, y0z = zTop[i]+zo[i]*skSc, y1l = lTop[j]+lo[j]*skSc;
-      if(h>=0.6){
-        skS += rib(skX[0]+skNW, y0t, h, skX[1], y0z, h, zc[i]);
-        skS += rib(skX[1]+skNW, y0z, h, skX[2], y1l, h, zc[i]);
-      }
-      yT+=h; zo[i]+=skM[i][j]; lo[j]+=skM[i][j];
-    } }
-    skS += '<rect x="'+skX[0]+'" y="'+skTop+'" width="'+skNW+'" height="'+(skTot*skSc).toFixed(1)+'" rx="4" fill="#e2e8f0"><title>'+skTot.toFixed(2)+' h</title></rect>';
-    skS += '<text x="'+(skX[0]-8)+'" y="'+(skTop+skTot*skSc/2+4).toFixed(1)+'" text-anchor="end" fill="#fff" font-size="12" font-weight="700">'+skTot.toFixed(1)+' h</text>';
-    for(let i=0;i<3;i++){ if(zt[i]<=0) continue;
-      skS += '<rect x="'+skX[1]+'" y="'+zTop[i].toFixed(1)+'" width="'+skNW+'" height="'+(zt[i]*skSc).toFixed(1)+'" rx="4" fill="'+zc[i]+'"><title>'+zt[i].toFixed(2)+' h</title></rect>';
-      skS += '<text x="'+(skX[1]+skNW+8)+'" y="'+(zTop[i]+zt[i]*skSc/2+4).toFixed(1)+'" fill="#e8eef7" font-size="11">'+zn[i]+' · '+zt[i].toFixed(1)+'h</text>';
-    }
-    for(let j=0;j<3;j++){ if(lt[j]<=0) continue;
-      skS += '<rect x="'+skX[2]+'" y="'+lTop[j].toFixed(1)+'" width="'+skNW+'" height="'+(lt[j]*skSc).toFixed(1)+'" rx="4" fill="'+lc[j]+'"><title>'+lt[j].toFixed(2)+' h</title></rect>';
-      skS += '<text x="'+(skX[2]+skNW+8)+'" y="'+(lTop[j]+lt[j]*skSc/2+4).toFixed(1)+'" fill="#e8eef7" font-size="11">'+ln3[j]+' · '+lt[j].toFixed(1)+'h</text>';
-    }
-    svg.innerHTML = skS;
-    const note = document.getElementById('sankeyNote');
-    if(note && skSkip>0) note.textContent += ' (' + skSkip + ' ride(s) missing HR excluded.)';
+    if(!(skTot>0)){ flEl.outerHTML = '<div class="empty-state">Not enough HR data.</div>'; return; }
+    new Chart(flEl,{type:'bar',
+      data:{labels:['Easy <139','Moderate 139-167','Hard >167'],datasets:[
+        {label:'Short <1h',data:[+(skM[0][0]).toFixed(2),+(skM[1][0]).toFixed(2),+(skM[2][0]).toFixed(2)],backgroundColor:'#7dd3fc',borderRadius:6},
+        {label:'Med 1-2h',data:[+(skM[0][1]).toFixed(2),+(skM[1][1]).toFixed(2),+(skM[2][1]).toFixed(2)],backgroundColor:'#38bdf8',borderRadius:6},
+        {label:'Long 2h+',data:[+(skM[0][2]).toFixed(2),+(skM[1][2]).toFixed(2),+(skM[2][2]).toFixed(2)],backgroundColor:'#818cf8',borderRadius:6}
+      ]},
+      options:{interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:12,usePointStyle:true}},tooltip:{callbacks:{footer:(items)=>{ let ft=0; items.forEach(it=>{ ft+=it.raw; }); return 'Total ' + ft.toFixed(1) + ' h'; }}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,title:{display:true,text:'hours'}}}},
+      plugins:[barValuesPlugin()]});
+    const fnote = document.getElementById('flowNote');
+    if(fnote) fnote.textContent += ' Total ' + skTot.toFixed(1) + ' h.' + (skSkip>0 ? ' (' + skSkip + ' ride(s) missing HR excluded.)' : '');
   })();
 
   // ---- Records & streaks ----
