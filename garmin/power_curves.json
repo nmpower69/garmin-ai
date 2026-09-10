@@ -131,9 +131,9 @@
       "300s": 179,
       "1200s": 162,
       "3600s": 150,
-      "avgPower": 139.3,
-      "normalizedPower": null,
-      "maxPower": null
+      "avgPower": 143.0,
+      "normalizedPower": 164.0,
+      "maxPower": 460.0
     },
     "24217871213": {
       "date": "2026-09-03",
@@ -143,9 +143,9 @@
       "300s": 191,
       "1200s": 191,
       "3600s": 191,
-      "avgPower": 148.0,
-      "normalizedPower": null,
-      "maxPower": null
+      "avgPower": 153.0,
+      "normalizedPower": 168.0,
+      "maxPower": 476.0
     },
     "24278574372": {
       "date": "2026-09-08",
@@ -155,9 +155,9 @@
       "300s": 197,
       "1200s": 168,
       "3600s": 158,
-      "avgPower": 144.0,
-      "normalizedPower": null,
-      "maxPower": null
+      "avgPower": 118.0,
+      "normalizedPower": 139.0,
+      "maxPower": 329.0
     },
     "24304329284": {
       "date": "2026-09-10",
@@ -167,9 +167,9 @@
       "300s": 210,
       "1200s": 184,
       "3600s": 184,
-      "avgPower": 153.7,
-      "normalizedPower": null,
-      "maxPower": null
+      "avgPower": 158.0,
+      "normalizedPower": 177.0,
+      "maxPower": 546.0
     }
   },
   "notes": "Computed from Garmin directPower time series (1-3s samples) via rolling time-window averages. 10s=neuromuscular, 30-60s=anaerobic, 5m=VO2, 20m\u00e2\u2030\u02c6FTP proxy, 1h=endurance. Your 20m best 143-204W suggests current FTP ~150-195W, below the stale 271W \u00e2\u20ac\u201d use HR zones until retest."
