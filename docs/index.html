@@ -66,6 +66,7 @@ table{min-width:640px}
 .cal-day .km{font-weight:800;color:#7dd3fc;font-variant-numeric:tabular-nums}
 .cal-day .st{color:var(--muted);font-size:10px}
 .cal-day.rest{opacity:.7}
+.cal-day.nodata{opacity:.35;border-style:dashed;background:transparent}
 .cal-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
 .cal-nav{background:#0e1830;border:1px solid var(--border);color:var(--text);border-radius:10px;padding:5px 13px;cursor:pointer;font-size:16px;line-height:1}
 .cal-nav:disabled{opacity:.3;cursor:default}
@@ -100,14 +101,14 @@ table{min-width:640px}
 <h2>🗓️ Training Calendar</h2>
 <p class="section-sub">Blue depth = ride distance, dot = readiness tier. Click a day to open its note.</p>
 <div class="card">
-<div class="cal-head"><button class="cal-nav" id="calPrev">‹</button><strong id="calTitle"></strong><button class="cal-nav" id="calNext">›</button><span class="sub">● ready ≥75 &nbsp;● ok 50–75 &nbsp;● tired &lt;50</span></div>
+<div class="cal-head"><button class="cal-nav" id="calPrev">‹</button><strong id="calTitle"></strong><button class="cal-nav" id="calNext">›</button><span class="sub"><span style="color:#22c55e">●</span> ready ≥75 &nbsp;<span style="color:#f59e0b">●</span> ok 50–75 &nbsp;<span style="color:#f87171">●</span> tired &lt;50 &nbsp;<span style="color:#64748b">●</span> no data</span></div>
 <div class="cal-grid" id="calGrid"></div>
 </div>
 
 <h2>🔥 Intensity &amp; 😴 Sleep</h2>
 <p class="section-sub">Where your hours went (rides bucketed by avg HR) and how you slept each night.</p>
 <div class="grid-3">
-<div class="card"><h3>Ride Hours by HR Zone</h3><canvas id="zoneDonut"></canvas><div class="chart-sub">Z1 &lt;139 · Z2 139–159 · Z3 159–167 · Z4 167–172 · Z5 &gt;172.</div></div>
+<div class="card"><h3>Ride Hours by HR Zone</h3><canvas id="zoneDonut"></canvas><div class="zone-pills" id="zoneLegend"></div><div class="chart-sub">Whole rides bucketed by their avg HR — a ride counts fully in its average zone (true Z1 pedaling inside harder rides is not split out).</div></div>
 <div class="card" style="grid-column:span 2"><h3>Sleep Stages per Night (h)</h3><canvas id="sleepStack"></canvas><div class="chart-sub">Stacked bars = deep / light / REM / awake · dashed amber = sleep score (right axis).</div></div>
 </div>
 
@@ -406,13 +407,14 @@ async function load(){
       const key = Y + '-' + String(M).padStart(2,'0') + '-' + String(d).padStart(2,'0');
       const day = daily[key]; const rides = actsByDate[key] || [];
       let km = 0; rides.forEach(a=>{ if(typeof a.distance_km==='number') km += a.distance_km; });
+      const hasData = day || rides.length>0;
       const inten = Math.min(1, km/60);
-      const bg = km>0 ? 'background:rgba(56,189,248,' + (0.08+0.5*inten).toFixed(2) + ')' : '';
+      const bg = km>0 ? 'background:rgba(56,189,248,' + (0.16+0.54*inten).toFixed(2) + ')' : '';
       const dot = day ? '<span class="cal-dot" style="background:' + readinessColor(day.training_readiness) + '"></span>' : '';
       const sub = km>0 ? '<span class="km">' + km.toFixed(0) + ' km</span>' : (day && typeof day.steps==='number' ? '<span class="st">' + (day.steps/1000).toFixed(1) + 'k</span>' : '');
-      const tip = day ? (key + ' ride ' + km.toFixed(1) + 'km steps ' + day.steps + ' sleep ' + day.sleep_hours + ' HRV ' + day.hrv + ' RHR ' + day.resting_hr + ' readiness ' + day.training_readiness) : key;
+      const tip = !hasData ? (key + ' — outside 30-day sync window') : (day ? (key + ' ride ' + km.toFixed(1) + 'km steps ' + day.steps + ' sleep ' + day.sleep_hours + ' HRV ' + day.hrv + ' RHR ' + day.resting_hr + ' readiness ' + day.training_readiness) : (key + ' ride ' + km.toFixed(1) + 'km'));
       const link = (day && dataBase) ? (dataBase + 'daily/' + key + '.md') : '#';
-      html += '<a class="cal-day' + (km>0?'':' rest') + '" style="' + bg + '" title="' + tip + '" href="' + link + '" target="_blank"><span class="d">' + d + '</span>' + sub + '<span style="display:flex;justify-content:flex-end">' + dot + '</span></a>';
+      html += '<a class="cal-day' + (km>0?'':(hasData?' rest':' nodata')) + '" style="' + bg + '" title="' + tip + '" href="' + link + '" target="_blank"><span class="d">' + d + '</span>' + sub + '<span style="display:flex;justify-content:flex-end">' + dot + '</span></a>';
     }
     document.getElementById('calGrid').innerHTML = html;
   }
@@ -421,7 +423,7 @@ async function load(){
   renderCalendar();
 
   // ---- Intensity donut (ride hours by avg-HR zone) ----
-  const zoneDef = [[-1000,139,'Z1 Easy','#38bdf8'],[139,159,'Z2 Base','#22c55e'],[159,167,'Z3 Tempo','#f59e0b'],[167,172,'Z4 Threshold','#fb923c'],[172,10000,'Z5 Max','#f87171']];
+  const zoneDef = [[-1000,139,'Z1 Easy','#38bdf8'],[139,159,'Z2 Base','#22c55e'],[159,167,'Z3 Tempo','#a78bfa'],[167,172,'Z4 Threshold','#fb923c'],[172,10000,'Z5 Max','#f87171']];
   const zoneHrs = [0,0,0,0,0]; let zonedHrs = 0;
   acts.forEach(a=>{
     if(typeof a.avg_hr==='number' && typeof a.duration_seconds==='number'){
@@ -433,7 +435,7 @@ async function load(){
   const zEl = document.getElementById('zoneDonut');
   new Chart(zEl,{type:'doughnut',
     data:{labels:zoneDef.map(z=>z[2]),datasets:[{data:zoneHrs.map(h=>+h.toFixed(2)),backgroundColor:zoneDef.map(z=>z[3]),borderColor:'#0e1830',borderWidth:3}]},
-    options:{cutout:'62%',plugins:{legend:{position:'bottom',labels:{boxWidth:12,usePointStyle:true}}}},
+    options:{cutout:'62%',plugins:{legend:{display:false}}},
     plugins:[{id:'centerText',afterDraw(c){
       const meta = c.getDatasetMeta(0); if(!meta.data[0]) return;
       const p = meta.data[0]; const ctx2 = c.ctx;
@@ -442,6 +444,7 @@ async function load(){
       ctx2.fillStyle='#8ea0b8'; ctx2.font='11px Inter,system-ui';
       ctx2.fillText(acts.length+' rides', p.x, p.y+16); ctx2.restore();
     }}]});
+  document.getElementById('zoneLegend').innerHTML = zoneDef.map((z,i)=>'<span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+z[3]+';margin-right:6px"></span>'+z[2]+' · '+zoneHrs[i].toFixed(1)+'h</span>').join('');
 
   // ---- Sleep stack ----
   const slpH = (d,path)=>{ const D = daily[d]; const s2 = D && D._raw && D._raw.sleep && D._raw.sleep.dailySleepDTO; const v = s2 ? s2[path] : null; return typeof v==='number' ? +(v/3600).toFixed(2) : 0; };
