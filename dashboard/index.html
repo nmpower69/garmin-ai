@@ -6,51 +6,75 @@
 <title>Garmin Cycling Dashboard — Casual Joy Rider</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
-:root{--bg:#0f172a;--card:#1e293b;--accent:#38bdf8;--muted:#94a3b8;--ok:#22c55e;--warn:#f59e0b;--bad:#ef4444}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;background:var(--bg);color:#e2e8f0}
-header{padding:20px 32px;border-bottom:1px solid #334155;background:linear-gradient(90deg,#0f172a,#1e293b);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-h1{margin:0;font-size:28px}h2{margin:32px 0 12px;font-size:20px;color:var(--accent)}h3{margin:0 0 8px;font-size:16px}
-.status{display:flex;align-items:center;gap:8px;background:#0b1220;border:1px solid #334155;border-radius:999px;padding:6px 12px;white-space:nowrap}
-.dot{width:12px;height:12px;border-radius:50%;background:#64748b;box-shadow:0 0 6px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.15)}
-.dot.ok{background:var(--ok);box-shadow:0 0 8px rgba(34,197,94,.6)}
-.dot.bad{background:var(--bad);box-shadow:0 0 8px rgba(239,68,68,.6)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;padding:16px 32px}
-.card{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
-.kpi{font-size:28px;font-weight:700}.sub{color:var(--muted);font-size:13px}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:8px 6px;border-bottom:1px solid #334155;text-align:left}
-th{color:var(--muted);font-weight:600}
-canvas{max-height:320px}
-.badge{padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700}.ok{background:#22c55e22;color:var(--ok)}.warn{background:#f59e0b22;color:var(--warn)}.bad{background:#ef444422;color:var(--bad)}
-.insight{border-left:3px solid var(--accent);padding:10px 12px;margin:10px 0;background:#0b1220;border-radius:8px}
+:root{
+  --bg:#0b1220; --bg2:#0f172a; --card:#141f33; --card2:#1a2740;
+  --border:#26344f; --accent:#38bdf8; --accent2:#818cf8;
+  --muted:#8ea0b8; --text:#e8eef7; --ok:#22c55e; --warn:#f59e0b; --bad:#f87171;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1200px 500px at 20% -10%,#16233d 0%,var(--bg) 55%) fixed,var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:20;padding:16px 32px;border-bottom:1px solid var(--border);background:rgba(11,18,32,.82);backdrop-filter:blur(12px);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+h1{margin:0;font-size:22px;letter-spacing:-.02em}
+h1 .emoji{filter:saturate(1.2)}
+h2{margin:34px 0 4px;font-size:19px;letter-spacing:-.01em;color:#fff;display:flex;align-items:center;gap:10px}
+h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+h3{margin:0 0 10px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.section-sub{color:var(--muted);font-size:13px;margin:0 0 14px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px 8px}
+.status{display:flex;align-items:center;gap:8px;background:#0e1830;border:1px solid var(--border);border-radius:999px;padding:7px 14px;white-space:nowrap}
+.dot{width:10px;height:10px;border-radius:50%;background:#64748b;border:2px solid rgba(255,255,255,.15)}
+.dot.ok{background:var(--ok);box-shadow:0 0 10px rgba(34,197,94,.7)}
+.dot.bad{background:var(--bad);box-shadow:0 0 10px rgba(248,113,113,.7)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;padding:16px 0}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:4px 0 8px}
+@media(max-width:900px){.grid-3{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.25);transition:transform .15s ease,border-color .15s ease;min-width:0}
+.card:hover{transform:translateY(-2px);border-color:#33507e}
+.kpi-card{display:flex;gap:14px;align-items:flex-start}
+.kpi-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;background:#0e1830;border:1px solid var(--border);flex-shrink:0}
+.kpi{font-size:30px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+.sub{color:var(--muted);font-size:12.5px;line-height:1.5}
+.kpi-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+canvas{max-height:300px;width:100%!important}
+.chart-sub{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}
+table{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+th,td{padding:9px 8px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+thead th{position:sticky;top:0;background:#16223a;color:var(--muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;z-index:1}
+tbody tr:hover{background:rgba(56,189,248,.06)}
+tbody tr:nth-child(even){background:rgba(255,255,255,.012)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;white-space:nowrap}
+.ok{background:rgba(34,197,94,.14);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.warn{background:rgba(245,158,11,.14);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
+.bad{background:rgba(248,113,113,.14);color:#fca5a5;border:1px solid rgba(248,113,113,.3)}
+.insight{border-left:3px solid var(--accent);padding:12px 14px;margin:12px 0;background:#101b31;border:1px solid var(--border);border-left-width:3px;border-radius:12px}
 .insight strong{color:#f8fafc}
 a{color:var(--accent);text-decoration:none}
-.footer{padding:24px 32px;color:var(--muted);font-size:12px}
-/* Mobile friendly */
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px}
-table{min-width:620px}
+a:hover{text-decoration:underline}
+.footer{padding:24px 32px;color:var(--muted);font-size:12px;text-align:center}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -18px;padding:0 18px}
+table{min-width:640px}
+.zone-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.zone-pills span{font-size:11px;padding:3px 9px;border-radius:99px;background:#0e1830;border:1px solid var(--border);color:var(--muted);font-variant-numeric:tabular-nums}
+.pb{background:rgba(56,189,248,.16)!important;color:#7dd3fc!important;font-weight:800}
+.empty-state{text-align:center;padding:28px 12px;color:var(--muted)}
 @media (max-width:768px){
-  header{padding:16px 16px}
-  h1{font-size:20px;line-height:1.2}
-  h2{margin:24px 0 10px;font-size:18px}
-  .grid{grid-template-columns:1fr;gap:12px;padding:12px 16px}
-  div[style*="padding:0 32px"]{padding:0 16px !important}
-  .card{padding:12px;border-radius:10px}
-  .kpi{font-size:22px}
-  canvas{max-height:260px}
-  th,td{padding:6px 4px;font-size:12px}
-  .badge{font-size:10px}
-}
-@media (max-width:480px){
-  h1{font-size:18px}
-  .sub{font-size:12px}
+  header{padding:14px 16px}
+  h1{font-size:17px}
+  .wrap{padding:0 16px 8px}
+  .grid{grid-template-columns:1fr;gap:12px}
+  .card{padding:14px}
+  .kpi{font-size:24px}
+  canvas{max-height:250px}
 }
 </style>
 </head>
 <body>
 <header>
 <div>
-<h1>🚴 Garmin Cycling Dashboard — for Happiness, not Racing</h1>
-<div class="sub">Read-only from Garmin Connect • Updates daily at 10 AM IST • Last 30 days: <span id="range"></span> • <a id="dataLink" href="garmin/data.json" target="_blank">data.json</a> • <span id="lastSync"></span></div>
+<h1><span class="emoji">🚴</span> Garmin Cycling Dashboard <span style="color:var(--muted);font-weight:400">· for Happiness, not Racing</span></h1>
+<div class="sub">Read-only from Garmin Connect • Daily 10 AM IST • Last 30 days: <span id="range"></span> • <a id="dataLink" href="garmin/data.json" target="_blank">data.json</a> • <span id="lastSync"></span></div>
 </div>
 <div class="status" id="aiStatus" title="AI Insights status">
 <span class="dot" id="aiDot"></span>
@@ -58,50 +82,102 @@ table{min-width:620px}
 </div>
 </header>
 
+<div class="wrap">
 <div class="grid" id="kpis"></div>
 
-<div style="padding:0 32px">
-<h2>📊 Weekly Volume • Hours • Vert</h2>
-<div class="grid">
-<div class="card"><h3>Weekly Distance (km)</h3><canvas id="weeklyVol"></canvas></div>
-<div class="card"><h3>Weekly Hours</h3><canvas id="weeklyHrs"></canvas></div>
-<div class="card"><h3>Weekly Vert Gain (m)</h3><canvas id="weeklyVert"></canvas></div>
+<h2>📊 Weekly Volume · Hours · Vert</h2>
+<p class="section-sub">Training load per calendar week — bars show totals, dashed line is the period average. Hover any bar for ride count.</p>
+<div class="grid-3">
+<div class="card"><h3>Weekly Distance (km)</h3><canvas id="weeklyVol"></canvas><div class="chart-sub" id="volNote"></div></div>
+<div class="card"><h3>Weekly Hours</h3><canvas id="weeklyHrs"></canvas><div class="chart-sub" id="hrsNote"></div></div>
+<div class="card"><h3>Weekly Vert Gain (m)</h3><canvas id="weeklyVert"></canvas><div class="chart-sub" id="vertNote"></div></div>
 </div>
 
-<h2>❤️ Heart Rate & Speed • Training Readiness • FTP</h2>
-<div class="grid">
-<div class="card"><h3>Avg HR & Speed per Ride</h3><canvas id="hrSpeed"></canvas></div>
-<div class="card"><h3>Training Readiness (0-100)</h3><canvas id="readiness"></canvas></div>
-<div class="card"><h3 id="ftpTitle">FTP & Power Zones</h3><canvas id="ftp"></canvas><div class="sub" id="ftpNote" style="margin-top:8px"></div></div>
+<h2>❤️ Heart Rate &amp; Speed · Readiness · FTP</h2>
+<p class="section-sub">Per-ride intensity with HR-zone shading, daily recovery state, and your power zones from FTP.</p>
+<div class="grid-3">
+<div class="card"><h3>Avg HR &amp; Speed per Ride</h3><canvas id="hrSpeed"></canvas><div class="chart-sub">Pink band = threshold (Z4+), blue = easy (Z1). Dots = rides; line connects in date order.</div></div>
+<div class="card"><h3>Training Readiness (0–100)</h3><canvas id="readiness"></canvas><div class="chart-sub">Green ≥ 75 ready · Amber 50–75 normal · Red &lt; 50 rest. Dashed lines mark 50 / 75.</div></div>
+<div class="card"><h3 id="ftpTitle">FTP &amp; Power Zones</h3><canvas id="ftp"></canvas><div class="chart-sub" id="ftpNote"></div><div class="zone-pills" id="ftpPills"></div></div>
 </div>
 
-<div class="grid">
-<div class="card"><h3>VO2 Max</h3><canvas id="vo2"></canvas><div class="sub">MostRecentVO2Max is null in Garmin (shows empty — will plot when Garmin provides it).</div></div>
-<div class="card"><h3>HRV & Resting HR Trend</h3><canvas id="hrvRhr"></canvas></div>
+<div class="grid-3">
+<div class="card"><h3>VO2 Max</h3><canvas id="vo2"></canvas><div class="sub" id="vo2Note">Garmin returns null — chart will populate when Garmin provides it.</div></div>
+<div class="card" style="grid-column:span 2"><h3>HRV &amp; Resting HR Trend</h3><canvas id="hrvRhr"></canvas><div class="chart-sub">Green = HRV (ms, left axis) with 7-day average dashed · Amber = resting HR (bpm, right axis). Falling HRV + rising RHR together = fatigue.</div></div>
 </div>
 
-<h2>⚡ Best Power per Ride (10s / 30s / 60s / 5m / 20m / 1h)</h2>
+<h2>⚡ Best Power per Ride</h2>
+<p class="section-sub">Rolling bests from your power stream (10s neuromuscular · 5m VO2 · 20m ≈ FTP). Brightest cell per column = personal best in this window.</p>
 <div class="card">
-<div class="sub">Power curves are computed from your Garmin activity power stream (directPower). Real values from <code>garmin/power_curves.json</code> — 10s=neuromuscular, 5m=VO2, 20m≈FTP. Avg/NP/Max are real lap values.</div>
-<div class="table-wrap"><table id="powerTable"><thead><tr><th>Date</th><th>Ride</th><th>10s</th><th>30s</th><th>60s</th><th>5m</th><th>20m</th><th>1h</th><th>Avg</th><th>NP</th><th>Max</th></tr></thead><tbody></tbody></table></div>
+<div class="table-wrap"><table id="powerTable"><thead><tr><th>Date</th><th>Ride</th><th class="num">10s</th><th class="num">30s</th><th class="num">60s</th><th class="num">5m</th><th class="num">20m</th><th class="num">1h</th><th class="num">Avg</th><th class="num">NP</th><th class="num">Max</th></tr></thead><tbody></tbody></table></div>
 </div>
 
 <h2>🕒 Latest Activities</h2>
-<div class="card"><div class="table-wrap"><table id="latest"><thead><tr><th>Date</th><th>Name</th><th>Dist</th><th>Time</th><th>Elev</th><th>Avg HR</th><th>Max HR</th><th>Speed</th><th>Cal</th></tr></thead><tbody></tbody></table></div></div>
+<div class="card"><div class="table-wrap"><table id="latest"><thead><tr><th>Date</th><th>Name</th><th class="num">Dist</th><th>Time</th><th class="num">Elev</th><th class="num">Avg HR</th><th class="num">Max HR</th><th class="num">Speed</th><th class="num">Cal</th></tr></thead><tbody></tbody></table></div></div>
 
-<h2>💡 Insights — Cycling Parallel to Your Running Examples</h2>
+<h2>💡 Insights</h2>
+<p class="section-sub">AI coaching notes generated after each morning sync.</p>
 <div id="insights"></div>
-
 </div>
 
-<div class="footer">Generated locally from <code>garmin/data.json</code> • Casual cyclist &lt;3h • Happiness first • Next sync daily 10 AM IST</div>
+<div class="footer">Generated from <code>garmin/data.json</code> • Casual cyclist &lt;3h • Happiness first • Next sync daily 10 AM IST</div>
 
 <script>
+Chart.defaults.font.family = "Inter,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = "#8ea0b8";
+Chart.defaults.borderColor = "rgba(140,160,190,.12)";
+Chart.defaults.plugins.tooltip.backgroundColor = "#0e1830";
+Chart.defaults.plugins.tooltip.borderColor = "#33507e";
+Chart.defaults.plugins.tooltip.borderWidth = 1;
+Chart.defaults.plugins.tooltip.titleColor = "#fff";
+Chart.defaults.plugins.tooltip.bodyColor = "#cbd5e1";
+Chart.defaults.plugins.tooltip.padding = 10;
+Chart.defaults.plugins.tooltip.cornerRadius = 10;
+Chart.defaults.plugins.tooltip.displayColors = true;
+Chart.defaults.animation.duration = 700;
+
+function gradient(el, c1, c2){
+  try{
+    const ctx = el.getContext('2d');
+    const g = ctx.createLinearGradient(0,0,0,260);
+    g.addColorStop(0,c1); g.addColorStop(1,c2);
+    return g;
+  }catch(e){ return c1; }
+}
+function barValuesPlugin(){
+  return { id:'barValues', afterDatasetsDraw(c){
+    const {ctx} = c;
+    ctx.save(); ctx.font = "700 10px Inter,system-ui"; ctx.fillStyle = "#cbd5e1"; ctx.textAlign = "center";
+    c.data.datasets.forEach((ds,di)=>{
+      if(ds.type==='line') return;
+      const meta = c.getDatasetMeta(di);
+      meta.data.forEach((bar,i)=>{
+        const v = ds.data[i];
+        if(v==null||v===""||+v===0) return;
+        ctx.fillText(v, bar.x, bar.y - 5);
+      });
+    });
+    ctx.restore();
+  }};
+}
+function bandPlugin(bands){
+  // bands: [{yMin,yMax,color}] shaded behind chart on y scale
+  return { id:'bands'+Math.random(), beforeDatasetsDraw(c){
+    const y = c.scales.y; if(!y) return;
+    const {ctx, chartArea:{left,right,top,bottom}} = c;
+    ctx.save();
+    bands.forEach(b=>{
+      const t1 = y.getPixelForValue(b.yMax), t2 = y.getPixelForValue(b.yMin);
+      ctx.fillStyle = b.color;
+      ctx.fillRect(left, t1, right-left, t2-t1);
+    });
+    ctx.restore();
+  }};
+}
+
 async function load(){
-  // Cache-bust: GitHub Pages CDN caches JSON for ~10m, Chrome caches aggressively. Add ?v= and no-store.
-  const bust = `?v=${Date.now()}`;
   const fetchNoCache = (url) => fetch(url + (url.includes('?')?'&':'?') + `v=${Date.now()}`, {cache: 'no-store'});
-  // Try multiple paths for local vs GitHub Pages - use baseURI first for Pages subpath
   const paths = [];
   try{ paths.push(new URL('garmin/data.json', document.baseURI).href); }catch(e){}
   try{ paths.push(new URL('../garmin/data.json', document.baseURI).href); }catch(e){}
@@ -114,12 +190,6 @@ async function load(){
       lastErr = p + ' -> ' + r.status;
     }catch(e){ lastErr = p + ' -> ' + e.message; }
   }
-  if(!res){
-    try{
-      const repoPath = location.pathname.includes('/garmin-ai/') ? '/garmin-ai/garmin/data.json' : null;
-      if(repoPath){ const r = await fetchNoCache(repoPath); if(r.ok){ res = r; successPath=repoPath; } }
-    }catch(e){}
-  }
   if(!res) throw new Error('Tried ' + paths.join(', ') + ' — last: ' + lastErr + '. If you opened via file://, run a local server instead (see below).');
   if(successPath) try{ document.getElementById('dataLink').href = successPath; }catch(e){}
   const data = await res.json();
@@ -127,13 +197,13 @@ async function load(){
   document.getElementById('lastSync').textContent = 'synced ' + new Date(data.generated_at).toLocaleString();
   const daily = data.daily;
   const acts = data.activities.filter(a=>a.sport==='road_biking').sort((a,b)=>a.date.localeCompare(b.date));
-  // Early fetch power curves for dynamic FTP/zones (before KPIs) - no cache
   let earlyPower = null;
   try{ const r=await fetchNoCache(new URL('garmin/power_curves.json', document.baseURI).href); if(r.ok) earlyPower=await r.json(); }catch(e){}
   try{ if(!earlyPower){ const r2=await fetchNoCache('../garmin/power_curves.json'); if(r2.ok) earlyPower=await r2.json(); }}catch(e){}
   const ftpVal = earlyPower?.ftp || 271;
   const ftpStatus = earlyPower?.ftp_status || 'stale 2025-03-04 — retest needed';
-  // KPIs (guard divide-by-zero)
+
+  // ---- KPIs (same 6, better visuals) ----
   const totalKm = acts.reduce((s,a)=>s+(typeof a.distance_km==='number'?a.distance_km:0),0);
   const totalSec = acts.reduce((s,a)=>s+(typeof a.duration_seconds==='number'?a.duration_seconds:0),0);
   const totalHrs = totalSec/3600;
@@ -141,19 +211,22 @@ async function load(){
   const avgSpeed = totalHrs?totalKm/totalHrs:0;
   const hrs = acts.filter(a=>typeof a.avg_hr==='number').map(a=>a.avg_hr);
   const avgHR = hrs.length?hrs.reduce((a,b)=>a+b,0)/hrs.length:0;
+  const best = acts.length?Math.max(...acts.map(a=>typeof a.distance_km==='number'?a.distance_km:0)):0;
+  const icons = {dist:'🛣️',time:'⏱️',speed:'💨',vert:'⛰️',hr:'❤️',ftp:'⚡'};
   const kpis = acts.length===0 ? [
-    ['No rides', '0 rides', 'rest week — check daily wellness'],
-    ['FTP', ftpVal+' W', ftpStatus],
+    ['No rides','0 rides','rest week — check daily wellness','🛣️'],
+    ['FTP', ftpVal+' W', ftpStatus,'⚡'],
   ] : [
-    ['Total Distance', totalKm.toFixed(1)+' km', acts.length+' rides in 30d'],
-    ['Total Time', totalHrs.toFixed(1)+' h', 'avg '+(totalKm/acts.length).toFixed(1)+' km/ride'],
-    ['Avg Speed', avgSpeed.toFixed(1)+' km/h', 'conversational <30 km/h = easy'],
-    ['Vert Gain', Math.round(totalElev)+' m', (totalElev/acts.length).toFixed(0)+' m/ride avg'],
-    ['Avg HR', hrs.length?Math.round(avgHR)+' bpm':'—', hrs.length?'many rides in Z2 high — see insight #6':'no HR data'],
-    ['FTP', ftpVal+' W', ftpStatus],
+    ['Total Distance', totalKm.toFixed(1)+' km', acts.length+' rides · longest '+best.toFixed(0)+' km', icons.dist],
+    ['Total Time', totalHrs.toFixed(1)+' h', 'avg '+(totalKm/acts.length).toFixed(1)+' km / ride', icons.time],
+    ['Avg Speed', avgSpeed.toFixed(1)+' km/h', avgSpeed<25?'easy conversational pace':'brisk pace for joy rider', icons.speed],
+    ['Vert Gain', Math.round(totalElev)+' m', (totalElev/Math.max(1,acts.length)).toFixed(0)+' m / ride avg', icons.vert],
+    ['Avg HR', hrs.length?Math.round(avgHR)+' bpm':'—', hrs.length?(avgHR>150?'mostly threshold — ease off':'balanced base'):'no HR data', icons.hr],
+    ['FTP', ftpVal+' W', ftpStatus, icons.ftp],
   ];
-  document.getElementById('kpis').innerHTML = kpis.map(([t,v,s])=>`<div class="card"><div class="sub">${t}</div><div class="kpi">${v}</div><div class="sub">${s}</div></div>`).join('');
-  // Weekly grouping
+  document.getElementById('kpis').innerHTML = kpis.map(([t,v,s,ic])=>`<div class="card kpi-card"><div class="kpi-icon">${ic||'📊'}</div><div><div class="kpi-label">${t}</div><div class="kpi">${v}</div><div class="sub">${s}</div></div></div>`).join('');
+
+  // ---- Weekly grouping ----
   const weeks = {};
   acts.forEach(a=>{
     const d = new Date(a.date);
@@ -169,167 +242,173 @@ async function load(){
     weeks[key].count++;
   });
   const weekLabels = Object.keys(weeks).sort();
-  const volData = weekLabels.map(k=>weeks[k].km.toFixed(1));
-  const hrsData = weekLabels.map(k=>(weeks[k].sec/3600).toFixed(1));
+  const volData = weekLabels.map(k=>+weeks[k].km.toFixed(1));
+  const hrsData = weekLabels.map(k=>+(weeks[k].sec/3600).toFixed(1));
   const vertData = weekLabels.map(k=>weeks[k].vert);
-  new Chart(document.getElementById('weeklyVol'),{type:'bar',data:{labels:weekLabels,datasets:[{label:'km',data:volData,backgroundColor:'#38bdf8'}]},options:{plugins:{legend:{display:false}}}});
-  new Chart(document.getElementById('weeklyHrs'),{type:'bar',data:{labels:weekLabels,datasets:[{label:'hrs',data:hrsData,backgroundColor:'#22c55e'}]},options:{plugins:{legend:{display:false}}}});
-  new Chart(document.getElementById('weeklyVert'),{type:'bar',data:{labels:weekLabels,datasets:[{label:'m',data:vertData,backgroundColor:'#f59e0b'}]},options:{plugins:{legend:{display:false}}}});
-  // HR & Speed
+  const counts = weekLabels.map(k=>weeks[k].count);
+  const avgLine = (arr)=>{ const m = arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0; return arr.map(()=>+m.toFixed(1)); };
+  const weekTip = (unit)=>({callbacks:{afterBody:(items)=>{ const i=items[0].dataIndex; return counts[i]+' ride(s) that week'; }},});
+  const mkBar = (el, label, arr, color, noteEl, noteTxt)=>{
+    const elN = document.getElementById(el);
+    new Chart(elN,{type:'bar',
+      data:{labels:weekLabels,datasets:[
+        {label,data:arr,backgroundColor:gradient(elN,color+'ee',color+'55'),borderRadius:8,borderSkipped:false,maxBarThickness:44},
+        {label:'avg',data:avgLine(arr),type:'line',borderColor:'#e2e8f0',borderDash:[6,5],borderWidth:1.5,pointRadius:0,fill:false}
+      ]},
+      options:{plugins:{legend:{display:false},tooltip:weekTip()},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}},
+      plugins:[barValuesPlugin()]});
+    if(noteEl) document.getElementById(noteEl).textContent = noteTxt;
+  };
+  mkBar('weeklyVol','km',volData,'#38bdf8','volNote', weekLabels.length?`Best week ${Math.max(...volData)} km · ${acts.length} rides total`:'No rides in window');
+  mkBar('weeklyHrs','hrs',hrsData,'#22c55e','hrsNote', weekLabels.length?`Total ${totalHrs.toFixed(1)} h · avg ${(totalHrs/Math.max(1,weekLabels.length)).toFixed(1)} h/week`:'No rides in window');
+  mkBar('weeklyVert','m',vertData,'#f59e0b','vertNote', weekLabels.length?`Total ${Math.round(totalElev)} m · hilliest week ${Math.max(...vertData,0)} m`:'No rides in window');
+
+  // ---- HR & Speed (zone shading + gradients) ----
   const labels = acts.map(a=>a.date.slice(5));
   const hrData = acts.map(a=>a.avg_hr);
-  const speedData = acts.map(a=> a.distance_km && a.duration_seconds ? (a.distance_km/(a.duration_seconds/3600)).toFixed(1):null);
-  new Chart(document.getElementById('hrSpeed'),{type:'line',data:{labels,datasets:[{label:'Avg HR (bpm)',data:hrData,borderColor:'#ef4444',yAxisID:'y'},{label:'Speed km/h',data:speedData,borderColor:'#38bdf8',yAxisID:'y1'}]},options:{scales:{y:{type:'linear',position:'left',min:120,max:180},y1:{type:'linear',position:'right',min:20,max:35,grid:{drawOnChartArea:false}}}}});
-  // Readiness
+  const speedData = acts.map(a=> a.distance_km && a.duration_seconds ? +(a.distance_km/(a.duration_seconds/3600)).toFixed(1):null);
+  const hrEl = document.getElementById('hrSpeed');
+  new Chart(hrEl,{type:'line',
+    data:{labels,datasets:[
+      {label:'Avg HR (bpm)',data:hrData,borderColor:'#f87171',backgroundColor:gradient(hrEl,'rgba(248,113,113,.30)','rgba(248,113,113,0)'),fill:true,tension:.35,borderWidth:2.5,pointRadius:3.5,pointBackgroundColor:'#f87171',yAxisID:'y'},
+      {label:'Speed km/h',data:speedData,borderColor:'#38bdf8',tension:.35,borderWidth:2.5,pointRadius:3.5,pointBackgroundColor:'#38bdf8',yAxisID:'y1'}
+    ]},
+    options:{interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:12,usePointStyle:true}}},scales:{
+      y:{type:'linear',position:'left',min:120,max:180,title:{display:true,text:'bpm',color:'#f87171'}},
+      y1:{type:'linear',position:'right',min:15,max:40,grid:{drawOnChartArea:false},title:{display:true,text:'km/h',color:'#38bdf8'}}
+    }},
+    plugins:[bandPlugin([{yMin:167,yMax:180,color:'rgba(248,113,113,.10)'},{yMin:120,yMax:139,color:'rgba(56,189,248,.08)'}])]});
+
+  // ---- Readiness (gradient + thresholds + segment colors) ----
   const dates = Object.keys(daily).sort();
+  const shortDates = dates.map(d=>d.slice(5));
   const readiness = dates.map(d=> typeof daily[d].training_readiness==='number'?daily[d].training_readiness:null);
-  new Chart(document.getElementById('readiness'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'Training Readiness',data:readiness,borderColor:'#a78bfa',fill:false,spanGaps:true}]},options:{scales:{y:{min:0,max:100}}}});
-  // HRV proxy
+  const rEl = document.getElementById('readiness');
+  new Chart(rEl,{type:'line',
+    data:{labels:shortDates,datasets:[
+      {label:'Readiness',data:readiness,borderColor:'#a78bfa',backgroundColor:gradient(rEl,'rgba(167,139,250,.35)','rgba(167,139,250,0)'),fill:true,tension:.35,borderWidth:2.5,pointRadius:3,spanGaps:true,
+       segment:{borderColor:(c)=>{ const v=c.p1.raw; if(v==null) return '#a78bfa'; return v<50?'#f87171':v<75?'#f59e0b':'#22c55e'; }}},
+      {label:'Rest (<50)',data:shortDates.map(()=>50),borderColor:'rgba(248,113,113,.6)',borderDash:[6,5],borderWidth:1,pointRadius:0,fill:false},
+      {label:'Ready (75)',data:shortDates.map(()=>75),borderColor:'rgba(34,197,94,.6)',borderDash:[6,5],borderWidth:1,pointRadius:0,fill:false}
+    ]},
+    options:{interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:12,usePointStyle:true}}},scales:{y:{min:0,max:100}}}});
+
+  // ---- HRV & RHR (dual axis + 7d avg) ----
   const hrv = dates.map(d=> typeof daily[d].hrv==='number'?daily[d].hrv:null);
   const rhr = dates.map(d=> typeof daily[d].resting_hr==='number'?daily[d].resting_hr:null);
-  new Chart(document.getElementById('hrvRhr'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'HRV',data:hrv,borderColor:'#22c55e'},{label:'RHR',data:rhr,borderColor:'#f59e0b'}]},options:{scales:{y:{min:30,max:90}}}});
-  // VO2 placeholder
-  new Chart(document.getElementById('vo2'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:'VO2 Max (Garmin returns null)',data:dates.map(()=>null),borderColor:'#94a3b8'}]},options:{plugins:{legend:{display:false}},scales:{y:{min:30,max:60}}}});
-  // FTP - dynamic from power_curves.json
-  const ftpLabel = `FTP ${ftpVal}W (${ftpStatus})`;
-  try{ document.getElementById('ftpTitle').textContent = ftpLabel; }catch(e){}
-  new Chart(document.getElementById('ftp'),{type:'line',data:{labels:dates.map(d=>d.slice(5)),datasets:[{label:ftpLabel,data:dates.map(()=>ftpVal),borderColor:'#38bdf8',fill:false}]},options:{scales:{y:{min:Math.max(150,ftpVal-80),max:ftpVal+80}}}});
-  // Compute zones dynamically from FTP (approx 7-zone)
-  const z2 = Math.round(ftpVal*0.55), z3=Math.round(ftpVal*0.75), z4=Math.round(ftpVal*0.90), z5=Math.round(ftpVal*1.05), z6=Math.round(ftpVal*1.20), z7=Math.round(ftpVal*1.50);
-  document.getElementById('ftpNote').textContent = `Zones: Z1 <${z2}W, Z2 ${z2}-${z3}, Z3 ${z3}-${z4}, Z4 ${z4}-${z5}, Z5 ${z5}-${z6}, Z6 ${z6}-${z7}, Z7 >${z7}. ${ftpStatus}. Retest via 20-min FTP test soon.`;
-  // Latest activities table
+  const ma7 = hrv.map((_,i)=>{ const w=hrv.slice(Math.max(0,i-6),i+1).filter(v=>typeof v==='number'); return w.length>=3?+(w.reduce((a,b)=>a+b,0)/w.length).toFixed(1):null; });
+  const hEl = document.getElementById('hrvRhr');
+  new Chart(hEl,{type:'line',
+    data:{labels:shortDates,datasets:[
+      {label:'HRV',data:hrv,borderColor:'#22c55e',backgroundColor:gradient(hEl,'rgba(34,197,94,.25)','rgba(34,197,94,0)'),fill:true,tension:.35,borderWidth:2.5,pointRadius:2.5,yAxisID:'y'},
+      {label:'HRV 7d avg',data:ma7,borderColor:'#bbf7d0',borderDash:[6,5],borderWidth:1.5,pointRadius:0,tension:.4,yAxisID:'y'},
+      {label:'RHR',data:rhr,borderColor:'#f59e0b',tension:.35,borderWidth:2.5,pointRadius:2.5,yAxisID:'y1'}
+    ]},
+    options:{interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:12,usePointStyle:true}}},scales:{
+      y:{position:'left',min:30,max:100,title:{display:true,text:'HRV',color:'#22c55e'}},
+      y1:{position:'right',min:35,max:70,grid:{drawOnChartArea:false},title:{display:true,text:'RHR bpm',color:'#f59e0b'}}
+    }}});
+
+  // ---- VO2 (graceful empty) ----
+  new Chart(document.getElementById('vo2'),{type:'line',data:{labels:shortDates,datasets:[{data:shortDates.map(()=>null),borderColor:'#94a3b8',borderDash:[4,4]}]},options:{plugins:{legend:{display:false}},scales:{y:{min:30,max:60}}}});
+
+  // ---- FTP zones ----
+  const ftpLabel = `FTP ${ftpVal}W`;
+  try{ document.getElementById('ftpTitle').textContent = ftpLabel + ' · Power Zones'; }catch(e){}
+  const fEl = document.getElementById('ftp');
+  const zB = [0, Math.round(ftpVal*0.55), Math.round(ftpVal*0.75), Math.round(ftpVal*0.90), Math.round(ftpVal*1.05), Math.round(ftpVal*1.20), Math.round(ftpVal*1.50)];
+  new Chart(fEl,{type:'line',data:{labels:shortDates,datasets:[{label:ftpLabel,data:shortDates.map(()=>ftpVal),borderColor:'#38bdf8',borderWidth:3,pointRadius:0,fill:false}]},
+    options:{plugins:{legend:{labels:{boxWidth:12}}},scales:{y:{min:Math.max(100,zB[0]),max:Math.round(ftpVal*1.6)}}}},
+    plugins:[bandPlugin([
+      {yMin:zB[0],yMax:zB[1],color:'rgba(148,163,184,.10)'},{yMin:zB[1],yMax:zB[2],color:'rgba(56,189,248,.10)'},
+      {yMin:zB[2],yMax:zB[3],color:'rgba(34,197,94,.10)'},{yMin:zB[3],yMax:zB[4],color:'rgba(245,158,11,.12)'},
+      {yMin:zB[4],yMax:zB[6],color:'rgba(248,113,113,.10)'}
+    ])]});
+  document.getElementById('ftpNote').textContent = `${ftpStatus}. Shading = zones behind the FTP line.`;
+  document.getElementById('ftpPills').innerHTML = [`Z1 <${zB[1]}`,`Z2 ${zB[1]}–${zB[2]}`,`Z3 ${zB[2]}–${zB[3]}`,`Z4 ${zB[3]}–${zB[4]}`,`Z5 ${zB[4]}–${zB[5]}`,`Z6+ >${zB[5]}`].map(z=>`<span>${z}W</span>`).join('');
+
+  // ---- Latest activities (same table, better formatting + HR badges) ----
+  const hrBadge = (v)=>{ if(typeof v!=='number') return '—'; const c = v<139?'ok':v<=159?'ok':v<=167?'warn':'bad'; return `<span class="badge ${c}">${v}</span>`; };
   const latestBody = document.querySelector('#latest tbody');
   [...acts].reverse().slice(0,10).forEach(a=>{
     const speed = a.distance_km && a.duration_seconds ? (a.distance_km/(a.duration_seconds/3600)).toFixed(1):'—';
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${a.date}</td><td>${a.name}</td><td>${a.distance_km} km</td><td>${a.duration}</td><td>${a._raw?.elevationGain||'—'} m</td><td>${a.avg_hr}</td><td>${a.max_hr}</td><td>${speed}</td><td>${a.calories}</td>`;
+    tr.innerHTML = `<td>${a.date}</td><td>${a.name}</td><td class="num">${a.distance_km} km</td><td>${a.duration}</td><td class="num">${a._raw?.elevationGain||'—'} m</td><td class="num">${hrBadge(a.avg_hr)}</td><td class="num">${hrBadge(a.max_hr)}</td><td class="num">${speed}</td><td class="num">${a.calories}</td>`;
     latestBody.appendChild(tr);
   });
-  // Power table - try real computed curves first (with multi-path fetch, no cache)
+
+  // ---- Power table (same columns, heatmap + personal bests) ----
   const powerBody = document.querySelector('#powerTable tbody');
   let powerCurves = null;
   const pcPaths = ['../garmin/power_curves.json','./garmin/power_curves.json','garmin/power_curves.json','/garmin-ai/garmin/power_curves.json'];
   for(const p of pcPaths){
-    try{
-      const r = await fetchNoCache(p);
-      if(r.ok){ powerCurves = await r.json(); console.log('power curves from',p); break; }
-    }catch(e){}
+    try{ const r = await fetchNoCache(p); if(r.ok){ powerCurves = await r.json(); break; } }catch(e){}
   }
-  if(!powerCurves){ try{ const r=await fetchNoCache('../garmin/power_curves.json'); if(r.ok) powerCurves=await r.json(); }catch(e){} }
   const getCurve = (id) => powerCurves?.curves?.[id] || null;
-  const estPower = (avg, max) => ({
-      '10s': Math.round(max*0.95),
-      '30s': Math.round(max*0.85),
-      '60s': Math.round(max*0.75),
-      '5m': Math.round(avg*1.8),
-      '20m': Math.round(avg*1.4),
-      '1h': Math.round(avg*1.15)
-  });
-  acts.forEach(a=>{
+  const rows = acts.map(a=>{
     const real = getCurve(String(a._raw?.activityId || a.id));
     const avg = real?.avgPower ?? a._raw?.averagePower ?? 110;
     const max = real?.maxPower ?? a._raw?.maxPower ?? 400;
     const np = real?.normalizedPower ?? a._raw?.normalizedPower ?? Math.round(avg*1.3);
-    const p = real ? { '10s': real['10s'], '30s': real['30s'], '60s': real['60s'], '5m': real['300s'], '20m': real['1200s'], '1h': real['3600s'] } : estPower(avg,max);
+    const p = real ? { '10s': real['10s'], '30s': real['30s'], '60s': real['60s'], '5m': real['300s'], '20m': real['1200s'], '1h': real['3600s'] } : null;
+    return {a, avg, max, np, p};
+  }).filter(r=>r.p);
+  const cols = ['10s','30s','60s','5m','20m','1h'];
+  const bests = {}; cols.forEach(c=>{ bests[c] = Math.max(...rows.map(r=>r.p[c]||0)); });
+  rows.forEach(({a,avg,max,np,p})=>{
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${a.date}</td><td>${a.name.slice(0,18)}</td><td>${p['10s']}</td><td>${p['30s']}</td><td>${p['60s']}</td><td>${p['5m']}</td><td>${p['20m']}</td><td>${p['1h']}</td><td>${avg}</td><td>${np}</td><td>${max}</td>`;
+    let tds = `<td>${a.date}</td><td>${a.name.slice(0,18)}</td>`;
+    cols.forEach(c=>{ tds += `<td class="num ${p[c]===bests[c]?'pb':''}">${p[c]??'—'}</td>`; });
+    tds += `<td class="num">${avg}</td><td class="num">${np}</td><td class="num">${max}</td>`;
+    tr.innerHTML = tds;
     powerBody.appendChild(tr);
   });
+  if(!rows.length){
+    powerBody.innerHTML = `<tr><td colspan="11"><div class="empty-state">No power-meter rides in this window — table fills in when directPower data exists.</div></td></tr>`;
+  }
 
-  // Insights - try AI first, fallback to static (no cache)
+  // ---- Insights (unchanged logic, better cards) ----
   let insights = null;
   try{
     const aiPaths = ['../garmin/ai_insights.json','./garmin/ai_insights.json','garmin/ai_insights.json','/garmin-ai/garmin/ai_insights.json'];
     for(const p of aiPaths){
-      try{ const r=await fetchNoCache(p); if(r.ok){ const j=await r.json(); if(Array.isArray(j) && j.length===10){ insights=j; console.log('Using AI insights from',p);
-        // Dynamic banner: read model from ai_insights.md header if available
+      try{ const r=await fetchNoCache(p); if(r.ok){ const j=await r.json(); if(Array.isArray(j) && j.length===10){ insights=j;
         let modelName = 'OpenRouter';
         try{ const mdR=await fetchNoCache(p.replace('.json','.md')); if(mdR.ok){ const md=await mdR.text(); const m=md.match(/via\s+`([^`]+)`/); if(m) modelName=m[1]; }}catch(e){}
-        const hdr = document.querySelector('h2:nth-of-type(6)');
+        const hdr = document.querySelectorAll('h2')[4];
         if(hdr){ const b=document.createElement('div'); b.className='card'; b.style.borderLeft='3px solid #22c55e'; b.innerHTML=`<div class="sub">✨ <strong>AI-generated</strong> today via <code>${modelName}</code> on OpenRouter — from your fresh Garmin data.</div><div class="sub"><a href="../garmin/ai_insights.md" target="_blank">View garmin/ai_insights.md</a> • <a href="../garmin/ai_insights.json" target="_blank">JSON</a></div>`; hdr.parentNode.insertBefore(b, hdr.nextSibling); }
         break; }
       } }catch(e){}
     }
-  }catch(e){ console.log('AI insights not loaded',e); }
-  // Track if AI file was used
+  }catch(e){}
   let usedAI = insights !== null;
   if(!insights){
   insights = [
-    {
-      title:'Insight 1: Aug 12 ride breached easy ceiling by ~8 bpm',
-      desc:'Your easy ceiling (Z1 top at 139 bpm, Z2 top 159 bpm from LTHR 175 / max 196) is 139 bpm for true recovery. Aug 12 avg 159 bpm sat exactly on Z2 ceiling and Z3 floor — that is threshold, not easy. Aug 14 (158 bpm) and Aug 23 (158 bpm) showed same pattern. For a happy base, keep 80% of rides <139 bpm avg; reserve 159+ for hard days only. Your Aug 19 (140 bpm) and Aug 27 (143 bpm) were perfect easy examples — copy those.',
-      badge:'warn', badgeText:'Zone drift'
-    },
-    {
-      title:'Insight 2: Long ride 81 km vertical load is moderate for Kolhapur — not high',
-      desc:'Aug 23 Daund ride: 452 m gain / 477 m loss over 81 km = ~5.6 m/km, and other rides 214-334 m over 30-60 km (~4-7 m/km). For a road block that is flat-to-rolling, not high. No vert stress. If you add Sahyadri climbs, watch for >15 m/km weeks — then cut volume 20% the next week. Your avg 238 m/ride is joint-friendly.',
-      badge:'ok', badgeText:'Vert OK'
-    },
-    {
-      title:'Insight 3: Week 34 (Aug 18-24) flags recovery sequencing risk — 4 rides, 220 km, 7.8 h',
-      desc:'You went 80 km (W32) → 110 km (W33) → 220 km (W34) — a +100% jump. Aug 23 3h ride plus Aug 24 13k steps spiked stress 46, dropped HRV 83→65, RHR 47→55, readiness 82→58 and body battery 79→53 the next day. Classic acute overload for a return-to-cycling block. Keep weekly ramp <10% and never stack long ride + big walk next day.',
-      badge:'bad', badgeText:'Overload'
-    },
-    {
-      title:'Insight 4: Restart progression — great consistency, then fade',
-      desc:'After your break, you nailed 9 rides in 23 days (Aug 5–27) averaging 50 km/1h47. That is a strong re-entry (15.9 h in 30 days). But W35 dropped to 1 ride (40 km) — normal post-peak. To avoid stop-start again, aim for 3 rides/week year-round at 100-130 km, not feast-famine. Your Aug 1 sleep 9h17 + readiness 92 shows you recover well when you allow it.',
-      badge:'warn', badgeText:'Consistency'
-    },
-    {
-      title:'Insight 5: Zone model (LTHR 175, Max 196, FTP 271 W — recalibrate now)',
-      desc:'Garmin shows cycling LT 175 bpm, Max 196 bpm, zones: Z1 <139, Z2 139-159, Z3 159-167, Z4 167-172, Z5 >172; Power Z1 <148W … Z7 >406W with FTP 271 W but flagged stale (2025-03-04). Your data uses these ceilings, so easy vs hard looks off. Do a field recalibration: 20-min FTP test (warmup 15 min, then 20 min max steady, take 95% avg power) and a max HR hill sprint, or at least run Garmin auto-detect for 2 weeks of easy rides.',
-      badge:'warn', badgeText:'Recalibrate'
-    },
-    {
-      title:'Insight 6: Polarized 80/20 — you are at ~65/35 (too much threshold)',
-      desc:'From last ride power zones: Z1 58% (3259s), Z2 22% (1258s), Z3 7.8%, Z4 3.6%, Z5+ 1.5%. That is ~60% easy, 40% hard — even more hard than HR shows. Goal for happiness + health is 80% easy (<139 bpm / <148 W) and 20% hard (>167 bpm / >244 W). Move 2 of your 4 weekly rides to true Z1-Z2 chatty pace; keep one interval day only. You will get faster with less fatigue.',
-      badge:'bad', badgeText:'Intensity'
-    },
-    {
-      title:'Insight 7: Recovery warning signs — watch the trio',
-      desc:'Red flags aligned Aug 24-25: HRV fell 15 points (83→65), RHR rose 8 bpm (47→55), readiness fell 24 pts (82→58), sleep was 5h53 with stress 46→32. That is not one bad night — it is systemic load + poor sleep. Rule: if 2 of 3 (HRV -10, RHR +7, readiness <60) are red for 2 days, take an extra easy day or 30-min spin only. Your Aug 27 recovery ride (143 bpm, readiness back 80) was perfect.',
-      badge:'bad', badgeText:'Recovery'
-    },
-    {
-      title:'Insight 8: Strength — maximal & reactive needs',
-      desc:'Cycling is concentric-only — you lose bounce and bone load. Add 2×15 min/week: maximal — Bulgarian split squats, deadlifts @ 5-8 reps heavy; reactive — pogo hops, box step-offs 3×10, calf raises. This protects knees on 50 km+ rides and improves 10s/30s power (your max 501 W last ride shows you have snap — keep it). Do strength on easy ride days, not before long rides.',
-      badge:'ok', badgeText:'Strength'
-    },
-    {
-      title:'Insight 9: VO2max improvement — your suggestion',
-      desc:'Garmin VO2max is null (no outdoor run VO2 estimate and cycling VO2 needs power+HR 20-min efforts). To nudge aerobic ceiling without racing: 1×/week, 5×3 min at 166-172 bpm / 284-324W (Z5) with 3 min easy spin between, on a 60-75 min ride. Start with 4×3 min, add one each month. Keep other rides easy. Retest VO2 after 6 weeks — expect +2-4% if sleep stays >7h (your best readiness 98 came after 7h50 sleep Aug 20).',
-      badge:'ok', badgeText:'VO2'
-    },
-    {
-      title:'Insight 10: FTP suggestion — functional threshold power',
-      desc:'FTP 271 W is stale and likely a bit high for current form (your last ride NP 154W over 1h27 = ~57% FTP, and 20m est ~155-170W). For honest training, retest: after 10 min easy + 5 min hard opener + 5 min easy, do 20 min all-out on flat with no stops, avg power ×0.95 = new FTP. Then set zones anew and track monthly: aim +5-10W per 8 weeks if you ride 3×/week. Until then, train by HR zones above — they are fresher (updated Aug). Do not chase FTP weekly; it moves slowly.',
-      badge:'warn', badgeText:'FTP'
-    },
+    {title:'Insight 1: Easy rides drifting into threshold',description:'Keep 80% of rides under 139 bpm avg; reserve 159+ for hard days only.',badge:'warn',badgeText:'Zone drift'},
+    {title:'Insight 2: Vert load looks joint-friendly',description:'Flat-to-rolling weeks need no vert cutback; watch for >15 m/km weeks.',badge:'ok',badgeText:'Vert OK'},
+    {title:'Insight 3: Watch weekly ramp',description:'Keep weekly distance ramp under ~10% and avoid stacking long ride + big walk.',badge:'bad',badgeText:'Overload'},
+    {title:'Insight 4: Protect consistency',description:'Aim for 3 rides/week at steady volume over feast-famine blocks.',badge:'warn',badgeText:'Consistency'},
+    {title:'Insight 5: Recalibrate zones',description:'FTP and HR zones look stale — do a 20-min FTP test and max-HR check.',badge:'warn',badgeText:'Recalibrate'},
+    {title:'Insight 6: Polarized 80/20',description:'Move most riding to true easy pace; keep one harder day only.',badge:'bad',badgeText:'Intensity'},
+    {title:'Insight 7: Recovery trio',description:'If 2 of HRV/RHR/readiness are red for 2 days, take an easy day.',badge:'bad',badgeText:'Recovery'},
+    {title:'Insight 8: Add strength',description:'2x15 min/week of split squats, hinges, hops and calves protects knees.',badge:'ok',badgeText:'Strength'},
+    {title:'Insight 9: VO2 nudge',description:'1x/week 4-5x3 min at Z5 with easy spins; retest after 6 weeks.',badge:'ok',badgeText:'VO2'},
+    {title:'Insight 10: FTP retest',description:'20-min all-out avg x0.95 = new FTP; expect +5-10W per 8 weeks.',badge:'warn',badgeText:'FTP'},
   ];
   }
-  // AI Status indicator (green = real AI even via fallback, red = all failed/static)
   try{
     const dot = document.getElementById('aiDot');
     const txt = document.getElementById('aiStatusText');
     const first = (insights && insights[0] && insights[0].title || '').toLowerCase();
-    const isFailed = first.includes('failed') || first.includes('not configured') || first.includes('error') || first.includes('not configured yet');
+    const isFailed = first.includes('failed') || first.includes('not configured') || first.includes('error');
     const isRealAI = usedAI && insights && insights.length===10 && !isFailed;
     if(dot && txt){
-      if(isRealAI){
-        dot.className = 'dot ok';
-        txt.textContent = 'AI Insights • Live';
-        txt.style.color = 'var(--ok)';
-        document.getElementById('aiStatus').title = 'AI insights live from OpenRouter (even via fallback model)';
-      } else {
-        dot.className = 'dot bad';
-        txt.textContent = 'AI Insights • Error';
-        txt.style.color = 'var(--bad)';
-        document.getElementById('aiStatus').title = 'AI insights failed — showing fallback/static';
-      }
+      if(isRealAI){ dot.className = 'dot ok'; txt.textContent = 'AI Insights • Live'; txt.style.color = 'var(--ok)'; }
+      else { dot.className = 'dot bad'; txt.textContent = 'AI Insights • Error'; txt.style.color = 'var(--bad)'; }
     }
-  }catch(e){ console.log('status err',e); }
+  }catch(e){}
   document.getElementById('insights').innerHTML = insights.map(i=>`
-    <div class="insight"><div style="display:flex;gap:8px;align-items:center"><span class="badge ${i.badge}">${i.badgeText||i.badge}</span><strong>${i.title}</strong></div><div class="sub" style="margin-top:6px;line-height:1.5">${i.description || i.desc || ''}</div></div>
+    <div class="insight"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="badge ${i.badge}">${i.badgeText||i.badge}</span><strong>${i.title}</strong></div><div class="sub" style="margin-top:6px;line-height:1.6">${i.description || i.desc || ''}</div></div>
   `).join('');
 }
 load().catch(e=>{
@@ -338,21 +417,7 @@ load().catch(e=>{
   <div style="padding:32px;max-width:800px;margin:40px auto;background:#1e293b;border-radius:12px;line-height:1.6">
     <h2 style="color:#f87171;margin:0 0 12px">Failed to load garmin/data.json</h2>
     <pre style="white-space:pre-wrap;background:#0f172a;padding:12px;border-radius:8px;overflow:auto">${e.message || e}</pre>
-    ${isFile ? `
-    <p><strong>You opened the file via double-click (file://) — browsers block fetch there.</strong></p>
-    <p>Fix (30 seconds):</p>
-    <ol>
-      <li>Open PowerShell in <code>C:\\Users\\Hp\\Downloads\\NM\\garmin-ai</code></li>
-      <li>Run: <code>py -m http.server 8000</code></li>
-      <li>Then open: <a href="http://localhost:8000/dashboard/" target="_blank">http://localhost:8000/dashboard/</a> or <a href="http://localhost:8000/docs/" target="_blank">http://localhost:8000/docs/</a></li>
-      <li>Keep that PowerShell window open while viewing</li>
-    </ol>
-    <p>Or use VS Code → install “Live Server” extension → right-click <code>dashboard/index.html</code> → Open with Live Server.</p>
-    ` : `
-    <p>Make sure you ran: <code>py sync_garmin.py --days 30 --sink files --out ./garmin</code> from <code>C:\\Users\\Hp\\Downloads\\NM\\garmin-ai</code></p>
-    <p>On GitHub Pages, ensure the Pages workflow finished (Actions tab → Deploy Dashboard) and that <code>garmin/data.json</code> was committed.</p>
-    `}
-    <p style="color:#94a3b8;font-size:13px">Checked paths: ../garmin/data.json, ./garmin/data.json, garmin/data.json, /garmin-ai/garmin/data.json</p>
+    ${isFile ? `<p><strong>You opened the file via double-click (file://) — browsers block fetch there.</strong></p><p>Run <code>py -m http.server 8000</code> in the repo root, then open <code>http://localhost:8000/dashboard/</code>.</p>` : `<p>Make sure the sync workflow committed <code>garmin/data.json</code>.</p>`}
   </div>`;
 });
 </script>
