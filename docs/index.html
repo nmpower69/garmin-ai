@@ -204,13 +204,21 @@ async function load(){
   }
   if(!res) throw new Error('Tried ' + paths.join(', ') + ' — last: ' + lastErr + '. If you opened via file://, run a local server instead (see below).');
   if(successPath) try{ document.getElementById('dataLink').href = successPath; }catch(e){}
+  // Resolve sibling files (power_curves.json, ai_insights.json) from the data.json
+  // URL that actually worked — avoids noisy 404s from guessing ../ vs ./ paths
+  // across Pages root, /docs fallback, and local server layouts.
+  const siblingOf = (file)=>{
+    try{ return new URL(successPath, document.baseURI).href.replace(/data\.json$/, file); }
+    catch(e){ return null; }
+  };
   const data = await res.json();
   document.getElementById('range').textContent = data.date_range.join(' → ');
   document.getElementById('lastSync').textContent = 'synced ' + new Date(data.generated_at).toLocaleString();
   const daily = data.daily;
   const acts = data.activities.filter(a=>a.sport==='road_biking').sort((a,b)=>a.date.localeCompare(b.date));
   let earlyPower = null;
-  try{ const r=await fetchNoCache(new URL('garmin/power_curves.json', document.baseURI).href); if(r.ok) earlyPower=await r.json(); }catch(e){}
+  try{ const u = siblingOf('power_curves.json'); if(u){ const r=await fetchNoCache(u); if(r.ok) earlyPower=await r.json(); } }catch(e){}
+  try{ if(!earlyPower){ const r=await fetchNoCache(new URL('garmin/power_curves.json', document.baseURI).href); if(r.ok) earlyPower=await r.json(); } }catch(e){}
   try{ if(!earlyPower){ const r2=await fetchNoCache('../garmin/power_curves.json'); if(r2.ok) earlyPower=await r2.json(); }}catch(e){}
   const ftpVal = earlyPower?.ftp || 271;
   const ftpStatus = earlyPower?.ftp_status || 'stale 2025-03-04 — retest needed';
@@ -352,7 +360,7 @@ async function load(){
   // ---- Power table (same columns, heatmap + personal bests) ----
   const powerBody = document.querySelector('#powerTable tbody');
   let powerCurves = null;
-  const pcPaths = ['../garmin/power_curves.json','./garmin/power_curves.json','garmin/power_curves.json','/garmin-ai/garmin/power_curves.json'];
+  const pcPaths = [siblingOf('power_curves.json'),'./garmin/power_curves.json','garmin/power_curves.json','/garmin-ai/garmin/power_curves.json','../garmin/power_curves.json'].filter(Boolean);
   for(const p of pcPaths){
     try{ const r = await fetchNoCache(p); if(r.ok){ powerCurves = await r.json(); break; } }catch(e){}
   }
@@ -382,7 +390,7 @@ async function load(){
   // ---- Insights (unchanged logic, better cards) ----
   let insights = null;
   try{
-    const aiPaths = ['../garmin/ai_insights.json','./garmin/ai_insights.json','garmin/ai_insights.json','/garmin-ai/garmin/ai_insights.json'];
+    const aiPaths = [siblingOf('ai_insights.json'),'./garmin/ai_insights.json','garmin/ai_insights.json','/garmin-ai/garmin/ai_insights.json','../garmin/ai_insights.json'].filter(Boolean);
     for(const p of aiPaths){
       try{ const r=await fetchNoCache(p); if(r.ok){ const j=await r.json(); if(Array.isArray(j) && j.length===10){ insights=j;
         let modelName = 'OpenRouter';
