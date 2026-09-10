@@ -59,6 +59,18 @@ table{min-width:640px}
 .zone-pills span{font-size:11px;padding:3px 9px;border-radius:99px;background:#0e1830;border:1px solid var(--border);color:var(--muted);font-variant-numeric:tabular-nums}
 .pb{background:rgba(56,189,248,.16)!important;color:#7dd3fc!important;font-weight:800}
 .empty-state{text-align:center;padding:28px 12px;color:var(--muted)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-dow{font-size:11px;color:var(--muted);text-align:center;font-weight:700;padding:4px 0}
+.cal-day{border:1px solid var(--border);border-radius:10px;padding:6px;font-size:11px;display:flex;flex-direction:column;gap:3px;min-width:0;background:#0e1830;color:var(--text);min-height:64px}
+.cal-day .d{font-weight:800}
+.cal-day .km{font-weight:800;color:#7dd3fc;font-variant-numeric:tabular-nums}
+.cal-day .st{color:var(--muted);font-size:10px}
+.cal-day.rest{opacity:.7}
+.cal-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.cal-nav{background:#0e1830;border:1px solid var(--border);color:var(--text);border-radius:10px;padding:5px 13px;cursor:pointer;font-size:16px;line-height:1}
+.cal-nav:disabled{opacity:.3;cursor:default}
+.cal-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+@media (max-width:640px){.cal-day{min-height:52px;font-size:10px;padding:4px}.cal-day .st{display:none}}
 @media (max-width:768px){
   header{padding:14px 16px}
   h1{font-size:17px}
@@ -84,6 +96,32 @@ table{min-width:640px}
 
 <div class="wrap">
 <div class="grid" id="kpis"></div>
+
+<h2>🗓️ Training Calendar</h2>
+<p class="section-sub">Blue depth = ride distance, dot = readiness tier. Click a day to open its note.</p>
+<div class="card">
+<div class="cal-head"><button class="cal-nav" id="calPrev">‹</button><strong id="calTitle"></strong><button class="cal-nav" id="calNext">›</button><span class="sub">● ready ≥75 &nbsp;● ok 50–75 &nbsp;● tired &lt;50</span></div>
+<div class="cal-grid" id="calGrid"></div>
+</div>
+
+<h2>🔥 Intensity &amp; 😴 Sleep</h2>
+<p class="section-sub">Where your hours went (rides bucketed by avg HR) and how you slept each night.</p>
+<div class="grid-3">
+<div class="card"><h3>Ride Hours by HR Zone</h3><canvas id="zoneDonut"></canvas><div class="chart-sub">Z1 &lt;139 · Z2 139–159 · Z3 159–167 · Z4 167–172 · Z5 &gt;172.</div></div>
+<div class="card" style="grid-column:span 2"><h3>Sleep Stages per Night (h)</h3><canvas id="sleepStack"></canvas><div class="chart-sub">Stacked bars = deep / light / REM / awake · dashed amber = sleep score (right axis).</div></div>
+</div>
+
+<h2>🧬 Recovery Deep-Dive</h2>
+<p class="section-sub">Every recovery signal normalized to 0–100, composite in bold white.</p>
+<div class="card"><canvas id="recoveryComp"></canvas><div class="chart-sub">Composite = mean of available signals. HRV scaled 40–90, RHR inverted 60–40, stress inverted. Bands: green ≥75 · amber 50–75 · red &lt;50.</div></div>
+
+<h2>🌊 Where Ride Time Flows</h2>
+<p class="section-sub">Total hours → intensity (by avg HR) → ride length. Ribbon width = hours.</p>
+<div class="card"><svg id="sankeySvg" viewBox="0 0 760 340" style="width:100%;height:auto;display:block"></svg><div class="chart-sub" id="sankeyNote">Easy &lt;139 bpm · Moderate 139–167 · Hard &gt;167. Short &lt;1h · Medium 1–2h · Long 2h+.</div></div>
+
+<h2>🏆 Records &amp; Streaks</h2>
+<p class="section-sub">Bests in this window plus consistency.</p>
+<div class="grid" id="recordsGrid"></div>
 
 <h2>📊 Weekly Volume · Hours · Vert</h2>
 <p class="section-sub">Training load per calendar week — bars show totals, dashed line is the period average. Hover any bar for ride count.</p>
@@ -115,7 +153,7 @@ table{min-width:640px}
 <h2>🕒 Latest Activities</h2>
 <div class="card"><div class="table-wrap"><table id="latest"><thead><tr><th>Date</th><th>Name</th><th class="num">Dist</th><th>Time</th><th class="num">Elev</th><th class="num">Avg HR</th><th class="num">Max HR</th><th class="num">Speed</th><th class="num">Cal</th></tr></thead><tbody></tbody></table></div></div>
 
-<h2>💡 Insights</h2>
+<h2 id="insightsH">💡 Insights</h2>
 <p class="section-sub">AI coaching notes generated after each morning sync.</p>
 <div id="insights"></div>
 </div>
@@ -347,6 +385,182 @@ async function load(){
   document.getElementById('ftpNote').textContent = `${ftpStatus}. Shading = zones behind the FTP line.`;
   document.getElementById('ftpPills').innerHTML = [`Z1 <${zB[1]}`,`Z2 ${zB[1]}–${zB[2]}`,`Z3 ${zB[2]}–${zB[3]}`,`Z4 ${zB[3]}–${zB[4]}`,`Z5 ${zB[4]}–${zB[5]}`,`Z6+ >${zB[5]}`].map(z=>`<span>${z}W</span>`).join('');
 
+  // ---- Calendar ----
+  const actsByDate = {}; acts.forEach(a=>{ const k = a.date; if(!actsByDate[k]) actsByDate[k]=[]; actsByDate[k].push(a); });
+  const monthKeys = Array.from(new Set(Object.keys(daily).map(d=>d.slice(0,7)))).sort();
+  let calYM = monthKeys.length ? monthKeys[monthKeys.length-1] : null;
+  const dataBase = (()=>{ try{ return new URL(successPath, document.baseURI).href.replace(/data\.json$/, ''); }catch(e){ return ''; } })();
+  const readinessColor = (v)=> typeof v!=='number' ? '#64748b' : v>=75 ? '#22c55e' : v>=50 ? '#f59e0b' : '#f87171';
+  function renderCalendar(){
+    if(!calYM) return;
+    const parts = calYM.split('-'); const Y = +parts[0], M = +parts[1];
+    const first = new Date(Y, M-1, 1);
+    const startDay = (first.getDay()+6)%7;
+    const dim = new Date(Y, M, 0).getDate();
+    document.getElementById('calTitle').textContent = first.toLocaleString(undefined,{month:'long',year:'numeric'});
+    document.getElementById('calPrev').disabled = calYM <= monthKeys[0];
+    document.getElementById('calNext').disabled = calYM >= monthKeys[monthKeys.length-1];
+    let html = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>'<div class="cal-dow">'+d+'</div>').join('');
+    for(let i=0;i<startDay;i++) html += '<div></div>';
+    for(let d=1; d<=dim; d++){
+      const key = Y + '-' + String(M).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+      const day = daily[key]; const rides = actsByDate[key] || [];
+      let km = 0; rides.forEach(a=>{ if(typeof a.distance_km==='number') km += a.distance_km; });
+      const inten = Math.min(1, km/60);
+      const bg = km>0 ? 'background:rgba(56,189,248,' + (0.08+0.5*inten).toFixed(2) + ')' : '';
+      const dot = day ? '<span class="cal-dot" style="background:' + readinessColor(day.training_readiness) + '"></span>' : '';
+      const sub = km>0 ? '<span class="km">' + km.toFixed(0) + ' km</span>' : (day && typeof day.steps==='number' ? '<span class="st">' + (day.steps/1000).toFixed(1) + 'k</span>' : '');
+      const tip = day ? (key + ' ride ' + km.toFixed(1) + 'km steps ' + day.steps + ' sleep ' + day.sleep_hours + ' HRV ' + day.hrv + ' RHR ' + day.resting_hr + ' readiness ' + day.training_readiness) : key;
+      const link = (day && dataBase) ? (dataBase + 'daily/' + key + '.md') : '#';
+      html += '<a class="cal-day' + (km>0?'':' rest') + '" style="' + bg + '" title="' + tip + '" href="' + link + '" target="_blank"><span class="d">' + d + '</span>' + sub + '<span style="display:flex;justify-content:flex-end">' + dot + '</span></a>';
+    }
+    document.getElementById('calGrid').innerHTML = html;
+  }
+  document.getElementById('calPrev').onclick = ()=>{ const i=monthKeys.indexOf(calYM); if(i>0){ calYM=monthKeys[i-1]; renderCalendar(); } };
+  document.getElementById('calNext').onclick = ()=>{ const i=monthKeys.indexOf(calYM); if(i<monthKeys.length-1){ calYM=monthKeys[i+1]; renderCalendar(); } };
+  renderCalendar();
+
+  // ---- Intensity donut (ride hours by avg-HR zone) ----
+  const zoneDef = [[-1000,139,'Z1 Easy','#38bdf8'],[139,159,'Z2 Base','#22c55e'],[159,167,'Z3 Tempo','#f59e0b'],[167,172,'Z4 Threshold','#fb923c'],[172,10000,'Z5 Max','#f87171']];
+  const zoneHrs = [0,0,0,0,0]; let zonedHrs = 0;
+  acts.forEach(a=>{
+    if(typeof a.avg_hr==='number' && typeof a.duration_seconds==='number'){
+      for(let zi=0; zi<zoneDef.length; zi++){
+        if(a.avg_hr>=zoneDef[zi][0] && a.avg_hr<zoneDef[zi][1]){ const h=a.duration_seconds/3600; zoneHrs[zi]+=h; zonedHrs+=h; break; }
+      }
+    }
+  });
+  const zEl = document.getElementById('zoneDonut');
+  new Chart(zEl,{type:'doughnut',
+    data:{labels:zoneDef.map(z=>z[2]),datasets:[{data:zoneHrs.map(h=>+h.toFixed(2)),backgroundColor:zoneDef.map(z=>z[3]),borderColor:'#0e1830',borderWidth:3}]},
+    options:{cutout:'62%',plugins:{legend:{position:'bottom',labels:{boxWidth:12,usePointStyle:true}}}},
+    plugins:[{id:'centerText',afterDraw(c){
+      const meta = c.getDatasetMeta(0); if(!meta.data[0]) return;
+      const p = meta.data[0]; const ctx2 = c.ctx;
+      ctx2.save(); ctx2.textAlign='center'; ctx2.fillStyle='#fff'; ctx2.font='800 22px Inter,system-ui';
+      ctx2.fillText(zonedHrs.toFixed(1)+' h', p.x, p.y-2);
+      ctx2.fillStyle='#8ea0b8'; ctx2.font='11px Inter,system-ui';
+      ctx2.fillText(acts.length+' rides', p.x, p.y+16); ctx2.restore();
+    }}]});
+
+  // ---- Sleep stack ----
+  const slpH = (d,path)=>{ const D = daily[d]; const s2 = D && D._raw && D._raw.sleep && D._raw.sleep.dailySleepDTO; const v = s2 ? s2[path] : null; return typeof v==='number' ? +(v/3600).toFixed(2) : 0; };
+  const slpScore = (d)=>{ const s2 = daily[d] ? daily[d].sleep_score : null; let m = null; if(typeof s2==='string') m = parseInt(s2,10); else if(typeof s2==='number') m = s2; return (typeof m==='number' && !isNaN(m)) ? m : null; };
+  const sEl = document.getElementById('sleepStack');
+  new Chart(sEl,{type:'bar',
+    data:{labels:shortDates,datasets:[
+      {label:'Deep',data:dates.map(d=>slpH(d,'deepSleepSeconds')),backgroundColor:'#818cf8',borderRadius:3},
+      {label:'Light',data:dates.map(d=>slpH(d,'lightSleepSeconds')),backgroundColor:'#38bdf8',borderRadius:3},
+      {label:'REM',data:dates.map(d=>slpH(d,'remSleepSeconds')),backgroundColor:'#22d3ee',borderRadius:3},
+      {label:'Awake',data:dates.map(d=>slpH(d,'awakeSleepSeconds')),backgroundColor:'#475569',borderRadius:3},
+      {label:'Score',data:dates.map(slpScore),type:'line',borderColor:'#fbbf24',borderDash:[5,4],borderWidth:2,pointRadius:2,yAxisID:'y1'}
+    ]},
+    options:{interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:12,usePointStyle:true}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,title:{display:true,text:'hours'}},y1:{position:'right',min:0,max:100,grid:{drawOnChartArea:false},title:{display:true,text:'score'}}}}});
+
+  // ---- Recovery composite ----
+  const nReady = (v)=> typeof v==='number' ? v : null;
+  const nHrv = (v)=> typeof v==='number' ? Math.max(0,Math.min(100,(v-40)/50*100)) : null;
+  const nRhr = (v)=> typeof v==='number' ? Math.max(0,Math.min(100,(60-v)/20*100)) : null;
+  const nBb = (v)=> typeof v==='number' ? Math.max(0,Math.min(100,v)) : null;
+  const nStress = (v)=> typeof v==='number' ? Math.max(0,Math.min(100,100-v)) : null;
+  const rcAll = [], rcR = [], rcH = [], rcRh = [], rcB = [], rcS = [];
+  dates.forEach(d=>{
+    const D = daily[d] || {};
+    const vals = [nReady(D.training_readiness),nHrv(D.hrv),nRhr(D.resting_hr),nBb(D.body_battery),nStress(D.stress)];
+    rcR.push(vals[0]); rcH.push(vals[1]); rcRh.push(vals[2]); rcB.push(vals[3]); rcS.push(vals[4]);
+    const ok = vals.filter(v=>v!=null);
+    rcAll.push(ok.length>=3 ? +(ok.reduce((a,b)=>a+b,0)/ok.length).toFixed(1) : null);
+  });
+  const rcEl = document.getElementById('recoveryComp');
+  new Chart(rcEl,{type:'line',
+    data:{labels:shortDates,datasets:[
+      {label:'Composite',data:rcAll,borderColor:'#ffffff',backgroundColor:gradient(rcEl,'rgba(56,189,248,.30)','rgba(56,189,248,0)'),fill:true,tension:.35,borderWidth:3,pointRadius:3,spanGaps:true},
+      {label:'Readiness',data:rcR,borderColor:'#a78bfa',tension:.3,borderWidth:1.2,pointRadius:0,spanGaps:true},
+      {label:'HRV',data:rcH,borderColor:'#22c55e',tension:.3,borderWidth:1.2,pointRadius:0,spanGaps:true},
+      {label:'RHR inv.',data:rcRh,borderColor:'#f59e0b',tension:.3,borderWidth:1.2,pointRadius:0,spanGaps:true},
+      {label:'Battery',data:rcB,borderColor:'#38bdf8',tension:.3,borderWidth:1.2,pointRadius:0,spanGaps:true},
+      {label:'Stress inv.',data:rcS,borderColor:'#f87171',tension:.3,borderWidth:1.2,pointRadius:0,spanGaps:true}
+    ]},
+    options:{interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:12,usePointStyle:true}}},scales:{y:{min:0,max:100}}},
+    plugins:[bandPlugin([{yMin:0,yMax:50,color:'rgba(248,113,113,.07)'},{yMin:50,yMax:75,color:'rgba(245,158,11,.07)'},{yMin:75,yMax:100,color:'rgba(34,197,94,.07)'}])]});
+
+  // ---- Sankey: ride time -> intensity -> length (hand-rolled SVG, no dependency) ----
+  (function(){
+    const svg = document.getElementById('sankeySvg'); if(!svg) return;
+    const zn = ['Easy <139','Mod 139-167','Hard >167'], zc = ['#22c55e','#f59e0b','#f87171'];
+    const ln3 = ['Short <1h','Med 1-2h','Long 2h+'], lc = ['#7dd3fc','#38bdf8','#818cf8'];
+    const skM = [[0,0,0],[0,0,0],[0,0,0]]; let skSkip = 0;
+    acts.forEach(a=>{
+      if(typeof a.avg_hr==='number' && typeof a.duration_seconds==='number'){
+        const zi = a.avg_hr<139 ? 0 : (a.avg_hr<=167 ? 1 : 2);
+        const li = a.duration_seconds<3600 ? 0 : (a.duration_seconds<=7200 ? 1 : 2);
+        skM[zi][li] += a.duration_seconds/3600;
+      } else { skSkip++; }
+    });
+    const zt = [skM[0][0]+skM[0][1]+skM[0][2], skM[1][0]+skM[1][1]+skM[1][2], skM[2][0]+skM[2][1]+skM[2][2]];
+    const lt = [skM[0][0]+skM[1][0]+skM[2][0], skM[0][1]+skM[1][1]+skM[2][1], skM[0][2]+skM[1][2]+skM[2][2]];
+    const skTot = zt[0]+zt[1]+zt[2];
+    if(!(skTot>0)){ svg.outerHTML = '<div class="empty-state">Not enough HR data for flow.</div>'; return; }
+    const skW = 760, skTop = 30, skBot = 20, skNW = 18;
+    const skX = [150, 371, 592];
+    const skSc = (340-skTop-skBot)/skTot;
+    const zTop = [skTop,skTop,skTop], lTop = [skTop,skTop,skTop];
+    let yy = skTop; for(let i=0;i<3;i++){ zTop[i]=yy; yy+=zt[i]*skSc; }
+    yy = skTop; for(let j=0;j<3;j++){ lTop[j]=yy; yy+=lt[j]*skSc; }
+    const rib = (x0,y0,h0,x1,y1,h1,c)=>{
+      const mx = ((x0+x1)/2).toFixed(1);
+      return '<path d="M'+x0.toFixed(1)+','+y0.toFixed(1)+' C'+mx+','+y0.toFixed(1)+' '+mx+','+y1.toFixed(1)+' '+x1.toFixed(1)+','+y1.toFixed(1)+' L'+x1.toFixed(1)+','+(y1+h1).toFixed(1)+' C'+mx+','+(y1+h1).toFixed(1)+' '+mx+','+(y0+h0).toFixed(1)+' '+x0.toFixed(1)+','+(y0+h0).toFixed(1)+' Z" fill="'+c+'" opacity="0.45"><title>'+h0.toFixed(2)+' h</title></path>';
+    };
+    let skS = '';
+    skS += '<text x="'+(skX[0]+skNW/2)+'" y="14" text-anchor="middle" fill="#8ea0b8" font-size="11">TOTAL</text>';
+    skS += '<text x="'+(skX[1]+skNW/2)+'" y="14" text-anchor="middle" fill="#8ea0b8" font-size="11">INTENSITY</text>';
+    skS += '<text x="'+(skX[2]+skNW/2)+'" y="14" text-anchor="middle" fill="#8ea0b8" font-size="11">LENGTH</text>';
+    let yT = skTop; const zo=[0,0,0], lo=[0,0,0];
+    for(let i=0;i<3;i++){ for(let j=0;j<3;j++){
+      const h = skM[i][j]*skSc;
+      const y0t = yT, y0z = zTop[i]+zo[i]*skSc, y1l = lTop[j]+lo[j]*skSc;
+      if(h>=0.6){
+        skS += rib(skX[0]+skNW, y0t, h, skX[1], y0z, h, zc[i]);
+        skS += rib(skX[1]+skNW, y0z, h, skX[2], y1l, h, zc[i]);
+      }
+      yT+=h; zo[i]+=skM[i][j]; lo[j]+=skM[i][j];
+    } }
+    skS += '<rect x="'+skX[0]+'" y="'+skTop+'" width="'+skNW+'" height="'+(skTot*skSc).toFixed(1)+'" rx="4" fill="#e2e8f0"><title>'+skTot.toFixed(2)+' h</title></rect>';
+    skS += '<text x="'+(skX[0]-8)+'" y="'+(skTop+skTot*skSc/2+4).toFixed(1)+'" text-anchor="end" fill="#fff" font-size="12" font-weight="700">'+skTot.toFixed(1)+' h</text>';
+    for(let i=0;i<3;i++){ if(zt[i]<=0) continue;
+      skS += '<rect x="'+skX[1]+'" y="'+zTop[i].toFixed(1)+'" width="'+skNW+'" height="'+(zt[i]*skSc).toFixed(1)+'" rx="4" fill="'+zc[i]+'"><title>'+zt[i].toFixed(2)+' h</title></rect>';
+      skS += '<text x="'+(skX[1]+skNW+8)+'" y="'+(zTop[i]+zt[i]*skSc/2+4).toFixed(1)+'" fill="#e8eef7" font-size="11">'+zn[i]+' · '+zt[i].toFixed(1)+'h</text>';
+    }
+    for(let j=0;j<3;j++){ if(lt[j]<=0) continue;
+      skS += '<rect x="'+skX[2]+'" y="'+lTop[j].toFixed(1)+'" width="'+skNW+'" height="'+(lt[j]*skSc).toFixed(1)+'" rx="4" fill="'+lc[j]+'"><title>'+lt[j].toFixed(2)+' h</title></rect>';
+      skS += '<text x="'+(skX[2]+skNW+8)+'" y="'+(lTop[j]+lt[j]*skSc/2+4).toFixed(1)+'" fill="#e8eef7" font-size="11">'+ln3[j]+' · '+lt[j].toFixed(1)+'h</text>';
+    }
+    svg.innerHTML = skS;
+    const note = document.getElementById('sankeyNote');
+    if(note && skSkip>0) note.textContent += ' (' + skSkip + ' ride(s) missing HR excluded.)';
+  })();
+
+  // ---- Records & streaks ----
+  const recCards = [];
+  let longest = null;
+  acts.forEach(a=>{ if(typeof a.distance_km==='number' && (!longest || a.distance_km>(longest.distance_km||0))) longest = a; });
+  if(longest) recCards.push(['Longest ride', longest.distance_km.toFixed(0)+' km', longest.date + ' · ' + longest.name, '🏁']);
+  const wkBest = Object.entries(weeks).sort((a,b)=>b[1].km-a[1].km)[0];
+  if(wkBest) recCards.push(['Biggest week', wkBest[1].km.toFixed(0)+' km', wkBest[0] + ' · ' + wkBest[1].count + ' rides', '📈']);
+  const curves = (earlyPower && earlyPower.curves) ? earlyPower.curves : {};
+  const pbest = (k)=>{ let b=0; Object.values(curves).forEach(c=>{ if(c && typeof c[k]==='number' && c[k]>b) b=c[k]; }); return b; };
+  const b10=pbest('10s'), b5=pbest('300s'), b20=pbest('1200s');
+  if(b10>0) recCards.push(['Best 10s power', b10+' W', 'neuromuscular', '⚡']);
+  if(b5>0) recCards.push(['Best 5m power', b5+' W', 'VO2', '🔥']);
+  if(b20>0) recCards.push(['Best 20m power', b20+' W', 'approx FTP', '⏱️']);
+  const last14 = dates.slice(-14);
+  const dots = last14.map(d=>{
+    const has = (actsByDate[d]||[]).length>0;
+    return '<span title="' + d + (has?' — ride':'') + '" style="display:inline-block;width:14px;height:14px;border-radius:50%;background:' + (has?'#38bdf8':'#26344f') + ';margin-right:5px;border:1px solid #33507e;vertical-align:middle"></span>';
+  }).join('');
+  recCards.push(['Last 14 days', acts.length+' rides / 30d', dots, '🗓️']);
+  document.getElementById('recordsGrid').innerHTML = recCards.map(r=>'<div class="card kpi-card"><div class="kpi-icon">'+r[3]+'</div><div><div class="kpi-label">'+r[0]+'</div><div class="kpi">'+r[1]+'</div><div class="sub">'+r[2]+'</div></div></div>').join('');
+
   // ---- Latest activities (same table, better formatting + HR badges) ----
   const hrBadge = (v)=>{ if(typeof v!=='number') return '—'; const c = v<139?'ok':v<=159?'ok':v<=167?'warn':'bad'; return `<span class="badge ${c}">${v}</span>`; };
   const latestBody = document.querySelector('#latest tbody');
@@ -395,7 +609,7 @@ async function load(){
       try{ const r=await fetchNoCache(p); if(r.ok){ const j=await r.json(); if(Array.isArray(j) && j.length===10){ insights=j;
         let modelName = 'OpenRouter';
         try{ const mdR=await fetchNoCache(p.replace('.json','.md')); if(mdR.ok){ const md=await mdR.text(); const m=md.match(/via\s+`([^`]+)`/); if(m) modelName=m[1]; }}catch(e){}
-        const hdr = document.querySelectorAll('h2')[4];
+        const hdr = document.getElementById('insightsH');
         if(hdr){ const b=document.createElement('div'); b.className='card'; b.style.borderLeft='3px solid #22c55e'; b.innerHTML=`<div class="sub">✨ <strong>AI-generated</strong> today via <code>${modelName}</code> on OpenRouter — from your fresh Garmin data.</div><div class="sub"><a href="../garmin/ai_insights.md" target="_blank">View garmin/ai_insights.md</a> • <a href="../garmin/ai_insights.json" target="_blank">JSON</a></div>`; hdr.parentNode.insertBefore(b, hdr.nextSibling); }
         break; }
       } }catch(e){}
