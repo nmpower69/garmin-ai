@@ -123,6 +123,18 @@ table{min-width:640px}
 <div class="footer">Generated from <code>garmin/data.json</code> • Casual cyclist &lt;3h • Happiness first • Next sync daily 10 AM IST</div>
 
 <script>
+// Surface any script failure visibly instead of a silent empty page
+window.addEventListener('error', (e)=>{
+  if(document.getElementById('jsError')) return;
+  const d = document.createElement('div');
+  d.id='jsError';
+  d.style.cssText='margin:16px 32px;padding:12px 16px;background:#3b1220;border:1px solid #f87171;border-radius:12px;color:#fecaca;font-size:13px';
+  d.textContent='Dashboard script error: '+(e.message||'unknown')+' — press F12 → Console and share the red text.';
+  document.body.prepend(d);
+});
+if (typeof Chart === 'undefined') {
+  document.body.insertAdjacentHTML('afterbegin', '<div style="margin:16px 32px;padding:12px 16px;background:#3b1220;border:1px solid #f87171;border-radius:12px;color:#fecaca;font-size:13px">Chart.js failed to load (CDN blocked?) — charts cannot render. Check connection / ad-blocker, then reload.</div>');
+}
 Chart.defaults.font.family = "Inter,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
 Chart.defaults.font.size = 11;
 Chart.defaults.color = "#8ea0b8";
@@ -287,7 +299,7 @@ async function load(){
   new Chart(rEl,{type:'line',
     data:{labels:shortDates,datasets:[
       {label:'Readiness',data:readiness,borderColor:'#a78bfa',backgroundColor:gradient(rEl,'rgba(167,139,250,.35)','rgba(167,139,250,0)'),fill:true,tension:.35,borderWidth:2.5,pointRadius:3,spanGaps:true,
-       segment:{borderColor:(c)=>{ const v=c.p1.raw; if(v==null) return '#a78bfa'; return v<50?'#f87171':v<75?'#f59e0b':'#22c55e'; }}},
+       segment:{borderColor:(c)=>{ const v = c.p1?.parsed?.y ?? c.p1?.raw; if(v==null) return '#a78bfa'; return v<50?'#f87171':v<75?'#f59e0b':'#22c55e'; }}},
       {label:'Rest (<50)',data:shortDates.map(()=>50),borderColor:'rgba(248,113,113,.6)',borderDash:[6,5],borderWidth:1,pointRadius:0,fill:false},
       {label:'Ready (75)',data:shortDates.map(()=>75),borderColor:'rgba(34,197,94,.6)',borderDash:[6,5],borderWidth:1,pointRadius:0,fill:false}
     ]},
