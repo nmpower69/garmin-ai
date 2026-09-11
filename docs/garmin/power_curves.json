@@ -48,8 +48,9 @@
       "1200s": 143,
       "3600s": 127,
       "avgPower": 120.0,
-      "normalizedPower": 148.0,
-      "maxPower": 535.0
+      "normalizedPower": 131.0,
+      "maxPower": 535.0,
+      "npSource": "computed"
     },
     "24005039152": {
       "date": "2026-08-17",
@@ -60,8 +61,9 @@
       "1200s": 154,
       "3600s": 142,
       "avgPower": 136.0,
-      "normalizedPower": 151.0,
-      "maxPower": 368.0
+      "normalizedPower": 138.4,
+      "maxPower": 368.0,
+      "npSource": "computed"
     },
     "24030665697": {
       "date": "2026-08-19",
@@ -72,8 +74,9 @@
       "1200s": 145,
       "3600s": 128,
       "avgPower": 117.0,
-      "normalizedPower": 143.0,
-      "maxPower": 381.0
+      "normalizedPower": 132.3,
+      "maxPower": 381.0,
+      "npSource": "computed"
     },
     "24055964834": {
       "date": "2026-08-21",
@@ -83,9 +86,10 @@
       "300s": 187,
       "1200s": 156,
       "3600s": 134,
-      "avgPower": 89.0,
-      "normalizedPower": 106.0,
-      "maxPower": 301.0
+      "avgPower": 133.0,
+      "normalizedPower": 137.3,
+      "maxPower": 522.0,
+      "npSource": "computed"
     },
     "24079863099": {
       "date": "2026-08-23",
@@ -96,8 +100,9 @@
       "1200s": 160,
       "3600s": 160,
       "avgPower": 127.0,
-      "normalizedPower": 147.0,
-      "maxPower": 593.0
+      "normalizedPower": 131.6,
+      "maxPower": 593.0,
+      "npSource": "computed"
     },
     "24131095490": {
       "date": "2026-08-27",
@@ -108,8 +113,9 @@
       "1200s": 153,
       "3600s": 153,
       "avgPower": 112.0,
-      "normalizedPower": 154.0,
-      "maxPower": 501.0
+      "normalizedPower": 139.7,
+      "maxPower": 501.0,
+      "npSource": "computed"
     },
     "24154675322": {
       "date": "2026-08-29",
@@ -120,8 +126,9 @@
       "1200s": 161,
       "3600s": 160,
       "avgPower": 138.0,
-      "normalizedPower": 158.0,
-      "maxPower": 405.0
+      "normalizedPower": 144.0,
+      "maxPower": 405.0,
+      "npSource": "computed"
     },
     "24191105303": {
       "date": "2026-09-01",
@@ -132,8 +139,9 @@
       "1200s": 162,
       "3600s": 150,
       "avgPower": 143.0,
-      "normalizedPower": 164.0,
-      "maxPower": 460.0
+      "normalizedPower": 151.7,
+      "maxPower": 460.0,
+      "npSource": "computed"
     },
     "24217871213": {
       "date": "2026-09-03",
@@ -144,8 +152,9 @@
       "1200s": 191,
       "3600s": 191,
       "avgPower": 153.0,
-      "normalizedPower": 168.0,
-      "maxPower": 476.0
+      "normalizedPower": 155.6,
+      "maxPower": 476.0,
+      "npSource": "computed"
     },
     "24278574372": {
       "date": "2026-09-08",
@@ -155,9 +164,10 @@
       "300s": 197,
       "1200s": 168,
       "3600s": 158,
-      "avgPower": 118.0,
-      "normalizedPower": 139.0,
-      "maxPower": 329.0
+      "avgPower": 148.0,
+      "normalizedPower": 155.9,
+      "maxPower": 460.0,
+      "npSource": "computed"
     },
     "24304329284": {
       "date": "2026-09-10",
@@ -168,8 +178,9 @@
       "1200s": 184,
       "3600s": 184,
       "avgPower": 158.0,
-      "normalizedPower": 177.0,
-      "maxPower": 546.0
+      "normalizedPower": 164.6,
+      "maxPower": 546.0,
+      "npSource": "computed"
     }
   },
   "notes": "Computed from Garmin directPower time series (1-3s samples) via rolling time-window averages. 10s=neuromuscular, 30-60s=anaerobic, 5m=VO2, 20m\u00e2\u2030\u02c6FTP proxy, 1h=endurance. Your 20m best 143-204W suggests current FTP ~150-195W, below the stale 271W \u00e2\u20ac\u201d use HR zones until retest."
