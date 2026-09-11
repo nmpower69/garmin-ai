@@ -1,15 +1,15 @@
 You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is 2026-09-10. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is 2026-09-11. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-09-04: steps=18480 sleep=N/A (N/A) hrv=N/A rhr=57 bb=0 stress=35 readiness=88
 2026-09-05: steps=10008 sleep=6h 9m (74 (FAIR)) hrv=78 rhr=50 bb=69 stress=38 readiness=71
 2026-09-06: steps=8694 sleep=5h 27m (67 (FAIR)) hrv=68 rhr=51 bb=51 stress=37 readiness=76
 2026-09-07: steps=6752 sleep=N/A (N/A) hrv=N/A rhr=55 bb=2 stress=31 readiness=85
 2026-09-08: steps=5132 sleep=4h 35m (59 (POOR)) hrv=62 rhr=54 bb=39 stress=42 readiness=54
 2026-09-09: steps=2805 sleep=7h 30m (79 (FAIR)) hrv=75 rhr=52 bb=71 stress=33 readiness=68
 2026-09-10: steps=273 sleep=6h 9m (64 (FAIR)) hrv=63 rhr=54 bb=55 stress=19 readiness=79
+2026-09-11: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-09-11', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
 
 Recent rides last 7:
 2026-08-23 Daund Sub-District Road Cycling 81.05km 3h 0m avgHR=158.0 maxHR=187.0 elev=452.0 cals=1377.0

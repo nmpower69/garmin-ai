@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: Aug 27 easy 40km ride masked hidden effort",
-    "description": "Your 2026-08-27 40.14km Kolhapur ride averaged 143 bpm with 259m elevation, appearing easy but followed by a Sep 3 60km effort at 159 bpm. The body adapted quickly, indicating the first ride was not truly 'easy' despite modest elevation. This suggests you can push slightly harder before overtraining sets in.",
+    "title": "Insight 1: Aug 23 ride pushed past easy comfort",
+    "description": "Your Aug 23 81km ride averaged 158bpm with a 452m elevation gain — a solid effort but notably above your recent 70-80bpm comfort zone given your post-rest recovery on Sept 7. The climb tested your legs when you were coming back into shape; future hill sessions should stay under 350m elevation change to protect freshness.",
     "badge": "warn",
-    "badgeText": "AI"
+    "badgeText": "Zone drift"
   },
   {
-    "title": "Insight 2: 81km ride carried heavy vertical load",
-    "description": "The Aug 23 81.05km Daund Sub-District Road Cycling ride climbed 452m while maintaining 127 W average power. Sustaining pace across such elevation requires strong muscular endurance; consider splitting climbs into shorter segments on future rides to manage fatigue better.",
+    "title": "Insight 2: Vertical load accumulates on long rides",
+    "description": "Your longest rides (Aug 23 at 81km and Sept 1 at 50km) carried substantial elevation — the Aug 23 ride alone required climbing 452m across 81km, which translates to higher heart rate for its duration. On Kolhapur’s flat terrain, spreading those climbs across shorter periods will preserve your aerobic capacity for daily commuting and weekend fun.",
     "badge": "warn",
-    "badgeText": "AI"
+    "badgeText": "Elevation overload"
   },
   {
-    "title": "Insight 3: Multi-day high-mileage week risks recovery",
-    "description": "From Aug 27 through Sep 3 you completed three back-to-back rides of 40km, 50km, and 60km spanning roughly 80 km total in five days. Rapid mileage accumulation often leaves insufficient time for muscle repair, increasing injury risk. Schedule at least 48 hours between hard efforts to let tissues recover fully.",
+    "title": "Insight 3: Week saw four rides within seven days",
+    "description": "From Sept 5 through Sept 8 you completed five rides (81km, 40km, 50km, 60km, 60km) in a tight cluster, leaving little natural recovery buffer. This high-density week raised your readiness to 85 on Sept 7 before crashing on Sept 8 — a classic pattern that can leave you feeling wiped despite short distances.",
     "badge": "warn",
-    "badgeText": "AI"
+    "badgeText": "Recovery gap"
   },
   {
-    "title": "Insight 4: Progressive build mirrors race planning",
-    "description": "Your progression from 40km Aug 27 up to 60km Sep 3 follows classic race-building logic: steady increases in distance while keeping intensity consistent. Continue adding ~10-15% weekly mileage but preserve intensity quality for peak performances later in the season.",
+    "title": "Insight 4: Sept 10 progress marks steady marathon-like growth",
+    "description": "Your Sept 10 50km ride (1h 36m) shows readiness climbing from 54 to 79, confirming that your recent recovery strategy is paying off. Continuing this upward trend by adding controlled intensity keeps your fitness curve smooth without sudden spikes that strain the system.",
     "badge": "ok",
-    "badgeText": "AI"
+    "badgeText": "Positive trend"
   },
   {
-    "title": "Insight 5: FTP zones updated for accurate training zones",
-    "description": "With FTP estimated at 150-195W (derived from 20m bests of 143-204W), Z2 begins at 148 bpm and Z3 starts at 199 bpm. Your current 2026-09-10 average of 158W lands squarely in Z3, providing solid aerobic base without pushing beyond comfort zone.",
+    "title": "Insight 5: FTP needs recalibration",
+    "description": "Your stored FTP of 271W from March 2025 is outdated — your latest 20-minute bests sit between 143-204W, suggesting your true FTP is closer to 155-180W. Retesting FTP soon will give you accurate targets for zone-based training and avoid overestimating your sustainable pace.",
     "badge": "ok",
-    "badgeText": "AI"
+    "badgeText": "Stale baseline"
   },
   {
-    "title": "Insight 6: Polarized 80/20 workload structure",
-    "description": "Readings show wide variance: readiness dipped to 54 on Aug 8 but rose to 79 on Sep 10. Aim for 80% of total volume at 70-80% FTP (Z1-Z3) with occasional 20% effort days to maintain fitness without burnout.",
+    "title": "Insight 6: Pace yourself with 80/20 polarized plan",
+    "description": "With recent readiness scores averaging 76-79 and strong sleep on Sept 7, aim for 80% easy rides (like your 1-2 hour urban loops) and 20% focused efforts (intervals or hill repeats). Your body is ready for this balance — don't force long tempo days yet.",
     "badge": "ok",
-    "badgeText": "AI"
+    "badgeText": "Balanced training"
   },
   {
-    "title": "Insight 7: Rising HRV signals caution needed",
-    "description": "Your lowest recent HRV occurred on Aug 8 (59) alongside the lowest step count (273) and mid-range readiness (54). These early warning signs suggest accumulated fatigue before the latest good reading, so prioritize easy spins and mobility work this week.",
+    "title": "Insight 7: Poor metrics flagged Sept 8 recovery risk",
+    "description": "Sept 8 showed low readiness (54), minimal sleep (4h 35m), resting heart rate 54, and elevated blood pressure (RR=55) — clear warning signs that prolonged exertion the day before compromised your body's repair processes. Plan light recovery rides or rest before similar demands resume.",
     "badge": "warn",
-    "badgeText": "AI"
+    "badgeText": "Fatigue signal"
   },
   {
-    "title": "Insight 8: Hill repeats build leg strength for casual pleasure",
-    "description": "The Aug 23 81km ride held 452m elevation consistently. Adding 1-2 hill repeats per training session (e.g., 8x4min at ~170 bpm) will boost leg power and reaction speed while staying within your enjoyment-focused framework.",
+    "title": "Insight 8: Build strength with targeted maximal efforts",
+    "description": "Your highest recorded power peaks (593W on Aug 23, 546W on Sept 10) represent genuine fitness gains; however, sustaining these above FTP risks burnout. Insert two short maximal repeats (e.g., 3x4min @ 95% FTP) monthly to sharpen reactive power without sacrificing aerobic base.",
     "badge": "ok",
-    "badgeText": "AI"
+    "badgeText": "Quality reps"
   },
   {
-    "title": "Insight 9: Interval sessions target aerobic ceiling gently",
-    "description": "To raise your VO2max sustainably, try 4x6min threshold intervals at 180-190 bpm with 3min easy recoveries. This targets the lactate threshold without excessive fatigue, complementing your existing easy-to-moderate rides.",
+    "title": "Insight 9: Add hill repeats for Threshold development",
+    "description": "Since Kolhapur offers gentle rolling terrain, introduce short hill bursts (4x5min at 95-105% of your FTP estimate) once every two weeks. These threshold-focused sessions will push your pace ceiling while staying safe on your home roads.",
     "badge": "ok",
-    "badgeText": "AI"
+    "badgeText": "Threshold work"
   },
   {
-    "title": "Insight 10: New FTP benchmark required for precise training",
-    "description": "Your current FTP estimate (150-195W) predates March 2025, making it unreliable. Every four weeks, perform a 20-minute all-out test and use the highest sustainable 20-min average as your fresh FTP target to guide progressive training.",
-    "badge": "warn",
-    "badgeText": "AI"
+    "title": "Insight 10: Test FTP with a structured assessment",
+    "description": "Given your stale FTP value, schedule a 20-minute FTP test within the next week. Aim for the 4x4min protocol to get a reliable number that guides your upcoming training blocks and prevents guesswork on pacing decisions.",
+    "badge": "ok",
+    "badgeText": "Accurate testing"
   }
 ]
