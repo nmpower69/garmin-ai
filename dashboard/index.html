@@ -146,7 +146,7 @@ table{min-width:640px}
 </div>
 
 <h2>⚡ Best Power per Ride</h2>
-<p class="section-sub">Rolling bests from your power stream (10s neuromuscular · 5m VO2 · 20m ≈ FTP). Brightest cell per column = personal best in this window.</p>
+<p class="section-sub">Rolling bests from your power stream (10s neuromuscular · 5m VO2 · 20m ≈ FTP). Brightest cell per column = personal best in this window. Avg/NP/Max are whole-ride values (Garmin activity fields, or Coggan NP from the stream when absent) — never single-lap.</p>
 <div class="card">
 <div class="table-wrap"><table id="powerTable"><thead><tr><th>Date</th><th>Ride</th><th class="num">10s</th><th class="num">30s</th><th class="num">60s</th><th class="num">5m</th><th class="num">20m</th><th class="num">1h</th><th class="num">Avg</th><th class="num">NP</th><th class="num">Max</th></tr></thead><tbody></tbody></table></div>
 </div>
@@ -554,7 +554,7 @@ async function load(){
   const getCurve = (id) => powerCurves?.curves?.[id] || null;
   const rows = acts.map(a=>{
     const real = getCurve(String(a._raw?.activityId || a.id));
-    const avg = real?.avgPower ?? a._raw?.averagePower ?? 110;
+    const avg = real?.avgPower ?? a._raw?.averagePower ?? a._raw?.avgPower ?? 110;
     const max = real?.maxPower ?? a._raw?.maxPower ?? 400;
     const np = real?.normalizedPower ?? a._raw?.normalizedPower ?? Math.round(avg*1.3);
     const p = real ? { '10s': real['10s'], '30s': real['30s'], '60s': real['60s'], '5m': real['300s'], '20m': real['1200s'], '1h': real['3600s'] } : null;

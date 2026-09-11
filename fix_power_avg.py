@@ -27,52 +27,132 @@ try:
 except:
     pc={"computed_at": "", "ftp": 271, "ftp_status": "stale", "curves": {}}
 pc.setdefault("curves", {})
-# fetch avg, NP, max for each
+
+def _num(d, *keys):
+    """First numeric value found (0 preserved — unlike `or` chains)."""
+    if not isinstance(d, dict):
+        return None
+    for k in keys:
+        v = d.get(k)
+        if isinstance(v, bool):
+            continue
+        if isinstance(v, (int, float)):
+            return float(v)
+    return None
+
+def _coggan_np(powers, window=30):
+    """Whole-ride Normalized Power (Coggan): 4th-power mean of rolling means.
+
+    powers: watts series, zeros KEPT (coasting), Nones already removed.
+    Assumes ~1Hz sampling so a 30-sample window ~= 30 seconds.
+    """
+    n = len(powers)
+    if n < window:
+        return None
+    tot = 0.0
+    cnt = 0
+    run = sum(powers[:window])
+    tot += (run / window) ** 4
+    cnt += 1
+    for i in range(window, n):
+        run += powers[i] - powers[i - window]
+        tot += (run / window) ** 4
+        cnt += 1
+    return (tot / cnt) ** 0.25 if cnt else None
+
+# List-summary values from data.json (whole-ride, per Garmin's activity list)
+raw_by_id = {}
+try:
+    for _a in data.get("activities", []):
+        _raw = _a.get("_raw") if isinstance(_a, dict) else None
+        if isinstance(_raw, dict):
+            for _key in (str(_a.get("id") or ""), str(_raw.get("activityId") or "")):
+                if _key and _key != "None":
+                    raw_by_id[_key] = _raw
+except Exception:
+    pass
+
+# fetch avg, NP, max for each — whole-ride values FIRST, single-lap LAST
+# (lapDTOs[0] is one lap, not the ride: using it as ride NP understates
+# variable rides, e.g. NP 139 for a ride whose true whole-ride NP is 171)
 for aid in aids:
     splits = None
     try:
-        act=g.get_activity(aid)
-        # activity summary has more fields
-        avg = act.get("averagePower") or act.get("avgPower") or act.get("averagePower") or None
-        # also try details splits
-        if avg is None:
-            try:
-                splits=g.get_activity_splits(aid)
-            except: splits=None
-            # splits may have lap avg
-            if splits and "lapDTOs" in splits and splits["lapDTOs"]:
-                avg = splits["lapDTOs"][0].get("averagePower")
-        # get details for NP
-        details=g.get_activity_details(aid)
-        # NP not in details? Try activity's normalizedPower from splits or activity
-        np_val = None
-        maxp = act.get("maxPower") or act.get("maxPower") or None
-        # Try to find NP in activity details vs splits
-        if not maxp:
-            # details may have maxPower in splits
-            pass
-        # Try to get NP from splits lap
+        act = g.get_activity(aid) or {}
         try:
-            lap = splits["lapDTOs"][0]
-            np_val = lap.get("normalizedPower")
-            if avg is None:
-                avg = lap.get("averagePower")
-            if maxp is None:
-                maxp = lap.get("maxPower")
-        except: pass
-        # Also try activity's power
+            details = g.get_activity_details(aid)
+        except Exception as e:
+            print(aid, "details fail", e)
+            details = None
+        try:
+            splits = g.get_activity_splits(aid)
+        except Exception:
+            splits = None
+        lap0 = None
+        try:
+            if splits and isinstance(splits.get("lapDTOs"), list) and splits["lapDTOs"]:
+                lap0 = splits["lapDTOs"][0]
+                if len(splits["lapDTOs"]) > 1:
+                    print(f"{aid}: {len(splits['lapDTOs'])} laps — ignoring lap values for ride totals, whole-ride only")
+                    lap0 = None  # multi-lap: lap0 is NOT the ride, never use it
+        except Exception:
+            lap0 = None
+        raw = raw_by_id.get(str(aid), {})
+        # 1) Whole-ride values from detailed activity, then list summary
+        avg = _num(act, "averagePower", "avgPower")
         if avg is None:
-            avg = act.get("averagePower")
-        if np_val is None:
-            np_val = act.get("normalizedPower")
+            avg = _num(raw, "averagePower", "avgPower")
+        maxp = _num(act, "maxPower", "maximalPower")
         if maxp is None:
-            maxp = act.get("maxPower")
-        print(aid, "avg", avg, "np", np_val, "max", maxp)
+            maxp = _num(raw, "maxPower")
+        np_val = _num(act, "normalizedPower", "normPower")
+        if np_val is None:
+            np_val = _num(raw, "normalizedPower")
+        np_source = "activity" if np_val is not None else None
+        # 2) Stream-computed whole-ride NP (Coggan) — independent of laps/keys
+        try:
+            if details:
+                descs = {m["key"]: m["metricsIndex"] for m in details.get("metricDescriptors", [])}
+                if "directPower" in descs:
+                    p_idx = descs["directPower"]
+                    powers = [m["metrics"][p_idx] for m in details.get("activityDetailMetrics", []) if m.get("metrics") and m["metrics"][p_idx] is not None]
+                    powers = [float(p) for p in powers]
+                    if powers:
+                        if avg is None:
+                            avg = round(sum(powers) / len(powers), 1)
+                        cn = _coggan_np(powers)
+                        if cn is not None:
+                            if np_val is None:
+                                np_val, np_source = round(cn, 1), "computed"
+                            elif abs(cn - np_val) > 15:
+                                print(f"{aid}: WARN NP sources disagree (activity {np_val} vs stream-computed {round(cn,1)}) — keeping activity value")
+        except Exception as e:
+            print(aid, "stream NP fail", e)
+        # 3) Single-lap values ONLY for single-lap rides missing everything else
+        if lap0:
+            if avg is None:
+                a2 = _num(lap0, "averagePower", "avgPower")
+                if a2 is not None:
+                    avg = a2
+            if maxp is None:
+                m2 = _num(lap0, "maxPower")
+                if m2 is not None:
+                    maxp = m2
+            if np_val is None:
+                n2 = _num(lap0, "normalizedPower")
+                if n2 is not None:
+                    np_val, np_source = n2, "lap(partial)"
+        # Sanity: NP can never be below avg for the same effort
+        if np_val is not None and avg is not None and np_val < avg - 1:
+            print(f"{aid}: WARN inconsistent pair (avg {avg} / NP {np_val}) — mixed scopes, NP kept but flagged")
+            np_source = (np_source or "unknown") + "+suspect"
+        print(aid, "avg", avg, "np", np_val, "max", maxp, "src", np_source)
         # Update pc
         if aid in pc["curves"]:
             pc["curves"][aid]["avgPower"] = avg
             pc["curves"][aid]["normalizedPower"] = np_val
             pc["curves"][aid]["maxPower"] = maxp
+            pc["curves"][aid]["npSource"] = np_source
             # Also update if _raw missing
         else:
             print("not in pc", aid)
