@@ -1,5 +1,33 @@
-# AI Insights — generation failed 2026-09-13T10:08:53.407831
+# AI Cycling Insights — 2026-09-13  (via liquid/lfm-2.5-2.6b:free)
 
-Error: Expected 10 insights, got 6
+_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-Check `OPENROUTER_API_KEY` secret and OpenRouter quota for model `liquid/lfm-2.5-2.6b:free`.
+### Insight 1: Easy ride on Sep 13 pushed into hard zone
+Your Sep 13 ride averaged 138 W with a max of 178 W, placing it firmly in Z3 territory. Since this was intended as an easy effort, reduce speed by 10-15% next time to reinforce aerobic development without accumulating unnecessary fatigue.
+
+### Insight 2: Sept 12 long ride carried steep elevation
+The 60km ride on Sep 12 climbed 255 m while maintaining an average of just 157 W. High elevation quickly pushes heart rate beyond Z3, so plan future long rides with more recovery spins or choose flatter sections to preserve energy.
+
+### Insight 3: Back-to-back rides increase accumulation risk
+September 11 evening followed immediately by the Sep 12 ride and Sep 13 effort created a triple-daily rhythm. Insert at least one full rest or light activity day between major efforts to allow nervous system recovery and sustain enjoyment.
+
+### Insight 4: Current week builds solid aerobic base
+Seven days of 50-60 km rides at 145-163 W established a reliable endurance foundation. Continue steady efforts but mix hill repeats with flat efforts to promote balanced fitness growth and happy riding.
+
+### Insight 5: FTP needs recalibration with recent power data
+Your old FTP estimate of 271 W (dated 2025-03-04) doesn't match recent efforts where 10s intervals peaked at 446 W. True FTP likely sits 150-190 W; retest soon to set accurate training zones for happy progress.
+
+### Insight 6: Embrace polarized 80/20 for sustainable gains
+You've been training most rides at moderate intensity; add dedicated threshold blocks (two 30-minute sessions at 165-170 W) twice weekly. This pushes performance forward while preserving aerobic base for sustained enjoyment.
+
+### Insight 7: Short sleep correlates with reduced readiness
+On Sep 8 you logged only 4 hours 35 minutes of sleep (Poor) and your readiness score dropped to 54. Prioritize at least 7 hours before key rides; even one night of inadequate rest compounds fatigue and reduces overall happiness on the bike.
+
+### Insight 8: Sprint work shows strong reactive capacity
+Your 10-second intervals peaked at 408 W on Sep 10 and 476 W on Sep 3, demonstrating excellent leg turnover responsiveness. Protect these sessions with a full 48-hour recovery to maintain maximal force without burnout.
+
+### Insight 9: One annual interval targets VO2max improvements
+Add a single weekly 4-minute interval at 105-110% of your new FTP to boost cardiovascular ceiling. Combine with regular 60-90 minute steady rides for balanced development and lasting enthusiasm.
+
+### Insight 10: Schedule a fresh FTP test for accurate baseline
+Given inconsistent recent power readings, plan a proper 20-minute all-out effort soon to re-estimate FTP. Starting training around 140-150 W gives you a realistic foundation for the zone-based program you enjoy.
