@@ -41,10 +41,10 @@ def _num(d, *keys):
     return None
 
 def _coggan_np(powers, window=30):
-    """Whole-ride Normalized Power (Coggan): 4th-power mean of rolling means.
+    """Sample-count fallback for whole-ride NP (assumes ~1Hz).
 
-    powers: watts series, zeros KEPT (coasting), Nones already removed.
-    Assumes ~1Hz sampling so a 30-sample window ~= 30 seconds.
+    Only used when timestamps are missing. Prefer _coggan_np_ts below:
+    Garmin smart recording samples irregularly, so 30 samples != 30 s.
     """
     n = len(powers)
     if n < window:
@@ -57,6 +57,35 @@ def _coggan_np(powers, window=30):
     for i in range(window, n):
         run += powers[i] - powers[i - window]
         tot += (run / window) ** 4
+        cnt += 1
+    return (tot / cnt) ** 0.25 if cnt else None
+
+def _coggan_np_ts(times, powers, window_s=30.0):
+    """Whole-ride Normalized Power (Coggan) on TIME-based 30 s rolling means.
+
+    Windows are carved by timestamp, so irregular (smart-recorded) sampling
+    can't bias the result. Zeros kept (coasting), Nones already removed.
+    """
+    n = len(powers)
+    if n < 2 or len(times) != n:
+        return None
+    paired = sorted(zip(times, powers))
+    ts = [float(p[0]) for p in paired]
+    ps = [float(p[1]) for p in paired]
+    pref = [0.0] * (n + 1)
+    for i, p in enumerate(ps):
+        pref[i + 1] = pref[i] + p
+    tot, cnt, j = 0.0, 0, 0
+    for i in range(n):
+        if j < i:
+            j = i
+        while j + 1 < n and ts[j + 1] - ts[i] <= window_s:
+            j += 1
+        c = j - i + 1
+        if c <= 0:
+            continue
+        m = (pref[j + 1] - pref[i]) / c
+        tot += m ** 4
         cnt += 1
     return (tot / cnt) ** 0.25 if cnt else None
 
@@ -115,12 +144,24 @@ for aid in aids:
                 descs = {m["key"]: m["metricsIndex"] for m in details.get("metricDescriptors", [])}
                 if "directPower" in descs:
                     p_idx = descs["directPower"]
-                    powers = [m["metrics"][p_idx] for m in details.get("activityDetailMetrics", []) if m.get("metrics") and m["metrics"][p_idx] is not None]
-                    powers = [float(p) for p in powers]
+                    t_idx = descs.get("directTimestamp")
+                    tp = []
+                    for m in details.get("activityDetailMetrics", []):
+                        arr = m.get("metrics")
+                        if not arr:
+                            continue
+                        p = arr[p_idx] if p_idx < len(arr) else None
+                        t = arr[t_idx] / 1000.0 if (t_idx is not None and t_idx < len(arr) and arr[t_idx] is not None) else None
+                        if p is None or t is None:
+                            continue
+                        tp.append((t, float(p)))
+                    powers = [p for _, p in tp]
                     if powers:
                         if avg is None:
                             avg = round(sum(powers) / len(powers), 1)
-                        cn = _coggan_np(powers)
+                        cn = _coggan_np_ts([t for t, _ in tp], powers)
+                        if cn is None:
+                            cn = _coggan_np(powers)
                         if cn is not None:
                             if np_val is None:
                                 np_val, np_source = round(cn, 1), "computed"
