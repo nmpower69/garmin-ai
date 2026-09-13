@@ -190,7 +190,20 @@
       "300s": 195,
       "1200s": 176,
       "3600s": 171,
-      "avgPower": 152.3,
+      "avgPower": 157.0,
+      "normalizedPower": 162.0,
+      "maxPower": 437.0,
+      "npSource": "computed"
+    },
+    "24340348995": {
+      "date": "2026-09-13",
+      "10s": 384,
+      "30s": 279,
+      "60s": 246,
+      "300s": 188,
+      "1200s": 154,
+      "3600s": 148,
+      "avgPower": 134.0,
       "normalizedPower": null,
       "maxPower": null
     }
