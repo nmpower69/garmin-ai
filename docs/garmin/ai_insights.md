@@ -1,33 +1,5 @@
-# AI Cycling Insights — 2026-09-13  (via liquid/lfm-2.5-2.6b:free)
+# AI Insights — generation failed 2026-09-13T10:08:53.407831
 
-_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
+Error: Expected 10 insights, got 6
 
-### Insight 1: Sept 12 ride showed efficient aerobic effort
-Your September 12 ride (60.07km, 1h 49m) maintained 158 bpm average with a peak of 178 bpm, indicating you can sustain a comfortable pace here. To boost joyful improvement, add two 5-minute cadence accelerations at moderate resistance to deepen the flow state without exceeding comfort.
-
-### Insight 2: Elevation load accumulating on recent long rides
-The September 12 ride climbed 255 meters across 60 km—the highest elevation since your September 3 outing—and adds meaningful cardiac strain to the flatter Kolhapur terrain. Balance future long efforts with included descents to manage this cumulative load and keep rides enjoyable.
-
-### Insight 3: High-volume week approaching with multiple long efforts
-From September 3 through 12 you logged four rides totaling nearly 290 km, including two 60+ km efforts. This volume is healthy but nears a threshold where early warning signs may appear; track readiness—if it falls below 70 for three straight days, cut intensity by 10-15%.
-
-### Insight 4: Zone-based pacing calibrated using 2026-08-09 baseline
-With your physiological baseline now centered around 150-195 W for FTP (inferred from 20m bests of 143-204 W), ride in Zone 2 (≤150 W) for steady cruising and Zone 3 (150-200 W) for gentle climbs. This structure maximizes steady-state comfort while still providing meaningful stimulus.
-
-### Insight 5: Polarized approach aligns with casual rider happiness
-Readiness scores improved from 54 on September 8 to 87 on September 13, supporting a polarized strategy: roughly 70% of rides at Zone 2 and 30% at Zone 3–4. One dedicated 'hard' ride per week—like your 60 km long ride—drives adaptation without sacrificing the pleasure of casual cycling.
-
-### Insight 6: Recovery markers worth watching closely
-Sleep quality dipped to POOR on September 8 (4h 35m) yet rebounded to GOOD on September 13 (7h 1m); consistent rest sustains both mood and performance. Prioritize hydration and protein within 45 minutes post-ride, and if stress exceeds 30 for several days, schedule a full rest day before ramping up mileage.
-
-### Insight 7: Short bursts build leg power on mixed terrain
-Your September 10 ride (50 km, avg 153 bpm) stayed comfortably in Zone 2–3 territory (avg 150-160 W), effectively building aerobic base without compromising enjoyment. Reserve stronger hills and faster segments for focused sessions rather than making every ride maximum-intensity.
-
-### Insight 8: Moderate intensity preserves joy while growing capacity
-The September 12 ride's 255 m elevation across 60 km demonstrates that balanced effort develops function on Kolhapur's mostly flat roads. Combine these with occasional 5-minute hill repeats at Zone 4 to boost leg strength without creating race-like stress.
-
-### Insight 9: Listen to your body as a signal to adjust
-When readiness drops below 70 (noted on September 8 at 54) alongside rising stress (42), trust the cue to reduce upcoming workload. Swap a long ride for a gentler loop if readiness stays under 70 for more than two days—this protects both performance and happiness.
-
-### Insight 10: FTP needs recalibration for accurate zone targeting
-Your stale FTP estimate (~271 W from March 2025) conflicts with recent 20m peaks of 143-204 W, suggesting the true threshold is lower. Conduct a 4 x 3-min interval test at 105-110% FTP soon to confirm your real FTP before fine-tuning Zone 2 and Z3 boundaries.
+Check `OPENROUTER_API_KEY` secret and OpenRouter quota for model `liquid/lfm-2.5-2.6b:free`.

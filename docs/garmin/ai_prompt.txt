@@ -27,7 +27,7 @@ Best power per ride (real directPower rolling maxima):
 2026-09-08 74372: 10s=374 30s=315 60s=244 5m=197 20m=168 1h=158 avg=148.0 NP=155.9 max=460.0
 2026-09-10 29284: 10s=408 30s=332 60s=264 5m=210 20m=184 1h=184 avg=158.0 NP=164.6 max=546.0
 2026-09-12 72673: 10s=333 30s=254 60s=229 5m=195 20m=176 1h=171 avg=157.0 NP=162.0 max=437.0
-2026-09-13 48995: 10s=384 30s=279 60s=246 5m=188 20m=154 1h=148 avg=134.0 NP=None max=None
+2026-09-13 48995: 10s=384 30s=279 60s=246 5m=188 20m=154 1h=148 avg=138.0 NP=148.3 max=474.0
 
 Additional: HR zones: LTHR 175, Max 196 => Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172. Power zones: FTP 271W (stale 2025-03-04) => Z1<148, Z2 148-203, Z3 203-244, Z4 244-284, Z5 284-324, Z6 324-406, Z7>406. VO2max null.
 FTP is stale (271W from 2025-03-04). 20m bests are 143-204W, so true FTP likely ~150-195W. Training readiness, HRV, RHR, sleep are volatile.

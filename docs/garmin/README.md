@@ -1,4 +1,4 @@
-# Garmin data — last sync 2026-09-13 10:05 IST
+# Garmin data — last sync 2026-09-13 15:38 IST
 
 This folder is read-only from Garmin. It updates when you run `py sync_garmin.py`.
 
