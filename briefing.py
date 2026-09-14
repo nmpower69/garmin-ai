@@ -140,13 +140,35 @@ def build():
     rhr = col("resting_hr")
     hrv_mean = sum(hrv) / len(hrv) if hrv else None
     rhr_mean = sum(rhr) / len(rhr) if rhr else None
-    latest = daily[dates[-1]]
-    readiness = num(latest.get("training_readiness"))
-    hrv_now = num(latest.get("hrv"))
-    rhr_now = num(latest.get("resting_hr"))
-    stress_now = num(latest.get("stress"))
-    bb_now = num(latest.get("body_battery"))
-    sleep_now = parse_sleep_hours(latest.get("sleep_hours"))
+    latest_key = dates[-1]
+
+    def fmt(v):
+        if v is None:
+            return "n/a"
+        if isinstance(v, float) and v.is_integer():
+            return str(int(v))
+        return str(v)
+
+    def latest_num(key, back=4):
+        # Today's entry is partial until Garmin finalizes it — scan back
+        # for the most recent day that actually has a value.
+        for d in reversed(dates[-back:]):
+            v = num(daily[d].get(key))
+            if v is not None:
+                return v, d
+        return None, latest_key
+
+    readiness, r_date = latest_num("training_readiness")
+    hrv_now, h_date = latest_num("hrv")
+    rhr_now, rh_date = latest_num("resting_hr")
+    stress_now, _s_date = latest_num("stress")
+    bb_now, _b_date = latest_num("body_battery")
+    sleep_now, sleep_date = None, latest_key
+    for d in reversed(dates[-4:]):
+        s = parse_sleep_hours(daily[d].get("sleep_hours"))
+        if s is not None:
+            sleep_now, sleep_date = s, d
+            break
     sleep_3d = [parse_sleep_hours(daily[d].get("sleep_hours")) for d in dates[-3:]]
     sleep_3d = [s for s in sleep_3d if s is not None]
     sleep_debt = bool(sleep_3d) and (sum(sleep_3d) / len(sleep_3d) < 7.0)
@@ -154,13 +176,13 @@ def build():
     # ---- red flags ----
     flags = []
     if readiness is not None and readiness < 55:
-        flags.append(f"Readiness {readiness} (<55) on {dates[-1]}")
+        flags.append(f"Readiness {fmt(readiness)} (<55) on {r_date}")
     if hrv_now is not None and hrv_mean is not None and hrv_now < hrv_mean - 10:
         flags.append(f"HRV {hrv_now} is >10 below your 7d avg ({hrv_mean:.0f})")
     if rhr_now is not None and rhr_mean is not None and rhr_now >= rhr_mean + 5:
         flags.append(f"Resting HR {rhr_now} is +5 above your 7d avg ({rhr_mean:.0f})")
     if sleep_now is not None and sleep_now < 6.0:
-        flags.append(f"Only {latest.get('sleep_hours')} sleep last night")
+        flags.append(f"Only {daily[sleep_date].get('sleep_hours')} sleep ({sleep_date})")
     today_long = t_km >= 60
     today_hard = t_hr >= 159 and t_km >= 30
     if today_long or today_hard:
@@ -188,7 +210,7 @@ def build():
     else:
         verdict = "ride"
         reasons = [
-            f"{len(acts) and 'Recovery is green (no flags)' or 'No flags'} — readiness {readiness}, HRV {hrv_now}, RHR {rhr_now}",
+            f"{len(acts) and 'Recovery is green (no flags)' or 'No flags'} — readiness {fmt(readiness)} ({r_date}), HRV {fmt(hrv_now)} ({h_date}), RHR {fmt(rhr_now)} ({rh_date})",
             f"{days_since_ride} day(s) since last ride ({d_dates[-1].isoformat() if d_dates else 'n/a'}), {days_since_hard} since last hard effort",
         ]
 
