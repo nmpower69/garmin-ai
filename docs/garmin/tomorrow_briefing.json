@@ -1,0 +1,107 @@
+{
+  "for_date": "2026-09-15",
+  "verdict": "ride",
+  "verdict_label": "Ride tomorrow — VO2 refresher (5 × 3 min)",
+  "reasons": [
+    "Recovery is green (no flags) — readiness None, HRV None, RHR None",
+    "1 day(s) since last ride (2026-09-13), 99 since last hard effort"
+  ],
+  "context": {
+    "rides_7d": 4,
+    "km_7d": 220.3,
+    "avg_gap_days": 2.6,
+    "days_since_ride": 1,
+    "days_since_hard": 99,
+    "today": "rest",
+    "flags": [],
+    "last10": [
+      {
+        "date": "2026-08-21",
+        "km": 54.04,
+        "avg_hr": 155.0
+      },
+      {
+        "date": "2026-08-23",
+        "km": 81.05,
+        "avg_hr": 158.0
+      },
+      {
+        "date": "2026-08-27",
+        "km": 40.14,
+        "avg_hr": 143.0
+      },
+      {
+        "date": "2026-08-29",
+        "km": 50.14,
+        "avg_hr": 150.0
+      },
+      {
+        "date": "2026-09-01",
+        "km": 50.02,
+        "avg_hr": 151.0
+      },
+      {
+        "date": "2026-09-03",
+        "km": 60.02,
+        "avg_hr": 159.0
+      },
+      {
+        "date": "2026-09-08",
+        "km": 60.14,
+        "avg_hr": 153.0
+      },
+      {
+        "date": "2026-09-10",
+        "km": 50.05,
+        "avg_hr": 153.0
+      },
+      {
+        "date": "2026-09-12",
+        "km": 60.07,
+        "avg_hr": 158.0
+      },
+      {
+        "date": "2026-09-13",
+        "km": 50.06,
+        "avg_hr": 144.0
+      }
+    ]
+  },
+  "ride": {
+    "title": "VO2 refresher (5 × 3 min)",
+    "distance": "≈40 km (≈85 min total)",
+    "duration_h": 1.4,
+    "warmup": "15 min Z1–Z2 + 3 × 30-s openers",
+    "main": "5 × 3 min at 172–178 bpm (high Z4/low Z5) with 3-min easy spins between",
+    "variation": "If legs feel great on rep 4, extend rep 5 to 4 min — never add a 6th rep",
+    "cooldown": "12–15 min Z1 + stretch",
+    "pace": "Reps 172–178 bpm; everything else <159 bpm; RPE 8/10 on reps, 3/10 off"
+  },
+  "rest_plan": null,
+  "fuel": {
+    "pre": [
+      "2–3 h before: regular meal (rice/roti + dal/eggs — normal food, nothing exotic)",
+      "60–90 min before: 1 banana + 250 ml water",
+      "1–2 h before: 500 ml water with 1 Fast&Up Reload"
+    ],
+    "during": [
+      "1 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)",
+      "1 × Fast&Up energy gel (~1 per 40–45 min after the first hour)"
+    ],
+    "post": [
+      "Within 30–60 min: 1–2 bananas + a protein-rich meal",
+      "500 ml water with 1 Reload within the hour"
+    ]
+  },
+  "sleep": {
+    "usual_bedtime": "11:33 PM",
+    "tonight": "11:03 PM",
+    "target": "8.0 h",
+    "notes": [
+      "Target 8.0 h — you're running a small sleep debt",
+      "Screens off 30 min before bed; cool, dark room"
+    ]
+  },
+  "generated_at": "2026-09-14T11:06:11.823065+00:00",
+  "model": "rules-v1"
+}
