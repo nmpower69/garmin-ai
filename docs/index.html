@@ -405,7 +405,19 @@ async function load(){
       : '<span class="badge ' + (briefing.verdict==='ride'?'ok':'warn') + '">' + String(briefing.verdict).toUpperCase() + '</span>';
     let bh = '<div class="card" style="border-left:3px solid ' + vc + '">';
     bh += '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' + badgeHtml + '<strong style="font-size:17px">' + briefing.verdict_label + '</strong></div>';
-    bh += '<div class="zone-pills"><span>' + bc.rides_7d + ' rides / 7d</span><span>' + bc.km_7d + ' km / 7d</span><span>' + bc.days_since_ride + 'd since ride</span><span>' + bc.days_since_hard + 'd since hard</span><span>today: ' + bc.today + '</span></div>';
+    const chips = [bc.rides_7d + ' rides / 7d', bc.km_7d + ' km / 7d', bc.days_since_ride + 'd since ride', bc.days_since_hard + 'd since hard', 'today: ' + bc.today];
+    if(bc.acwr != null) chips.push('load ' + bc.acwr + 'x');
+    bh += '<div class="zone-pills">' + chips.map(x=>'<span>'+x+'</span>').join('') + '</div>';
+    if(briefing.weather && (briefing.weather.temp_c != null || briefing.weather.rain_pct != null)){
+      const w = briefing.weather;
+      const parts = [];
+      if(w.temp_c != null) parts.push(w.temp_c + '°C');
+      if(w.humidity != null) parts.push(w.humidity + '% RH');
+      if(w.rain_pct != null) parts.push('rain ' + w.rain_pct + '%');
+      if(w.wind_kmh != null) parts.push('wind ' + w.wind_kmh + ' km/h');
+      bh += '<div class="sub" style="margin-top:8px">Kolhapur 5–9 AM: ' + parts.join(' · ') + '</div>';
+    }
+    ((briefing.wx_notes)||[]).forEach(n=>{ bh += '<div class="sub">• ' + n + '</div>'; });
     bh += '<ul style="margin:12px 0 0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.7">' + (briefing.reasons||[]).map(r=>'<li>'+r+'</li>').join('') + '</ul></div>';
     if(briefing.ride){
       const r = briefing.ride;

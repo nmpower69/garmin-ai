@@ -104,6 +104,9 @@ def build():
     last10 = acts[-10:]
     today = today_ist()
     tomorrow = today + datetime.timedelta(days=1)
+    WAKE = "5:30 AM"
+    WAKE_MIN = 5 * 60 + 30
+    RIDE_START = "6:20 AM"
 
     # ---- ride history facts ----
     def d_dist(a):
@@ -144,6 +147,55 @@ def build():
     week_ago = (today - datetime.timedelta(days=7)).isoformat()
     rides_7d = [a for a in acts if a.get("date", "") >= week_ago]
     km_7d = sum(d_dist(a) or 0 for a in rides_7d)
+
+    # ---- weather: tomorrow 5–9 AM Kolhapur (Open-Meteo, keyless, non-fatal) ----
+    weather, wx_notes = None, []
+    try:
+        import urllib.request
+
+        url = ("https://api.open-meteo.com/v1/forecast?latitude=16.7050&longitude=74.3585"
+               "&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,wind_speed_10m"
+               "&timezone=Asia%2FKolkata&forecast_days=8")
+        with urllib.request.urlopen(url, timeout=15) as _r:
+            _w = json.loads(_r.read().decode("utf-8"))
+        _h = _w.get("hourly", {}) or {}
+        _t = _h.get("time", []) or []
+        _sel = [i for i, _tt in enumerate(_t) if _tt.startswith(tomorrow.isoformat()) and 5 <= int(_tt[11:13]) <= 9]
+
+        def _avg(_k):
+            _vals = _h.get(_k) or []
+            _vs = [_vals[i] for i in _sel if i < len(_vals) and isinstance(_vals[i], (int, float))]
+            return sum(_vs) / len(_vs) if _vs else None
+
+        if _sel:
+            _tavg, _havg, _wavg = _avg("temperature_2m"), _avg("relative_humidity_2m"), _avg("wind_speed_10m")
+            _rp = _h.get("precipitation_probability") or []
+            _rv = [_rp[i] for i in _sel if i < len(_rp) and isinstance(_rp[i], (int, float))]
+            weather = {
+                "temp_c": round(_tavg, 1) if _tavg is not None else None,
+                "humidity": round(_havg) if _havg is not None else None,
+                "rain_pct": max(_rv) if _rv else 0,
+                "wind_kmh": round(_wavg, 1) if _wavg is not None else None,
+            }
+    except Exception as _e:
+        print(f"weather fetch failed (non-fatal): {_e}")
+        weather = None
+    if weather:
+        if (weather["temp_c"] or 0) >= 30 or (weather["humidity"] or 0) >= 80:
+            wx_notes.append(f"Warm/humid ({weather['temp_c']}C, {weather['humidity']}% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower")
+        if (weather["rain_pct"] or 0) >= 50:
+            wx_notes.append(f"{weather['rain_pct']}% rain at ride hours — rain jacket + easy on descents/paint, or swap to trainer")
+        if (weather["wind_kmh"] or 0) >= 20:
+            wx_notes.append(f"Wind {weather['wind_kmh']} km/h — roll out easy into it, enjoy the tailwind home")
+
+    # ---- load balance: acute 7d km vs prior 3-week weekly average ----
+    def _km_on(_dstr):
+        return sum((d_dist(a) or 0) for a in acts if a.get("date") == _dstr)
+
+    acute = sum(_km_on((today - datetime.timedelta(days=i)).isoformat()) for i in range(7))
+    _prior = [sum(_km_on((today - datetime.timedelta(days=i)).isoformat()) for i in range(7 * w, 7 * w + 7)) for w in range(1, 4)]
+    chronic = (sum(_prior) / 3) if any(_prior) else None
+    acwr = round(acute / chronic, 2) if chronic else None
 
     # ---- wellness facts (last 7d + latest) ----
     recent = dates[-7:]
@@ -233,6 +285,10 @@ def build():
             f"{days_since_ride} day(s) since last ride ({d_dates[-1].isoformat() if d_dates else 'n/a'}), {days_since_hard} since last hard effort",
         ]
 
+    if acwr is not None and acwr > 1.5 and verdict == "ride":
+        verdict = "easy"
+        reasons = [f"Load spike — last 7d ({acute:.0f} km) is {acwr}x your recent weekly norm: bank fitness, don't chase"] + reasons[:2]
+
     # ---- ride prescription ----
     ride = None
     if verdict in ("ride", "easy"):
@@ -281,11 +337,12 @@ def build():
     if ride:
         gels = max(0, round(H * 60 / 45) - 1)
         reload_during = max(1, round(H))
+        long_tomorrow = H >= 2 or "VO2" in ride.get("title", "")
         fuel = {
             "pre": [
-                "2–3 h before: regular meal (rice/roti + dal/eggs — normal food, nothing exotic)",
-                "60–90 min before: 1 banana + 250 ml water",
-                "1–2 h before: 500 ml water with 1 Fast&Up Reload",
+                "Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs"
+                + (", plus 1 extra roti — tomorrow is long/hard" if long_tomorrow else ""),
+                f"{WAKE} +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll {RIDE_START}",
             ],
             "during": [
                 f"{reload_during} × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)"
@@ -308,28 +365,22 @@ def build():
             ],
         }
 
-    # ---- sleep ----
+    # ---- sleep: anchored to the 5:30 AM wake-up ----
     usual = usual_bedtime(daily, dates)
     target = 8.0 if (verdict != "rest" or sleep_debt) else 7.5
-    bedtime = None
+    bh, bm = divmod((WAKE_MIN - int(target * 60)) % 1440, 60)
+    bedtime = f"{bh % 12 or 12}:{bm:02d} {'AM' if bh < 12 else 'PM'}"
+    notes = [f"Anchored to your {WAKE} alarm: {target:.1f} h ⇒ lights out {bedtime}"]
     if usual:
-        try:
-            t = datetime.datetime.strptime(usual, "%I:%M %p")
-            mins = t.hour * 60 + t.minute
-            if sleep_debt or (ride and ride.get("title", "").startswith("VO2")):
-                mins -= 30
-            h, m = divmod(mins % 1440, 60)
-            bedtime = f"{h % 12 or 12}:{m:02d} {'AM' if h < 12 else 'PM'}"
-        except Exception:
-            bedtime = usual
+        notes.append(f"Your recent usual is {usual}" + (" — no shift needed" if usual == bedtime else " — move 15 min earlier every 2 nights"))
+    if sleep_debt:
+        notes.append("You're running a small sleep debt — tonight matters more than usual")
+    notes.append("Screens off 30 min before bed; cool, dark room")
     sleep = {
         "usual_bedtime": usual or "your usual time",
-        "tonight": bedtime or "30 min earlier than usual" if (sleep_debt or verdict != "rest") else (usual or "your usual time"),
+        "tonight": bedtime,
         "target": f"{target:.1f} h",
-        "notes": [
-            f"Target {target:.1f} h — " + ("you're running a small sleep debt" if sleep_debt else "protects tomorrow's output"),
-            "Screens off 30 min before bed; cool, dark room",
-        ],
+        "notes": notes,
     }
 
     # ---- rest-day plan ----
@@ -351,6 +402,7 @@ def build():
         "context": {
             "rides_7d": len(rides_7d),
             "km_7d": round(km_7d, 1),
+            "acwr": acwr,
             "avg_gap_days": round(avg_gap, 1),
             "days_since_ride": days_since_ride,
             "days_since_hard": days_since_hard,
@@ -364,6 +416,10 @@ def build():
         "rest_plan": rest_plan,
         "fuel": fuel,
         "sleep": sleep,
+        "weather": weather,
+        "wx_notes": wx_notes,
+        "wake": WAKE,
+        "ride_start": RIDE_START,
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "model": "rules-v1",
     }
@@ -377,7 +433,7 @@ def fallback(err):
         "verdict": "easy",
         "verdict_label": "Easy spin only (safe fallback)",
         "reasons": [f"Briefing engine hiccup ({err}) — defaulting to gentle. Data sync itself is unaffected."],
-        "context": {"rides_7d": 0, "km_7d": 0, "avg_gap_days": 0, "days_since_ride": 0, "days_since_hard": 0, "today": "unknown", "flags": [], "last10": []},
+        "context": {"rides_7d": 0, "km_7d": 0, "acwr": None, "avg_gap_days": 0, "days_since_ride": 0, "days_since_hard": 0, "today": "unknown", "flags": [], "last10": []},
         "ride": {
             "title": "Recovery spin",
             "distance": "12–18 km (≈30–40 min)",
@@ -395,6 +451,10 @@ def fallback(err):
             "post": ["1 banana + normal meal within the hour"],
         },
         "sleep": {"usual_bedtime": "your usual time", "tonight": "your usual time", "target": "7.5 h", "notes": ["Aim for 7.5 h"]},
+        "weather": None,
+        "wx_notes": [],
+        "wake": "5:30 AM",
+        "ride_start": "6:20 AM",
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "model": "fallback",
     }
@@ -409,6 +469,15 @@ def render_md(b):
     c = b["context"]
     L.append(f"_Last 7d: {c['rides_7d']} rides, {c['km_7d']} km · avg gap {c['avg_gap_days']}d · {c['days_since_ride']}d since ride, {c['days_since_hard']}d since hard · today: {c['today']}_")
     L.append("")
+    if b.get("weather"):
+        w = b["weather"]
+        L.append(f"_Kolhapur ride hours (5–9 AM): {w.get('temp_c')}C, {w.get('humidity')}% RH, rain {w.get('rain_pct')}%, wind {w.get('wind_kmh')} km/h_")
+        L.append("")
+    if b.get("wx_notes"):
+        L.append("## Morning call")
+        for x in b["wx_notes"]:
+            L.append(f"- {x}")
+        L.append("")
     if b["ride"]:
         r = b["ride"]
         L.append("## Ride plan")
