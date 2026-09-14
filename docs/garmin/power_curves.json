@@ -61,7 +61,7 @@
       "1200s": 154,
       "3600s": 142,
       "avgPower": 136.0,
-      "normalizedPower": 138.4,
+      "normalizedPower": 147.8,
       "maxPower": 368.0,
       "npSource": "computed"
     },
@@ -74,7 +74,7 @@
       "1200s": 145,
       "3600s": 128,
       "avgPower": 117.0,
-      "normalizedPower": 132.3,
+      "normalizedPower": 140.1,
       "maxPower": 381.0,
       "npSource": "computed"
     },
@@ -87,7 +87,7 @@
       "1200s": 156,
       "3600s": 134,
       "avgPower": 133.0,
-      "normalizedPower": 137.3,
+      "normalizedPower": 149.3,
       "maxPower": 522.0,
       "npSource": "computed"
     },
@@ -100,7 +100,7 @@
       "1200s": 160,
       "3600s": 160,
       "avgPower": 127.0,
-      "normalizedPower": 131.6,
+      "normalizedPower": 144.4,
       "maxPower": 593.0,
       "npSource": "computed"
     },
@@ -113,7 +113,7 @@
       "1200s": 153,
       "3600s": 153,
       "avgPower": 112.0,
-      "normalizedPower": 139.7,
+      "normalizedPower": 153.2,
       "maxPower": 501.0,
       "npSource": "computed"
     },
@@ -126,7 +126,7 @@
       "1200s": 161,
       "3600s": 160,
       "avgPower": 138.0,
-      "normalizedPower": 144.0,
+      "normalizedPower": 155.9,
       "maxPower": 405.0,
       "npSource": "computed"
     },
@@ -139,7 +139,7 @@
       "1200s": 162,
       "3600s": 150,
       "avgPower": 143.0,
-      "normalizedPower": 151.7,
+      "normalizedPower": 160.6,
       "maxPower": 460.0,
       "npSource": "computed"
     },
@@ -152,7 +152,7 @@
       "1200s": 191,
       "3600s": 191,
       "avgPower": 153.0,
-      "normalizedPower": 155.6,
+      "normalizedPower": 165.6,
       "maxPower": 476.0,
       "npSource": "computed"
     },
@@ -165,7 +165,7 @@
       "1200s": 168,
       "3600s": 158,
       "avgPower": 148.0,
-      "normalizedPower": 155.9,
+      "normalizedPower": 169.3,
       "maxPower": 460.0,
       "npSource": "computed"
     },
@@ -178,7 +178,7 @@
       "1200s": 184,
       "3600s": 184,
       "avgPower": 158.0,
-      "normalizedPower": 164.6,
+      "normalizedPower": 173.7,
       "maxPower": 546.0,
       "npSource": "computed"
     },
@@ -191,7 +191,7 @@
       "1200s": 176,
       "3600s": 171,
       "avgPower": 157.0,
-      "normalizedPower": 162.0,
+      "normalizedPower": 170.7,
       "maxPower": 437.0,
       "npSource": "computed"
     },
@@ -204,7 +204,7 @@
       "1200s": 154,
       "3600s": 148,
       "avgPower": 138.0,
-      "normalizedPower": 148.3,
+      "normalizedPower": 156.8,
       "maxPower": 474.0,
       "npSource": "computed"
     }
