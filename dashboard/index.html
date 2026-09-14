@@ -98,6 +98,10 @@ table{min-width:640px}
 <div class="wrap">
 <div class="grid" id="kpis"></div>
 
+<h2>🌅 Tomorrow's Briefing</h2>
+<p class="section-sub" id="briefSub">Your plan for tomorrow — rebuilt every morning from your last 10 rides + recovery.</p>
+<div id="briefing"><div class="card"><div class="sub">Briefing brews with the morning sync…</div></div></div>
+
 <h2>🗓️ Training Calendar</h2>
 <p class="section-sub">Blue depth = ride distance, dot = readiness tier. Click a day to open its note.</p>
 <div class="card">
@@ -385,6 +389,43 @@ async function load(){
     ])]});
   document.getElementById('ftpNote').textContent = `${ftpStatus}. Shading = zones behind the FTP line.`;
   document.getElementById('ftpPills').innerHTML = [`Z1 <${zB[1]}`,`Z2 ${zB[1]}–${zB[2]}`,`Z3 ${zB[2]}–${zB[3]}`,`Z4 ${zB[3]}–${zB[4]}`,`Z5 ${zB[4]}–${zB[5]}`,`Z6+ >${zB[5]}`].map(z=>`<span>${z}W</span>`).join('');
+
+  // ---- Tomorrow's briefing ----
+  let briefing = null;
+  try{
+    const bPaths = [siblingOf('tomorrow_briefing.json'),'./garmin/tomorrow_briefing.json','garmin/tomorrow_briefing.json','/garmin-ai/garmin/tomorrow_briefing.json','../garmin/tomorrow_briefing.json'].filter(Boolean);
+    for(const p of bPaths){ try{ const r=await fetchNoCache(p); if(r.ok){ briefing=await r.json(); break; } }catch(e){} }
+  }catch(e){}
+  if(briefing){
+    try{ document.getElementById('briefSub').textContent = 'Your plan for ' + briefing.for_date + ' — rebuilt every morning from your last 10 rides + recovery.'; }catch(e){}
+    const vc = briefing.verdict==='ride' ? '#22c55e' : briefing.verdict==='easy' ? '#f59e0b' : '#38bdf8';
+    const bc = briefing.context || {};
+    const badgeHtml = briefing.verdict==='rest'
+      ? '<span class="badge" style="background:rgba(56,189,248,.14);color:#7dd3fc;border:1px solid rgba(56,189,248,.3)">REST</span>'
+      : '<span class="badge ' + (briefing.verdict==='ride'?'ok':'warn') + '">' + String(briefing.verdict).toUpperCase() + '</span>';
+    let bh = '<div class="card" style="border-left:3px solid ' + vc + '">';
+    bh += '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' + badgeHtml + '<strong style="font-size:17px">' + briefing.verdict_label + '</strong></div>';
+    bh += '<div class="zone-pills"><span>' + bc.rides_7d + ' rides / 7d</span><span>' + bc.km_7d + ' km / 7d</span><span>' + bc.days_since_ride + 'd since ride</span><span>' + bc.days_since_hard + 'd since hard</span><span>today: ' + bc.today + '</span></div>';
+    bh += '<ul style="margin:12px 0 0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.7">' + (briefing.reasons||[]).map(r=>'<li>'+r+'</li>').join('') + '</ul></div>';
+    if(briefing.ride){
+      const r = briefing.ride;
+      bh += '<div class="grid">';
+      bh += '<div class="card"><h3>' + r.title + ' — ' + r.distance + '</h3><div class="sub" style="line-height:1.8">Warmup: ' + r.warmup + '<br>Main: ' + r.main + '<br>Twist: ' + r.variation + '<br>Cooldown: ' + r.cooldown + '</div><div class="sub" style="margin-top:8px"><strong>Pace:</strong> ' + r.pace + '</div></div>';
+      const f = briefing.fuel || {};
+      const fl = (t,arr)=> '<div><div class="kpi-label">' + t + '</div>' + ((arr||[]).map(x=>'<div class="sub">• ' + x + '</div>').join('') || '<div class="sub">—</div>') + '</div>';
+      bh += '<div class="card"><h3>Fuel &amp; hydration</h3><div style="display:grid;gap:10px">' + fl('Pre-ride',f.pre) + fl('During',f.during) + fl('After',f.post) + '</div></div>';
+      bh += '</div>';
+    }
+    if(briefing.rest_plan){
+      bh += '<div class="card"><h3>Rest-day plan</h3>' + briefing.rest_plan.map(x=>'<div class="sub">• ' + x + '</div>').join('') + '</div>';
+      const f2 = briefing.fuel || {};
+      const post = ((f2.post||[]).map(x=>'<div class="sub">• ' + x + '</div>').join(''));
+      if(post) bh += '<div class="card"><h3>Fuel anyway</h3>' + post + '</div>';
+    }
+    const sl = briefing.sleep || {};
+    bh += '<div class="card"><h3>Sleep tonight — lights out ' + sl.tonight + ' (target ' + sl.target + ')</h3><div class="sub">Usual: ' + sl.usual_bedtime + '</div>' + ((sl.notes||[]).map(x=>'<div class="sub">• ' + x + '</div>').join('')) + '</div>';
+    document.getElementById('briefing').innerHTML = bh;
+  }
 
   // ---- Calendar ----
   const actsByDate = {}; acts.forEach(a=>{ const k = a.date; if(!actsByDate[k]) actsByDate[k]=[]; actsByDate[k].push(a); });

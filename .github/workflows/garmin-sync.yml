@@ -82,6 +82,11 @@ jobs:
           ls -lh garmin/ai_insights.* || true
           head -c 3000 garmin/ai_insights.md || true
 
+      - name: Tomorrow briefing (rules-based, no API needed)
+        run: |
+          python briefing.py || echo "::warning::briefing failed — dashboard will show fallback"
+          ls -lh garmin/tomorrow_briefing.* || true
+
       - name: Commit and push if changed
         run: |
           git config user.name "garmin-bot"
