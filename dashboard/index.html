@@ -67,6 +67,11 @@ table{min-width:640px}
 .cal-day .st{color:var(--muted);font-size:10px}
 .cal-day.rest{opacity:.7}
 .cal-day.nodata{opacity:.35;border-style:dashed;background:transparent}
+.tline{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--border)}
+.tline:last-child{border-bottom:none}
+.ttime{flex-shrink:0;font-weight:800;font-size:12px;background:#0e1830;border:1px solid var(--border);border-radius:8px;padding:3px 9px;white-space:nowrap}
+details.card summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:700}
+details.card summary:hover{text-decoration:underline}
 .cal-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
 .cal-nav{background:#0e1830;border:1px solid var(--border);color:var(--text);border-radius:10px;padding:5px 13px;cursor:pointer;font-size:16px;line-height:1}
 .cal-nav:disabled{opacity:.3;cursor:default}
@@ -397,14 +402,14 @@ async function load(){
     for(const p of bPaths){ try{ const r=await fetchNoCache(p); if(r.ok){ briefing=await r.json(); break; } }catch(e){} }
   }catch(e){}
   if(briefing){
-    try{ document.getElementById('briefSub').textContent = 'Your plan for ' + briefing.for_date + ' — rebuilt every morning from your last 10 rides + recovery.'; }catch(e){}
+    try{ document.getElementById('briefSub').textContent = 'Your plan for ' + briefing.for_date + ' — wake ' + (briefing.wake || '5:30 AM') + ', wheels ' + (briefing.ride_start || '6:20 AM') + '.'; }catch(e){}
     const vc = briefing.verdict==='ride' ? '#22c55e' : briefing.verdict==='easy' ? '#f59e0b' : '#38bdf8';
     const bc = briefing.context || {};
     const badgeHtml = briefing.verdict==='rest'
       ? '<span class="badge" style="background:rgba(56,189,248,.14);color:#7dd3fc;border:1px solid rgba(56,189,248,.3)">REST</span>'
       : '<span class="badge ' + (briefing.verdict==='ride'?'ok':'warn') + '">' + String(briefing.verdict).toUpperCase() + '</span>';
     let bh = '<div class="card" style="border-left:3px solid ' + vc + '">';
-    bh += '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' + badgeHtml + '<strong style="font-size:17px">' + briefing.verdict_label + '</strong></div>';
+    bh += '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' + badgeHtml + '<strong style="font-size:19px">' + briefing.verdict_label + '</strong></div>';
     const chips = [bc.rides_7d + ' rides / 7d', bc.km_7d + ' km / 7d', bc.days_since_ride + 'd since ride', bc.days_since_hard + 'd since hard', 'today: ' + bc.today];
     if(bc.acwr != null) chips.push('load ' + bc.acwr + 'x');
     bh += '<div class="zone-pills">' + chips.map(x=>'<span>'+x+'</span>').join('') + '</div>';
@@ -418,25 +423,31 @@ async function load(){
       bh += '<div class="sub" style="margin-top:8px">Kolhapur 5–9 AM: ' + parts.join(' · ') + '</div>';
     }
     ((briefing.wx_notes)||[]).forEach(n=>{ bh += '<div class="sub">• ' + n + '</div>'; });
-    bh += '<ul style="margin:12px 0 0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.7">' + (briefing.reasons||[]).map(r=>'<li>'+r+'</li>').join('') + '</ul></div>';
+    bh += '</div>';
+    const slb = briefing.sleep || {};
+    const why = '<details class="card"><summary>Why this plan + sleep notes</summary><ul style="margin:10px 0 0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.7">' + (briefing.reasons||[]).map(r=>'<li>'+r+'</li>').join('') + '</ul><div class="sub" style="margin-top:8px">Usual bedtime: ' + slb.usual_bedtime + ' · Target: ' + slb.target + '</div>' + ((slb.notes||[]).map(x=>'<div class="sub">• ' + x + '</div>').join('')) + '</details>';
+    const row = (icon, time, html)=> '<div class="tline"><span class="ttime">' + icon + ' ' + time + '</span><div class="sub" style="line-height:1.65">' + (html || '—') + '</div></div>';
+    let tl = '';
     if(briefing.ride){
-      const r = briefing.ride;
-      bh += '<div class="grid">';
-      bh += '<div class="card"><h3>' + r.title + ' — ' + r.distance + '</h3><div class="sub" style="line-height:1.8">Warmup: ' + r.warmup + '<br>Main: ' + r.main + '<br>Twist: ' + r.variation + '<br>Cooldown: ' + r.cooldown + '</div><div class="sub" style="margin-top:8px"><strong>Pace:</strong> ' + r.pace + '</div></div>';
-      const f = briefing.fuel || {};
-      const fl = (t,arr)=> '<div><div class="kpi-label">' + t + '</div>' + ((arr||[]).map(x=>'<div class="sub">• ' + x + '</div>').join('') || '<div class="sub">—</div>') + '</div>';
-      bh += '<div class="card"><h3>Fuel &amp; hydration</h3><div style="display:grid;gap:10px">' + fl('Pre-ride',f.pre) + fl('During',f.during) + fl('After',f.post) + '</div></div>';
-      bh += '</div>';
+      const r = briefing.ride, f = briefing.fuel || {}, sl = briefing.sleep || {};
+      tl += '<div class="card"><h3>Timeline</h3>';
+      tl += row('🌙', 'Tonight', ((f.pre||[])[0] || '') + '<br>Lights out <strong>' + sl.tonight + '</strong> (' + sl.target + ')');
+      tl += row('⏰', '5:35 AM', ((f.pre||[])[1] || ''));
+      tl += row('🚴', '6:20 AM', '<strong>' + r.title + '</strong> — ' + r.distance + '<br>' + r.pace);
+      tl += row('🧃', 'During', (f.during||[]).join('<br>'));
+      tl += row('🍽️', 'After', (f.post||[]).join('<br>'));
+      tl += '</div>';
+      tl += '<details class="card"><summary>Ride structure</summary><div class="sub" style="line-height:1.8;margin-top:8px">Warmup: ' + r.warmup + '<br>Main: ' + r.main + '<br>Twist: ' + r.variation + '<br>Cooldown: ' + r.cooldown + '</div></details>';
+    } else {
+      const s2 = briefing.sleep || {}, f2 = briefing.fuel || {};
+      tl += '<div class="card"><h3>Rest-day timeline</h3>';
+      tl += row('😴', 'Tonight', 'Lights out <strong>' + s2.tonight + '</strong> (' + s2.target + ') — usual ' + s2.usual_bedtime);
+      tl += row('🚶', 'Tomorrow', ((briefing.rest_plan||[]).slice(0,2)).join('<br>'));
+      tl += row('🍽️', 'Fuel', ((f2.post||[]).slice(0,2)).join('<br>'));
+      tl += '</div>';
+      tl += '<details class="card"><summary>Full rest plan</summary><div class="sub" style="line-height:1.8;margin-top:8px">' + ((briefing.rest_plan||[]).join('<br>')) + '</div></details>';
     }
-    if(briefing.rest_plan){
-      bh += '<div class="card"><h3>Rest-day plan</h3>' + briefing.rest_plan.map(x=>'<div class="sub">• ' + x + '</div>').join('') + '</div>';
-      const f2 = briefing.fuel || {};
-      const post = ((f2.post||[]).map(x=>'<div class="sub">• ' + x + '</div>').join(''));
-      if(post) bh += '<div class="card"><h3>Fuel anyway</h3>' + post + '</div>';
-    }
-    const sl = briefing.sleep || {};
-    bh += '<div class="card"><h3>Sleep tonight — lights out ' + sl.tonight + ' (target ' + sl.target + ')</h3><div class="sub">Usual: ' + sl.usual_bedtime + '</div>' + ((sl.notes||[]).map(x=>'<div class="sub">• ' + x + '</div>').join('')) + '</div>';
-    document.getElementById('briefing').innerHTML = bh;
+    document.getElementById('briefing').innerHTML = bh + tl + why;
   }
 
   // ---- Calendar ----
