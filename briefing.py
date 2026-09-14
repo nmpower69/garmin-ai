@@ -109,16 +109,30 @@ def build():
     def d_dist(a):
         return num(a.get("distance_km"))
 
-    def d_dur_h(a):
-        s = num(a.get("duration_seconds"))
-        return s / 3600.0 if s else None
+    np_by_id = {}
+    try:
+        for _cid, _c in (curves.get("curves") or {}).items():
+            if isinstance(_c, dict):
+                _n = num(_c.get("normalizedPower"))
+                if _n is not None:
+                    np_by_id[str(_cid)] = _n
+    except Exception:
+        pass
+
+    def is_hard(a):
+        # HR-based OR power-based: long intervals can average <167 bpm
+        # while still being neuromuscularly hard (high NP).
+        if (num(a.get("avg_hr")) or 0) >= 167:
+            return True
+        _n = np_by_id.get(str(a.get("id") or ""))
+        return _n is not None and _n >= 170
 
     dists = [d_dist(a) for a in last10 if d_dist(a) is not None]
     avg_dist = sum(dists) / len(dists) if dists else 40.0
     d_dates = [datetime.date.fromisoformat(a["date"]) for a in last10 if a.get("date")]
     gaps = [(d_dates[i] - d_dates[i - 1]).days for i in range(1, len(d_dates))]
     avg_gap = sum(gaps) / len(gaps) if gaps else 0.0
-    hard = [a for a in last10 if (num(a.get("avg_hr")) or 0) >= 167]
+    hard = [a for a in last10 if is_hard(a)]
     days_since_ride = (today - d_dates[-1]).days if d_dates else 99
     hard_dates = [
         datetime.date.fromisoformat(a["date"]) for a in hard if a.get("date")
@@ -184,11 +198,16 @@ def build():
     if sleep_now is not None and sleep_now < 6.0:
         flags.append(f"Only {daily[sleep_date].get('sleep_hours')} sleep ({sleep_date})")
     today_long = t_km >= 60
-    today_hard = t_hr >= 159 and t_km >= 30
+    t_np = 0
+    for _ta in today_rides:
+        _n = np_by_id.get(str(_ta.get("id") or ""))
+        if _n is not None and _n > t_np:
+            t_np = _n
+    today_hard = (t_hr >= 159 and t_km >= 30) or t_np >= 170
     if today_long or today_hard:
         flags.append(f"Today's ride was big ({t_km:.0f} km, avg HR {t_hr:.0f}) — body needs absorption time")
     last3 = [(today - datetime.timedelta(days=i)).isoformat() for i in range(3)]
-    ridden_3 = sum(1 for d in last3 for a in acts if a.get("date") == d)
+    ridden_3 = sum(1 for d in last3 if any(a.get("date") == d for a in acts))
     if ridden_3 >= 3:
         flags.append("Rode 3 days straight — a day off protects the streak")
 
