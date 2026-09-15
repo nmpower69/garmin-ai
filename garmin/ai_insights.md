@@ -1,5 +1,33 @@
-# AI Insights — generation failed 2026-09-15T04:38:38.827427
+# AI Cycling Insights — 2026-09-15  (via liquid/lfm-2.5-2.6b:free)
 
-Error: Expected 10 insights, got 6
+_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-Check `OPENROUTER_API_KEY` secret and OpenRouter quota for model `liquid/lfm-2.5-2.6b:free`.
+### Insight 1: September 13 ride showed peak readiness but minimal movement
+Your September 13 ride achieved the highest daily readiness score (87) yet recorded just 356 steps—indicating your effort profile was efficient even with low volume. To sustain this comfort zone, focus on smoothing heart rate curves during easy efforts rather than simply increasing duration.
+
+### Insight 2: Cumulative climb load threatens long-distance endurance
+The September 1 and 3 rides combined approximately 120km with elevations totaling around 480m, plus additional climbs averaging 250m on September 8 and 12. Over repeated days, this vertical accumulation can reduce mitochondrial efficiency and increase perceived exertion, limiting how far you can go later.
+
+### Insight 3: Back-to-back long rides create hidden fatigue accumulation
+You completed significant efforts on August 29 (50.14km), September 1 (50.02km), September 3 (60.02km), and September 8 (60.14km)—a four-day cluster of substantial riding. The frequent demands on legs and joints increase when you ride repeatedly in the same terrain, potentially causing lingering soreness.
+
+### Insight 4: Distance progression mirrors marathon build-up correctly
+Progressing from roughly 50km to 60km efforts (September 1 → September 3 → September 8 → September 12) follows classic marathon preparation patterns, gradually increasing endurance. Continue this trajectory but monitor readiness closely—if it drops below 70 after three months of weekly 60km sessions, introduce shorter tempo efforts instead of pure distance climbing.
+
+### Insight 5: FTP estimate requires fresh measurement (271W from 2025)
+Your current FTP of 271W is two years old and likely inaccurate after your recent varied efforts. Based on recent best power outputs (up to 546W), your true functional threshold sits closer to 150-195W. Measuring FTP now will give you a reliable baseline for all future training decisions.
+
+### Insight 6: Adopt a polarized 80/20 workload structure
+Distribute most training (80%) into easy, conversational rides at zones 1-2 (steady state under 140bpm) and limit intense efforts (20%) to threshold-based sessions near 175bpm. This preserves your high readiness (peaking at 87) while providing sufficient stimulus without burnout.
+
+### Insight 7: Two consecutive low-activity days signal recovery risk
+After your productive September 13 ride (readiness 87), you went two days straight without logging activity (September 14 and 15 show no data). This pattern often precedes accumulated fatigue or delayed recovery, making early intervention important to restore your rhythm.
+
+### Insight 8: Maximize reactive strength with targeted interval work
+Your strongest peak effort came on September 10 with a maximum power of 546W at 173bpm—well within your Z5 zone. To develop this strength further, add short threshold repeats (4x3min at 175-185bpm) once per week, keeping total interval volume under 45 minutes to avoid oversubstituting steady-state mileage.
+
+### Insight 9: Lactate threshold gains require dedicated practice sessions
+With zero VO2max measured, add one long-threshold session per month spending 40-60 minutes at 170-175bpm (target heart rate zone corresponding to 75-85% of FTP). This elevates your aerobic engine without excessive muscle damage, supporting your upcoming longer rides.
+
+### Insight 10: Calibrate power zones using real-world reading (~150-195W FTP)
+Replace the stale 271W FTP with a new assessment today—aim for a 20-minute spin at consistent power throughout. If you comfortably stay under 200W for the first 15 minutes then fade gracefully, keep this as your working FTP. It will better align your power-based training with actual physiological responses.
