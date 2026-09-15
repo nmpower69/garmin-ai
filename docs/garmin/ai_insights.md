@@ -1,33 +1,5 @@
-# AI Cycling Insights — 2026-09-14  (via liquid/lfm-2.5-2.6b:free)
+# AI Insights — generation failed 2026-09-15T04:38:38.827427
 
-_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
+Error: Expected 10 insights, got 6
 
-### Insight 1: Recent hard rides exceed easy zone comfort
-Your 2026-09-10 and 2026-09-13 rides averaged 158-184 bpm over 90+ minute efforts, which sits higher than your typical easy rides from late August. While these are enjoyable, you're regularly pushing into harder zone (Z2-Z3) territory during what feel like moderate-length rides. Consider slightly pacing those climbs so you stay in a comfortable aerobic zone rather than accumulating costly easy effort.
-
-### Insight 2: Elevation burden on relatively flat terrain
-The 2026-09-12 ride covered 60.07km over 1h 49m with 255m of climbing, creating significant vertical load even though Kolhapur is typically flat. This type of climb disproportionately taxes effort without proportional time investment, reducing overall efficiency compared to steady-state efforts on flat ground.
-
-### Insight 3: High-ride density increases recovery demand
-You've logged 6 rides in the past 7 days with cumulative roughly 350km, averaging close to your weekly maximum. This rapid accumulation leaves less buffer between hard efforts, increasing fatigue accumulation risk if recovery isn't prioritized. Aim for at least one full rest day every 4-5 hard rides.
-
-### Insight 4: Progressive distance build toward endurance goals
-From 50km on Sep 8 to 60km+ on Sep 12-13 shows consistent mileage growth aligned with your goal of improved sustainability. The steady increase in distance mirrors classic marathon-building approaches where volume outpaces peak power. Keep the intensity moderate to allow adaptive improvements to reflect nicely over weeks.
-
-### Insight 5: Updated power-based zone calibration needed
-Your stale FTP estimate of 271W may be outdated given recent efforts reaching 184 bpm average over 90-minute blocks. True FTP should likely be re-measured soon—currently your hard efforts sit near 200W, suggesting a realistic target of 145-185W for training zone calculations.
-
-### Insight 6: Adopt polarized 80/20 effort distribution
-Your current profile leans heavily into easier rides with occasional longer efforts, aligning well with our happiness-focused coaching philosophy. Maintaining an 80/20 split (80% low-intensity, 20% high-intensity) will maximize gains with minimal burnout while keeping rides pleasurable.
-
-### Insight 7: Watch for hidden recovery red flags
-Despite solid preparations, your lowest readiness score was 87 on Sep 13 paired with suboptimal blood pressure (BB=65). Sleep quality dipped to fair ratings throughout this period, signaling that some recoverability thresholds weren't met even with good training days.
-
-### Insight 8: Build reactive strength through interval work
-The 2026-09-10 ride showed a strong 1-hour average of 184 bpm with a top 20-minute sprint of 210 bpm, indicating developing reactive strength. Add short interval sessions (4x4min @ 85-90% FTP) twice weekly to sharpen that burst capability without excessive fatigue.
-
-### Insight 9: Targeted vo2max stimulus plan
-With no VO2max measurement yet, consider adding two weekly intervals at lactate-threshold pace (75-85% FTP) followed by one longer tempo session (90-95% for 60-90min). This combination systematically improves your aerobic ceiling while staying within your sustainable limits.
-
-### Insight 10: Establish accurate FTP baseline
-Your current FTP of 271W from 2025 suggests older fitness levels; recent hard efforts around 184 bpm indicate a newer, stronger aerobic base (~150-185W). Plan a formal power test next month to set a fresh benchmark before committing to race-style training blocks.
+Check `OPENROUTER_API_KEY` secret and OpenRouter quota for model `liquid/lfm-2.5-2.6b:free`.
