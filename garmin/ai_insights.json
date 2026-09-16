@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: AI generation failed \u2014 using fallback",
-    "description": "Error: Expected 10 insights, got 6. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 1: Sept 13 easy ride exceeded easy heart rate ceiling",
+    "description": "The 50.06km ride on September 13 averaged 144 bpm with a peak of 178 bpm—well into the Z2 zone rather than staying comfortably in your easy HR range. This suggests you were pushing harder than intended during what was meant to be a relaxed session. Next time on similar short rides, target a steadier cadence around 85-90 rpm and keep heart rate below 145 bpm to maintain energy reserves.",
+    "badge": "warn",
+    "badgeText": "Overreach on easy effort"
   },
   {
-    "title": "Insight 2: AI generation failed \u2014 using fallback",
-    "description": "Error: Expected 10 insights, got 6. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 2: Sept 12 long ride carried unexpected vertical load",
+    "description": "The 60.07km ride on September 12 required climbing 255 meters over 1 hour 49 minutes—a relatively steep climb for flat Kolhapur roads. This added vertical work disproportionately taxes your legs compared to the 50-60 km distance, reducing net efficiency. Consider smoother routes or pacing strategies when elevation is present.",
+    "badge": "warn",
+    "badgeText": "Vertical load not justified"
   },
   {
-    "title": "Insight 3: AI generation failed \u2014 using fallback",
-    "description": "Error: Expected 10 insights, got 6. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 3: Two consecutive long rides created recovery sequence risk",
+    "description": "You rode 60.07km on September 12 followed by 50.06km on September 13—two substantial efforts within 48 hours. This clustering can deplete glycogen stores and accumulate muscle damage faster than intended. Schedule light spin days or active recovery between such volumes to allow proper turnover.",
+    "badge": "warn",
+    "badgeText": "Recovery compression detected"
   },
   {
-    "title": "Insight 4: AI generation failed \u2014 using fallback",
-    "description": "Error: Expected 10 insights, got 6. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 4: Steady progressive volume build confirmed",
+    "description": "From the 50.14km ride on August 29 (1h 40m) through the 60.14km ride on September 3 (1h 49m), your weekly mileage increased by nearly 25 km while maintaining similar pace profiles. This deliberate progression supports fitness gains without excessive overload. Continue adding volume gradually—no more than 10-15% weekly—to stay in optimal adaptation zone.",
+    "badge": "ok",
+    "badgeText": "Good progression"
   },
   {
-    "title": "Insight 5: AI generation failed \u2014 using fallback",
-    "description": "Error: Expected 10 insights, got 6. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 5: Update power zone parameters for accuracy",
+    "description": "Your stale FTP estimate of 271W from March 2025 doesn't align with recent 20-second bests reaching 206-204W. Using these newer power outputs (≈150-190W estimated FTP), your Zone 2 becomes 148-203W, Zone 3 203-244W. This recalibration ensures your intensity markers remain realistic for the current fitness level.",
+    "badge": "ok",
+    "badgeText": "Updated baselining"
   },
   {
-    "title": "Insight 6: AI generation failed \u2014 using fallback",
-    "description": "Error: Expected 10 insights, got 6. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 6: Adopt polarized 80/20 training split",
+    "description": "Your recent rides alternate between steady-zone efforts (average 150-160W) and sprint-style efforts (20m peaks near 180-205W). Maintaining ~80% steady work and ~20% hard efforts maximizes aerobic adaptation while preserving recovery capacity. This structure aligns well with your flat-terrain preferences and happiness-focused goal of sustainable riding.",
+    "badge": "ok",
+    "badgeText": "Optimal split"
   },
   {
-    "title": "Insight 7: AI generation failed \u2014 using fallback",
-    "description": "Error: Expected 10 insights, got 6. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 7: Early warning of reduced readiness",
+    "description": "Readiness scores dipped to 79 on September 11 then rose sharply to 87 on September 13 despite similar workload. However, stress dropped to just 15 on the 13th alongside improved readiness, suggesting possible overtraining accumulation from back-to-back efforts. Monitor consistency of readiness over multiple days rather than single-value snapshots.",
+    "badge": "warn",
+    "badgeText": "Reduced readiness trend"
   },
   {
-    "title": "Insight 8: AI generation failed \u2014 using fallback",
-    "description": "Error: Expected 10 insights, got 6. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 8: Build reactive strength with interval sessions",
+    "description": "The 10-second interval on September 10 produced the highest 10s value (408W) among all recorded efforts, indicating strong anaerobic capacity. To complement this, incorporate 3-4 x 5-minute tempo rides at 120-130% FTP roughly every other week to develop threshold strength without compromising endurance.",
+    "badge": "ok",
+    "badgeText": "Strong foundation"
   },
   {
-    "title": "Insight 9: AI generation failed \u2014 using fallback",
-    "description": "Error: Expected 10 insights, got 6. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 9: Target VO2max with threshold intervals",
+    "description": "Your best 20-second speed was 204W on September 10, sitting close to your estimated FTP. Adding one weekly 5×FTP (around 1400+ W) interval session will push your aerobic ceiling. Keep these hard efforts under 20 minutes total to avoid excessive fatigue while accelerating lactate threshold development.",
+    "badge": "ok",
+    "badgeText": "Velocity focus"
   },
   {
-    "title": "Insight 10: AI generation failed \u2014 using fallback",
-    "description": "Error: Expected 10 insights, got 6. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 10: Re-evaluate and stabilize FTP measurement",
+    "description": "A current FTP estimate of 271W (March 2025) appears outdated given recent higher-power outputs (e.g., 183W in 1-hour bursts). A new testing protocol using the latest 20-second bests as proxies would provide a more accurate baseline for setting training zones going forward. Once stabilized, revisit target values monthly to track progress.",
+    "badge": "warn",
+    "badgeText": "Outdated baseline"
   }
 ]
