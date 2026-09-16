@@ -1,15 +1,15 @@
-# Tomorrow's briefing — 2026-09-16 (Ride tomorrow — VO2 refresher (5 × 3 min))
+# Tomorrow's briefing — 2026-09-17 (Ride tomorrow — VO2 refresher (5 × 3 min))
 
 ## Verdict
 - Recovery is green (no flags) — readiness 87 (2026-09-13), HRV 71 (2026-09-13), RHR 51 (2026-09-13)
-- 2 day(s) since last ride (2026-09-13), 3 since last hard effort
+- 3 day(s) since last ride (2026-09-13), 4 since last hard effort
 
-_Last 7d: 4 rides, 220.3 km · avg gap 2.6d · 2d since ride, 3d since hard · today: rest_
+_Last 7d: 3 rides, 160.2 km · avg gap 2.6d · 3d since ride, 4d since hard · today: rest_
 
-_Kolhapur ride hours (5–9 AM): 23.6C, 85% RH, rain 6%, wind 8.3 km/h_
+_Kolhapur ride hours (5–9 AM): 24.0C, 85% RH, rain 21%, wind 8.5 km/h_
 
 ## Morning call
-- Warm/humid (23.6C, 85% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower
+- Warm/humid (24.0C, 85% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower
 
 ## Ride plan
 - **VO2 refresher (5 × 3 min)** — ≈40 km (≈85 min total)
@@ -31,9 +31,9 @@ _Kolhapur ride hours (5–9 AM): 23.6C, 85% RH, rain 6%, wind 8.3 km/h_
 - 500 ml water with 1 Reload within the hour
 
 ## Sleep tonight
-- Lights out: **9:30 PM** (usual 11:41 PM) — target **8.0 h**
+- Lights out: **9:30 PM** (usual 11:33 PM) — target **8.0 h**
 - Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM
-- Your recent usual is 11:41 PM — move 15 min earlier every 2 nights
+- Your recent usual is 11:33 PM — move 15 min earlier every 2 nights
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-09-15T05:24:15.616519+00:00 by rules-v1_
+_Generated 2026-09-16T04:37:11.640276+00:00 by rules-v1_
