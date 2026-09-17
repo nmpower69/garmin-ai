@@ -1,33 +1,33 @@
-# AI Cycling Insights — 2026-09-16  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — 2026-09-17  (via liquid/lfm-2.5-2.6b:free)
 
 _Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-### Insight 1: Sept 13 easy ride exceeded easy heart rate ceiling
-The 50.06km ride on September 13 averaged 144 bpm with a peak of 178 bpm—well into the Z2 zone rather than staying comfortably in your easy HR range. This suggests you were pushing harder than intended during what was meant to be a relaxed session. Next time on similar short rides, target a steadier cadence around 85-90 rpm and keep heart rate below 145 bpm to maintain energy reserves.
+### Insight 1: Easy ride on 09-11 exceeded comfort zone
+On 2026-09-11 you completed a 42km ride with a readiness score of 73, which is lower than your peak of 100 on 09-14. Even though sleep was fair and heart rates stayed low, the ride felt harder than anticipated for your current fitness level. Keep easy days sustainable—aim for READY <75 to ensure consistent progress without overtraining.
 
-### Insight 2: Sept 12 long ride carried unexpected vertical load
-The 60.07km ride on September 12 required climbing 255 meters over 1 hour 49 minutes—a relatively steep climb for flat Kolhapur roads. This added vertical work disproportionately taxes your legs compared to the 50-60 km distance, reducing net efficiency. Consider smoother routes or pacing strategies when elevation is present.
+### Insight 2: Cumulative vertical load on long rides
+Your long runs on 09-03 (60km, 255m elevation) and 09-08 (60km, 298m elevation) show significant gravitational stress that builds leg fatigue over time. This style of progressive climbing prepares your cardiovascular system but requires stronger supporting days to avoid accumulated soreness. Balance gravity work with active recovery to maintain high-quality performances.
 
-### Insight 3: Two consecutive long rides created recovery sequence risk
-You rode 60.07km on September 12 followed by 50.06km on September 13—two substantial efforts within 48 hours. This clustering can deplete glycogen stores and accumulate muscle damage faster than intended. Schedule light spin days or active recovery between such volumes to allow proper turnover.
+### Insight 3: Dense riding pattern across the week
+You rode six distinct routes between 09-01 and 09-17 with most days falling in the 50-60km range. While total mileage averages reasonably, consecutive rides of similar intensity create a subtle accumulation risk that can blunt adaptation. Incorporate at least one full recovery day every 5-7 rides to support proper physiological adaptation.
 
-### Insight 4: Steady progressive volume build confirmed
-From the 50.14km ride on August 29 (1h 40m) through the 60.14km ride on September 3 (1h 49m), your weekly mileage increased by nearly 25 km while maintaining similar pace profiles. This deliberate progression supports fitness gains without excessive overload. Continue adding volume gradually—no more than 10-15% weekly—to stay in optimal adaptation zone.
+### Insight 4: FTP re-estimation needed
+Your stale FTP of 271W from 2025 remains inaccurate compared to recent 20m power outputs averaging 143-204W. The newer readings suggest a true FTP closer to 150-180W, meaning prior interval targets may have been too easy or too hard. A fresh test will provide a reliable baseline for structuring your long and tempo rides.
 
-### Insight 5: Update power zone parameters for accuracy
-Your stale FTP estimate of 271W from March 2025 doesn't align with recent 20-second bests reaching 206-204W. Using these newer power outputs (≈150-190W estimated FTP), your Zone 2 becomes 148-203W, Zone 3 203-244W. This recalibration ensures your intensity markers remain realistic for the current fitness level.
+### Insight 5: Calibrated zone model (2026-08-09)
+With revised FTP circa 160W, your zones map as: Z1 (<148W) very easy cruising, Z2 (148-203W) steady spinning, Z3 (203-244W) tempo effort, Z4 (244-284W) hard intervals, Z5 (>284W) sprints. This framework ensures your rides stay in productive zones—not guessing whether a climb is Z2 or Z4—helping you maintain consistency and enjoy improved enjoyment.
 
-### Insight 6: Adopt polarized 80/20 training split
-Your recent rides alternate between steady-zone efforts (average 150-160W) and sprint-style efforts (20m peaks near 180-205W). Maintaining ~80% steady work and ~20% hard efforts maximizes aerobic adaptation while preserving recovery capacity. This structure aligns well with your flat-terrain preferences and happiness-focused goal of sustainable riding.
+### Insight 6: Polarized 80/20 approach
+Target roughly 80% of rides remaining below 145W (conversational pace, steady rotation) and 20% pushing into Z4 territory (harder efforts or hill repeats). Your recent power profile sits comfortably in Z2/Z3, leaving room to scale up without excessive fatigue. Track each zone percentage to stay balanced and keep riding enjoyable.
 
-### Insight 7: Early warning of reduced readiness
-Readiness scores dipped to 79 on September 11 then rose sharply to 87 on September 13 despite similar workload. However, stress dropped to just 15 on the 13th alongside improved readiness, suggesting possible overtraining accumulation from back-to-back efforts. Monitor consistency of readiness over multiple days rather than single-value snapshots.
+### Insight 7: Recovery warning signs detected
+Readiness dipped to 73 on 09-11 despite good sleep metrics (HRV=62, RHR=51). Combined with stress at 30 and resting heart rate of 59bpm, this pattern suggests potential overreach risk if you continue similar intensity. Monitor recovery indicators and consider reducing next ride's duration or lowering intensity to protect your long-term gains.
 
-### Insight 8: Build reactive strength with interval sessions
-The 10-second interval on September 10 produced the highest 10s value (408W) among all recorded efforts, indicating strong anaerobic capacity. To complement this, incorporate 3-4 x 5-minute tempo rides at 120-130% FTP roughly every other week to develop threshold strength without compromising endurance.
+### Insight 8: Building maximal strength
+Your 10-second power climbed steadily from 179W (09-01) to 210W (09-10), indicating growing reactive capability. Add several repeated sprint efforts—30-60 second bursts at 200-220W—alongside your regular spins to develop the explosive power that shines through on technical climbs. Pair these with adequate recovery for optimal neural and muscular adaptation.
 
-### Insight 9: Target VO2max with threshold intervals
-Your best 20-second speed was 204W on September 10, sitting close to your estimated FTP. Adding one weekly 5×FTP (around 1400+ W) interval session will push your aerobic ceiling. Keep these hard efforts under 20 minutes total to avoid excessive fatigue while accelerating lactate threshold development.
+### Insight 9: Vo2max development plan
+To boost aerobic capacity beyond today's steady-state riding, introduce two weekly rides at 70-85% of your estimated FTP with continuous effort (Z3-Z4 zones). These longer-paced sessions broaden your oxygen utilization ceiling without excessive fatigue. Begin with 45-60 minute efforts after a brief warm-up to safely expand your aerobic base.
 
-### Insight 10: Re-evaluate and stabilize FTP measurement
-A current FTP estimate of 271W (March 2025) appears outdated given recent higher-power outputs (e.g., 183W in 1-hour bursts). A new testing protocol using the latest 20-second bests as proxies would provide a more accurate baseline for setting training zones going forward. Once stabilized, revisit target values monthly to track progress.
+### Insight 10: FTP test recommendation
+Because your stored FTP is outdated, schedule a 20-minute FTP test on a completely flat day (ideally 2026-09-19) at 90% of your projected FTP. Record the result and use it to precisely calibrate your training zones. If the test confirms a lower FTP than assumed, adjust your long ride targets downward to match reality.

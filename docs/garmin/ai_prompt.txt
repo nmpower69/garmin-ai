@@ -1,33 +1,33 @@
 You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is 2026-09-16. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is 2026-09-17. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-09-10: steps=2958 sleep=6h 9m (64 (FAIR)) hrv=63 rhr=54 bb=55 stress=46 readiness=79
 2026-09-11: steps=4236 sleep=8h 7m (72 (FAIR)) hrv=62 rhr=51 bb=72 stress=30 readiness=73
 2026-09-12: steps=4433 sleep=6h 39m (79 (FAIR)) hrv=65 rhr=53 bb=71 stress=38 readiness=84
-2026-09-13: steps=356 sleep=7h 1m (80 (GOOD)) hrv=71 rhr=51 bb=65 stress=15 readiness=87
-2026-09-14: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-09-14', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
-2026-09-15: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-09-15', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
-2026-09-16: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-09-16', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
+2026-09-13: steps=2575 sleep=7h 1m (80 (GOOD)) hrv=71 rhr=51 bb=77 stress=30 readiness=87
+2026-09-14: steps=1669 sleep=9h 17m (98 (EXCELLENT)) hrv=77 rhr=50 bb=81 stress=22 readiness=100
+2026-09-15: steps=8757 sleep=5h 35m (72 (FAIR)) hrv=68 rhr=52 bb=66 stress=33 readiness=99
+2026-09-16: steps=8165 sleep=7h 23m (69 (FAIR)) hrv=67 rhr=54 bb=73 stress=33 readiness=85
+2026-09-17: steps=696 sleep=7h 21m (89 (GOOD)) hrv=61 rhr=51 bb=55 stress=18 readiness=95
 
 Recent rides last 7:
-2026-08-29 Kolhapur Road Cycling 50.14km 1h 40m avgHR=150.0 maxHR=179.0 elev=220.0 cals=826.0
 2026-09-01 Kolhapur Road Cycling 50.02km 1h 35m avgHR=151.0 maxHR=182.0 elev=228.0 cals=819.0
 2026-09-03 Kolhapur Road Cycling 60.02km 1h 49m avgHR=159.0 maxHR=179.0 elev=258.0 cals=1000.0
 2026-09-08 Kolhapur Road Cycling 60.14km 1h 51m avgHR=153.0 maxHR=179.0 elev=245.0 cals=988.0
 2026-09-10 Kolhapur Road Cycling 50.05km 1h 36m avgHR=153.0 maxHR=172.0 elev=301.0 cals=920.0
 2026-09-12 Kolhapur Road Cycling 60.07km 1h 49m avgHR=158.0 maxHR=178.0 elev=255.0 cals=1029.0
 2026-09-13 Kolhapur Road Cycling 50.06km 1h 38m avgHR=144.0 maxHR=178.0 elev=300.0 cals=814.0
+2026-09-17 Kolhapur Road Cycling 50.01km 1h 36m avgHR=148.0 maxHR=181.0 elev=230.0 cals=809.0
 
 Best power per ride (real directPower rolling maxima):
-2026-08-29 75322: 10s=373 30s=274 60s=226 5m=182 20m=161 1h=160 avg=138.0 NP=155.9 max=405.0
 2026-09-01 05303: 10s=395 30s=296 60s=230 5m=179 20m=162 1h=150 avg=143.0 NP=160.6 max=460.0
 2026-09-03 71213: 10s=396 30s=267 60s=240 5m=191 20m=191 1h=191 avg=153.0 NP=165.6 max=476.0
 2026-09-08 74372: 10s=374 30s=315 60s=244 5m=197 20m=168 1h=158 avg=148.0 NP=169.3 max=460.0
 2026-09-10 29284: 10s=408 30s=332 60s=264 5m=210 20m=184 1h=184 avg=158.0 NP=173.7 max=546.0
 2026-09-12 72673: 10s=333 30s=254 60s=229 5m=195 20m=176 1h=171 avg=157.0 NP=170.7 max=437.0
 2026-09-13 48995: 10s=384 30s=279 60s=246 5m=188 20m=154 1h=148 avg=138.0 NP=156.8 max=474.0
+2026-09-17 42487: 10s=370 30s=294 60s=252 5m=198 20m=173 1h=152 avg=135.6 NP=None max=None
 
 Additional: HR zones: LTHR 175, Max 196 => Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172. Power zones: FTP 271W (stale 2025-03-04) => Z1<148, Z2 148-203, Z3 203-244, Z4 244-284, Z5 284-324, Z6 324-406, Z7>406. VO2max null.
 FTP is stale (271W from 2025-03-04). 20m bests are 143-204W, so true FTP likely ~150-195W. Training readiness, HRV, RHR, sleep are volatile.
