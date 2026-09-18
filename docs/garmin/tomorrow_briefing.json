@@ -1,5 +1,5 @@
 {
-  "for_date": "2026-09-18",
+  "for_date": "2026-09-19",
   "verdict": "easy",
   "verdict_label": "Easy spin only — Recovery spin",
   "reasons": [
@@ -8,18 +8,13 @@
   "context": {
     "rides_7d": 4,
     "km_7d": 210.2,
-    "acwr": 1.08,
-    "avg_gap_days": 2.8,
+    "acwr": 1.61,
+    "avg_gap_days": 2.4,
     "days_since_ride": 0,
-    "days_since_hard": 5,
-    "today": "50 km, avg HR 148",
+    "days_since_hard": 6,
+    "today": "50 km, avg HR 138",
     "flags": [],
     "last10": [
-      {
-        "date": "2026-08-23",
-        "km": 81.05,
-        "avg_hr": 158.0
-      },
       {
         "date": "2026-08-27",
         "km": 40.14,
@@ -64,13 +59,18 @@
         "date": "2026-09-17",
         "km": 50.01,
         "avg_hr": 148.0
+      },
+      {
+        "date": "2026-09-18",
+        "km": 50.02,
+        "avg_hr": 138.0
       }
     ]
   },
   "ride": {
     "title": "Recovery spin",
-    "distance": "19 km (≈52 min)",
-    "duration_h": 0.86,
+    "distance": "18 km (≈49 min)",
+    "duration_h": 0.82,
     "warmup": "First 10 min dead easy, cadence 85–95",
     "main": "Entirely Z1 (<139 bpm), conversational — you should be able to hum",
     "variation": "6 × 1-min fast pedals (100+ rpm, stays Z1) with 4-min easy between — leg speed, zero load",
@@ -93,27 +93,26 @@
     ]
   },
   "sleep": {
-    "usual_bedtime": "11:17 PM",
+    "usual_bedtime": "11:04 PM",
     "tonight": "9:30 PM",
     "target": "8.0 h",
     "notes": [
       "Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM",
-      "Your recent usual is 11:17 PM — move 15 min earlier every 2 nights",
-      "You're running a small sleep debt — tonight matters more than usual",
+      "Your recent usual is 11:04 PM — move 15 min earlier every 2 nights",
       "Screens off 30 min before bed; cool, dark room"
     ]
   },
   "weather": {
-    "temp_c": 23.8,
-    "humidity": 85,
-    "rain_pct": 4,
-    "wind_kmh": 8.3
+    "temp_c": 24.6,
+    "humidity": 82,
+    "rain_pct": 14,
+    "wind_kmh": 7.0
   },
   "wx_notes": [
-    "Warm/humid (23.8C, 85% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
+    "Warm/humid (24.6C, 82% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
   ],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-09-17T04:37:35.543182+00:00",
+  "generated_at": "2026-09-18T04:36:02.751559+00:00",
   "model": "rules-v1"
 }
