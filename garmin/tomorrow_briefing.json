@@ -1,26 +1,23 @@
 {
-  "for_date": "2026-09-20",
-  "verdict": "ride",
-  "verdict_label": "Ride tomorrow — VO2 refresher (5 × 3 min)",
+  "for_date": "2026-09-21",
+  "verdict": "easy",
+  "verdict_label": "Easy spin only — Recovery spin",
   "reasons": [
-    "Recovery is green (no flags) — readiness 87 (2026-09-18), HRV 59 (2026-09-18), RHR 56 (2026-09-18)",
-    "1 day(s) since last ride (2026-09-18), 7 since last hard effort"
+    "Only 5h 22m sleep (2026-09-20)",
+    "Today you rode 50 km — tomorrow stays gentle"
   ],
   "context": {
     "rides_7d": 4,
-    "km_7d": 210.2,
-    "acwr": 1.0,
+    "km_7d": 200.1,
+    "acwr": 1.07,
     "avg_gap_days": 2.4,
-    "days_since_ride": 1,
-    "days_since_hard": 7,
-    "today": "rest",
-    "flags": [],
+    "days_since_ride": 0,
+    "days_since_hard": 8,
+    "today": "50 km, avg HR 145",
+    "flags": [
+      "Only 5h 22m sleep (2026-09-20)"
+    ],
     "last10": [
-      {
-        "date": "2026-08-27",
-        "km": 40.14,
-        "avg_hr": 143.0
-      },
       {
         "date": "2026-08-29",
         "km": 50.14,
@@ -65,28 +62,33 @@
         "date": "2026-09-18",
         "km": 50.02,
         "avg_hr": 138.0
+      },
+      {
+        "date": "2026-09-20",
+        "km": 50.03,
+        "avg_hr": 145.0
       }
     ]
   },
   "ride": {
-    "title": "VO2 refresher (5 × 3 min)",
-    "distance": "≈40 km (≈85 min total)",
-    "duration_h": 1.4,
-    "warmup": "15 min Z1–Z2 + 3 × 30-s openers",
-    "main": "5 × 3 min at 172–178 bpm (high Z4/low Z5) with 3-min easy spins between",
-    "variation": "If legs feel great on rep 4, extend rep 5 to 4 min — never add a 6th rep",
-    "cooldown": "12–15 min Z1 + stretch",
-    "pace": "Reps 172–178 bpm; everything else <159 bpm; RPE 8/10 on reps, 3/10 off"
+    "title": "Recovery spin",
+    "distance": "19 km (≈52 min)",
+    "duration_h": 0.86,
+    "warmup": "First 10 min dead easy, cadence 85–95",
+    "main": "Entirely Z1 (<139 bpm), conversational — you should be able to hum",
+    "variation": "6 × 1-min fast pedals (100+ rpm, stays Z1) with 4-min easy between — leg speed, zero load",
+    "cooldown": "Last 5 min super easy + 5-min stretch off the bike",
+    "pace": "Cap HR at 139 bpm; ignore speed; RPE 2–3/10"
   },
   "rest_plan": null,
   "fuel": {
     "pre": [
-      "Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs, plus 1 extra roti — tomorrow is long/hard",
+      "Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs",
       "5:30 AM +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll 6:20 AM"
     ],
     "during": [
       "1 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)",
-      "1 × Fast&Up energy gel (~1 per 40–45 min after the first hour)"
+      "Water + Reload is enough under ~75 min — no gel needed"
     ],
     "post": [
       "Within 30–60 min: 1–2 bananas + a protein-rich meal",
@@ -94,26 +96,27 @@
     ]
   },
   "sleep": {
-    "usual_bedtime": "11:04 PM",
+    "usual_bedtime": "11:02 PM",
     "tonight": "9:30 PM",
     "target": "8.0 h",
     "notes": [
       "Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM",
-      "Your recent usual is 11:04 PM — move 15 min earlier every 2 nights",
+      "Your recent usual is 11:02 PM — move 15 min earlier every 2 nights",
+      "You're running a small sleep debt — tonight matters more than usual",
       "Screens off 30 min before bed; cool, dark room"
     ]
   },
   "weather": {
-    "temp_c": 24.1,
-    "humidity": 84,
-    "rain_pct": 11,
-    "wind_kmh": 4.1
+    "temp_c": 23.9,
+    "humidity": 87,
+    "rain_pct": 8,
+    "wind_kmh": 5.1
   },
   "wx_notes": [
-    "Warm/humid (24.1C, 84% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
+    "Warm/humid (23.9C, 87% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
   ],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-09-19T04:35:33.803166+00:00",
+  "generated_at": "2026-09-20T04:36:10.281093+00:00",
   "model": "rules-v1"
 }
