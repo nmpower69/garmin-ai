@@ -275,7 +275,7 @@ async function load(){
   const totalKm = acts.reduce((s,a)=>s+(typeof a.distance_km==='number'?a.distance_km:0),0);
   const totalSec = acts.reduce((s,a)=>s+(typeof a.duration_seconds==='number'?a.duration_seconds:0),0);
   const totalHrs = totalSec/3600;
-  const totalElev = acts.reduce((s,a)=>s+(a._raw?.elevationGain||0),0);
+  const totalElev = acts.reduce((s,a)=>s+((typeof a.elevation_gain==='number'?a.elevation_gain:a._raw?.elevationGain)||0),0);
   const avgSpeed = totalHrs?totalKm/totalHrs:0;
   const hrs = acts.filter(a=>typeof a.avg_hr==='number').map(a=>a.avg_hr);
   const avgHR = hrs.length?hrs.reduce((a,b)=>a+b,0)/hrs.length:0;
@@ -306,7 +306,7 @@ async function load(){
     if(!weeks[key]) weeks[key]={km:0,sec:0,vert:0,count:0};
     weeks[key].km += typeof a.distance_km==='number'?a.distance_km:0;
     weeks[key].sec += typeof a.duration_seconds==='number'?a.duration_seconds:0;
-    weeks[key].vert += a._raw?.elevationGain||0;
+    weeks[key].vert += (typeof a.elevation_gain==='number'?a.elevation_gain:a._raw?.elevationGain)||0;
     weeks[key].count++;
   });
   const weekLabels = Object.keys(weeks).sort();
@@ -604,7 +604,7 @@ async function load(){
   [...acts].reverse().slice(0,10).forEach(a=>{
     const speed = a.distance_km && a.duration_seconds ? (a.distance_km/(a.duration_seconds/3600)).toFixed(1):'—';
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${a.date}</td><td>${a.name}</td><td class="num">${a.distance_km} km</td><td>${a.duration}</td><td class="num">${a._raw?.elevationGain||'—'} m</td><td class="num">${hrBadge(a.avg_hr)}</td><td class="num">${hrBadge(a.max_hr)}</td><td class="num">${speed}</td><td class="num">${a.calories}</td>`;
+    tr.innerHTML = `<td>${a.date}</td><td>${a.name}</td><td class="num">${a.distance_km} km</td><td>${a.duration}</td><td class="num">${(typeof a.elevation_gain==='number'?a.elevation_gain:a._raw?.elevationGain)||'—'} m</td><td class="num">${hrBadge(a.avg_hr)}</td><td class="num">${hrBadge(a.max_hr)}</td><td class="num">${speed}</td><td class="num">${a.calories}</td>`;
     latestBody.appendChild(tr);
   });
 

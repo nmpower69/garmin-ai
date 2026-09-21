@@ -399,25 +399,23 @@ def fetch_days(client, days: int):
                 except Exception:
                     distance_km = dist_m
 
-        # Prune large PII/bloat fields before saving to data.json
-        # hr contains 720 heartRateValues per day (~10KB/day) and PII uuids - strip it
-        pruned_hr = None
-        if isinstance(hr, dict):
-            pruned_hr = {k: v for k, v in hr.items() if k != "heartRateValues"}
-            # keep only first 3 values as sample if needed, not full trace
-            if "heartRateValues" in hr and isinstance(hr["heartRateValues"], list) and hr["heartRateValues"]:
-                pruned_hr["heartRateValues_sample"] = hr["heartRateValues"][:3]
-                pruned_hr["heartRateValues_count"] = len(hr["heartRateValues"])
-            # strip PII
-            pruned_hr.pop("userProfileId", None)
-            pruned_hr.pop("userProfilePk", None)
-            pruned_hr.pop("uuid", None)
-        pruned_stats = None
+        # Keep only what is actually consumed + user-approved future fields.
+        # Flat fields already cover hrv/stress/bodyBattery/rhr/trainingReadiness.
+        # _raw therefore keeps ONLY minimal sleep DTO (9 keys ~296 B) and intensity mins are promoted.
+        moderate_min = None
+        vigorous_min = None
         if isinstance(stats, dict):
-            # keep only aggregated fields, drop PII and large arrays
-            keep = ["totalSteps","totalKilocalories","activeKilocalories","bmrKilocalories","totalDistanceMeters","restingHeartRate","averageStressLevel","maxStressLevel","moderateIntensityMinutes","vigorousIntensityMinutes"]
-            pruned_stats = {k: stats.get(k) for k in keep if k in stats}
-            pruned_stats["calendarDate"] = stats.get("calendarDate")
+            moderate_min = stats.get("moderateIntensityMinutes")
+            vigorous_min = stats.get("vigorousIntensityMinutes")
+        # Minimal sleep DTO — keep only fields read by briefing.py + dashboard
+        minimal_sleep = None
+        if isinstance(sleep, dict):
+            dto = sleep.get("dailySleepDTO") or {}
+            if isinstance(dto, dict):
+                keep_sleep = ["sleepStartTimestampLocal","sleepStartTimestampGMT","sleepEndTimestampLocal","sleepEndTimestampGMT","sleepTimeSeconds","deepSleepSeconds","lightSleepSeconds","remSleepSeconds","awakeSleepSeconds"]
+                minimal_sleep = {k: dto.get(k) for k in keep_sleep if k in dto}
+                # preserve as same shape so consumers keep working: _raw.sleep.dailySleepDTO
+                minimal_sleep = {"dailySleepDTO": minimal_sleep} if minimal_sleep else None
         daily[cdate] = {
             "date": cdate,
             "steps": steps,
@@ -434,17 +432,11 @@ def fetch_days(client, days: int):
             "body_battery": bb_val,
             "stress": stress_val,
             "training_readiness": tr_val,
-            # keep pruned raw for debugging (sanitized, no tokens, no HR trace, no PII)
+            "moderate_minutes": moderate_min if isinstance(moderate_min, (int, float)) else None,
+            "vigorous_minutes": vigorous_min if isinstance(vigorous_min, (int, float)) else None,
             "_raw": {
-                "stats": pruned_stats,
-                "hr": pruned_hr,
-                "sleep": sleep,
-                "hrv": hrv,
-                "bodyBattery": bb,
-                "stress": stress,
-                "rhr": rhr,
-                "trainingReadiness": tr,
-            }
+                "sleep": minimal_sleep,
+            } if minimal_sleep else {"sleep": None},
         }
         # Progress dot
         print(f"  {cdate}: steps={steps} hrv={hrv_val} rhr={rhr_val} bb={bb_val} stress={stress_val} readiness={tr_val} sleep={sleep_info['hours']} ({sleep_info['score']})")
@@ -536,6 +528,19 @@ def fetch_days(client, days: int):
             except Exception:
                 dist_km_a = distance
 
+        # Promote elevation + keep _raw minimal (Phase 2 bloat fix)
+        elev = a.get("elevationGain")
+        if elev is None:
+            elev = a.get("elevationGainInMeters") or a.get("totalElevationGain")
+        min_raw = {}
+        if a.get("activityId") is not None:
+            min_raw["activityId"] = a.get("activityId")
+        if elev is not None:
+            min_raw["elevationGain"] = elev
+        # Power fallbacks kept only if power_curves missing — tiny keep
+        for pk in ("averagePower", "maxPower", "normalizedPower"):
+            if a.get(pk) is not None and pk not in min_raw:
+                min_raw[pk] = a.get(pk)
         activities.append({
             "id": str(aid),
             "date": adate,
@@ -547,7 +552,8 @@ def fetch_days(client, days: int):
             "calories": calories_a if calories_a is not None else "N/A",
             "avg_hr": avg_hr if avg_hr is not None else "N/A",
             "max_hr": max_hr if max_hr is not None else "N/A",
-            "_raw": a,
+            "elevation_gain": elev if isinstance(elev, (int, float)) else None,
+            "_raw": min_raw,
         })
 
     # Sort activities by date then id

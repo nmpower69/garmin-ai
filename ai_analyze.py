@@ -47,7 +47,8 @@ def build_prompt(data, curves):
     # Last 7 rides compact
     ride_lines=[]
     for a in sorted(acts, key=lambda x: x["date"])[-7:]:
-        ride_lines.append(f"{a['date']} {a['name']} {a['distance_km']}km {a['duration']} avgHR={a.get('avg_hr')} maxHR={a.get('max_hr')} elev={a.get('_raw',{}).get('elevationGain')} cals={a.get('calories')}")
+        elev = a.get('elevation_gain') if isinstance(a.get('elevation_gain'), (int, float)) else a.get('_raw',{}).get('elevationGain')
+        ride_lines.append(f"{a['date']} {a['name']} {a['distance_km']}km {a['duration']} avgHR={a.get('avg_hr')} maxHR={a.get('max_hr')} elev={elev} cals={a.get('calories')}")
     # Power curves compact - sorted by date, not insertion order
     curves_lines=[]
     if curves and "curves" in curves:
