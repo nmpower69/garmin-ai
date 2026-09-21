@@ -2,32 +2,32 @@
 
 _Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-### Insight 1: September 15 easy ride underperformed
-On 2026-09-15 you logged 8,757 steps with a fair fitness rating and readiness of 99, yet your heart rate started at 68 bpm and only climbed to 73 bpm by evening. Your body wasn't responding fully to this moderate effort, suggesting your training stimulus could be more effective if you pushed slightly harder while maintaining comfort.
+### Insight 1: Sept 18 easy ride stayed too relaxed
+Your September 18 ride at 50.02km maintained an average heart rate of just 138 bpm—a genuinely easy effort. This low-intensity day served as a chance to recover, yet pushing your legs harder than this easy pace can lead to unnecessary fatigue accumulation.
 
-### Insight 2: September 20 short ride masked fatigue
-Your 50.03km ride on 2026-09-20 took only 1 hour 32 minutes with an average power of 148 W, which might look like a solid effort—but it came after a night of poor sleep (5h22m) and low readiness (57). This pattern shows how insufficient recovery can mask accumulated fatigue before it becomes obvious.
+### Insight 2: Sept 12 long ride carried significant climbing load
+The September 12, 60.07km ride included a 301-meter elevation gain, making it a substantial climb even on generally flat terrain. Rolling through hills at this distance means the vertical workload accumulates quickly during repeated climbs.
 
-### Insight 3: Three consecutive rides in late September
-You rode on 2026-09-18 (50 km, 1h42m), 2026-09-19 (43 km, 1h34m), and 2026-09-20 (50 km, 1h32m)—a cluster that may push your cumulative volume beyond what your body is currently ready to handle. Spreading these over more recovery days would help avoid cumulative strain.
+### Insight 3: Back-to-back rides (Sept 17-20) threaten recovery balance
+You've completed rides every day from September 17 through 20—five consecutive days on similar 50km loops. Riding five times in seven days leaves little margin for physiological recovery despite your relatively good sleep scores.
 
-### Insight 4: Vertical load hidden in flat Kolhapur terrain
-All recent rides were on relatively flat ground (elevation gains around 226–305 m), yet your power spikes ranged from 138 to 486 W depending on the interval. On open roads, small hills can accumulate metabolic cost faster than you realize, so train with deliberate cadence work to make every minute count.
+### Insight 4: Building aerobic base follows progressive block structure
+Your recent eight-day rolling sequence shows steady volume increase from 39km to 60km weekly. This linear progression is healthy for developing your aerobic capacity, but aim to follow it with two to three rest days before adding another 10-15% volume.
 
-### Insight 5: FTP test needs updating
-Your FTP is stale at 271 W from March 2025, while your best 20-minute intervals range from 143–207 W. A fresh field test is needed now—your current data doesn't reflect recent strength changes—so set realistic targets once you have a refreshed number.
+### Insight 5: Re-calibrated power zones reflect current fitness level
+With your latest FTP estimate around 150-195W (below the old 271W baseline), your aerobic threshold has shifted downward. Re-estimate your zone boundaries using the new FTP values: Z1 (<148W), Z2 (148-203W), Z3 (203-244W), Z4 (244-284W), Z5 (above 284W).
 
-### Insight 6: Power distribution is uneven across rides
-Comparing your nine recent rides, powers averaged between 136–147 W, with the 2026-09-18 ride peaking at 88,892 total watts (highest absolute output). However, the 2026-09-20 ride only reached 15,986 W average—lower than expected given its distance—suggesting inconsistency in your peak power generation when fatigued.
+### Insight 6: Staggered 80/20 training split boosts performance consistency
+Distribute 80% of your weekly riding time into steady-state effort (Zone 2-3) and 20% into hard efforts (Zone 4-5) to maximize adaptation while minimizing injury risk. Pair your daily 50km efforts primarily with Zone 2 rotations, reserving one or two sessions per week for surges that push Zone 4-5 thresholds.
 
-### Insight 7: Monday/early-week ride quality matters
-After your lighter 2026-09-16 ride (7h23m sleep, 85 readiness), you tackled a tougher 2026-09-17 ride (50 km, 1h36m) where stress rose to 41 and readiness dropped. Starting the week strong builds momentum; saving harder efforts for later in the week prevents early-week burnout.
+### Insight 7: Rising RHR signals emerging recovery concerns
+Your resting heart rate dipped to 51 bpm on September 18—the lowest reading in your last week—but it remains below your typical range. When RHR stays consistently low for multiple consecutive days, it indicates accumulated fatigue that may delay performance gains.
 
-### Insight 8: Short intervals reveal true aerobic capacity
-Your 2026-09-20 10-second interval hit 301 W, while earlier rides peaked closer to 160 W—these bursts show you're capable of sharper sprints on flatter sections. Incorporating 2–3 × 5-minute hard efforts within your weekly plan will boost both speed and mental confidence.
+### Insight 8: Targeted sprint work sharpens reactive strength
+Incorporate 2-3 short maximal efforts (400m-800m sprints) once weekly to maintain neuromuscular responsiveness without excessive volume. These bursts train your cardiovascular system to recruit fast-twitch fibers efficiently, supporting better acceleration out of climbs.
 
-### Insight 9: Morning pacing keeps stress low
-During your 2026-09-17 ride, morning stress sat at 41—the lowest of all recorded days—and readiness peaked at 95. Riding slightly cooler or starting lighter in the morning helps maintain calm focus; try building your longest ride around 7–8 AM when natural light is soft.
+### Insight 9: Climb-focused intervals improve VO2max development
+Since your recent rides show modest vertical climbs relative to distance, add interval sessions where you uphill sprint or surge every 5 minutes for 1-2 minutes. This type of high-cadence, short-duration climbing training directly raises your aerobic threshold more effectively than steady rolling.
 
-### Insight 10: Build endurance with gradual long-ride additions
-Your best single-long ride so far was 60.14 km on 2026-09-08 (1h51m, 74 avg W), but stepping up to 70–80 km gradually over two weeks will extend your comfortable threshold without shocking your system. Pair each added kilometer with reduced intensity to let your legs recover naturally.
+### Insight 10: Update FTP monitoring with quarterly reassessment
+The 2025-03-04 FTP test (271W) is now outdated—your actual FTP appears closer to 160W based on recent power data. Schedule a fresh FTP test within the next month to establish an accurate baseline for proper zone setting.

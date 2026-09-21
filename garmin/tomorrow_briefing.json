@@ -107,16 +107,16 @@
     ]
   },
   "weather": {
-    "temp_c": 24.0,
-    "humidity": 83,
+    "temp_c": 23.6,
+    "humidity": 85,
     "rain_pct": 11,
-    "wind_kmh": 7.9
+    "wind_kmh": 9.2
   },
   "wx_notes": [
-    "Warm/humid (24.0C, 83% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
+    "Warm/humid (23.6C, 85% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
   ],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-09-21T04:38:27.763187+00:00",
+  "generated_at": "2026-09-21T07:45:56.106141+00:00",
   "model": "rules-v1"
 }
