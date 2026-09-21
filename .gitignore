@@ -5,8 +5,9 @@ __pycache__/
 *.pyc
 .venv/
 # Generated AI prompt (not needed in repo, may contain summary)
-garmin/ai_prompt.txt
-docs/garmin/ai_prompt.txt
+**/ai_prompt.txt
+# Legacy duplicate — garmin/ is the single source of truth (see garmin-sync.yml)
+docs/garmin/
 # Logs and env
 *.log
 .env

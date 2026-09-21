@@ -91,9 +91,7 @@ jobs:
         run: |
           git config user.name "garmin-bot"
           git config user.email "garmin-bot@users.noreply.github.com"
-          # Keep docs/garmin in sync for classic Pages /docs fallback (must copy BEFORE add)
-          mkdir -p docs/garmin && cp -r garmin/* docs/garmin/ 2>/dev/null || true
-          git add garmin/ docs/garmin/ || true
+          git add garmin/ || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
