@@ -1,28 +1,20 @@
 {
-  "for_date": "2026-09-22",
+  "for_date": "2026-09-23",
   "verdict": "easy",
   "verdict_label": "Easy spin only — Recovery spin",
   "reasons": [
-    "Only 5h 22m sleep (2026-09-20)",
-    "One yellow flag: keep it conversational"
+    "Today was an easy 55 km — a recovery spin keeps legs turning over"
   ],
   "context": {
-    "rides_7d": 3,
-    "km_7d": 150.1,
-    "acwr": 1.07,
-    "avg_gap_days": 2.4,
-    "days_since_ride": 1,
-    "days_since_hard": 9,
-    "today": "rest",
-    "flags": [
-      "Only 5h 22m sleep (2026-09-20)"
-    ],
+    "rides_7d": 4,
+    "km_7d": 205.3,
+    "acwr": 1.46,
+    "avg_gap_days": 2.3,
+    "days_since_ride": 0,
+    "days_since_hard": 10,
+    "today": "55 km, avg HR 147",
+    "flags": [],
     "last10": [
-      {
-        "date": "2026-08-29",
-        "km": 50.14,
-        "avg_hr": 150.0
-      },
       {
         "date": "2026-09-01",
         "km": 50.02,
@@ -67,6 +59,11 @@
         "date": "2026-09-20",
         "km": 50.03,
         "avg_hr": 145.0
+      },
+      {
+        "date": "2026-09-22",
+        "km": 55.2,
+        "avg_hr": 147.0
       }
     ]
   },
@@ -96,27 +93,26 @@
     ]
   },
   "sleep": {
-    "usual_bedtime": "11:02 PM",
+    "usual_bedtime": "10:59 PM",
     "tonight": "9:30 PM",
     "target": "8.0 h",
     "notes": [
       "Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM",
-      "Your recent usual is 11:02 PM — move 15 min earlier every 2 nights",
-      "You're running a small sleep debt — tonight matters more than usual",
+      "Your recent usual is 10:59 PM — move 15 min earlier every 2 nights",
       "Screens off 30 min before bed; cool, dark room"
     ]
   },
   "weather": {
-    "temp_c": 23.6,
-    "humidity": 85,
-    "rain_pct": 11,
-    "wind_kmh": 9.2
+    "temp_c": 24.2,
+    "humidity": 84,
+    "rain_pct": 16,
+    "wind_kmh": 10.4
   },
   "wx_notes": [
-    "Warm/humid (23.6C, 85% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
+    "Warm/humid (24.2C, 84% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
   ],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-09-21T07:45:56.106141+00:00",
+  "generated_at": "2026-09-22T04:36:32.786999+00:00",
   "model": "rules-v1"
 }
