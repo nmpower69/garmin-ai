@@ -1,33 +1,33 @@
-# AI Cycling Insights — 2026-09-22  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — 2026-09-23  (via liquid/lfm-2.5-2.6b:free)
 
 _Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-### Insight 1: Sept 12 ride approached easy-zone ceiling
-Your Sept 12 60.07km ride averaged 152.3W, sitting just above your typical easy-ride threshold given your 2026-08-09 FTP estimate of ~150-195W. While the distance was substantial, the steady power indicates you maintained a comfortable cadence without aggressive efforts, supporting happy, sustainable progress. Keep future mid-length rides near this power band unless you deliberately want to train endurance capacity.
+### Insight 1: Sept 20 ride breached easy cadence threshold by 3 bpm
+On September 20, your average cadence reached 153 bpm during the 50 km ride, exceeding your typical comfortable range of 140-160 bpm by approximately 3 bpm. This was driven by the 5.2 m/min steepest gradient (elevation gain of 226 m over 50 km) which forced higher pedaling effort compared to your usual flat-rolling sessions. Keep monitoring this trend as you return from your break.
 
-### Insight 2: Sept 22 long ride carries moderate vertical load
-The 55.2km ride on Sept 22 reached 147.0W average with maxHeartRate 172.0BPM across mostly flat terrain, making it a solid endurance session. However, the cumulative distance means your body will accumulate metabolic debt—aim for a relaxed post-ride stretch and adequate protein intake to support recovery and maintain your positive mood.
+### Insight 2: Sept 22 long ride shows moderate vertical load relative to distance
+Your September 22 ride covered 55.2 km with 237 m of elevation gain, resulting in an average grade of just under 1% per kilometer. While modest for a road marathon, this cumulative climb accumulates vertically and creates sustained cardiovascular strain. Consider adding shorter intervals later in longer rides to balance the volume without excessive fatigue.
 
-### Insight 3: Consecutive hard days require careful recovery sequencing
-After a demanding Sept 20 ride (low sleep, sub-57 readiness), your Sept 22 performance rebounded strongly with 92 readiness, showing good adaptation. Still, three intense weekend days can deplete reserves; prioritize sleep quality (target 7+ hours) and active recovery like easy spinning to replenish glycogen stores and protect your mental well-being.
+### Insight 3: Sept 22-24 triple-ride pattern suggests potential recovery risk
+You completed rides on September 20 (50 km, 1h 32m), 21 (49.5 km, 1h 38m), and 22 (55.2 km, 1h 45m) within a tight 48-hour window. Three back-to-back rides of this length leave limited time for full muscular and nervous system repair before the next period of activity. Ensure you prioritize rest or very light recovery rides between these efforts.
 
-### Insight 4: Current progression resembles early half-marathon buildup
-From the steady 50-60km rides beginning Sept 10 onward, you've accumulated significant mileage—your Sept 22 effort mirrors a half-marathon pace with sustained 147W average. Continue building volume but introduce one longer climb per week to develop the hill-repeats needed for race-day confidence without sacrificing daily joy.
+### Insight 4: Progressive block shows steady increase in aerobic demand
+From the September 10-22 data, total distance increased from 50.05 km to 55.2 km across seven rides while average speed rose from 43.4 km/h to 47.9 km/h. Your power outputs also climbed from 14.3 W to 16.5 W average, reflecting a clear aerobic progression suitable for building endurance. Maintain this pace over weeks rather than sprinting it to avoid burnout.
 
-### Insight 5: Recalibrate power zones using updated FTP baseline
-Your stale FTP of 271W from 2025 is outdated; recent 10-second peaks (up to 404W) and 1-hour averages suggest a realistic FTP of ~150-160W. Align training zones—Easy <140W (Z1), Moderate 140-180W (Z2), Threshold 180-220W (Z3)—to better harness your improved cardiovascular fitness and reduce wasted effort.
+### Insight 5: Recalibrated zone model aligns power ranges to current fitness
+Using the updated 2026-08-09 zone definitions, your true functional threshold sits around 150-195 W given recent power profiles averaging 142-153 W. Zone 1 (LTHR < 139 bpm) remains accessible with short efforts, while Zone 2 (139-159 bpm) represents the most efficient aerobic zone for sustained riding. Zone 3 (160+ bpm) becomes challenging but sustainable for your current level.
 
-### Insight 6: Adopt polarized 80/20 training split
-Spend 80% of your time in low-intensity spins (seven easy 30-min sessions at <140W) and 20% in higher-intensity intervals (4x3min @ 90-110rpm, 4min recovery). This balance promotes strong aerobic base while allowing regular exposure to faster work without burnout, enhancing both performance and enjoyment.
+### Insight 6: Adopt polarized 80/20 intensity split
+To maximize gains without overtraining, dedicate roughly 80% of your time to Zone 2 efforts (steady spinning at 140-180 bpm) and limit Zone 3-5 work to 20%. Your recent September 18 ride at 320 W (Zone 3) already approaches the upper bound; consider reducing such efforts to 70 minutes weekly. This approach will improve your efficiency and resilience more effectively than balanced training.
 
-### Insight 7: Watch for early warning signs in wellness metrics
-Drops in sleep (<6h), falling readiness scores below 70, and rising perceived stress (e.g., Sept 20's 36-stress spike) signal emerging fatigue. Address these promptly with better sleep hygiene, nutrition, and shorter recovery rides—these habits preserve your happiness and prevent overtraining.
+### Insight 7: Warning signs include declining readiness and fragmented sleep
+Your readiness score dropped to 57 on September 20 (poor sleep 5h 22m, HRV 56) and your highest stress reading was 41 on September 18. These indicators suggest accumulated fatigue may be impacting performance quality. Address poor sleep hygiene and ensure consistent rest days to prevent performance dips.
 
-### Insight 8: Add strength training for reactive climbing power
-Incorporate 1-2 weekly sessions focusing on single-leg squats, step-ups, and weighted pedal pushes to improve hamstring and glute strength—key muscles for steep climbs. Stronger legs translate to smoother uphill rides, less muscle soreness, and greater overall cycling pleasure without increasing weekly volume dramatically.
+### Insight 8: Maximize strength via reactive accelerations and hill sprints
+Your best single-event bursts peaked at 541 W on September 22 (a steep 237 m climb segment), indicating strong leg drive capacity when needed. Add brief (5-10 second) sprints out of flat sections and controlled climbs to reinforce neuromuscular firing patterns. This develops the power responsiveness that supports both climbing and fast-paced road segments.
 
-### Insight 9: Boost VO2max with high-cadence intervals
-Integrate 25-minute intervals at 90-105rpm, 4 sets of 3 minutes with 4-minute easy recoveries, once every two weeks. These sessions elevate your aerobic ceiling efficiently, helping your long rides feel easier while keeping training enjoyable through varied pacing.
+### Insight 9: Introduce 30-minute steady-state blocks for aerobic base
+To support your upcoming goal of improved endurance, incorporate once-weekly 30-minute rides at consistent Zone 2 (around 130-160 bpm) to build mitochondrial density. Pair this with your existing 50-55 km rides spaced 2-3 days apart to allow full recovery between sessions. This combination targets both the cardiovascular and muscular adaptations needed for stable, happy riding.
 
-### Insight 10: Targeted FTP reassessment for continued growth
-Given your recent peak outputs (405W 10s), aim to establish a fresh FTP test at 2026-11-01. Expect a value closer to 150-160W based on your current performance; retesting confirms your true fitness level and guides smarter intensity choices throughout the year.
+### Insight 10: FTP reconnection requires a fresh test near 150-190 W
+Since your last power meter calibration was March 2025 (FTP 271 W), you're currently operating below estimated FTP. A new 20-minute time trial focusing on smooth pedaling will provide accurate reassessment and target corrections. Combine this with your current training plan to reach a realistic 150-180 W range for competitive-level road cyclists.
