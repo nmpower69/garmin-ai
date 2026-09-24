@@ -35,4 +35,4 @@ _Kolhapur ride hours (5–9 AM): 24.1C, 82% RH, rain 1%, wind 15.0 km/h_
 - Your recent usual is 10:59 PM — move 15 min earlier every 2 nights
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-09-24T04:37:13.312374+00:00 by rules-v1_
+_Generated 2026-09-24T05:54:21.595459+00:00 by rules-v1_
