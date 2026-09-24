@@ -1,26 +1,20 @@
 {
-  "for_date": "2026-09-24",
-  "verdict": "ride",
-  "verdict_label": "Ride tomorrow — Happy endurance",
+  "for_date": "2026-09-25",
+  "verdict": "easy",
+  "verdict_label": "Easy spin only — Recovery spin",
   "reasons": [
-    "Recovery is green (no flags) — readiness 92 (2026-09-22), HRV 77 (2026-09-22), RHR 51 (2026-09-22)",
-    "1 day(s) since last ride (2026-09-22), 1 since last hard effort"
+    "Today was an easy 50 km — a recovery spin keeps legs turning over"
   ],
   "context": {
-    "rides_7d": 4,
-    "km_7d": 205.3,
-    "acwr": 1.46,
+    "rides_7d": 5,
+    "km_7d": 255.3,
+    "acwr": 1.43,
     "avg_gap_days": 2.3,
-    "days_since_ride": 1,
-    "days_since_hard": 1,
-    "today": "rest",
+    "days_since_ride": 0,
+    "days_since_hard": 2,
+    "today": "50 km, avg HR 145",
     "flags": [],
     "last10": [
-      {
-        "date": "2026-09-01",
-        "km": 50.02,
-        "avg_hr": 151.0
-      },
       {
         "date": "2026-09-03",
         "km": 60.02,
@@ -65,29 +59,33 @@
         "date": "2026-09-22",
         "km": 55.2,
         "avg_hr": 147.0
+      },
+      {
+        "date": "2026-09-24",
+        "km": 50.05,
+        "avg_hr": 145.0
       }
     ]
   },
   "ride": {
-    "title": "Happy endurance",
-    "distance": "55 km (≈122 min)",
-    "duration_h": 2.04,
-    "warmup": "First 15 min Z1–Z2, let HR settle",
-    "main": "Steady Z2 (139–159 bpm), nose-breathing; final 15 min may drift to Z3 (159–167)",
-    "variation": "Progressive thirds: each third a touch brisker, capped at 159 bpm",
-    "cooldown": "Last 10 min Z1 + stretch",
-    "pace": "Cap 159 bpm except the closing 15 min (cap 167); RPE 4–5/10"
+    "title": "Recovery spin",
+    "distance": "19 km (≈52 min)",
+    "duration_h": 0.86,
+    "warmup": "First 10 min dead easy, cadence 85–95",
+    "main": "Entirely Z1 (<139 bpm), conversational — you should be able to hum",
+    "variation": "6 × 1-min fast pedals (100+ rpm, stays Z1) with 4-min easy between — leg speed, zero load",
+    "cooldown": "Last 5 min super easy + 5-min stretch off the bike",
+    "pace": "Cap HR at 139 bpm; ignore speed; RPE 2–3/10"
   },
   "rest_plan": null,
   "fuel": {
     "pre": [
-      "Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs, plus 1 extra roti — tomorrow is long/hard",
+      "Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs",
       "5:30 AM +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll 6:20 AM"
     ],
     "during": [
-      "2 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)",
-      "2 × Fast&Up energy gel (~1 per 40–45 min after the first hour)",
-      "1 banana mid-ride as solid backup on top of gels"
+      "1 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)",
+      "Water + Reload is enough under ~75 min — no gel needed"
     ],
     "post": [
       "Within 30–60 min: 1–2 bananas + a protein-rich meal",
@@ -95,26 +93,26 @@
     ]
   },
   "sleep": {
-    "usual_bedtime": "10:53 PM",
+    "usual_bedtime": "10:59 PM",
     "tonight": "9:30 PM",
     "target": "8.0 h",
     "notes": [
       "Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM",
-      "Your recent usual is 10:53 PM — move 15 min earlier every 2 nights",
+      "Your recent usual is 10:59 PM — move 15 min earlier every 2 nights",
       "Screens off 30 min before bed; cool, dark room"
     ]
   },
   "weather": {
-    "temp_c": 24.2,
-    "humidity": 85,
-    "rain_pct": 0,
-    "wind_kmh": 12.3
+    "temp_c": 24.1,
+    "humidity": 82,
+    "rain_pct": 1,
+    "wind_kmh": 15.0
   },
   "wx_notes": [
-    "Warm/humid (24.2C, 85% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
+    "Warm/humid (24.1C, 82% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
   ],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-09-23T04:36:59.531112+00:00",
+  "generated_at": "2026-09-24T04:37:13.312374+00:00",
   "model": "rules-v1"
 }
