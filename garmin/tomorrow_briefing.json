@@ -1,26 +1,22 @@
 {
-  "for_date": "2026-09-26",
-  "verdict": "ride",
-  "verdict_label": "Ride tomorrow — VO2 refresher (5 × 3 min)",
+  "for_date": "2026-09-27",
+  "verdict": "rest",
+  "verdict_label": "Rest day",
   "reasons": [
-    "Recovery is green (no flags) — readiness 85 (2026-09-24), HRV 70 (2026-09-24), RHR 53 (2026-09-24)",
-    "1 day(s) since last ride (2026-09-24), 3 since last hard effort"
+    "Today's ride was big (63 km, avg HR 147) — body needs absorption time"
   ],
   "context": {
     "rides_7d": 4,
-    "km_7d": 205.3,
-    "acwr": 0.97,
-    "avg_gap_days": 2.3,
-    "days_since_ride": 1,
-    "days_since_hard": 3,
-    "today": "rest",
-    "flags": [],
+    "km_7d": 218.4,
+    "acwr": 1.52,
+    "avg_gap_days": 2.0,
+    "days_since_ride": 0,
+    "days_since_hard": 4,
+    "today": "63 km, avg HR 147",
+    "flags": [
+      "Today's ride was big (63 km, avg HR 147) — body needs absorption time"
+    ],
     "last10": [
-      {
-        "date": "2026-09-03",
-        "km": 60.02,
-        "avg_hr": 159.0
-      },
       {
         "date": "2026-09-08",
         "km": 60.14,
@@ -65,55 +61,51 @@
         "date": "2026-09-24",
         "km": 50.05,
         "avg_hr": 145.0
+      },
+      {
+        "date": "2026-09-26",
+        "km": 63.13,
+        "avg_hr": 147.0
       }
     ]
   },
-  "ride": {
-    "title": "VO2 refresher (5 × 3 min)",
-    "distance": "≈40 km (≈85 min total)",
-    "duration_h": 1.4,
-    "warmup": "15 min Z1–Z2 + 3 × 30-s openers",
-    "main": "5 × 3 min at 172–178 bpm (high Z4/low Z5) with 3-min easy spins between",
-    "variation": "If legs feel great on rep 4, extend rep 5 to 4 min — never add a 6th rep",
-    "cooldown": "12–15 min Z1 + stretch",
-    "pace": "Reps 172–178 bpm; everything else <159 bpm; RPE 8/10 on reps, 3/10 off"
-  },
-  "rest_plan": null,
+  "ride": null,
+  "rest_plan": [
+    "No bike. 20–30 min easy walk (conversational pace, <5k steps extra) OR full couch — your call",
+    "5-min mobility: calves, quads, hip flexors, thoracic opener",
+    "If legs feel heavy: 10 min easy spin with zero resistance is allowed, HR <130",
+    "Normal food + the hydration above; early night beats everything"
+  ],
   "fuel": {
-    "pre": [
-      "Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs, plus 1 extra roti — tomorrow is long/hard",
-      "5:30 AM +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll 6:20 AM"
-    ],
-    "during": [
-      "1 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)",
-      "1 × Fast&Up energy gel (~1 per 40–45 min after the first hour)"
-    ],
+    "pre": [],
+    "during": [],
     "post": [
-      "Within 30–60 min: 1–2 bananas + a protein-rich meal",
-      "500 ml water with 1 Reload within the hour"
+      "Eat normally; keep 1–2 bananas in the day as usual",
+      "2–3 L water through the day + 1 Reload serving in the afternoon bottle",
+      "Dinner with protein + carbs — recovery is built overnight"
     ]
   },
   "sleep": {
-    "usual_bedtime": "10:53 PM",
-    "tonight": "9:30 PM",
-    "target": "8.0 h",
+    "usual_bedtime": "11:02 PM",
+    "tonight": "10:00 PM",
+    "target": "7.5 h",
     "notes": [
-      "Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM",
-      "Your recent usual is 10:53 PM — move 15 min earlier every 2 nights",
+      "Anchored to your 5:30 AM alarm: 7.5 h ⇒ lights out 10:00 PM",
+      "Your recent usual is 11:02 PM — move 15 min earlier every 2 nights",
       "Screens off 30 min before bed; cool, dark room"
     ]
   },
   "weather": {
-    "temp_c": 23.8,
-    "humidity": 83,
-    "rain_pct": 2,
-    "wind_kmh": 16.9
+    "temp_c": 23.7,
+    "humidity": 82,
+    "rain_pct": 0,
+    "wind_kmh": 8.8
   },
   "wx_notes": [
-    "Warm/humid (23.8C, 83% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
+    "Warm/humid (23.7C, 82% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
   ],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-09-25T04:38:45.068370+00:00",
+  "generated_at": "2026-09-26T04:37:38.234548+00:00",
   "model": "rules-v1"
 }
