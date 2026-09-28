@@ -1,39 +1,40 @@
-# Tomorrow's briefing — 2026-09-28 (Ride tomorrow — VO2 refresher (5 × 3 min))
+# Tomorrow's briefing — 2026-09-29 (Easy spin only — Recovery spin)
 
 ## Verdict
-- Recovery is green (no flags) — readiness 94 (2026-09-26), HRV 73 (2026-09-26), RHR 51 (2026-09-26)
-- 1 day(s) since last ride (2026-09-26), 5 since last hard effort
+- Only 4h 22m sleep (2026-09-28)
+- Today you rode 50 km — tomorrow stays gentle
 
-_Last 7d: 4 rides, 218.4 km · avg gap 2.0d · 1d since ride, 5d since hard · today: rest_
+_Last 7d: 4 rides, 218.4 km · avg gap 2.0d · 0d since ride, 6d since hard · today: 50 km, avg HR 137_
 
-_Kolhapur ride hours (5–9 AM): 23.2C, 82% RH, rain 0%, wind 3.8 km/h_
+_Kolhapur ride hours (5–9 AM): 24.1C, 83% RH, rain 4%, wind 3.6 km/h_
 
 ## Morning call
-- Warm/humid (23.2C, 82% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower
+- Warm/humid (24.1C, 83% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower
 
 ## Ride plan
-- **VO2 refresher (5 × 3 min)** — ≈40 km (≈85 min total)
-- Warmup: 15 min Z1–Z2 + 3 × 30-s openers
-- Main: 5 × 3 min at 172–178 bpm (high Z4/low Z5) with 3-min easy spins between
-- Twist: If legs feel great on rep 4, extend rep 5 to 4 min — never add a 6th rep
-- Cooldown: 12–15 min Z1 + stretch
-- Pace: Reps 172–178 bpm; everything else <159 bpm; RPE 8/10 on reps, 3/10 off
+- **Recovery spin** — 19 km (≈52 min)
+- Warmup: First 10 min dead easy, cadence 85–95
+- Main: Entirely Z1 (<139 bpm), conversational — you should be able to hum
+- Twist: 6 × 1-min fast pedals (100+ rpm, stays Z1) with 4-min easy between — leg speed, zero load
+- Cooldown: Last 5 min super easy + 5-min stretch off the bike
+- Pace: Cap HR at 139 bpm; ignore speed; RPE 2–3/10
 
 ## Fuel (bananas / Fast&Up gels / Reload)
 ### Pre
-- Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs, plus 1 extra roti — tomorrow is long/hard
+- Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs
 - 5:30 AM +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll 6:20 AM
 ### During
 - 1 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)
-- 1 × Fast&Up energy gel (~1 per 40–45 min after the first hour)
+- Water + Reload is enough under ~75 min — no gel needed
 ### Post
 - Within 30–60 min: 1–2 bananas + a protein-rich meal
 - 500 ml water with 1 Reload within the hour
 
 ## Sleep tonight
-- Lights out: **9:30 PM** (usual 11:02 PM) — target **8.0 h**
+- Lights out: **9:30 PM** (usual 11:08 PM) — target **8.0 h**
 - Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM
-- Your recent usual is 11:02 PM — move 15 min earlier every 2 nights
+- Your recent usual is 11:08 PM — move 15 min earlier every 2 nights
+- You're running a small sleep debt — tonight matters more than usual
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-09-27T04:37:00.356056+00:00 by rules-v1_
+_Generated 2026-09-28T11:09:11.791013+00:00 by rules-v1_
