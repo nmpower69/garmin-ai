@@ -16,12 +16,17 @@ In GitHub Actions: secret OPENROUTER_API_KEY is injected.
 import json, os, sys, pathlib, datetime, textwrap, requests
 
 MODEL = os.getenv("AI_MODEL", "liquid/lfm-2.5-2.6b:free")
-# Only models proven to work with your OPENROUTER_API_KEY without is_byok / No endpoints errors
-# nvidia/ultra needs BYOK (404), gemma-4 is 429 rate-limited on shared pool — removed per your request
+# Free-tier models only — no paid key, no BYOK models (nvidia/ultra needs BYOK).
+# Order matters: cheap/fast first, then progressively different providers so a
+# rate-limited or empty-returning model still leaves healthy candidates behind.
+# Each entry has returned valid JSON on the free pool at least once.
 FALLBACK_MODELS = [
-    # primary is liquid, fallbacks are other known-good free models (tested 2026-08-30)
     "z-ai/glm-5.2:free",
     "minimax/minimax-m3:free",
+    "google/gemini-2.0-flash-exp:free",
+    "meta-llama/llama-3.3-70b-instruct:free",
+    "qwen/qwen3-235b-a22b:free",
+    "deepseek/deepseek-chat-v3-0324:free",
 ]
 DATA_JSON = pathlib.Path("garmin/data.json")
 CURVES_JSON = pathlib.Path("garmin/power_curves.json")
@@ -98,7 +103,85 @@ If any data missing (e.g., no power), say so in description but still produce 10
 """
     return prompt
 
+def _extract_content(j):
+    """Pull assistant text out of a chat-completions response.
+
+    Free reasoning models are inconsistent: text may land in `content`,
+    in `reasoning`, or come back null entirely. Returns a str (possibly "").
+    """
+    try:
+        choices = j.get("choices") or []
+        if not choices:
+            return ""
+        msg = choices[0].get("message") or {}
+        parts = [msg.get("content"), msg.get("reasoning"), msg.get("reasoning_content")]
+        for p in parts:
+            if isinstance(p, str) and p.strip():
+                return p
+        # Some providers return content as a list of blocks
+        c = msg.get("content")
+        if isinstance(c, list):
+            texts = [b.get("text", "") for b in c if isinstance(b, dict)]
+            joined = "".join(t for t in texts if isinstance(t, str))
+            if joined.strip():
+                return joined
+        return ""
+    except Exception:
+        return ""
+
+
+def _strip_fences(content):
+    """Remove ```json fences, tolerating a missing closing fence."""
+    import re
+    if "```" not in content:
+        return content
+    m = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", content)
+    if m:
+        return m.group(1)
+    content = re.sub(r"^.*?\n", "", content, count=1) if content.lstrip().startswith("```") else content
+    return content.replace("```", "").strip()
+
+
+def _parse_insights(content):
+    """Parse + validate the model's JSON, repairing common free-model truncation.
+
+    Raises ValueError if the payload can't be turned into exactly 10 insights.
+    """
+    try:
+        insights = json.loads(content)
+    except json.JSONDecodeError as je:
+        print(f"JSON parse failed: {je} — trying to repair truncated output")
+        repaired = content
+        if "Unterminated string" in str(je):
+            repaired = content.rstrip() + '"'
+        open_brackets = repaired.count('[') - repaired.count(']')
+        open_braces = repaired.count('{') - repaired.count('}')
+        repaired += '"}' * max(0, open_braces - open_brackets) if open_braces > open_brackets else ''
+        repaired += ']' * max(0, open_brackets) if open_brackets > 0 else ''
+        try:
+            insights = json.loads(repaired)
+        except Exception:
+            last_complete = repaired.rfind('},')
+            if last_complete == -1:
+                raise
+            insights = json.loads(repaired[:last_complete + 1] + ']')
+            print(f"Repaired truncated JSON to {len(insights)} insights")
+    if not isinstance(insights, list) or len(insights) != 10:
+        raise ValueError(f"Expected 10 insights, got {len(insights) if isinstance(insights, list) else type(insights)}")
+    for idx, ins in enumerate(insights):
+        if not isinstance(ins, dict) or "title" not in ins or "description" not in ins:
+            raise ValueError(f"Insight {idx} missing title/description")
+        ins.setdefault("badge", "ok")
+        ins.setdefault("badgeText", "AI")
+    return insights
+
+
 def call_openrouter(prompt, api_key, model=None):
+    """Try each free model in turn; return (insights, model_name).
+
+    A model is skipped — never fatal — when it errors, returns non-200, returns
+    empty content, or returns content that won't parse into 10 valid insights.
+    """
     global MODEL
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
@@ -125,25 +208,34 @@ def call_openrouter(prompt, api_key, model=None):
         if is_reasoning:
             body["reasoning"] = {"enabled": True}
         print(f"Calling OpenRouter {mdl}...")
-        resp = requests.post(url, headers=headers, json=body, timeout=90)
+        try:
+            resp = requests.post(url, headers=headers, json=body, timeout=90)
+        except Exception as e:
+            # Network blip / timeout — treat as a model failure and move on
+            print(f"Request error for {mdl}: {e}")
+            last_err = f"{mdl}: request error {e}"
+            print("→ trying fallback model...")
+            continue
         print(f"OpenRouter status {resp.status_code} for {mdl}")
         if resp.status_code == 200:
-            j = resp.json()
-            content = j["choices"][0]["message"]["content"] if j.get("choices") else ""
-            # Robust strip of ```json wrapper (handles truncated without closing ```)
-            if "```" in content:
-                import re
-                m = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", content)
-                if m:
-                    content = m.group(1)
-                else:
-                    # No closing ``` (truncated) — strip leading ```json
-                    content = re.sub(r"^.*?\n", "", content, count=1) if content.lstrip().startswith("```") else content
-                    content = content.replace("```", "").strip()
-            print(f"Success with {mdl} (raw head {content[:200]!r})")
-            # Save which model succeeded for markdown header
+            content = _strip_fences(_extract_content(resp.json()).strip())
+            if not content:
+                # 200 but empty/null content — e.g. reasoning model emitted nothing.
+                # Must NOT abort the chain; fall through to the next free model.
+                print(f"{mdl} returned 200 with empty content → trying fallback model...")
+                last_err = f"{mdl}: 200 but empty content"
+                continue
+            print(f"Got content from {mdl} (raw head {content[:200]!r})")
+            # Validate per-model: a model that returns malformed JSON is skipped
+            # so the remaining free models still get a chance.
+            try:
+                insights = _parse_insights(content)
+            except Exception as pe:
+                print(f"{mdl} returned unusable JSON ({pe}) → trying fallback model...")
+                last_err = f"{mdl}: unusable JSON ({pe})"
+                continue
             MODEL = mdl
-            return content.strip()
+            return insights, mdl
         txt = resp.text[:2000]
         print(txt)
         last_err = f"{mdl}: {resp.status_code} {txt[:500]}"
@@ -178,66 +270,49 @@ def main():
     pathlib.Path("garmin/ai_prompt.txt").write_text(prompt, encoding="utf-8")
 
     try:
-        content = call_openrouter(prompt, api_key)
-        print("Raw LLM output head:", content[:500])
-        # Validate JSON - try to repair truncated output (common with 550B reasoning models)
-        try:
-            insights = json.loads(content)
-        except json.JSONDecodeError as je:
-            print(f"JSON parse failed: {je} — trying to repair truncated output")
-            # If truncated mid-string, close the string and array
-            repaired = content
-            # If unterminated string, add closing quote
-            if "Unterminated string" in str(je):
-                repaired = content.rstrip() + '"'
-            # Try to close any open brackets/braces
-            open_brackets = repaired.count('[') - repaired.count(']')
-            open_braces = repaired.count('{') - repaired.count('}')
-            # Close open objects/arrays in reverse order (heuristic)
-            repaired += '"}' * max(0, open_braces - open_brackets) if open_braces > open_brackets else ''
-            repaired += ']' * max(0, open_brackets) if open_brackets>0 else ''
-            # If still not valid, try to truncate to last complete insight
-            try:
-                insights = json.loads(repaired)
-            except:
-                # Fallback: try to extract last complete `},` and close there
-                last_complete = repaired.rfind('},')
-                if last_complete != -1:
-                    repaired2 = repaired[:last_complete+1] + ']'
-                    insights = json.loads(repaired2)
-                    print(f"Repaired truncated JSON to {len(insights)} insights (was truncated)")
-                else:
-                    raise
-        if not isinstance(insights, list) or len(insights) != 10:
-            raise ValueError(f"Expected 10 insights, got {len(insights) if isinstance(insights, list) else type(insights)}")
-        # Basic validation of fields
-        for idx, ins in enumerate(insights):
-            if "title" not in ins or "description" not in ins:
-                raise ValueError(f"Insight {idx} missing title/description: {ins}")
-            ins.setdefault("badge", "ok")
-            ins.setdefault("badgeText", "AI")
+        insights, used_model = call_openrouter(prompt, api_key)
         # Write JSON for dashboard
         OUT_JSON.write_text(json.dumps(insights, indent=2, ensure_ascii=False), encoding="utf-8")
         # Write markdown for humans
-        md_lines = [f"# AI Cycling Insights — {datetime.date.today().isoformat()}  (via {MODEL})", ""]
-        md_lines.append(f"_Model: `{MODEL}` via OpenRouter — auto-generated after daily Garmin sync._\n")
+        md_lines = [f"# AI Cycling Insights — {datetime.date.today().isoformat()}  (via {used_model})", ""]
+        md_lines.append(f"_Model: `{used_model}` via OpenRouter — auto-generated after daily Garmin sync._\n")
         for ins in insights:
             md_lines.append(f"### {ins['title']}")
             md_lines.append(f"{ins['description']}\n")
         OUT_MD.write_text("\n".join(md_lines), encoding="utf-8")
-        print(f"Wrote {OUT_JSON} and {OUT_MD} with 10 insights")
+        print(f"Wrote {OUT_JSON} and {OUT_MD} with 10 insights via {used_model}")
     except Exception as e:
         print(f"AI call failed: {e}")
         import traceback; traceback.print_exc()
-        # Write fallback so workflow still commits something useful, but fail the job to alert
+        # Keep yesterday's insights if they exist — a stale-but-useful set beats
+        # ten red error cards, and the dashboard's freshness badge still shows
+        # the real date from the markdown header.
+        prev = None
+        try:
+            prev = json.loads(OUT_JSON.read_text(encoding="utf-8"))
+        except Exception:
+            prev = None
+        prev_ok = isinstance(prev, list) and len(prev) == 10 and not str(
+            (prev[0] or {}).get("title", "")
+        ).lower().startswith("insight 1: ai")
+        if prev_ok:
+            print("Keeping previous successful insights (stale but valid).")
+            prev_md = "\n".join(f"### {i.get('title')}\n{i.get('description', '')}\n" for i in prev)
+            OUT_MD.write_text(
+                "# AI Cycling Insights — showing last successful set\n\n"
+                f"_AI generation failed {datetime.datetime.now().isoformat()}: {e}_\n\n"
+                "The insights below are from the previous successful run. "
+                "Garmin data in `garmin/data.json` is still fresh.\n\n" + prev_md,
+                encoding="utf-8",
+            )
+            sys.exit(1)
         fallback = [
-            {"title": f"Insight {i+1}: AI generation failed — using fallback", "description": f"Error: {e}. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.", "badge": "bad", "badgeText": "Error"}
+            {"title": f"Insight {i+1}: AI generation failed — using fallback", "description": f"Error: {e}. Check OPENROUTER_API_KEY and free-model quota. Your Garmin data is still fresh in garmin/data.json.", "badge": "bad", "badgeText": "Error"}
             for i in range(10)
         ]
-        # Don't overwrite if we already have valid previous insights? But write fallback for visibility
         OUT_JSON.write_text(json.dumps(fallback, indent=2), encoding="utf-8")
-        OUT_MD.write_text(f"# AI Insights — generation failed {datetime.datetime.now().isoformat()}\n\nError: {e}\n\nCheck `OPENROUTER_API_KEY` secret and OpenRouter quota for model `{MODEL}`.\n", encoding="utf-8")
-        # Exit 1 to make workflow show red so you notice, but you can change to 0 to keep green
+        OUT_MD.write_text(f"# AI Insights — generation failed {datetime.datetime.now().isoformat()}\n\nError: {e}\n\nCheck `OPENROUTER_API_KEY` secret and free-model quota.\n", encoding="utf-8")
+        # Exit 1 so the workflow shows red and you notice
         sys.exit(1)
 
 if __name__ == "__main__":
