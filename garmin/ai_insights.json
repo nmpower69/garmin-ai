@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: Sept 26 ride maintained same heart rate despite doubling distance",
-    "description": "Your 2026-09-26 ride covered 63.13km in 2h with an average HR of 147, matching your easier 50km rides on 24th and 20th. This similarity across different distances indicates you pushed too hard during the final segment, leaving little recovery margin before the next effort.",
+    "title": "Insight 1: Sept 26 ride pushed easy zone beyond comfortable threshold",
+    "description": "Your Sept 26 63.13km ride averaged 139.8 BPM—higher than your usual easy-ride baseline around 130-140 BPM. While the distance was significant, the elevated heart rate suggests this effort approached your next zone faster, indicating your \"easy\" ceiling may need slight adjustment to maintain sustainable comfort over longer durations.",
     "badge": "warn",
-    "badgeText": "AI"
+    "badgeText": "Exceeds typical easy-zone threshold"
   },
   {
-    "title": "Insight 2: Long ride added vertical load beyond simple distance gains",
-    "description": "The 2026-09-26 63.13km effort gained 274m elevation while taking twice as long as your typical 50km rides. Vertical loading on road climbs accumulates independently of mileage, so consider swapping some flat endurance miles for hills to reduce overall muscular fatigue.",
-    "badge": "ok",
-    "badgeText": "AI"
-  },
-  {
-    "title": "Insight 3: Consecutive high-effort days risked CNS depletion",
-    "description": "After the challenging 2026-09-28 night (low steps, poor sleep, elevated BBT), you resumed riding on 2026-09-29 with minimal rest. Back-to-back demanding efforts can exhaust central nervous system reserves faster than anticipated, especially after a break.",
+    "title": "Insight 2: Long weekend ride carries disproportionate vertical load",
+    "description": "On Sept 26 the 63.13km ride covered 274 meters of elevation gain, representing substantial vertical work relative to its distance. For a mostly flat Kolhapur terrain profile, this climb-style effort at 139.8 BPM means your legs are working harder for less distance gain than typical road rides, suggesting the long duration amplifies vertical stress.",
     "badge": "warn",
-    "badgeText": "AI"
+    "badgeText": "Vertical load relative to distance is heavy"
   },
   {
-    "title": "Insight 4: Long distance builds aerobic base step-by-step",
-    "description": "The 63.13km ride on 2026-09-26 increased your weekly mileage to its highest level yet. Extended rides at sustainable paces progressively raise VO2max and muscle efficiency, making future marathon-style efforts feel easier without sudden shocks.",
-    "badge": "ok",
-    "badgeText": "AI"
-  },
-  {
-    "title": "Insight 5: Reassess FTP with recent power data, not stale estimates",
-    "description": "Your old 2025-03-04 FTP estimate of 271W looks outdated given recent efforts (20m bests 143-204W, hourly averages 135-150W). Using newer power profiles suggests your true FTP likely falls in the 185-205W range, aligning with your current performance envelope.",
+    "title": "Insight 3: Consecutive high-intensity days signal recovery sequencing risk",
+    "description": "You've logged four rides between Sept 17 and Sept 24 spanning varying intensities, with Sept 26 returning the longest effort after a shorter Sept 20 ride. This cluster of activity without full recovery windows may leave your central nervous system fatigued, especially with declining sleep (4h 22m on Sept 28).",
     "badge": "warn",
-    "badgeText": "AI"
+    "badgeText": "Risk of accumulated fatigue across multiple rides"
   },
   {
-    "title": "Insight 6: Adopt polarized 80/20 training for limited-time riders",
-    "description": "With rides typically under 3 hours, devote 90% of your energy to zone 1-2 (sub-200W steady spins) and reserve 10% for short tempo efforts (zone 2, 200-220W). This balance favors aerobic dominance while keeping injury risk low and recovery smooth.",
+    "title": "Insight 4: September mileage trend shows steady endurance build",
+    "description": "From the 50km rides early in the period up to the 63.13km longest ride on Sept 26, your weekly distance has increased by 13%, tracking roughly with improved power outputs (105-40k ranges). This consistent progressive overload aligns well with your goal of joyful improvement rather than race preparation.",
     "badge": "ok",
-    "badgeText": "AI"
+    "badgeText": "Healthy progressive mileage increase"
   },
   {
-    "title": "Insight 7: Watch early recovery signals like sleep, HRV, and body temperature",
-    "description": "2026-09-28 registered the poorest wellness metrics in several categories (sleep 4.2h, HRV 69, BBT 55) before your 2026-09-29 fresh start. These early warning signs often precede performance dips—if they repeat, insert an extra rest day before escalating intensity.",
+    "title": "Insight 5: Zone model needs recalibration given recent power data",
+    "description": "Your stale FTP estimate of 271W from March 2025 falls outside your current performance envelope; recent hard efforts reached 162.7 BPM peak power, suggesting a realistic target of 180-200W for training zones. Re-evaluating your FTP with these newer outputs will provide a more accurate foundation for zone-based programming.",
     "badge": "warn",
-    "badgeText": "AI"
+    "badgeText": "FTP estimate outdated by nearly two years"
   },
   {
-    "title": "Insight 8: Short sprints preserve reactive strength without accumulating fatigue",
-    "description": "On 2026-09-22 your 10-second max hit 404W versus your apparent FTP proxy of ~150W, revealing strong anaerobic capacity. Incorporate brief 15-30 second max efforts once every third ride to sustain short speed bursts while keeping total fatigue manageable.",
+    "title": "Insight 6: Polarized training maximizes gains while preserving joy",
+    "description": "Maintaining 80% of time in low-to-moderate zones (Z1-Z3) with 20% in higher zones mirrors how your varied 50-65km rides distribute workload—most miles at conversational pace with occasional sprint bursts. This balance supports both fitness development and enjoyable riding without burnout.",
     "badge": "ok",
-    "badgeText": "AI"
+    "badgeText": "Balanced polarized approach aligned with your style"
   },
   {
-    "title": "Insight 9: Improve VO2max with consistent zone 2 work",
-    "description": "To boost aerobic capacity without excessive impact, spend 40-60 minutes per session at roughly half your estimated FTP (around 95-100W based on recent averages). Steady sub-threshold effort gradually expands mitochondrial density and improves lactate clearance safely.",
-    "badge": "ok",
-    "badgeText": "AI"
+    "title": "Insight 7: Warning signs emerging from late-night ride patterns",
+    "description": "Recent rides show decreasing sleep quality (4h 22m on Sept 28) coinciding with elevated stress scores (18) and reduced readiness (70). These markers often precede performance dips and should trigger proactive recovery measures before fatigue compounds into missed sessions.",
+    "badge": "warn",
+    "badgeText": "Declining sleep and stress indicate recovery needed"
   },
   {
-    "title": "Insight 10: Set realistic FTP targets aligned with current training",
-    "description": "Given your latest power outputs (20m 143-204W, 1h averages 135-150W), reassess FTP in 2 weeks while staying near current intensity. Once stable, target a 5-10% increase to support gradual, sustainable performance gains.",
+    "title": "Insight 8: Reactive strength work builds climbing capability",
+    "description": "Your recent longer efforts (especially Sept 22 at 55.2km averaging 147 BPM) expose weaker maximum-effort segments common on hills. Incorporating short interval or hill-sprint sessions after easy spins will strengthen your reactive power and improve vertical climbs on Kolhapur's flatter terrain.",
     "badge": "ok",
-    "badgeText": "AI"
+    "badgeText": "Targeted strength work for hills fits your terrain"
+  },
+  {
+    "title": "Insight 9: Targeted intervals boost VO2max without excessive volume",
+    "description": "To advance aerobic capacity, add 2x15min speed sections (e.g., 100-120 BPM spikes) into existing easy rides on Sundays. These brief surges raise cardiac drift and lactate threshold without adding travel time, complementing your current 3-7day cadence nicely.",
+    "badge": "ok",
+    "badgeText": "Interval addition supports aerobic growth efficiently"
+  },
+  {
+    "title": "Insight 10: New FTP target derived from recent performance",
+    "description": "Based on Sept 26's 162.7 BPM burst and Sept 22's 517 BPM top power, a reasonable updated FTP sits near 185W—slightly higher than your old estimate yet grounded in recent effort. Use this value to set Zone 2 (approx. 140-190 BPM) for recovery rides and Zone 4 (≥210 BPM) for controlled sprints.",
+    "badge": "ok",
+    "badgeText": "Updated FTP of ~185W grounds future zone planning"
   }
 ]
