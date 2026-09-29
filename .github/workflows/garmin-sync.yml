@@ -4,7 +4,11 @@ name: Garmin Daily Sync
 # GitHub cron always uses UTC, so 10:00 IST = 04:30 UTC
 on:
   schedule:
+    # Primary: 10:00 AM IST. GitHub-hosted cron is best-effort and can slip
+    # hours in the 04:00-06:00 UTC peak, so a second slot acts as a backstop.
+    # concurrency below (cancel-in-progress: false) makes overlap harmless.
     - cron: "30 4 * * *"
+    - cron: "17 6 * * *" # backstop 11:47 AM IST
   workflow_dispatch: {} # allow manual "Run workflow" button
 
 permissions:
@@ -86,6 +90,33 @@ jobs:
         run: |
           python briefing.py || echo "::warning::briefing failed — dashboard will show fallback"
           ls -lh garmin/tomorrow_briefing.* || true
+
+      - name: Staleness check (data older than 36h = red badge)
+        run: |
+          python - <<'PY'
+          import json, datetime, pathlib, sys
+          p = pathlib.Path("garmin/data.json")
+          if not p.exists():
+              print("::error::garmin/data.json missing — sync did not produce data")
+              sys.exit(1)
+          try:
+              gen = json.loads(p.read_text(encoding="utf-8")).get("generated_at")
+          except Exception as e:
+              print(f"::error::data.json unreadable: {e}")
+              sys.exit(1)
+          if not gen:
+              print("::error::data.json has no generated_at timestamp")
+              sys.exit(1)
+          ts = datetime.datetime.fromisoformat(gen)
+          now = datetime.datetime.now(ts.tzinfo) if ts.tzinfo else datetime.datetime.now()
+          age_h = (now - ts).total_seconds() / 3600
+          print(f"data.json generated_at={gen} age={age_h:.1f}h")
+          if age_h > 36:
+              print(f"::error::Garmin data is stale ({age_h:.0f}h old). "
+                    "Scheduled syncs are being skipped or failing — check the Actions tab.")
+              sys.exit(1)
+          print("Freshness OK")
+          PY
 
       - name: Commit and push if changed
         run: |

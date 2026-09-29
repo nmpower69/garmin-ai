@@ -454,6 +454,8 @@ async function load(){
   const actsByDate = {}; acts.forEach(a=>{ const k = a.date; if(!actsByDate[k]) actsByDate[k]=[]; actsByDate[k].push(a); });
   const monthKeys = Array.from(new Set(Object.keys(daily).map(d=>d.slice(0,7)))).sort();
   let calYM = monthKeys.length ? monthKeys[monthKeys.length-1] : null;
+  const winStart = (data.date_range && data.date_range[0]) || null;
+  const winEnd = (data.date_range && data.date_range[1]) || null;
   const dataBase = (()=>{ try{ return new URL(successPath, document.baseURI).href.replace(/data\.json$/, ''); }catch(e){ return ''; } })();
   const readinessColor = (v)=> typeof v!=='number' ? '#64748b' : v>=75 ? '#22c55e' : v>=50 ? '#f59e0b' : '#f87171';
   function renderCalendar(){
@@ -476,7 +478,13 @@ async function load(){
       const bg = km>0 ? 'background:rgba(56,189,248,' + (0.16+0.54*inten).toFixed(2) + ')' : '';
       const dot = day ? '<span class="cal-dot" style="background:' + readinessColor(day.training_readiness) + '"></span>' : '';
       const sub = km>0 ? '<span class="km">' + km.toFixed(0) + ' km</span>' : (day && typeof day.steps==='number' ? '<span class="st">' + (day.steps/1000).toFixed(1) + 'k</span>' : '');
-      const tip = !hasData ? (key + ' — outside 30-day sync window') : (day ? (key + ' ride ' + km.toFixed(1) + 'km steps ' + day.steps + ' sleep ' + day.sleep_hours + ' HRV ' + day.hrv + ' RHR ' + day.resting_hr + ' readiness ' + day.training_readiness) : (key + ' ride ' + km.toFixed(1) + 'km'));
+      // A day inside the synced window but with no entry yet = sync hasn't reached it
+      // (e.g. today's run is delayed). Outside the window = genuinely no data.
+      let missTip;
+      if(winStart && key < winStart) missTip = key + ' — before the synced window (' + winStart + ' → ' + winEnd + ')';
+      else if(winEnd && key > winEnd) missTip = key + ' — not synced yet (sync window ends ' + winEnd + ')';
+      else missTip = key + ' — no data for this day';
+      const tip = !hasData ? missTip : (day ? (key + ' ride ' + km.toFixed(1) + 'km steps ' + day.steps + ' sleep ' + day.sleep_hours + ' HRV ' + day.hrv + ' RHR ' + day.resting_hr + ' readiness ' + day.training_readiness) : (key + ' ride ' + km.toFixed(1) + 'km'));
       const link = (day && dataBase) ? (dataBase + 'daily/' + key + '.md') : '#';
       html += '<a class="cal-day' + (km>0?'':(hasData?' rest':' nodata')) + '" style="' + bg + '" title="' + tip + '" href="' + link + '" target="_blank"><span class="d">' + d + '</span>' + sub + '<span style="display:flex;justify-content:flex-end">' + dot + '</span></a>';
     }
