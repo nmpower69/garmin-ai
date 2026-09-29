@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: AI generation failed \u2014 using fallback",
-    "description": "Error: argument of type 'NoneType' is not iterable. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 1: Sept 26 ride maintained same heart rate despite doubling distance",
+    "description": "Your 2026-09-26 ride covered 63.13km in 2h with an average HR of 147, matching your easier 50km rides on 24th and 20th. This similarity across different distances indicates you pushed too hard during the final segment, leaving little recovery margin before the next effort.",
+    "badge": "warn",
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 2: AI generation failed \u2014 using fallback",
-    "description": "Error: argument of type 'NoneType' is not iterable. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 2: Long ride added vertical load beyond simple distance gains",
+    "description": "The 2026-09-26 63.13km effort gained 274m elevation while taking twice as long as your typical 50km rides. Vertical loading on road climbs accumulates independently of mileage, so consider swapping some flat endurance miles for hills to reduce overall muscular fatigue.",
+    "badge": "ok",
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 3: AI generation failed \u2014 using fallback",
-    "description": "Error: argument of type 'NoneType' is not iterable. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 3: Consecutive high-effort days risked CNS depletion",
+    "description": "After the challenging 2026-09-28 night (low steps, poor sleep, elevated BBT), you resumed riding on 2026-09-29 with minimal rest. Back-to-back demanding efforts can exhaust central nervous system reserves faster than anticipated, especially after a break.",
+    "badge": "warn",
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 4: AI generation failed \u2014 using fallback",
-    "description": "Error: argument of type 'NoneType' is not iterable. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 4: Long distance builds aerobic base step-by-step",
+    "description": "The 63.13km ride on 2026-09-26 increased your weekly mileage to its highest level yet. Extended rides at sustainable paces progressively raise VO2max and muscle efficiency, making future marathon-style efforts feel easier without sudden shocks.",
+    "badge": "ok",
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 5: AI generation failed \u2014 using fallback",
-    "description": "Error: argument of type 'NoneType' is not iterable. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 5: Reassess FTP with recent power data, not stale estimates",
+    "description": "Your old 2025-03-04 FTP estimate of 271W looks outdated given recent efforts (20m bests 143-204W, hourly averages 135-150W). Using newer power profiles suggests your true FTP likely falls in the 185-205W range, aligning with your current performance envelope.",
+    "badge": "warn",
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 6: AI generation failed \u2014 using fallback",
-    "description": "Error: argument of type 'NoneType' is not iterable. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 6: Adopt polarized 80/20 training for limited-time riders",
+    "description": "With rides typically under 3 hours, devote 90% of your energy to zone 1-2 (sub-200W steady spins) and reserve 10% for short tempo efforts (zone 2, 200-220W). This balance favors aerobic dominance while keeping injury risk low and recovery smooth.",
+    "badge": "ok",
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 7: AI generation failed \u2014 using fallback",
-    "description": "Error: argument of type 'NoneType' is not iterable. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 7: Watch early recovery signals like sleep, HRV, and body temperature",
+    "description": "2026-09-28 registered the poorest wellness metrics in several categories (sleep 4.2h, HRV 69, BBT 55) before your 2026-09-29 fresh start. These early warning signs often precede performance dips—if they repeat, insert an extra rest day before escalating intensity.",
+    "badge": "warn",
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 8: AI generation failed \u2014 using fallback",
-    "description": "Error: argument of type 'NoneType' is not iterable. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 8: Short sprints preserve reactive strength without accumulating fatigue",
+    "description": "On 2026-09-22 your 10-second max hit 404W versus your apparent FTP proxy of ~150W, revealing strong anaerobic capacity. Incorporate brief 15-30 second max efforts once every third ride to sustain short speed bursts while keeping total fatigue manageable.",
+    "badge": "ok",
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 9: AI generation failed \u2014 using fallback",
-    "description": "Error: argument of type 'NoneType' is not iterable. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 9: Improve VO2max with consistent zone 2 work",
+    "description": "To boost aerobic capacity without excessive impact, spend 40-60 minutes per session at roughly half your estimated FTP (around 95-100W based on recent averages). Steady sub-threshold effort gradually expands mitochondrial density and improves lactate clearance safely.",
+    "badge": "ok",
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 10: AI generation failed \u2014 using fallback",
-    "description": "Error: argument of type 'NoneType' is not iterable. Check OPENROUTER_API_KEY and model quota. Your Garmin data is still fresh in garmin/data.json.",
-    "badge": "bad",
-    "badgeText": "Error"
+    "title": "Insight 10: Set realistic FTP targets aligned with current training",
+    "description": "Given your latest power outputs (20m 143-204W, 1h averages 135-150W), reassess FTP in 2 weeks while staying near current intensity. Once stable, target a 5-10% increase to support gradual, sustainable performance gains.",
+    "badge": "ok",
+    "badgeText": "AI"
   }
 ]
