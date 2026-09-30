@@ -1,6 +1,8 @@
-# AI Cycling Insights — 2026-09-29  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — showing last successful set
 
-_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
+_AI generation failed 2026-09-30T10:37:10.578041: All models failed. Last: deepseek/deepseek-chat-v3-0324:free: 404 {"error":{"message":"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat-v3-0324","code":404},"user_id":"user_3IYEQbQMsrAEpHDK4nr5tM7rauF"}_
+
+The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
 
 ### Insight 1: Sept 26 ride pushed easy zone beyond comfortable threshold
 Your Sept 26 63.13km ride averaged 139.8 BPM—higher than your usual easy-ride baseline around 130-140 BPM. While the distance was significant, the elevated heart rate suggests this effort approached your next zone faster, indicating your "easy" ceiling may need slight adjustment to maintain sustainable comfort over longer durations.
