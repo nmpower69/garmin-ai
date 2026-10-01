@@ -18,8 +18,27 @@ This folder syncs your Garmin workouts + recovery data (sleep, HRV, resting HR, 
 2. **Test:** `py sync_garmin.py --days 3 --dry-run`
 3. **Save files:** `py sync_garmin.py --days 3 --sink files --out ./garmin`
 
-## Auto-sync (optional)
-After testing, ask to set up Windows Task Scheduler to run every morning at 7am:
-`py sync_garmin.py --days 7 --sink files --out ./garmin`
+## Automated daily sync
+
+The daily 10:00 AM IST sync is triggered by **AWS EventBridge Scheduler**, which calls
+the GitHub `workflow_dispatch` API. This avoids GitHub's own cron scheduler, which is
+best-effort and has been observed firing 6+ hours late.
+
+**Trigger paths (in order of reliability):**
+1. **EventBridge Scheduler** — primary, fires on time every day at 10:00 AM IST
+2. **GitHub cron** (`30 4 * * *` = 10:00 AM IST) — fallback only, in the workflow file
+
+If both land on the same morning the sync simply runs twice; the second run finds no
+data changes and skips the commit. The `concurrency` group prevents overlap.
+
+### Why the timing matters
+You ride at 6:20 AM and read the briefing on your phone. A 6-hour delay in the sync
+means the dashboard and briefing show stale data until the afternoon.
+
+### Troubleshooting
+- Check trigger: **AWS Console → EventBridge → Scheduler → `garmin-daily-sync` → Recent invocations**
+- Check the run itself: **GitHub → Actions → Garmin Daily Sync**
+- Test on demand: **GitHub → Actions → Garmin Daily Sync → Run workflow**
+- Sync locally: `py sync_garmin.py --days 3 --dry-run`
 
 Security: password is never saved or shown. Token is saved with private permissions and auto-refreshes. Script is read-only — it never writes to Garmin.
