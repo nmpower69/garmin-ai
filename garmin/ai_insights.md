@@ -1,6 +1,8 @@
-# AI Cycling Insights — 2026-09-30  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — showing last successful set
 
-_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
+_AI generation failed 2026-10-01T11:05:55.631505: All models failed. Last: deepseek/deepseek-chat-v3-0324:free: 404 {"error":{"message":"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat-v3-0324","code":404},"user_id":"user_3IYEQbQMsrAEpHDK4nr5tM7rauF"}_
+
+The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
 
 ### Insight 1: Sept 26 long ride pushed heart rate into red zone
 Your 63.13km ride on 2026-09-26 averaged 147 bpm with a max of 174 bpm, significantly above your typical easy-ride baseline of ~145 bpm. The 274m elevation gain combined with 1046 calories creates substantial cardiovascular demand that may leave you fatigued for subsequent recovery.
