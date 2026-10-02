@@ -1,35 +1,33 @@
-# AI Cycling Insights — showing last successful set
+# AI Cycling Insights — 2026-10-02  (via liquid/lfm-2.5-2.6b:free)
 
-_AI generation failed 2026-10-01T11:05:55.631505: All models failed. Last: deepseek/deepseek-chat-v3-0324:free: 404 {"error":{"message":"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat-v3-0324","code":404},"user_id":"user_3IYEQbQMsrAEpHDK4nr5tM7rauF"}_
+_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
+### Insight 1: Sept 26 ride pushed easy zone beyond comfort
+Your 63.13km ride on September 26 averaged 147 bpm, placing you firmly in the Z3-Z4 intensity range despite being a leisurely 2-hour effort on mostly flat terrain. This level is higher than typical for a relaxed outing and may leave you feeling fatigued when you return home. Aim for slightly easier paces on longer-distance rides to protect your cardiovascular system and improve consistency.
 
-### Insight 1: Sept 26 long ride pushed heart rate into red zone
-Your 63.13km ride on 2026-09-26 averaged 147 bpm with a max of 174 bpm, significantly above your typical easy-ride baseline of ~145 bpm. The 274m elevation gain combined with 1046 calories creates substantial cardiovascular demand that may leave you fatigued for subsequent recovery.
+### Insight 2: Sept 26 long ride carries significant vertical load
+The September 26 63.13km ride included 274 meters of elevation gain over 2 hours, creating a substantial vertical challenge even on what appears to be flat-rolling terrain. For a casually recovered rider, this kind of cumulative climb adds unnecessary physiological stress compared to shorter, flatter efforts. Consider reducing elevation exposure on longer rides to preserve energy for recovery.
 
-### Insight 2: Sept 26 vertical climb adds heavy load to endurance base
-The 63.13km effort on 2026-09-26 includes 274m of climbing, nearly double the elevation of your 50km rides. This sustained vertical challenge increases energy expenditure without proportional calorie return, raising cumulative fatigue risk during recovery days.
+### Insight 3: Two quality rides back-to-back test recovery sequencing
+You rode on September 26 and October 1, both solid rides, which compressed your weekend into twice-in-a-row without sufficient recovery buffer. High-quality rides this close together can lead to accumulated fatigue even if individual efforts were enjoyable. Schedule at least one full rest day or very light activity between major rides to keep your system resilient.
 
-### Insight 3: Back-to-back rides on Sept 24-26 show recovery sequencing need
-You rode 50km on 2026-09-24, rested Saturday, then did a 63km effort on 2026-09-26. This clustering of activity without adequate recovery windows accumulates fatigue faster than intended, particularly after the lower-readiness day of 2026-09-27.
+### Insight 4: Steady power growth shows early progressive adaptation
+Over the past month your average power has climbed from 131 W (September 18) to 153 W (October 1), reflecting genuine fitness gains as you reacclimate to regular riding. This upward trend suggests your body is adapting well to consistent training and supports your goal of gradual improvement. Keep building on this momentum with incremental increases.
 
-### Insight 4: Progressing from 50km to 63km builds solid foundation
-Your recent ride on 2026-09-26 covering 63.13km over 2 hours demonstrates meaningful progression from previous 50km efforts. This gradual increase in distance and duration supports building aerobic endurance while staying within manageable cardio zones.
+### Insight 5: Effective FTP estimate places current workouts in the 150-200W range
+With your stale FTP estimate around 270 W from 2025, your recent averages of 140-153 W indicate you're working just below true threshold, which is ideal for steady improvement. Targeting 160-190 W during hard efforts will push your boundaries safely while avoiding excessive fatigue. Use power meter feedback to refine this window over time.
 
-### Insight 5: Zone model calibrated to your current FTP estimate (~150-195W)
-With your stale FTP around 270W from March 2025 and recent 20m peaks reaching 204W, training should prioritize Z1-Z2 zones for steady aerobic work while incorporating occasional Z3-Z4 intervals to develop threshold capacity.
+### Insight 6: Polarized 80/20 riding maximizes happiness and efficiency
+Allocate roughly 80% of your time to easy, relaxed rides (under 130 W) and 20% to moderate-to-hard efforts (up to 200 W) to balance fitness gains with recovery. This structure keeps you progressing without burning out, especially important for someone returning after a break. It aligns perfectly with your desire for joyful improvement rather than racing results.
 
-### Insight 6: Polarized approach keeps you efficient and injury-free
-After strong recent performances (peak 204W on 2026-09-20 and 564W non-power on 2026-09-26), maintaining an 80/20 split—80% low-intensity, 20% higher-intensity—is optimal for sustaining your level without excessive stress.
+### Insight 7: Low sleep and reduced readiness signal recovery needs
+Days with less than 6 hours of sleep and readiness scores below 75 (like September 28-29) indicate your body isn't fully recovering from prior efforts. Continuing at current intensity risks accumulating fatigue that will diminish future enjoyment. Prioritize sleep hygiene and active recovery before adding more distance or power.
 
-### Insight 7: Late-Sept drops signal need for active recovery
-Readiness fell to 70 on 2026-09-28 following a challenging 63km ride, accompanied by only 4h22m sleep. Active recovery (light spinning, mobility work) will help restore your nervous system before the final push.
+### Insight 8: Periodic hard efforts build reactive strength for hills
+Your strongest output came on September 26 reaching 564 W, demonstrating that controlled intensity development matters as much as endurance. Incorporating occasional hard efforts (e.g., 20-minute bursts at 90-95% FTP) will strengthen your reaction speed to climbs, making everyday riding feel smoother. Pair these with easy recoveries to avoid burnout.
 
-### Insight 8: Sustained power indicates good strength reserves
-Achieving 204W peak power on 2026-09-26 shows your legs can handle meaningful efforts. Continue building this with extended tempo intervals to strengthen pedal stroke efficiency without dramatically increasing workload.
+### Insight 9: Interval training can unlock faster VO2max gains
+To elevate your aerobic capacity beyond steady-state rides, add short interval blocks (such as 4 x 4 minutes at near-FTP) once a week to your routine. These provoke lactate clearance and mitochondrial adaptations that translate to better sustained performance on long Kolhapur loops. Start conservatively and increase load gradually.
 
-### Insight 9: Targeted intervals boost VO2max development
-While FTP targets matter, adding threshold-style efforts (steady 90-110% FTP for 20-40 min) will expand your lactate threshold and aerobic ceiling more effectively than pure steady-state rides.
-
-### Insight 10: Re-evaluate FTP with fresh test results
-Your current 270W FTP predates your recent high-power efforts; a fresh test would give accurate baseline data. Aim for 150-200W FTP to align training zones with actual performance capacity.
+### Insight 10: New FTP test needed since last one was from 2025
+Since your last power meter test was on March 4, 2025, your old FTP benchmark (271 W) is likely outdated given your recent training response. A fresh Functional Threshold Test at Kolhapur will give you an accurate starting point to design periodization and track meaningful progress over the coming months. Book a session soon to reset your training plan.
