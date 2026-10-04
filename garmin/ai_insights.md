@@ -1,33 +1,33 @@
-# AI Cycling Insights — 2026-10-03  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — 2026-10-04  (via liquid/lfm-2.5-2.6b:free)
 
 _Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-### Insight 1: Sept 26 long ride pushed beyond comfort zone
-Your 63.13km ride on 2026-09-26 covered 2h0m with peak power 498W, exceeding your typical easy ride duration and intensity. Even though it was a single long outing, the sustained effort likely carried you past your normal aerobic base; consider splitting future 50km+ rides into two sessions with 60-90 minutes between to maintain joy and prevent overtraining.
+### Insight 1: Midweek easy ride exceeded comfort zone
+Your September 24 ride averaged 145W with a 55km distance, yet your readiness score was only 70 during that period — indicating high perceived exertion relative to output. A true easy ride should feel effortless even at this intensity, especially after your strong weekend efforts. Try lowering cadence slightly or reducing gear for next time to stay more relaxed.
 
-### Insight 2: Vertical climb on Sept 26 added hidden fatigue
-The 2026-09-26 ride featured 274m elevation gain alongside its 63km distance, creating a steep profile that adds cardiovascular strain beyond the km count alone. Elevation work compounds fatigue quickly; try adding short hill repeats instead of long climbs to get the same strength benefit with better recovery.
+### Insight 2: Long Saturday ride carried steep vertical load
+The September 26 63km ride lasted 2 hours with 274m elevation gain — significantly more work than your shorter 50km rides. On flat Kolhapur terrain, this climb added hidden fatigue that may explain slower pacing despite reasonable average power. Consider breaking the climb into segments or adding shorter intervals to manage impact.
 
-### Insight 3: Back-to-back rides reduced recovery capacity
-After your 54km ride on 2026-09-24 (1h 38m), you immediately hit 55km on 2026-09-26—just two days later—leaving little margin for physiological repair. This clustering of high-intensity efforts correlates with dropping readiness scores from 70 on 9/24 to 52 on 9/29; spread similar workloads over wider intervals to protect tomorrow's confidence.
+### Insight 3: Back-to-back mid-week rides compress recovery windows
+You rode on September 22 (55km) and September 24 (50km) before hitting another ride on September 26 (63km) — four days apart isn't enough for full muscular and cardiovascular repair. This clustering could leave you vulnerable to accumulation of fatigue before longer efforts later in the week. Space rides at least 48 hours apart for optimal adaptation.
 
-### Insight 4: Progressive cycling approach works well here
-Your recent progression from 50km to 63km rides shows natural adaptation as you build endurance across Kolhapur's flat terrain. The gradual increase in distance aligns with your goal of joyful improvement without requiring long sessions that exceed your 3-hour comfort window.
+### Insight 4: Endurance build is progressing well
+Over the past two weeks you've steadily increased distance from 50km to 63km on September 26, matching your upward trend seen from 2026-09-18 onward. Your average power (~143-147W) has remained consistent, suggesting solid foundation for longer rides. Keep the pace sustainable and enjoy the progressive build.
 
-### Insight 5: Stale FTP means old zone targets need updating
-The stored FTP of 271W from 2025-03-04 doesn't reflect your current fitness level, making zone-based planning potentially misaligned. With recent power outputs ranging 142-481W on various rides, your effective threshold likely sits lower—target your new training zones around 130-155W for Z1, rather than the outdated estimate.
+### Insight 5: Recalibrate zones with fresh FTP estimate
+With your stale 2025-03-04 FTP (271W) and 20-minute bests ranging 139-204W, a practical modern zone map places easy (<148W), moderate (148-203W), and hard (>203W). Since your recent maxes sit around 582W on October 1, aim for training intensities within moderate/hard ranges rather than relying on old thresholds.
 
-### Insight 6: Polarized 80/20 keeps gains high while preserving enjoyment
-For riders who seldom exceed three hours, allocating 80% of training to low-intensity cruising and 20% to focused efforts maximizes performance while keeping rides pleasant. This split fits your profile perfectly—most of your weekend miles become recovery-friendly flows, while hard intervals provide the stimulus without long-duration fatigue.
+### Insight 6: Adopt polarized 80/20 training philosophy
+To maximize gains while minimizing injury risk, target about 80% of your weekly volume at low-to-moderate effort (zone 1-2) and 20% at high-intensity or race-pace work (zones 3-5). Your September rides show balanced effort; shift more energy toward single high-quality intervals per week rather than spreading thinly throughout.
 
-### Insight 7: Dropping readiness signals upcoming fatigue risk
-On 2026-09-29 your readiness score fell to 52 despite adequate sleep (5h 39m), suggesting accumulated tiredness from recent rides. Pair this with the sharp drop in step count (2697) to prioritize active recovery—light spinning or mobility work—before attempting another long ride.
+### Insight 7: Watch stress and readiness indicators
+Your readiness scores dipped to as low as 52 on September 29 but recovered quickly — signaling good nervous system resilience overall. However, the September 22 ride had readiness 70 while also carrying a long-distance challenge; ensure those high-effort days aren't eroding your capacity. Monitor stress scores (peaking at 39 on September 28) as early warning of accumulated fatigue.
 
-### Insight 8: Short reactive sprints build strength efficiently
-Incorporate brief 10-second sprints at 150-200W every few weeks to develop leg strength without extending total ride time. These bursts fit easily into your schedule and add muscular resilience while keeping overall session length under your 3-hour limit.
+### Insight 8: Build reactive strength with short sprints
+To improve power output sustainably, incorporate 20-30 second sprint blocks (200-300W spikes) every 5-10 minutes on longer rides. These reactive bursts mimic race situations and enhance neuromuscular efficiency without excessive fatigue. Pair with longer steady segments to maintain aerobic base.
 
-### Insight 9: Targeted intervals boost aerobic ceiling safely
-Adding two weekly interval blocks of 3x3min at 300W with full recovery improves both speed and cardio economy without demanding extensive time. Because you avoid multi-hour rides, these concentrated efforts represent ideal opportunities to raise your VO2max ceiling gradually.
+### Insight 9: Add interval work for better VO₂max development
+Insert 2-3 × 4-6 minute intervals at 85-95% of your estimated max (roughly 150-220W above your base) once a week to push your aerobic ceiling. This type of structured work improves oxygen utilization beyond what steady-state riding achieves alone, making you faster at sustained higher intensities.
 
-### Insight 10: Reassess FTP with fresh testing or 20-min proxies
-Since the 2025-03-04 FTP estimate is outdated, compare your latest 2-minute all-out efforts (~190W+) against the power data from your recent rides to calibrate your zone boundaries. A new test will give you accurate benchmarks for progressive training adjustments.
+### Insight 10: Test true FTP before adjusting training targets
+Before committing to new training zones, perform a fresh FTP test using the 20-minute method or ramp test on 2026-10-06. Your previous estimate (~150-195W) sits comfortably below your observed max of 582W, giving room to train safely while avoiding under/overestimation. A real test will give precise baseline for setting goals.
