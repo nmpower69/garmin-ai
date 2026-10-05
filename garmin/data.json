@@ -1,44 +1,10 @@
 {
-  "generated_at": "2026-10-04T16:10:52.673990+05:30",
+  "generated_at": "2026-10-05T17:11:32.819945+05:30",
   "date_range": [
-    "2026-09-05",
-    "2026-10-04"
+    "2026-09-06",
+    "2026-10-05"
   ],
   "daily": {
-    "2026-09-05": {
-      "date": "2026-09-05",
-      "steps": 10008,
-      "calories": 2203,
-      "distance_km": 8.16,
-      "sleep_hours": "6h 9m",
-      "sleep_score": "74 (FAIR)",
-      "sleep_deep": "1h 35m",
-      "sleep_light": "3h 41m",
-      "sleep_rem": "54m",
-      "sleep_awake": "26m",
-      "hrv": 78,
-      "resting_hr": 50,
-      "body_battery": 69,
-      "stress": 38,
-      "training_readiness": 71,
-      "moderate_minutes": 0,
-      "vigorous_minutes": 0,
-      "_raw": {
-        "sleep": {
-          "dailySleepDTO": {
-            "sleepStartTimestampLocal": 1788564780000,
-            "sleepStartTimestampGMT": 1788544980000,
-            "sleepEndTimestampLocal": 1788588506000,
-            "sleepEndTimestampGMT": 1788568706000,
-            "sleepTimeSeconds": 22166,
-            "deepSleepSeconds": 5700,
-            "lightSleepSeconds": 13260,
-            "remSleepSeconds": 3240,
-            "awakeSleepSeconds": 1560
-          }
-        }
-      }
-    },
     "2026-09-06": {
       "date": "2026-09-06",
       "steps": 8694,
@@ -1005,6 +971,40 @@
       "hrv": "N/A",
       "resting_hr": "N/A",
       "body_battery": "{'date': '2026-10-04', 'charged': None, 'drained': None, 'startTimestampGMT': No",
+      "stress": "N/A",
+      "training_readiness": "N/A",
+      "moderate_minutes": null,
+      "vigorous_minutes": null,
+      "_raw": {
+        "sleep": {
+          "dailySleepDTO": {
+            "sleepStartTimestampLocal": null,
+            "sleepStartTimestampGMT": null,
+            "sleepEndTimestampLocal": null,
+            "sleepEndTimestampGMT": null,
+            "sleepTimeSeconds": null,
+            "deepSleepSeconds": null,
+            "lightSleepSeconds": null,
+            "remSleepSeconds": null,
+            "awakeSleepSeconds": null
+          }
+        }
+      }
+    },
+    "2026-10-05": {
+      "date": "2026-10-05",
+      "steps": null,
+      "calories": "N/A",
+      "distance_km": "N/A",
+      "sleep_hours": "N/A",
+      "sleep_score": "N/A",
+      "sleep_deep": "N/A",
+      "sleep_light": "N/A",
+      "sleep_rem": "N/A",
+      "sleep_awake": "N/A",
+      "hrv": "N/A",
+      "resting_hr": "N/A",
+      "body_battery": "{'date': '2026-10-05', 'charged': None, 'drained': None, 'startTimestampGMT': No",
       "stress": "N/A",
       "training_readiness": "N/A",
       "moderate_minutes": null,
