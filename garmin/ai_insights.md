@@ -1,6 +1,8 @@
-# AI Cycling Insights — 2026-10-05  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — showing last successful set
 
-_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
+_AI generation failed 2026-10-06T11:23:59.358703: All models failed. Last: deepseek/deepseek-chat-v3-0324:free: 404 {"error":{"message":"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat-v3-0324","code":404},"user_id":"user_3IYEQbQMsrAEpHDK4nr5tM7rauF"}_
+
+The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
 
 ### Insight 1: Long ride pushed beyond comfortable zone
 Your 2-hour ride on 2026-09-26 (63 km) used your legs in zone 4 territory despite being a casual rider. That 20-minute best of 204 W is noticeably higher than your recent average (~142 W), suggesting you're accumulating intensity faster than recovery allows. Try breaking future long efforts into two 1-hour sessions with built-in rest to keep pace steady.

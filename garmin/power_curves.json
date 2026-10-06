@@ -311,6 +311,18 @@
       "normalizedPower": 174.2,
       "maxPower": 582.0,
       "npSource": "computed"
+    },
+    "24621409239": {
+      "date": "2026-10-06",
+      "10s": 403,
+      "30s": 347,
+      "60s": 322,
+      "300s": 220,
+      "1200s": 175,
+      "3600s": 161,
+      "avgPower": 150.6,
+      "normalizedPower": null,
+      "maxPower": null
     }
   },
   "notes": "Computed from Garmin directPower time series (1-3s samples) via rolling time-window averages. 10s=neuromuscular, 30-60s=anaerobic, 5m=VO2, 20m\u00e2\u2030\u02c6FTP proxy, 1h=endurance. Your 20m best 143-204W suggests current FTP ~150-195W, below the stale 271W \u00e2\u20ac\u201d use HR zones until retest."
