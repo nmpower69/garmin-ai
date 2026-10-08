@@ -1,38 +1,37 @@
-# Tomorrow's briefing — 2026-10-08 (Ride tomorrow — Happy endurance)
+# Tomorrow's briefing — 2026-10-09 (Easy spin only — Recovery spin)
 
 ## Verdict
-- Recovery is green (no flags) — readiness 93 (2026-10-06), HRV 81 (2026-10-06), RHR 50 (2026-10-06)
-- 1 day(s) since last ride (2026-10-06), 1 since last hard effort
+- Only 5h 10m sleep (2026-10-08)
+- Today you rode 50 km — tomorrow stays gentle
 
-_Last 7d: 2 rides, 114.1 km · avg gap 2.6d · 1d since ride, 1d since hard · today: rest_
+_Last 7d: 3 rides, 164.1 km · avg gap 2.3d · 0d since ride, 2d since hard · today: 50 km, avg HR 146_
 
-_Kolhapur ride hours (5–9 AM): 25.6C, 57% RH, rain 0%, wind 10.1 km/h_
+_Kolhapur ride hours (5–9 AM): 25.6C, 62% RH, rain 0%, wind 4.6 km/h_
 
 ## Ride plan
-- **Happy endurance** — 55 km (≈122 min)
-- Warmup: First 15 min Z1–Z2, let HR settle
-- Main: Steady Z2 (139–159 bpm), nose-breathing; final 15 min may drift to Z3 (159–167)
-- Twist: Progressive thirds: each third a touch brisker, capped at 159 bpm
-- Cooldown: Last 10 min Z1 + stretch
-- Pace: Cap 159 bpm except the closing 15 min (cap 167); RPE 4–5/10
+- **Recovery spin** — 19 km (≈52 min)
+- Warmup: First 10 min dead easy, cadence 85–95
+- Main: Entirely Z1 (<139 bpm), conversational — you should be able to hum
+- Twist: 6 × 1-min fast pedals (100+ rpm, stays Z1) with 4-min easy between — leg speed, zero load
+- Cooldown: Last 5 min super easy + 5-min stretch off the bike
+- Pace: Cap HR at 139 bpm; ignore speed; RPE 2–3/10
 
 ## Fuel (bananas / Fast&Up gels / Reload)
 ### Pre
-- Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs, plus 1 extra roti — tomorrow is long/hard
+- Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs
 - 5:30 AM +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll 6:20 AM
 ### During
-- 2 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)
-- 2 × Fast&Up energy gel (~1 per 40–45 min after the first hour)
-- 1 banana mid-ride as solid backup on top of gels
+- 1 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)
+- Water + Reload is enough under ~75 min — no gel needed
 ### Post
 - Within 30–60 min: 1–2 bananas + a protein-rich meal
 - 500 ml water with 1 Reload within the hour
 
 ## Sleep tonight
-- Lights out: **9:30 PM** (usual 11:37 PM) — target **8.0 h**
+- Lights out: **9:30 PM** (usual 11:49 PM) — target **8.0 h**
 - Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM
-- Your recent usual is 11:37 PM — move 15 min earlier every 2 nights
+- Your recent usual is 11:49 PM — move 15 min earlier every 2 nights
 - You're running a small sleep debt — tonight matters more than usual
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-10-07T11:13:43.793967+00:00 by rules-v1_
+_Generated 2026-10-08T11:30:35.542948+00:00 by rules-v1_
