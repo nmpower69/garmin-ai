@@ -1,17 +1,27 @@
-# Garmin tokens — private, never commit
-.garminconnect/
-garmin_tokens.json
-__pycache__/
-*.pyc
-.venv/
-# Generated AI prompt (not needed in repo, may contain summary)
-**/ai_prompt.txt
-# Legacy duplicate — garmin/ is the single source of truth (see garmin-sync.yml)
-docs/garmin/
-# Logs and env
-*.log
-.env
-_site/
 # OS
 .DS_Store
 Thumbs.db
+
+# Frontend local artifacts
+frontend/node_modules/
+frontend/dist/
+frontend/.vite
+frontend/.vite/
+
+# Local workspace scratch (not for GitHub)
+.tmp/
+tmp/
+.freebuff/
+
+# Python cache
+__pycache__/
+*.pyc
+.venv/
+
+# Scratch / working artifacts
+design-system/
+
+# Source assets for the hero video: large binaries stay local.
+# The optimized copy the site actually serves lives in frontend/public/rider/.
+cyclist_on_bike/scene.bin
+cyclist_on_bike/scroll.mp4

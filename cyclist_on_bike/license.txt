@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cyclist on bike
+* source:	https://sketchfab.com/3d-models/cyclist-on-bike-79f8953e092745c3a70130474a811b4f
+* author:	firebird854 (https://sketchfab.com/firebird854)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cyclist on bike" (https://sketchfab.com/3d-models/cyclist-on-bike-79f8953e092745c3a70130474a811b4f) by firebird854 (https://sketchfab.com/firebird854) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
