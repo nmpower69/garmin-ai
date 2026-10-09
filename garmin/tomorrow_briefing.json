@@ -1,19 +1,19 @@
 {
-  "for_date": "2026-10-09",
+  "for_date": "2026-10-10",
   "verdict": "easy",
   "verdict_label": "Easy spin only — Recovery spin",
   "reasons": [
     "Only 5h 10m sleep (2026-10-08)",
-    "Today you rode 50 km — tomorrow stays gentle"
+    "One yellow flag: keep it conversational"
   ],
   "context": {
-    "rides_7d": 3,
-    "km_7d": 164.1,
+    "rides_7d": 2,
+    "km_7d": 109.1,
     "acwr": 0.61,
     "avg_gap_days": 2.3,
-    "days_since_ride": 0,
-    "days_since_hard": 2,
-    "today": "50 km, avg HR 146",
+    "days_since_ride": 1,
+    "days_since_hard": 3,
+    "today": "rest",
     "flags": [
       "Only 5h 10m sleep (2026-10-08)"
     ],
@@ -107,14 +107,14 @@
     ]
   },
   "weather": {
-    "temp_c": 25.6,
-    "humidity": 62,
+    "temp_c": 25.1,
+    "humidity": 53,
     "rain_pct": 0,
     "wind_kmh": 4.6
   },
   "wx_notes": [],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-10-08T11:30:35.542948+00:00",
+  "generated_at": "2026-10-09T11:26:08.234931+00:00",
   "model": "rules-v1"
 }
