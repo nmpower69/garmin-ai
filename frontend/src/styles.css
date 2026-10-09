@@ -129,7 +129,6 @@ canvas.chart{max-height:300px;width:100%!important}
   thead{display:none}
   tbody{display:block}
   tbody tr{display:block;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:10px 14px;margin-bottom:10px}
-  tbody tr::before{display:none}
   tbody td{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:none;padding:5px 0;white-space:normal}
   tbody td::before{content:attr(data-label);color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
   tbody td.num{text-align:right}
@@ -260,11 +259,20 @@ a{transition:color .18s ease}
 /* NOTE: hover lifts use the independent `translate`/`scale` properties so they
    compose with framer-motion's inline `transform` (which it leaves as `none`). */
 
-/* table rows: acid bar slides in from the left */
-tbody tr{position:relative;transition:background-color .18s ease}
-tbody tr::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acid);transform:scaleY(0);transition:transform .2s cubic-bezier(.22,1,.36,1)}
+/* table rows: acid bar slides in from the left (desktop only).
+   The bar hangs off the first <td>, NOT the <tr>: a pseudo-element on a
+   table-row generates an anonymous table-cell, which adds a phantom leading
+   column to every body row and shifts all cells one column right of the
+   header row. Hence no position:relative on the <tr> either.
+   Below 640px each cell becomes a flex row whose ::before already renders the
+   data-label, so the bar is skipped there to avoid clobbering that label. */
+tbody tr{transition:background-color .18s ease}
 tbody tr:hover{background:rgba(183,245,66,.06)}
-tbody tr:hover::before{transform:scaleY(1)}
+@media(min-width:641px){
+  tbody tr td:first-child{position:relative}
+  tbody tr td:first-child::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acid);transform:scaleY(0);transform-origin:top;transition:transform .2s cubic-bezier(.22,1,.36,1)}
+  tbody tr:hover td:first-child::before{transform:scaleY(1)}
+}
 td.num{transition:color .18s ease}
 tr:hover td.num{color:var(--text)}
 .pb{transition:box-shadow .2s ease}
@@ -310,7 +318,7 @@ details.card summary:hover{color:var(--text);text-decoration:underline;text-unde
 .chart-card:hover canvas{filter:brightness(1.06)}
 
 @media (prefers-reduced-motion: reduce){
-  .card,.card::after,.kpi-card .kpi-icon,.pill,.pill svg,tbody tr,tbody tr::before,.cal-day,.zone-pills span,.badge,.insight,.cal-nav,.status-band a::after,.chart-card canvas{transition:none!important;animation:none!important}
+  .card,.card::after,.kpi-card .kpi-icon,.pill,.pill svg,tbody tr,tbody tr td:first-child::before,.cal-day,.zone-pills span,.badge,.insight,.cal-nav,.status-band a::after,.chart-card canvas{transition:none!important;animation:none!important}
   .card:hover,.cal-day:hover,.zone-pills span:hover,.badge:hover,.insight:hover,.kpi-card:hover .kpi-icon,.cal-nav:hover:not(:disabled){transform:none;translate:none;scale:none}
 }
 
