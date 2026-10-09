@@ -7,6 +7,7 @@ on:
       - dashboard/**
       - docs/**
       - garmin/**
+      - frontend/**
       - .github/workflows/pages.yml
   # Auto-deploy after Garmin sync pushes via GITHUB_TOKEN (push trigger is blocked for GITHUB_TOKEN, so use workflow_run)
   workflow_run:
@@ -32,11 +33,29 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Build frontend
+        working-directory: frontend
+        env:
+          # Publish the Vite app under /garmin-ai/app/ so it never collides
+          # with dashboard/index.html at the site root.
+          DEPLOY_BASE: /garmin-ai/app/
+        run: |
+          npm ci
+          npm run build
       - name: Prepare site
         run: |
           mkdir -p _site
           # Copy dashboard as site root
           cp -r dashboard/* _site/
+          # Publish the Vite frontend alongside it at /app/
+          mkdir -p _site/app
+          cp -r frontend/dist/* _site/app/
           # Also copy garmin data so fetch works on Pages (both ../garmin and ./garmin)
           mkdir -p _site/garmin
           cp -r garmin/* _site/garmin/ 2>/dev/null || echo "no garmin data"
