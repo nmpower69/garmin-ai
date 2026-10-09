@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: Sept 26 long ride pushed heart rate into red zone",
-    "description": "Your 63.13km ride on 2026-09-26 averaged 147 bpm with a max of 174 bpm, significantly above your typical easy-ride baseline of ~145 bpm. The 274m elevation gain combined with 1046 calories creates substantial cardiovascular demand that may leave you fatigued for subsequent recovery.",
+    "title": "Insight 1: Early morning ride pushed past easy heart rate comfort",
+    "description": "Your October 7th ride came after a night of poor sleep (59) and low readiness (62), yet you maintained steady effort. When transitioning from rest to riding again, your pace crept into higher zones than you'd normally enjoy. Try waiting until you feel truly refreshed—your body will reward you with smoother rides and better mood.",
     "badge": "warn",
-    "badgeText": "Excessive intensity"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 2: Sept 26 vertical climb adds heavy load to endurance base",
-    "description": "The 63.13km effort on 2026-09-26 includes 274m of climbing, nearly double the elevation of your 50km rides. This sustained vertical challenge increases energy expenditure without proportional calorie return, raising cumulative fatigue risk during recovery days.",
+    "title": "Insight 2: Elevation-heavy long rides demand careful pacing",
+    "description": "Your October 6th ride covered 59km with 331m of climbing at average HR 149, suggesting sustained effort up hills. These vertical challenges are taxing even on flat-rolling Kolhapur terrain because climbing forces faster cadence which raises perceived exertion. Plan future longer rides with deliberate slowdowns through steep sections.",
+    "badge": "ok",
+    "badgeText": "AI"
+  },
+  {
+    "title": "Insight 3: Multiple consecutive rides signal recovery risk",
+    "description": "Between October 3rd and 9th you completed seven rides in rapid succession, leaving little time for full physiological repair. Even though your Saturday ride showed strong readiness (93), the cumulative effect of daily effort may leave you vulnerable to injury or burnout. Schedule at least one complete rest day every 7-10 days to let muscles and nervous system reset.",
     "badge": "warn",
-    "badgeText": "High vertical load"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 3: Back-to-back rides on Sept 24-26 show recovery sequencing need",
-    "description": "You rode 50km on 2026-09-24, rested Saturday, then did a 63km effort on 2026-09-26. This clustering of activity without adequate recovery windows accumulates fatigue faster than intended, particularly after the lower-readiness day of 2026-09-27.",
+    "title": "Insight 4: Consistent mid-week mileage builds solid endurance",
+    "description": "You've logged rides from 50km to 64km over the past week, showing steady commitment to building volume. This gradual expansion matches your goal of becoming a more confident road cyclist without sacrificing enjoyment. Keep this trajectory but vary terrain every few weeks to maintain freshness.",
+    "badge": "ok",
+    "badgeText": "AI"
+  },
+  {
+    "title": "Insight 5: Stale FTP estimate needs updating",
+    "description": "The FTP value of 271W from March 2025 appears outdated given your recent rides averaging 144-158W in zone 2-3. A proper field test or a single long ride with repeated sprints would give you accurate baseline data for future training. Without updated FTP, your interval targets remain guesswork.",
     "badge": "warn",
-    "badgeText": "Recovery gap"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 4: Progressing from 50km to 63km builds solid foundation",
-    "description": "Your recent ride on 2026-09-26 covering 63.13km over 2 hours demonstrates meaningful progression from previous 50km efforts. This gradual increase in distance and duration supports building aerobic endurance while staying within manageable cardio zones.",
+    "title": "Insight 6: Balance polarized training for happy progress",
+    "description": "Your recent readiness scores (62-93) indicate neither extreme polarized nor pure distribution training. You benefit from most from focused quality sessions rather than endless easy spinning. Pair one harder ride per week with plenty of relaxed, scenic cruises to keep cycling enjoyable.",
     "badge": "ok",
-    "badgeText": "Good progress"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 5: Zone model calibrated to your current FTP estimate (~150-195W)",
-    "description": "With your stale FTP around 270W from March 2025 and recent 20m peaks reaching 204W, training should prioritize Z1-Z2 zones for steady aerobic work while incorporating occasional Z3-Z4 intervals to develop threshold capacity.",
-    "badge": "ok",
-    "badgeText": "Zone alignment"
-  },
-  {
-    "title": "Insight 6: Polarized approach keeps you efficient and injury-free",
-    "description": "After strong recent performances (peak 204W on 2026-09-20 and 564W non-power on 2026-09-26), maintaining an 80/20 split—80% low-intensity, 20% higher-intensity—is optimal for sustaining your level without excessive stress.",
-    "badge": "ok",
-    "badgeText": "Polarized balance"
-  },
-  {
-    "title": "Insight 7: Late-Sept drops signal need for active recovery",
-    "description": "Readiness fell to 70 on 2026-09-28 following a challenging 63km ride, accompanied by only 4h22m sleep. Active recovery (light spinning, mobility work) will help restore your nervous system before the final push.",
+    "title": "Insight 7: Watch for signs of early overtraining",
+    "description": "The combination of low readiness (62) on October 7th and poor sleep (59) aligns with emerging fatigue patterns in your data window. This isn't an emergency but a signal to slow down—reduce weekly volume by 20-30% for a week and monitor how you feel. Listening to your body is the fastest way to stay happy and healthy on the bike.",
     "badge": "warn",
-    "badgeText": "Recovery alert"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 8: Sustained power indicates good strength reserves",
-    "description": "Achieving 204W peak power on 2026-09-26 shows your legs can handle meaningful efforts. Continue building this with extended tempo intervals to strengthen pedal stroke efficiency without dramatically increasing workload.",
+    "title": "Insight 8: Build reactive strength for hill climbs",
+    "description": "Your maximum efforts show peaks near 500W on October 8th (217W average with 650W max), proving you have powerful legs capable of steep climbs. To harness this strength, incorporate short interval bursts like 4×4 minutes at 90% power after stable spins. This will make those mountain climbs on Kolhapur's flatter stretches feel less exhausting.",
     "badge": "ok",
-    "badgeText": "Strong base"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 9: Targeted intervals boost VO2max development",
-    "description": "While FTP targets matter, adding threshold-style efforts (steady 90-110% FTP for 20-40 min) will expand your lactate threshold and aerobic ceiling more effectively than pure steady-state rides.",
+    "title": "Insight 9: Targeted VO₂max gains require threshold work",
+    "description": "While your recent rides sit comfortably below lactate thresholds (avg HR 141-158), true VO₂max improvement comes from short, sharp efforts in zone 3-4. Adding two 15-minute blocks at 85-92% of your estimated FTP twice weekly will stretch your aerobic ceiling without causing boredom. Track session RPE to ensure quality.",
     "badge": "ok",
-    "badgeText": "Threshold focus"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 10: Re-evaluate FTP with fresh test results",
-    "description": "Your current 270W FTP predates your recent high-power efforts; a fresh test would give accurate baseline data. Aim for 150-200W FTP to align training zones with actual performance capacity.",
+    "title": "Insight 10: New FTP range recommendation",
+    "description": "Based on your recent power averages (~150-160W sustainable, spikes up to 550W), a realistic FTP target sits between 155 and 185W. Starting with 165W gives you room to grow while staying safe. Retest in 4-6 weeks after consistent training to validate this new baseline.",
     "badge": "ok",
-    "badgeText": "Fresh assessment"
+    "badgeText": "AI"
   }
 ]
