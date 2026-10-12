@@ -1,15 +1,15 @@
 You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is 2026-10-11. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is 2026-10-12. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-10-05: steps=3329 sleep=7h 3m (82 (GOOD)) hrv=83 rhr=49 bb=98 stress=27 readiness=78
 2026-10-06: steps=3730 sleep=6h 49m (84 (GOOD)) hrv=81 rhr=50 bb=67 stress=39 readiness=93
 2026-10-07: steps=2558 sleep=4h 33m (59 (POOR)) hrv=77 rhr=51 bb=79 stress=31 readiness=62
 2026-10-08: steps=404 sleep=5h 10m (67 (FAIR)) hrv=81 rhr=50 bb=68 stress=16 readiness=61
 2026-10-09: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-10-09', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
 2026-10-10: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb=N/A stress=N/A readiness=N/A
 2026-10-11: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-10-11', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
+2026-10-12: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb={'date': '2026-10-12', 'charged': None, 'drained': None, 'startTimestampGMT': No stress=N/A readiness=N/A
 
 Recent rides last 7:
 2026-09-24 Kolhapur Road Cycling 50.05km 1h 38m avgHR=145.0 maxHR=165.0 elev=308.0 cals=876.0

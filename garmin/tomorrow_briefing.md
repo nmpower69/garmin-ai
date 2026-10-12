@@ -1,28 +1,28 @@
-# Tomorrow's briefing — 2026-10-12 (Easy spin only — Recovery spin)
+# Tomorrow's briefing — 2026-10-13 (Ride tomorrow — VO2 refresher (5 × 3 min))
 
 ## Verdict
-- Only 5h 10m sleep (2026-10-08)
-- One yellow flag: keep it conversational
+- Recovery is green (no flags) — readiness n/a (2026-10-12), HRV n/a (2026-10-12), RHR n/a (2026-10-12)
+- 2 day(s) since last ride (2026-10-10), 6 since last hard effort
 
-_Last 7d: 3 rides, 179.1 km · avg gap 2.4d · 1d since ride, 5d since hard · today: rest_
+_Last 7d: 3 rides, 179.1 km · avg gap 2.4d · 2d since ride, 6d since hard · today: rest_
 
-_Kolhapur ride hours (5–9 AM): 25.3C, 54% RH, rain 0%, wind 9.7 km/h_
+_Kolhapur ride hours (5–9 AM): 25.0C, 49% RH, rain 0%, wind 9.0 km/h_
 
 ## Ride plan
-- **Recovery spin** — 19 km (≈52 min)
-- Warmup: First 10 min dead easy, cadence 85–95
-- Main: Entirely Z1 (<139 bpm), conversational — you should be able to hum
-- Twist: 6 × 1-min fast pedals (100+ rpm, stays Z1) with 4-min easy between — leg speed, zero load
-- Cooldown: Last 5 min super easy + 5-min stretch off the bike
-- Pace: Cap HR at 139 bpm; ignore speed; RPE 2–3/10
+- **VO2 refresher (5 × 3 min)** — ≈40 km (≈85 min total)
+- Warmup: 15 min Z1–Z2 + 3 × 30-s openers
+- Main: 5 × 3 min at 172–178 bpm (high Z4/low Z5) with 3-min easy spins between
+- Twist: If legs feel great on rep 4, extend rep 5 to 4 min — never add a 6th rep
+- Cooldown: 12–15 min Z1 + stretch
+- Pace: Reps 172–178 bpm; everything else <159 bpm; RPE 8/10 on reps, 3/10 off
 
 ## Fuel (bananas / Fast&Up gels / Reload)
 ### Pre
-- Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs
+- Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs, plus 1 extra roti — tomorrow is long/hard
 - 5:30 AM +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll 6:20 AM
 ### During
 - 1 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)
-- Water + Reload is enough under ~75 min — no gel needed
+- 1 × Fast&Up energy gel (~1 per 40–45 min after the first hour)
 ### Post
 - Within 30–60 min: 1–2 bananas + a protein-rich meal
 - 500 ml water with 1 Reload within the hour
@@ -33,4 +33,4 @@ _Kolhapur ride hours (5–9 AM): 25.3C, 54% RH, rain 0%, wind 9.7 km/h_
 - Your recent usual is 11:49 PM — move 15 min earlier every 2 nights
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-10-11T10:56:49.865241+00:00 by rules-v1_
+_Generated 2026-10-12T12:17:23.921017+00:00 by rules-v1_
