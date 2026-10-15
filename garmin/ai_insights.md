@@ -1,33 +1,33 @@
-# AI Cycling Insights — 2026-10-14  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — 2026-10-15  (via liquid/lfm-2.5-2.6b:free)
 
 _Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-### Insight 1: Easy ride today exceeded comfort zone
-Your Oct 14 ride (40 km, 1h 32m) came with only 340 steps compared to other days around 2800-6000, yet your average heart rate (141 bpm) was still quite elevated. This suggests you pushed harder than your body was ready for, especially after the 70 km ride on Oct 10 where you spent nearly 2 hours. Try keeping a more relaxed pace next time while maintaining steady cadence—you can always increase distance later.
+### Insight 1: Oct 11 steady ride pushed aerobic ceiling
+Your October 11 ride (5,821 steps, 7.5h sleep) maintained a consistent effort level that likely exceeded your usual easy-riding threshold, with average intensity matching zone 2-3 ranges. This continuous volume builds fitness but risks diminishing returns if recovery isn't prioritized.
 
-### Insight 2: Recent long ride carried heavy vertical load
-On Oct 10 you covered 70.07 km with an elevation gain of 293 meters over 2 hours 16 minutes. That vertical climb required significant muscular engagement and likely contributed to your reduced step count today. For future long rides, consider breaking the climb into smaller sections with brief rests; this will protect your legs and improve aerobic efficiency over time.
+### Insight 2: Oct 14 climb carried heavy vertical load proportion
+The 40km ride on October 14 had notable elevation gain (306m) relative to its relatively short duration, creating additional cardiac demand beyond pure distance. Even on flat terrain, hills force higher heart rates and oxygen consumption, potentially limiting subsequent training quality.
 
-### Insight 3: Three back-to-back busy riding days risk accumulation
-You rode substantial distances on Oct 12 (6762 steps, 8h 12m sleep, readiness 80), then again on Oct 13 (4450 steps, 5h 58m sleep, readiness 83), and now on Oct 14 with lighter effort. The cumulative volume may leave little margin for natural recovery. Prioritize active recovery (light spinning or walking) on Oct 15 to let your muscles fully reset before the week ahead.
+### Insight 3: Back-to-back rides created recovery compression
+Four rides occurred between October 10 and 14 with little rest between sessions, compressing recovery time and increasing cumulative fatigue risk. Your October 14 ride followed a 70km endurance effort, leaving limited buffer for nervous system resetting.
 
-### Insight 4: Progressive build-up shows steady gains
-Your weekly route distances have been climbing steadily from 50 km (Sept 28) to 70 km (Oct 10) and even slightly dropping to 40 km (Oct 14) as intensity adjusted. This pattern mirrors healthy marathon preparation—longer durations on moderate effort build endurance. Keep adding small increments (5-10% more time or distance) every few weeks without jumping too fast.
+### Insight 4: Progressive mileage build shows positive trajectory
+The October 10 effort (70.07km in 2h 16m with 187bpm peaks) represents meaningful endurance growth compared to earlier weeks' single-day efforts. Consistent long rides align with your goal of gradual, enjoyable improvement without burnout.
 
-### Insight 5: Heart rate zone reference needed due to sparse power data
-The most recent ride (Oct 14) showed no power metrics (NP=None), making it impossible to map speed directly to intensity zones. Your earlier rides provided clearer pictures—like the Oct 6 ride averaging 150.6 W with 20m best at 201 W. Until your FTP is re-measured, rely primarily on perceived effort and cadence zones to stay within safe thresholds.
+### Insight 5: Stale FTP prevents accurate pacing guidance
+Your FTP estimate of 271W from March 2025 appears inconsistent with recent high-power outputs (peak 520W+). Without a current field test, you may misjudge effort thresholds during upcoming rides.
 
-### Insight 6: Polarized training aligns with your current readiness levels
-Your readiness scores have ranged from 61 to 93 across the past week, indicating a mix of easier and harder days. Polarization—mostly easy to moderate rides (Z1-Z3) with one or two threshold efforts (Z4)—will maximize adaptation while minimizing injury risk. Stick to this split: 80% easy spins/cruises, 20% focused efforts that push just beyond your current comfort zone.
+### Insight 6: Polarized training framework works well here
+The mixed ride profile across the last week—ranging from short urban loops to longer steady climbs—demonstrates effective polarized distribution with most energy spent at comfort/hard zones. This balance helps preserve fresh legs for future long efforts.
 
-### Insight 7: Elevated resting heart rates signal need for quality recovery
-Resting heart rate has hovered between 50-54 bpm during your recent nights, which is on the lower end of normal but consistently below your typical 60+. While this isn't alarming, sustained low values after hard efforts (like Oct 10's 70 km ride) suggest your body needs more intentional recovery. Include at least one complete rest day or very light activity before heading out again.
+### Insight 7: Early fatigue signals require attention
+Sleep dropped to 5h 54m on October 13 paired with low readiness scores (83 → 75) and elevated stress (37→17) signal incomplete recovery from recent training load. Ignoring these signs increases injury and soreness risk.
 
-### Insight 8: Short reactive sprints could boost strength without volume
-Your latest ride featured strong 5-minute bursts reaching 263 bpm for 20 mins with an average of 150.6 W. Adding 2-3 sessions of 30-second max-effort intervals once per week would develop explosive strength while keeping total volume manageable. Focus on perfect form and controlled descents—these translate to better climbing capacity over time.
+### Insight 8: Sprint potential unlocks hidden power
+Recent efforts including a 10s burst of 382W reveal untapped reactive capacity. Incorporating repeated short sprints can develop explosive power for accelerating climbs and hill starts without compromising your aerobic base.
 
-### Insight 9: Consistent improvement possible despite fluctuations
-From low readiness (61) on Sept 8 to top-of-week readiness (93) on Oct 11, your biometric signals indicate clear upward momentum. Small, regular rides on varied terrain (like today's flat 40 km loop) keep your cardiovascular system primed. Celebrate the steady rise—not the daily spikes—as evidence that happiness comes from sustainable fitness growth.
+### Insight 9: Dedicated tempo work will refine aerobic base
+Adding two 45-minute tempo sessions at sustainable sub-threshold power would enhance your body's ability to sustain effort. They also complement your existing volume by sharpening your aerobic engine.
 
-### Insight 10: FTP needs fresh validation for accurate training targets
-Your last FTP estimate of 271W from March 2025 is outdated given your improved recent performance (especially the high-intensity 10-second sprints at 478 W). A new functional threshold test or power-to-weight ratio calculation using your current rides would give you a realistic baseline. Train toward this updated number rather than guessing—it will guide smarter zone-based planning moving forward.
+### Insight 10: Targeted VO2max sessions yield big gains
+To raise your threshold, incorporate intermittent high-intensity intervals once weekly. Four 6-minute repeats at 95-105% FTP with equal rest directly improve the upper limit of your aerobic system.
