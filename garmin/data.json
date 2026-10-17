@@ -1,44 +1,10 @@
 {
-  "generated_at": "2026-10-16T14:38:42.682996+05:30",
+  "generated_at": "2026-10-17T14:11:14.463628+05:30",
   "date_range": [
-    "2026-09-17",
-    "2026-10-16"
+    "2026-09-18",
+    "2026-10-17"
   ],
   "daily": {
-    "2026-09-17": {
-      "date": "2026-09-17",
-      "steps": 3942,
-      "calories": 2787,
-      "distance_km": 53.08,
-      "sleep_hours": "7h 21m",
-      "sleep_score": "89 (GOOD)",
-      "sleep_deep": "1h 49m",
-      "sleep_light": "3h 49m",
-      "sleep_rem": "1h 43m",
-      "sleep_awake": "2m",
-      "hrv": 61,
-      "resting_hr": 51,
-      "body_battery": 63,
-      "stress": 41,
-      "training_readiness": 95,
-      "moderate_minutes": 32,
-      "vigorous_minutes": 61,
-      "_raw": {
-        "sleep": {
-          "dailySleepDTO": {
-            "sleepStartTimestampLocal": 1789596180000,
-            "sleepStartTimestampGMT": 1789576380000,
-            "sleepEndTimestampLocal": 1789622760000,
-            "sleepEndTimestampGMT": 1789602960000,
-            "sleepTimeSeconds": 26460,
-            "deepSleepSeconds": 6540,
-            "lightSleepSeconds": 13740,
-            "remSleepSeconds": 6180,
-            "awakeSleepSeconds": 120
-          }
-        }
-      }
-    },
     "2026-09-18": {
       "date": "2026-09-18",
       "steps": 2364,
@@ -993,9 +959,9 @@
     },
     "2026-10-16": {
       "date": "2026-10-16",
-      "steps": 488,
-      "calories": 1688,
-      "distance_km": 63.57,
+      "steps": 2556,
+      "calories": 3003,
+      "distance_km": 65.25,
       "sleep_hours": "6h 8m",
       "sleep_score": "72 (FAIR)",
       "sleep_deep": "1h 22m",
@@ -1004,8 +970,8 @@
       "sleep_awake": "12m",
       "hrv": 70,
       "resting_hr": 52,
-      "body_battery": 57,
-      "stress": 22,
+      "body_battery": 59,
+      "stress": 38,
       "training_readiness": 85,
       "moderate_minutes": 42,
       "vigorous_minutes": 78,
@@ -1024,27 +990,43 @@
           }
         }
       }
+    },
+    "2026-10-17": {
+      "date": "2026-10-17",
+      "steps": 484,
+      "calories": 980,
+      "distance_km": 32.3,
+      "sleep_hours": "6h 2m",
+      "sleep_score": "73 (FAIR)",
+      "sleep_deep": "1h 15m",
+      "sleep_light": "4h 6m",
+      "sleep_rem": "41m",
+      "sleep_awake": "11m",
+      "hrv": 66,
+      "resting_hr": 55,
+      "body_battery": 54,
+      "stress": 24,
+      "training_readiness": 78,
+      "moderate_minutes": 15,
+      "vigorous_minutes": 16,
+      "_raw": {
+        "sleep": {
+          "dailySleepDTO": {
+            "sleepStartTimestampLocal": 1792193820000,
+            "sleepStartTimestampGMT": 1792174020000,
+            "sleepEndTimestampLocal": 1792216200000,
+            "sleepEndTimestampGMT": 1792196400000,
+            "sleepTimeSeconds": 21720,
+            "deepSleepSeconds": 4500,
+            "lightSleepSeconds": 14760,
+            "remSleepSeconds": 2460,
+            "awakeSleepSeconds": 660
+          }
+        }
+      }
     }
   },
   "activities": [
-    {
-      "id": "24390942487",
-      "date": "2026-09-17",
-      "name": "Kolhapur Road Cycling",
-      "sport": "road_biking",
-      "duration": "1h 36m",
-      "duration_seconds": 5808.2080078125,
-      "distance_km": 50.01,
-      "calories": 809.0,
-      "avg_hr": 148.0,
-      "max_hr": 181.0,
-      "elevation_gain": 230.0,
-      "_raw": {
-        "activityId": 24390942487,
-        "elevationGain": 230.0,
-        "maxPower": 540.0
-      }
-    },
     {
       "id": "24403088892",
       "date": "2026-09-18",
@@ -1277,6 +1259,24 @@
         "activityId": 24740426357,
         "elevationGain": 269.0,
         "maxPower": 588.0
+      }
+    },
+    {
+      "id": "24751011418",
+      "date": "2026-10-17",
+      "name": "Kolhapur Road Cycling",
+      "sport": "road_biking",
+      "duration": "1h 15m",
+      "duration_seconds": 4551.9580078125,
+      "distance_km": 31.95,
+      "calories": 410.0,
+      "avg_hr": 120.0,
+      "max_hr": 146.0,
+      "elevation_gain": 153.0,
+      "_raw": {
+        "activityId": 24751011418,
+        "elevationGain": 153.0,
+        "maxPower": 506.0
       }
     }
   ]
