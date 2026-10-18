@@ -1,33 +1,33 @@
 You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is 2026-10-17. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is 2026-10-18. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-10-11: steps=5821 sleep=7h 12m (89 (GOOD)) hrv=78 rhr=50 bb=68 stress=36 readiness=93
 2026-10-12: steps=6762 sleep=8h 12m (72 (FAIR)) hrv=66 rhr=54 bb=74 stress=36 readiness=80
 2026-10-13: steps=4450 sleep=5h 58m (69 (FAIR)) hrv=63 rhr=53 bb=58 stress=37 readiness=83
 2026-10-14: steps=2932 sleep=5h 54m (72 (FAIR)) hrv=75 rhr=50 bb=70 stress=40 readiness=75
 2026-10-15: steps=2835 sleep=7h 28m (83 (GOOD)) hrv=70 rhr=54 bb=75 stress=32 readiness=73
 2026-10-16: steps=2556 sleep=6h 8m (72 (FAIR)) hrv=70 rhr=52 bb=59 stress=38 readiness=85
-2026-10-17: steps=484 sleep=6h 2m (73 (FAIR)) hrv=66 rhr=55 bb=54 stress=24 readiness=78
+2026-10-17: steps=4845 sleep=6h 2m (73 (FAIR)) hrv=66 rhr=55 bb=59 stress=34 readiness=78
+2026-10-18: steps=530 sleep=5h 19m (68 (FAIR)) hrv=65 rhr=55 bb=55 stress=24 readiness=74
 
 Recent rides last 7:
-2026-10-06 Kolhapur Road Cycling 59.04km 1h 52m avgHR=149.0 maxHR=178.0 elev=331.0 cals=1052.0
 2026-10-08 Kolhapur Road Cycling 50.04km 1h 37m avgHR=146.0 maxHR=182.0 elev=223.0 cals=795.0
 2026-10-10 Kolhapur Road Cycling 70.07km 2h 16m avgHR=142.0 maxHR=167.0 elev=293.0 cals=1106.0
 2026-10-13 Kolhapur Road Cycling 60.07km 1h 57m avgHR=146.0 maxHR=178.0 elev=339.0 cals=1036.0
 2026-10-14 Kolhapur Road Cycling 40.04km 1h 32m avgHR=141.0 maxHR=187.0 elev=306.0 cals=713.0
 2026-10-16 Kolhapur Road Cycling 63.27km 2h 0m avgHR=146.0 maxHR=182.0 elev=269.0 cals=1041.0
 2026-10-17 Kolhapur Road Cycling 31.95km 1h 15m avgHR=120.0 maxHR=146.0 elev=153.0 cals=410.0
+2026-10-18 Kolhapur Road Cycling 80.07km 2h 39m avgHR=154.0 maxHR=182.0 elev=454.0 cals=1513.0
 
 Best power per ride (real directPower rolling maxima):
-2026-10-06 09239: 10s=403 30s=347 60s=322 5m=220 20m=175 1h=161 avg=150.6 NP=177.8 max=476.0
 2026-10-08 21747: 10s=528 30s=311 60s=268 5m=197 20m=170 1h=152 avg=129.5 NP=166.3 max=650.0
 2026-10-10 39032: 10s=382 30s=296 60s=238 5m=189 20m=171 1h=152 avg=131.9 NP=157.9 max=518.0
 2026-10-13 69003: 10s=404 30s=345 60s=294 5m=205 20m=175 1h=158 avg=140.2 NP=174.2 max=567.0
 2026-10-14 04499: 10s=403 30s=341 60s=314 5m=263 20m=197 1h=150 avg=123.5 NP=176.1 max=448.0
 2026-10-16 26357: 10s=462 30s=313 60s=262 5m=199 20m=173 1h=162 avg=137.7 NP=167.4 max=588.0
-2026-10-17 11418: 10s=264 30s=199 60s=184 5m=139 20m=119 1h=92 avg=82.9 NP=None max=None
+2026-10-17 11418: 10s=264 30s=199 60s=184 5m=139 20m=119 1h=92 avg=82.9 NP=116.1 max=506.0
+2026-10-18 29319: 10s=380 30s=343 60s=295 5m=281 20m=281 1h=281 avg=153.5 NP=None max=None
 
 Additional: HR zones: LTHR 175, Max 196 => Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172. Power zones: FTP 271W (stale 2025-03-04) => Z1<148, Z2 148-203, Z3 203-244, Z4 244-284, Z5 284-324, Z6 324-406, Z7>406. VO2max null.
 FTP is stale (271W from 2025-03-04). 20m bests are 143-204W, so true FTP likely ~150-195W. Training readiness, HRV, RHR, sleep are volatile.

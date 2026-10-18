@@ -1,6 +1,8 @@
-# AI Cycling Insights — 2026-10-17  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — showing last successful set
 
-_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
+_AI generation failed 2026-10-18T08:58:17.770963: All models failed. Last: deepseek/deepseek-chat-v3-0324:free: 404 {"error":{"message":"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat-v3-0324","code":404},"user_id":"user_3IYEQbQMsrAEpHDK4nr5tM7rauF"}_
+
+The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
 
 ### Insight 1: Oct 17 easy ride was actually moderately intense
 The Oct 17 31.95km ride averaged 120 bpm with max HR 146 bpm—a pace closer to your typical easy threshold than your usual 90-minute cruises. This suggests your 'recovery' ride is actually maintaining a moderate intensity rather than true light spinning. Keep future single-day efforts under 45 minutes to preserve fresh legs for longer sessions.
