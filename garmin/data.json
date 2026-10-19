@@ -1,44 +1,10 @@
 {
-  "generated_at": "2026-10-18T14:27:48.934503+05:30",
+  "generated_at": "2026-10-19T15:35:55.481350+05:30",
   "date_range": [
-    "2026-09-19",
-    "2026-10-18"
+    "2026-09-20",
+    "2026-10-19"
   ],
   "daily": {
-    "2026-09-19": {
-      "date": "2026-09-19",
-      "steps": 4300,
-      "calories": 2001,
-      "distance_km": 3.5,
-      "sleep_hours": "6h 32m",
-      "sleep_score": "76 (FAIR)",
-      "sleep_deep": "1h 8m",
-      "sleep_light": "4h 41m",
-      "sleep_rem": "43m",
-      "sleep_awake": "16m",
-      "hrv": 67,
-      "resting_hr": 53,
-      "body_battery": 73,
-      "stress": 35,
-      "training_readiness": 85,
-      "moderate_minutes": 0,
-      "vigorous_minutes": 0,
-      "_raw": {
-        "sleep": {
-          "dailySleepDTO": {
-            "sleepStartTimestampLocal": 1789773780000,
-            "sleepStartTimestampGMT": 1789753980000,
-            "sleepEndTimestampLocal": 1789798260000,
-            "sleepEndTimestampGMT": 1789778460000,
-            "sleepTimeSeconds": 23520,
-            "deepSleepSeconds": 4080,
-            "lightSleepSeconds": 16860,
-            "remSleepSeconds": 2580,
-            "awakeSleepSeconds": 960
-          }
-        }
-      }
-    },
     "2026-09-20": {
       "date": "2026-09-20",
       "steps": 2797,
@@ -1021,6 +987,40 @@
             "lightSleepSeconds": 9720,
             "remSleepSeconds": 3180,
             "awakeSleepSeconds": 900
+          }
+        }
+      }
+    },
+    "2026-10-19": {
+      "date": "2026-10-19",
+      "steps": null,
+      "calories": "N/A",
+      "distance_km": "N/A",
+      "sleep_hours": "N/A",
+      "sleep_score": "N/A",
+      "sleep_deep": "N/A",
+      "sleep_light": "N/A",
+      "sleep_rem": "N/A",
+      "sleep_awake": "N/A",
+      "hrv": "N/A",
+      "resting_hr": "N/A",
+      "body_battery": "{'date': '2026-10-19', 'charged': None, 'drained': None, 'startTimestampGMT': No",
+      "stress": "N/A",
+      "training_readiness": "N/A",
+      "moderate_minutes": null,
+      "vigorous_minutes": null,
+      "_raw": {
+        "sleep": {
+          "dailySleepDTO": {
+            "sleepStartTimestampLocal": null,
+            "sleepStartTimestampGMT": null,
+            "sleepEndTimestampLocal": null,
+            "sleepEndTimestampGMT": null,
+            "sleepTimeSeconds": null,
+            "deepSleepSeconds": null,
+            "lightSleepSeconds": null,
+            "remSleepSeconds": null,
+            "awakeSleepSeconds": null
           }
         }
       }

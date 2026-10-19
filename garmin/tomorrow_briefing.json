@@ -1,24 +1,21 @@
 {
-  "for_date": "2026-10-19",
-  "verdict": "rest",
-  "verdict_label": "Rest day",
+  "for_date": "2026-10-20",
+  "verdict": "easy",
+  "verdict_label": "Easy spin only — Recovery spin",
   "reasons": [
     "Only 5h 19m sleep (2026-10-18)",
-    "Today's ride was big (80 km, avg HR 154) — body needs absorption time",
-    "Rode 3 days straight — a day off protects the streak"
+    "One yellow flag: keep it conversational"
   ],
   "context": {
     "rides_7d": 5,
     "km_7d": 275.4,
     "acwr": 1.83,
     "avg_gap_days": 2.2,
-    "days_since_ride": 0,
-    "days_since_hard": 4,
-    "today": "80 km, avg HR 154",
+    "days_since_ride": 1,
+    "days_since_hard": 1,
+    "today": "rest",
     "flags": [
-      "Only 5h 19m sleep (2026-10-18)",
-      "Today's ride was big (80 km, avg HR 154) — body needs absorption time",
-      "Rode 3 days straight — a day off protects the streak"
+      "Only 5h 19m sleep (2026-10-18)"
     ],
     "last10": [
       {
@@ -73,44 +70,51 @@
       }
     ]
   },
-  "ride": null,
-  "rest_plan": [
-    "No bike. 20–30 min easy walk (conversational pace, <5k steps extra) OR full couch — your call",
-    "5-min mobility: calves, quads, hip flexors, thoracic opener",
-    "If legs feel heavy: 10 min easy spin with zero resistance is allowed, HR <130",
-    "Normal food + the hydration above; early night beats everything"
-  ],
+  "ride": {
+    "title": "Recovery spin",
+    "distance": "20 km (≈55 min)",
+    "duration_h": 0.91,
+    "warmup": "First 10 min dead easy, cadence 85–95",
+    "main": "Entirely Z1 (<139 bpm), conversational — you should be able to hum",
+    "variation": "6 × 1-min fast pedals (100+ rpm, stays Z1) with 4-min easy between — leg speed, zero load",
+    "cooldown": "Last 5 min super easy + 5-min stretch off the bike",
+    "pace": "Cap HR at 139 bpm; ignore speed; RPE 2–3/10"
+  },
+  "rest_plan": null,
   "fuel": {
-    "pre": [],
-    "during": [],
+    "pre": [
+      "Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs",
+      "5:30 AM +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll 6:20 AM"
+    ],
+    "during": [
+      "1 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)",
+      "Water + Reload is enough under ~75 min — no gel needed"
+    ],
     "post": [
-      "Eat normally; keep 1–2 bananas in the day as usual",
-      "2–3 L water through the day + 1 Reload serving in the afternoon bottle",
-      "Dinner with protein + carbs — recovery is built overnight"
+      "Within 30–60 min: 1–2 bananas + a protein-rich meal",
+      "500 ml water with 1 Reload within the hour"
     ]
   },
   "sleep": {
-    "usual_bedtime": "11:28 PM",
+    "usual_bedtime": "11:19 PM",
     "tonight": "9:30 PM",
     "target": "8.0 h",
     "notes": [
       "Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM",
-      "Your recent usual is 11:28 PM — move 15 min earlier every 2 nights",
+      "Your recent usual is 11:19 PM — move 15 min earlier every 2 nights",
       "You're running a small sleep debt — tonight matters more than usual",
       "Screens off 30 min before bed; cool, dark room"
     ]
   },
   "weather": {
-    "temp_c": 24.4,
-    "humidity": 87,
-    "rain_pct": 1,
-    "wind_kmh": 4.6
+    "temp_c": 25.4,
+    "humidity": 68,
+    "rain_pct": 0,
+    "wind_kmh": 6.4
   },
-  "wx_notes": [
-    "Warm/humid (24.4C, 87% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
-  ],
+  "wx_notes": [],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-10-18T08:58:17.967402+00:00",
+  "generated_at": "2026-10-19T10:06:22.179893+00:00",
   "model": "rules-v1"
 }
