@@ -1,28 +1,20 @@
 {
-  "for_date": "2026-10-20",
+  "for_date": "2026-10-21",
   "verdict": "easy",
   "verdict_label": "Easy spin only — Recovery spin",
   "reasons": [
-    "Only 5h 19m sleep (2026-10-18)",
-    "One yellow flag: keep it conversational"
+    "Today was an easy 50 km — a recovery spin keeps legs turning over"
   ],
   "context": {
-    "rides_7d": 5,
-    "km_7d": 275.4,
-    "acwr": 1.83,
-    "avg_gap_days": 2.2,
-    "days_since_ride": 1,
-    "days_since_hard": 1,
-    "today": "rest",
-    "flags": [
-      "Only 5h 19m sleep (2026-10-18)"
-    ],
+    "rides_7d": 6,
+    "km_7d": 325.4,
+    "acwr": 1.74,
+    "avg_gap_days": 2.1,
+    "days_since_ride": 0,
+    "days_since_hard": 2,
+    "today": "50 km, avg HR 142",
+    "flags": [],
     "last10": [
-      {
-        "date": "2026-09-28",
-        "km": 50.07,
-        "avg_hr": 137.0
-      },
       {
         "date": "2026-10-01",
         "km": 55.03,
@@ -67,6 +59,11 @@
         "date": "2026-10-18",
         "km": 80.07,
         "avg_hr": 154.0
+      },
+      {
+        "date": "2026-10-20",
+        "km": 50.04,
+        "avg_hr": 142.0
       }
     ]
   },
@@ -96,25 +93,24 @@
     ]
   },
   "sleep": {
-    "usual_bedtime": "11:19 PM",
+    "usual_bedtime": "11:24 PM",
     "tonight": "9:30 PM",
     "target": "8.0 h",
     "notes": [
       "Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM",
-      "Your recent usual is 11:19 PM — move 15 min earlier every 2 nights",
-      "You're running a small sleep debt — tonight matters more than usual",
+      "Your recent usual is 11:24 PM — move 15 min earlier every 2 nights",
       "Screens off 30 min before bed; cool, dark room"
     ]
   },
   "weather": {
-    "temp_c": 25.4,
-    "humidity": 68,
+    "temp_c": 25.1,
+    "humidity": 58,
     "rain_pct": 0,
-    "wind_kmh": 6.4
+    "wind_kmh": 9.0
   },
   "wx_notes": [],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-10-19T10:06:22.179893+00:00",
+  "generated_at": "2026-10-20T09:39:29.808503+00:00",
   "model": "rules-v1"
 }
