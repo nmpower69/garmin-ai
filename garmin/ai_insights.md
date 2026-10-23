@@ -1,6 +1,8 @@
-# AI Cycling Insights — 2026-10-22  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — showing last successful set
 
-_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
+_AI generation failed 2026-10-23T09:36:36.185012: All models failed. Last: deepseek/deepseek-chat-v3-0324:free: 404 {"error":{"message":"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat-v3-0324","code":404},"user_id":"user_3IYEQbQMsrAEpHDK4nr5tM7rauF"}_
+
+The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
 
 ### Insight 1: Oct 20 ride pushed beyond typical easy cadence range
 Your Oct 20 ride averaged 142 bpm (zone 2), just 3 beats above the lower end of zone 3. If your usual easy rides hover near 130-135 bpm, this indicates you may have been pushing slightly harder than intended during a longer session. Consider tracking your easy-ride baseline to ensure future relaxed rides stay within comfort territory.
