@@ -1,6 +1,8 @@
-# AI Cycling Insights — 2026-10-27  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — showing last successful set
 
-_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
+_AI generation failed 2026-10-28T10:42:24.098777: All models failed. Last: deepseek/deepseek-chat-v3-0324:free: 404 {"error":{"message":"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat-v3-0324","code":404},"user_id":"user_3IYEQbQMsrAEpHDK4nr5tM7rauF"}_
+
+The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
 
 ### Insight 1: Easy 50km ride on 2026-10-27 underperformed despite moderate intensity
 The 50.06km ride on 2026-10-27 had 758 steps and a 1h 35m duration, but the rider's readiness was only 78 (fair) and sleep was critically low at 4h 55m. The average heart rate of 145bpm suggests the effort was below the rider's comfort zone, meaning the effort volume did not match the rider's current fitness state.
