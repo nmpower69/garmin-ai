@@ -1,5 +1,5 @@
 {
-  "for_date": "2026-10-29",
+  "for_date": "2026-10-30",
   "verdict": "easy",
   "verdict_label": "Easy spin only — Recovery spin",
   "reasons": [
@@ -9,10 +9,10 @@
   "context": {
     "rides_7d": 4,
     "km_7d": 198.4,
-    "acwr": 1.06,
+    "acwr": 0.77,
     "avg_gap_days": 1.6,
-    "days_since_ride": 1,
-    "days_since_hard": 1,
+    "days_since_ride": 2,
+    "days_since_hard": 2,
     "today": "rest",
     "flags": [
       "Only 4h 55m sleep (2026-10-27)"
@@ -107,14 +107,16 @@
     ]
   },
   "weather": {
-    "temp_c": 24.2,
-    "humidity": 71,
-    "rain_pct": 4,
-    "wind_kmh": 4.1
+    "temp_c": 23.3,
+    "humidity": 82,
+    "rain_pct": 0,
+    "wind_kmh": 5.3
   },
-  "wx_notes": [],
+  "wx_notes": [
+    "Warm/humid (23.3C, 82% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
+  ],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-10-28T10:42:24.795667+00:00",
+  "generated_at": "2026-10-29T10:59:34.611236+00:00",
   "model": "rules-v1"
 }
