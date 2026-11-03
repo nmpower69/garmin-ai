@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: Easy 50km ride on 2026-10-27 underperformed despite moderate intensity",
-    "description": "The 50.06km ride on 2026-10-27 had 758 steps and a 1h 35m duration, but the rider's readiness was only 78 (fair) and sleep was critically low at 4h 55m. The average heart rate of 145bpm suggests the effort was below the rider's comfort zone, meaning the effort volume did not match the rider's current fitness state.",
+    "title": "Insight 1: Oct 27 ride breached easy ceiling by 8 bpm",
+    "description": "On 2026-10-27 you covered 50.06km with an average cadence of 146.5 bpm, which exceeds your Z1 easy threshold of 139 bpm. This indicates you were riding harder than your easy zone, which can lead to premature fatigue if maintained. Try moderating your pace next time or shorten the ride to stay in the optimal cadence range.",
     "badge": "warn",
-    "badgeText": "Poor recovery signaling"
+    "badgeText": "Zone drift"
   },
   {
-    "title": "Insight 2: 80km ride on 2026-10-18 carried heavy cumulative load",
-    "description": "The 80.07km ride on 2026-10-18 covered significant distance with an average heart rate of 154bpm and maximum of 182bpm, and included 454m of elevation gain. This long effort likely pushed the rider's cardiovascular system to its limits with notable vertical stress. Future long rides should be balanced with recovery to avoid cumulative fatigue.",
+    "title": "Insight 2: Nov 1 long ride carries high vertical load",
+    "description": "Your 62.02km ride on 2026-11-01 (1h 54m) had 253m of elevation gain, creating significant vertical stress on your legs. Combined with the ride duration, this is a high-load day that can impact recovery. Ensure you have an easy recovery ride or rest day after such climbs to allow muscle repair.",
+    "badge": "ok",
+    "badgeText": "Cumulative stress"
+  },
+  {
+    "title": "Insight 3: Nov 1-2 pattern shows high ride density",
+    "description": "You had a substantial 62km ride on 2026-11-01 followed by no data on 2026-11-02, suggesting a potential high-load accumulation if the next ride is also long. High ride density can increase cumulative fatigue and reduce performance. Schedule a recovery day or a shorter, easy ride between long efforts to support recovery.",
     "badge": "warn",
-    "badgeText": "High cumulative load"
+    "badgeText": "Recovery risk"
   },
   {
-    "title": "Insight 3: Recovery density risk on 2026-10-24-25",
-    "description": "Between the 3328-step ride on 2026-10-24 and the 2320-step ride on 2026-10-25, the rider experienced declining readiness (from 82 to 91) despite moderate step counts. The drop in sleep from 6h 33m to 6h 7m and the low readiness score of 78 on 2026-10-24 signal potential insufficient recovery. This pattern warrants attention.",
+    "title": "Insight 4: Steady climbing in ride distances",
+    "description": "Over the last week, your rides have increased from 39km to 62km, showing a positive progression in volume and duration. This is a healthy sign of building endurance, though the 2026-10-31 low readiness (69) suggests a potential dip. Maintain this upward trend with consistent training rather than plateauing.",
+    "badge": "ok",
+    "badgeText": "Positive trend"
+  },
+  {
+    "title": "Insight 5: Power zones need recalibration with recent data",
+    "description": "Your FTP is stale (271W from 2025-03-04), while recent 20m bests range from 143-204W, indicating a more realistic FTP of ~150-195W. The current zone model (Z1<148, Z2 148-203, etc.) may be outdated. Recalibrate using the latest power data to ensure training zones align with your current fitness.",
+    "badge": "ok",
+    "badgeText": "Zone model"
+  },
+  {
+    "title": "Insight 6: Aim for 80/20 polarized training",
+    "description": "Your recent rides have been predominantly longer (60%+ of weekly volume), which leans toward a higher hard effort proportion than the ideal 80/20 split. To maximize gains and reduce injury risk, keep most rides in Z1-Z2 (easy/moderate) and limit hard efforts to short bursts. This will improve your aerobic base while allowing targeted strength development.",
+    "badge": "ok",
+    "badgeText": "Progressive balance"
+  },
+  {
+    "title": "Insight 7: Watch for lowering readiness and sleep",
+    "description": "Readiness dropped to 69 on 2026-10-31 and 60 on 2026-11-01, with sleep as low as 4h 49m on 2026-11-01. These are early indicators of accumulated fatigue that could impair performance. Prioritize 7-9 hours of sleep and consider an active recovery day if readiness stays below 65.",
     "badge": "warn",
-    "badgeText": "Declining recovery"
+    "badgeText": "Fatigue warning"
   },
   {
-    "title": "Insight 4: Mid-distance cycling progression shows recent variability",
-    "description": "Over the past week, the rider alternated between shorter 50-55km rides and a long 80km effort on 2026-10-18, with mid-distance rides on 2026-10-20 (54km) and 2026-10-26 (35km). The recent return to mid-distance distances after the long ride suggests a need for stable mid-range efforts rather than constant swing between extremes. Consistent mid-distance work would build endurance more reliably.",
+    "title": "Insight 8: Add short sprints for reactive strength",
+    "description": "Your maxHR peaks (up to 195 bpm on 2026-10-31) show good reactive capacity, but you need structured sprint work to build it further. Incorporate 1-2x per week 30-60 second sprints at 90-95% maxHR to enhance power without overloading your aerobic system.",
     "badge": "ok",
-    "badgeText": "Variable progression"
+    "badgeText": "Strength focus"
   },
   {
-    "title": "Insight 5: Zone model needs recalibration with recent data",
-    "description": "The power zones were originally based on a stale FTP estimate of 271W (2025-03-04). Recent 20-minute power outputs range from 123.7W to 169.6W, suggesting a true FTP likely between 150-195W. Adjusting zone thresholds based on this recalibrated model (FTP ~170W) will better match the rider's actual performance. This alignment can improve training prescription accuracy.",
+    "title": "Insight 9: Threshold intervals for VO2max gain",
+    "description": "To boost your VO2max, include a 20-minute ride at 88-95% of your estimated FTP (~132-185W) once weekly. This should be a steady, threshold effort rather than an all-out effort. Combine with a longer moderate ride on another day to balance intensity and volume.",
     "badge": "ok",
-    "badgeText": "Zone misalignment"
+    "badgeText": "VO2max focus"
   },
   {
-    "title": "Insight 6: Polarized approach evident in recent ride mix",
-    "description": "The rider's recent week includes a 50km ride (1h 35m) and an 80km ride (2h 39m) on 2026-10-18, with shorter efforts on other days. This pattern aligns with a polarized model where most volume is in the easy zone and few efforts are hard. Maintaining this balance while adding targeted hard sessions will optimize fitness without overtraining.",
+    "title": "Insight 10: Update FTP target range",
+    "description": "Your FTP is outdated (271W from 2025-03-04). Based on recent 20m bests (143-204W), your true FTP is approximately 150-195W. Use this range for threshold sessions (88-95% FTP) and VO2max intervals (95-105% FTP). Regular re-assessment every 8-12 weeks will keep your training zones accurate.",
     "badge": "ok",
-    "badgeText": "Good polarized"
-  },
-  {
-    "title": "Insight 7: Recovery warning signs emerging",
-    "description": "The rider's sleep dropped to 4h 55m on 2026-10-27 with a readiness score of 78, the lowest in the past week. Despite a 50km effort, the low sleep and declining readiness indicate insufficient restorative rest. Addressing sleep quality and ensuring adequate recovery before the next long ride is essential.",
-    "badge": "warn",
-    "badgeText": "Low readiness"
-  },
-  {
-    "title": "Insight 8: Explosive reactive power identified",
-    "description": "The 10-second power output reached 567W on 2026-10-27, significantly above the estimated FTP range, indicating strong reactive or sprint-capable power. This ability to produce high power in short bursts suggests potential for improving threshold and VO2max with focused interval training. The rider should incorporate short, high-intensity efforts to develop this strength.",
-    "badge": "ok",
-    "badgeText": "High reactive power"
-  },
-  {
-    "title": "Insight 9: Dedicated interval work needed for VO2max gains",
-    "description": "Current long rides at average HR 145-154bpm lack sustained high-intensity intervals that would boost VO2max. Adding 2-3 weekly interval sessions (e.g., 4x4min@160-170W with 3min recovery) would systematically improve threshold and aerobic capacity. This targeted work complements the rider's polarized base training.",
-    "badge": "ok",
-    "badgeText": "Intervals needed"
-  },
-  {
-    "title": "Insight 10: FTP re-test recommended for accuracy",
-    "description": "The FTP estimate of 271W from 2025-03-04 is outdated. Recent 20-minute power outputs of 123.7-169.6W suggest a more realistic FTP of 150-195W. A new power test is necessary to establish an accurate FTP baseline, which will inform proper training zone settings and race preparation. The current stale data could mislead training decisions.",
-    "badge": "warn",
-    "badgeText": "Outdated FTP"
+    "badgeText": "FTP update"
   }
 ]

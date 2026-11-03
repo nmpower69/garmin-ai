@@ -1,5 +1,5 @@
 {
-  "for_date": "2026-11-03",
+  "for_date": "2026-11-04",
   "verdict": "easy",
   "verdict_label": "Easy spin only — Recovery spin",
   "reasons": [
@@ -9,10 +9,10 @@
   "context": {
     "rides_7d": 3,
     "km_7d": 166.4,
-    "acwr": 0.76,
+    "acwr": 0.54,
     "avg_gap_days": 1.8,
-    "days_since_ride": 1,
-    "days_since_hard": 1,
+    "days_since_ride": 2,
+    "days_since_hard": 2,
     "today": "rest",
     "flags": [
       "Only 4h 49m sleep (2026-11-01)"
@@ -96,27 +96,25 @@
     ]
   },
   "sleep": {
-    "usual_bedtime": "11:50 PM",
+    "usual_bedtime": "12:04 AM",
     "tonight": "9:30 PM",
     "target": "8.0 h",
     "notes": [
       "Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM",
-      "Your recent usual is 11:50 PM — move 15 min earlier every 2 nights",
+      "Your recent usual is 12:04 AM — move 15 min earlier every 2 nights",
       "You're running a small sleep debt — tonight matters more than usual",
       "Screens off 30 min before bed; cool, dark room"
     ]
   },
   "weather": {
-    "temp_c": 23.0,
-    "humidity": 88,
-    "rain_pct": 3,
-    "wind_kmh": 5.6
+    "temp_c": 24.3,
+    "humidity": 73,
+    "rain_pct": 0,
+    "wind_kmh": 7.1
   },
-  "wx_notes": [
-    "Warm/humid (23.0C, 88% RH) — add 1 extra Reload bottle, cap effort ~5 bpm lower"
-  ],
+  "wx_notes": [],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-11-02T12:42:25.046826+00:00",
+  "generated_at": "2026-11-03T12:08:20.276034+00:00",
   "model": "rules-v1"
 }
