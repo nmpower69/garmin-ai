@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: Oct 27 ride breached easy ceiling by 8 bpm",
-    "description": "On 2026-10-27 you covered 50.06km with an average cadence of 146.5 bpm, which exceeds your Z1 easy threshold of 139 bpm. This indicates you were riding harder than your easy zone, which can lead to premature fatigue if maintained. Try moderating your pace next time or shorten the ride to stay in the optimal cadence range.",
+    "title": "Insight 1: High readiness on rest day signals excellent recovery readiness",
+    "description": "On 2026-11-04 your readiness score was 95 (EXCELLENT) despite only 416 steps, confirming your body is fully recovered. This is a great state for a joyful ride—use this momentum to maintain a balanced training pace rather than pushing harder than needed.",
+    "badge": "ok",
+    "badgeText": "AI"
+  },
+  {
+    "title": "Insight 2: Long flat-road rides build aerobic base without vertical load stress",
+    "description": "Your 2026-11-01 ride of 62.02km at 1h54m with 253m elevation gain shows solid aerobic development on Kolhapur's flat terrain. The moderate elevation keeps the workout enjoyable while strengthening your heart and lungs.",
+    "badge": "ok",
+    "badgeText": "AI"
+  },
+  {
+    "title": "Insight 3: Three consecutive longer rides followed by a high-readiness day warrants recovery attention",
+    "description": "Rides on 2026-10-25 (54.02km), 2026-10-27 (50.06km), and 2026-11-01 (62.02km) show good progression, but the 2026-11-03 readiness of 98 (very high) suggests your system is nearly saturated. Ensure an extra rest day or light spin before the next long effort to avoid overtraining.",
     "badge": "warn",
-    "badgeText": "Zone drift"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 2: Nov 1 long ride carries high vertical load",
-    "description": "Your 62.02km ride on 2026-11-01 (1h 54m) had 253m of elevation gain, creating significant vertical stress on your legs. Combined with the ride duration, this is a high-load day that can impact recovery. Ensure you have an easy recovery ride or rest day after such climbs to allow muscle repair.",
+    "title": "Insight 4: 2026-10-27's 50.06km ride at 146.5 avgHR is an excellent zone-2 build",
+    "description": "This ride averaged 145 bpm with a max of 184 bpm, representing solid aerobic development on Kolhapur's rolling flats. The moderate intensity kept you in a sustainable zone that supports long-term fitness and joyful cycling.",
     "badge": "ok",
-    "badgeText": "Cumulative stress"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 3: Nov 1-2 pattern shows high ride density",
-    "description": "You had a substantial 62km ride on 2026-11-01 followed by no data on 2026-11-02, suggesting a potential high-load accumulation if the next ride is also long. High ride density can increase cumulative fatigue and reduce performance. Schedule a recovery day or a shorter, easy ride between long efforts to support recovery.",
+    "title": "Insight 5: Estimated FTP of 150-195W from 20m power bests guides training zone selection",
+    "description": "The 10s=567 and 60s=343 sprints on 2026-10-27 produced a true FTP estimate between 150-195W, far below the stale 271W from 2025. Using this for zone definitions will help you train more effectively and safely.",
+    "badge": "ok",
+    "badgeText": "AI"
+  },
+  {
+    "title": "Insight 6: 80/20 polarized training fits your flat-terrain, joy-focused cycling style",
+    "description": "With 80% of your rides in zone 2 (like 2026-10-30 at 129.5 avgHR, 195 maxHR) and 20% at threshold, you're maximizing aerobic gains while keeping enjoyability high. This balance is ideal for a casual rider seeking consistent improvement without burnout.",
+    "badge": "ok",
+    "badgeText": "AI"
+  },
+  {
+    "title": "Insight 7: On 2026-11-01, high readiness (60) after a 3h ride signals recovery sequencing risk",
+    "description": "After your longest ride of the week (62.02km), your readiness dropped to 60, which is appropriate for recovery. However, the combination of long duration and moderate readiness warrants a light spin or rest before the next high-intensity effort.",
     "badge": "warn",
-    "badgeText": "Recovery risk"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 4: Steady climbing in ride distances",
-    "description": "Over the last week, your rides have increased from 39km to 62km, showing a positive progression in volume and duration. This is a healthy sign of building endurance, though the 2026-10-31 low readiness (69) suggests a potential dip. Maintain this upward trend with consistent training rather than plateauing.",
+    "title": "Insight 8: 2026-10-27's 10s=567 and 60s=343 power output built significant strength",
+    "description": "That ride with a 146.5 avgHR and 966W max power indicates solid aerobic development on Kolhapur's flat terrain. Maintaining this intensity while keeping the ride enjoyable is key to building lasting fitness.",
     "badge": "ok",
-    "badgeText": "Positive trend"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 5: Power zones need recalibration with recent data",
-    "description": "Your FTP is stale (271W from 2025-03-04), while recent 20m bests range from 143-204W, indicating a more realistic FTP of ~150-195W. The current zone model (Z1<148, Z2 148-203, etc.) may be outdated. Recalibrate using the latest power data to ensure training zones align with your current fitness.",
+    "title": "Insight 9: Add one 20-30min interval session weekly to target VO2max gains",
+    "description": "A single threshold interval (e.g., 4x3min at 95% FTP) once per week will help improve your aerobic ceiling without sacrificing the joy of your flat-road riding. Kolhapur's easy terrain makes this session both effective and pleasurable.",
     "badge": "ok",
-    "badgeText": "Zone model"
+    "badgeText": "AI"
   },
   {
-    "title": "Insight 6: Aim for 80/20 polarized training",
-    "description": "Your recent rides have been predominantly longer (60%+ of weekly volume), which leans toward a higher hard effort proportion than the ideal 80/20 split. To maximize gains and reduce injury risk, keep most rides in Z1-Z2 (easy/moderate) and limit hard efforts to short bursts. This will improve your aerobic base while allowing targeted strength development.",
+    "title": "Insight 10: Recalibrate FTP to 150-195W for more accurate training periodization",
+    "description": "Your recent 20m power bests (143-204W) and 2026-11-04 readiness of 95 suggest your current FTP is likely in the 150-195W range. Using this updated FTP for your zone assignments will provide a clearer path for joyful improvement.",
     "badge": "ok",
-    "badgeText": "Progressive balance"
-  },
-  {
-    "title": "Insight 7: Watch for lowering readiness and sleep",
-    "description": "Readiness dropped to 69 on 2026-10-31 and 60 on 2026-11-01, with sleep as low as 4h 49m on 2026-11-01. These are early indicators of accumulated fatigue that could impair performance. Prioritize 7-9 hours of sleep and consider an active recovery day if readiness stays below 65.",
-    "badge": "warn",
-    "badgeText": "Fatigue warning"
-  },
-  {
-    "title": "Insight 8: Add short sprints for reactive strength",
-    "description": "Your maxHR peaks (up to 195 bpm on 2026-10-31) show good reactive capacity, but you need structured sprint work to build it further. Incorporate 1-2x per week 30-60 second sprints at 90-95% maxHR to enhance power without overloading your aerobic system.",
-    "badge": "ok",
-    "badgeText": "Strength focus"
-  },
-  {
-    "title": "Insight 9: Threshold intervals for VO2max gain",
-    "description": "To boost your VO2max, include a 20-minute ride at 88-95% of your estimated FTP (~132-185W) once weekly. This should be a steady, threshold effort rather than an all-out effort. Combine with a longer moderate ride on another day to balance intensity and volume.",
-    "badge": "ok",
-    "badgeText": "VO2max focus"
-  },
-  {
-    "title": "Insight 10: Update FTP target range",
-    "description": "Your FTP is outdated (271W from 2025-03-04). Based on recent 20m bests (143-204W), your true FTP is approximately 150-195W. Use this range for threshold sessions (88-95% FTP) and VO2max intervals (95-105% FTP). Regular re-assessment every 8-12 weeks will keep your training zones accurate.",
-    "badge": "ok",
-    "badgeText": "FTP update"
+    "badgeText": "AI"
   }
 ]
