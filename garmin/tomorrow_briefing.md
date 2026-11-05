@@ -1,26 +1,27 @@
-# Tomorrow's briefing — 2026-11-05 (Ride tomorrow — VO2 refresher (5 × 3 min))
+# Tomorrow's briefing — 2026-11-06 (Easy spin only — Recovery spin)
 
 ## Verdict
-- Recovery is green (no flags) — readiness 95 (2026-11-04), HRV 77 (2026-11-04), RHR 52 (2026-11-04)
-- 3 day(s) since last ride (2026-11-01), 3 since last hard effort
+- Today was an easy 50 km — a recovery spin keeps legs turning over
 
-_Last 7d: 2 rides, 116.4 km · avg gap 1.8d · 3d since ride, 3d since hard · today: rest_
+_Last 7d: 3 rides, 166.4 km · avg gap 2.1d · 0d since ride, 4d since hard · today: 50 km, avg HR 140_
+
+_Kolhapur ride hours (5–9 AM): 24.2C, 70% RH, rain 2%, wind 10.7 km/h_
 
 ## Ride plan
-- **VO2 refresher (5 × 3 min)** — ≈40 km (≈85 min total)
-- Warmup: 15 min Z1–Z2 + 3 × 30-s openers
-- Main: 5 × 3 min at 172–178 bpm (high Z4/low Z5) with 3-min easy spins between
-- Twist: If legs feel great on rep 4, extend rep 5 to 4 min — never add a 6th rep
-- Cooldown: 12–15 min Z1 + stretch
-- Pace: Reps 172–178 bpm; everything else <159 bpm; RPE 8/10 on reps, 3/10 off
+- **Recovery spin** — 18 km (≈49 min)
+- Warmup: First 10 min dead easy, cadence 85–95
+- Main: Entirely Z1 (<139 bpm), conversational — you should be able to hum
+- Twist: 6 × 1-min fast pedals (100+ rpm, stays Z1) with 4-min easy between — leg speed, zero load
+- Cooldown: Last 5 min super easy + 5-min stretch off the bike
+- Pace: Cap HR at 139 bpm; ignore speed; RPE 2–3/10
 
 ## Fuel (bananas / Fast&Up gels / Reload)
 ### Pre
-- Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs, plus 1 extra roti — tomorrow is long/hard
+- Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs
 - 5:30 AM +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll 6:20 AM
 ### During
 - 1 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)
-- 1 × Fast&Up energy gel (~1 per 40–45 min after the first hour)
+- Water + Reload is enough under ~75 min — no gel needed
 ### Post
 - Within 30–60 min: 1–2 bananas + a protein-rich meal
 - 500 ml water with 1 Reload within the hour
@@ -31,4 +32,4 @@ _Last 7d: 2 rides, 116.4 km · avg gap 1.8d · 3d since ride, 3d since hard · t
 - Your recent usual is 12:05 AM — move 15 min earlier every 2 nights
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-11-04T12:21:21.071183+00:00 by rules-v1_
+_Generated 2026-11-05T12:35:28.223848+00:00 by rules-v1_
