@@ -1,14 +1,15 @@
-# Tomorrow's briefing — 2026-11-06 (Easy spin only — Recovery spin)
+# Tomorrow's briefing — 2026-11-07 (Easy spin only — Recovery spin)
 
 ## Verdict
-- Today was an easy 50 km — a recovery spin keeps legs turning over
+- Only 5h 9m sleep (2026-11-06)
+- Today you rode 47 km — tomorrow stays gentle
 
-_Last 7d: 3 rides, 166.4 km · avg gap 2.1d · 0d since ride, 4d since hard · today: 50 km, avg HR 140_
+_Last 7d: 4 rides, 213.5 km · avg gap 2.1d · 0d since ride, 1d since hard · today: 47 km, avg HR 148_
 
-_Kolhapur ride hours (5–9 AM): 24.2C, 70% RH, rain 2%, wind 10.7 km/h_
+_Kolhapur ride hours (5–9 AM): 24.5C, 64% RH, rain 0%, wind 9.3 km/h_
 
 ## Ride plan
-- **Recovery spin** — 18 km (≈49 min)
+- **Recovery spin** — 19 km (≈52 min)
 - Warmup: First 10 min dead easy, cadence 85–95
 - Main: Entirely Z1 (<139 bpm), conversational — you should be able to hum
 - Twist: 6 × 1-min fast pedals (100+ rpm, stays Z1) with 4-min easy between — leg speed, zero load
@@ -30,6 +31,7 @@ _Kolhapur ride hours (5–9 AM): 24.2C, 70% RH, rain 2%, wind 10.7 km/h_
 - Lights out: **9:30 PM** (usual 12:05 AM) — target **8.0 h**
 - Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM
 - Your recent usual is 12:05 AM — move 15 min earlier every 2 nights
+- You're running a small sleep debt — tonight matters more than usual
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-11-05T12:35:28.223848+00:00 by rules-v1_
+_Generated 2026-11-06T12:17:58.992852+00:00 by rules-v1_
