@@ -1,6 +1,6 @@
 # AI Cycling Insights — showing last successful set
 
-_AI generation failed 2026-11-06T12:17:58.594709: All models failed. Last: deepseek/deepseek-chat-v3-0324:free: 404 {"error":{"message":"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat-v3-0324","code":404},"user_id":"user_3IYEQbQMsrAEpHDK4nr5tM7rauF"}_
+_AI generation failed 2026-11-07T11:13:26.808848: All models failed. Last: deepseek/deepseek-chat-v3-0324:free: 404 {"error":{"message":"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat-v3-0324","code":404},"user_id":"user_3IYEQbQMsrAEpHDK4nr5tM7rauF"}_
 
 The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
 
