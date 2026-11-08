@@ -1,35 +1,33 @@
-# AI Cycling Insights — showing last successful set
+# AI Cycling Insights — 2026-11-08  (via liquid/lfm-2.5-2.6b:free)
 
-_AI generation failed 2026-11-07T11:13:26.808848: All models failed. Last: deepseek/deepseek-chat-v3-0324:free: 404 {"error":{"message":"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat-v3-0324","code":404},"user_id":"user_3IYEQbQMsrAEpHDK4nr5tM7rauF"}_
+_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
+### Insight 1: 62km ride on Nov 8 lacked intensity despite long distance
+The 62.39km ride on 2026-11-08 showed a low power average of 144.2W and no max power data, suggesting the effort was too easy for the distance. A longer ride should include more sustained climbing or higher cadence to build true fitness.
 
-### Insight 1: High readiness on rest day signals excellent recovery readiness
-On 2026-11-04 your readiness score was 95 (EXCELLENT) despite only 416 steps, confirming your body is fully recovered. This is a great state for a joyful ride—use this momentum to maintain a balanced training pace rather than pushing harder than needed.
+### Insight 2: Mid-week long ride on Nov 1 reached 62km with solid effort
+The 62.02km ride on 2026-11-01 had an average heart rate of 158 bpm and max HR of 195 bpm, indicating a well-paced long effort. This is a good block for building endurance, especially with the 253m elevation gain.
 
-### Insight 2: Long flat-road rides build aerobic base without vertical load stress
-Your 2026-11-01 ride of 62.02km at 1h54m with 253m elevation gain shows solid aerobic development on Kolhapur's flat terrain. The moderate elevation keeps the workout enjoyable while strengthening your heart and lungs.
+### Insight 3: Three consecutive riding days from Nov 5-8 create high load risk
+Rides on Nov 5 (50km), Nov 6 (47km), and Nov 8 (62km) occurred within three days, accumulating a high weekly volume. This pattern increases fatigue risk and may need a rest day or an easier ride to allow proper recovery.
 
-### Insight 3: Three consecutive longer rides followed by a high-readiness day warrants recovery attention
-Rides on 2026-10-25 (54.02km), 2026-10-27 (50.06km), and 2026-11-01 (62.02km) show good progression, but the 2026-11-03 readiness of 98 (very high) suggests your system is nearly saturated. Ensure an extra rest day or light spin before the next long effort to avoid overtraining.
+### Insight 4: Distancing progression from Nov 1 to Nov 8 is healthy and steady
+The rider has steadily increased weekly distance from 50km to 62km over the last week, showing consistent volume build. This gradual progression is a positive sign for fitness development without excessive stress.
 
-### Insight 4: 2026-10-27's 50.06km ride at 146.5 avgHR is an excellent zone-2 build
-This ride averaged 145 bpm with a max of 184 bpm, representing solid aerobic development on Kolhapur's rolling flats. The moderate intensity kept you in a sustainable zone that supports long-term fitness and joyful cycling.
+### Insight 5: FTP needs recalibration based on recent 20m power data
+The stale FTP estimate of 271W from 2025-03-04 is outdated. Recent 20-minute efforts show true FTP likely between 150-195W, so training zones should be adjusted accordingly.
 
-### Insight 5: Estimated FTP of 150-195W from 20m power bests guides training zone selection
-The 10s=567 and 60s=343 sprints on 2026-10-27 produced a true FTP estimate between 150-195W, far below the stale 271W from 2025. Using this for zone definitions will help you train more effectively and safely.
+### Insight 6: Polarized 80/20 training could boost performance
+Current readiness scores (70-98) indicate mostly moderate efforts, suggesting a more polarized approach (80% harder, 20% easy) could improve gains. Add one harder interval session per week to complement the current volume.
 
-### Insight 6: 80/20 polarized training fits your flat-terrain, joy-focused cycling style
-With 80% of your rides in zone 2 (like 2026-10-30 at 129.5 avgHR, 195 maxHR) and 20% at threshold, you're maximizing aerobic gains while keeping enjoyability high. This balance is ideal for a casual rider seeking consistent improvement without burnout.
+### Insight 7: Low sleep and activity on Nov 8 signal recovery needs
+The Nov 8 ride was accompanied by only 853 steps and 4h55m of sleep, with readiness at 76. These recovery metrics suggest the rider is under-stressed and should focus on adequate rest and easy rides before increasing load.
 
-### Insight 7: On 2026-11-01, high readiness (60) after a 3h ride signals recovery sequencing risk
-After your longest ride of the week (62.02km), your readiness dropped to 60, which is appropriate for recovery. However, the combination of long duration and moderate readiness warrants a light spin or rest before the next high-intensity effort.
+### Insight 8: Strongest power output on Nov 5 shows good strength capacity
+The Nov 5 ride produced a peak of 1095W, the highest among recent efforts, demonstrating solid strength and endurance. Building on this with interval training can further develop maximal efforts.
 
-### Insight 8: 2026-10-27's 10s=567 and 60s=343 power output built significant strength
-That ride with a 146.5 avgHR and 966W max power indicates solid aerobic development on Kolhapur's flat terrain. Maintaining this intensity while keeping the ride enjoyable is key to building lasting fitness.
+### Insight 9: To improve VO2max, add longer steady-state efforts
+The current average heart rate of 140-160 bpm suggests room for VO2max gains. Incorporating 60-90 minute rides at a consistent pace (Zone 2) will enhance aerobic capacity and support longer efforts.
 
-### Insight 9: Add one 20-30min interval session weekly to target VO2max gains
-A single threshold interval (e.g., 4x3min at 95% FTP) once per week will help improve your aerobic ceiling without sacrificing the joy of your flat-road riding. Kolhapur's easy terrain makes this session both effective and pleasurable.
-
-### Insight 10: Recalibrate FTP to 150-195W for more accurate training periodization
-Your recent 20m power bests (143-204W) and 2026-11-04 readiness of 95 suggest your current FTP is likely in the 150-195W range. Using this updated FTP for your zone assignments will provide a clearer path for joyful improvement.
+### Insight 10: FTP target should be 150-195W based on recent 20m power
+Estimating true FTP from recent 10-minute efforts (143-204W range) puts the rider's true FTP in the 150-195W band. Using this more accurate value for training zone planning will better guide intensity and recovery.
