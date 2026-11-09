@@ -2,32 +2,32 @@
 
 _Model: `nvidia/nemotron-3-ultra-550b-a55b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-### Insight 1: Nov 1 ride brushed Z2 ceiling
-Your Nov 1 ride averaged 158 bpm, just 1 beat below the Z2 upper limit (159 bpm). Keep easy rides comfortably in the lower half of Z2 to preserve recovery.
+### Insight 1: Nov 1 ride breached easy ceiling by ~8 bpm
+On Nov 1, your average HR was 158 bpm, just 1 bpm below your Z2 ceiling (159 bpm), and max HR hit 195 bpm — well above your lactate threshold of 175 bpm. For joyful riding, keep easy days truly easy by targeting an average HR ≤145 bpm on recovery spins.
 
-### Insight 2: Oct 25 climb density highest
-The Oct 25 ride packed 551 m elevation into 2h18m (239 m/h) — the steepest climbing rate recently. Consider a flatter route for pure endurance days to reduce leg fatigue.
+### Insight 2: Long rides show low vertical load — consider adding hills for strength
+Your longest rides (Oct 25: 551 m gain over 54 km; Nov 8: 265 m over 62 km) have modest climbing for rolling terrain. Adding a few hill repeats or a hilly route once a week would build leg strength without adding ride time.
 
-### Insight 3: Three rides in four days (Nov 5–8)
-You rode Nov 5, 6, and 8 with readiness dropping to 71 on Nov 6 after only 5h sleep. Insert a rest or very easy spin day after back-to-back efforts.
+### Insight 3: Back-to-back rides Nov 5–6 flag recovery sequencing risk
+You rode 50 km (1h46m) on Nov 5 and 47 km (1h54m) on Nov 6 with only 5h9m of sleep on Nov 6; readiness dropped to 71. Insert a rest day or a very easy coffee ride (<60 min, Z1) after consecutive riding days.
 
-### Insight 4: Consistent 2-hour long rides
-Your longest rides are now 62 km (Nov 1 & 8) at ~2 hours. Gently extend one weekend ride to 70 km next month to nudge endurance without pressure.
+### Insight 4: Cycling progression — long ride distance plateauing at ~62 km
+Your two longest rides (Nov 1 and Nov 8) both reached 62 km in about 2 hours. Since you never exceed 3 hours, try extending one weekend ride to 70–75 km (2h30m) every 2–3 weeks to gently boost endurance.
 
-### Insight 5: HR and power zones aligned
-LTHR 175 bpm and FTP 203 W produce matching zone boundaries (Z2 HR 139–159, Z2 power 112–152 W). No recalibration needed unless you do a formal test.
+### Insight 5: Zone model check — FTP estimate (203 W) may be low; consider a 20-min test
+Normalized power on recent rides (170–192 W) is 84–95% of the estimated FTP (203 W), suggesting the FTP might be conservative. A short 20-min max effort on a fresh day would reset zones and make easy rides truly easy.
 
-### Insight 6: Polarized balance looks good
-Rides average in Z2 with brief Z4–Z5 spikes (max HR 179–195), suggesting ~80% easy / 20% hard. Keep conversational pace on easy days to maintain this split.
+### Insight 6: Polarized 80/20 — rides cluster in moderate Z2; add very easy and very hard days
+All seven recent rides averaged 140–158 bpm (mid-to-upper Z2), with no dedicated Z1 recovery rides or Z5+ intervals. For polarized balance, aim for one weekly ride ≤130 bpm (Z1) and one with 3–4×4 min at >172 bpm (Z5), keeping the rest easy.
 
-### Insight 7: Sleep debt hit readiness Nov 6
-Readiness fell to 71 after 5h9m sleep on Nov 6 and consecutive rides. Prioritize 7+ hours sleep after hard days; HRV rebounded to 68 today — good sign.
+### Insight 7: Recovery warning — readiness dipped to 71 on Nov 6 after short sleep and consecutive rides
+On Nov 6, sleep was only 5h9m (readiness 71) following a ride on Nov 5. When readiness falls below 75, prioritize sleep and consider a rest day or gentle coffee ride (<60 min, Z1).
 
-### Insight 8: Strong sprint power shows neuromuscular zip
-Peak 10s power hit 981 W (Nov 5) and 579–583 W on other rides. One weekly strength session (squats, lunges, core) will sustain this snap and prevent injury.
+### Insight 8: Strength — maximal power is high (981 W 10s) but untrained; add gym or sprint drills
+Your peak 10-sec power (981 W on Nov 5) shows good raw sprint, but 5-min power (194–235 W) lags. One weekly session of 5×30-sec all-out sprints (full recovery) or off-bike squats/plyometrics would boost reactive strength.
 
-### Insight 9: VO2max steady — add targeted intervals
-Cycling VO2max holds at 49.0. Try 2×/week: 4×4 min at 215–223 W (106–110% FTP) with 4 min easy spin to lift the ceiling.
+### Insight 9: VO2max booster — try 3×5 min at 105–110% FTP (213–223 W) with 5 min recovery
+Your cycling VO2max has held at 49.0 for weeks. A weekly session of 3×5 min at 215–225 W (just above your estimated FTP) with full recovery can raise VO2max without excessive fatigue. Do this on a fresh day, not after a long ride.
 
-### Insight 10: FTP estimate ready for verification
-Current FTP 203 W comes from 95% of your 214 W 20-min best (Oct 25). Do a fresh 20-min all-out test on a rested week to confirm or raise the number.
+### Insight 10: FTP update — schedule a 20-min max test to replace stale 271 W Garmin value
+The current estimated FTP (203 W) comes from 95% of your best 20-min power (214 W on Oct 25). Garmin's old FTP (271 W) is from March 2025. A proper 20-min test (after 2 easy days) will align zones and make training more effective.
