@@ -1,35 +1,33 @@
-# AI Cycling Insights — showing last successful set
+# AI Cycling Insights — 2026-11-09  (via nvidia/nemotron-3-ultra-550b-a55b:free)
 
-_AI generation failed 2026-11-09T11:31:46.244379: All models failed. Last: liquid/lfm-2.5-2.6b:free: unusable JSON (Expecting value: line 1 column 1 (char 0))_
+_Model: `nvidia/nemotron-3-ultra-550b-a55b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
+### Insight 1: Nov 1 ride brushed Z2 ceiling
+Your Nov 1 ride averaged 158 bpm, just 1 beat below the Z2 upper limit (159 bpm). Keep easy rides comfortably in the lower half of Z2 to preserve recovery.
 
-### Insight 1: 62km ride on Nov 8 lacked intensity despite long distance
-The 62.39km ride on 2026-11-08 showed a low power average of 144.2W and no max power data, suggesting the effort was too easy for the distance. A longer ride should include more sustained climbing or higher cadence to build true fitness.
+### Insight 2: Oct 25 climb density highest
+The Oct 25 ride packed 551 m elevation into 2h18m (239 m/h) — the steepest climbing rate recently. Consider a flatter route for pure endurance days to reduce leg fatigue.
 
-### Insight 2: Mid-week long ride on Nov 1 reached 62km with solid effort
-The 62.02km ride on 2026-11-01 had an average heart rate of 158 bpm and max HR of 195 bpm, indicating a well-paced long effort. This is a good block for building endurance, especially with the 253m elevation gain.
+### Insight 3: Three rides in four days (Nov 5–8)
+You rode Nov 5, 6, and 8 with readiness dropping to 71 on Nov 6 after only 5h sleep. Insert a rest or very easy spin day after back-to-back efforts.
 
-### Insight 3: Three consecutive riding days from Nov 5-8 create high load risk
-Rides on Nov 5 (50km), Nov 6 (47km), and Nov 8 (62km) occurred within three days, accumulating a high weekly volume. This pattern increases fatigue risk and may need a rest day or an easier ride to allow proper recovery.
+### Insight 4: Consistent 2-hour long rides
+Your longest rides are now 62 km (Nov 1 & 8) at ~2 hours. Gently extend one weekend ride to 70 km next month to nudge endurance without pressure.
 
-### Insight 4: Distancing progression from Nov 1 to Nov 8 is healthy and steady
-The rider has steadily increased weekly distance from 50km to 62km over the last week, showing consistent volume build. This gradual progression is a positive sign for fitness development without excessive stress.
+### Insight 5: HR and power zones aligned
+LTHR 175 bpm and FTP 203 W produce matching zone boundaries (Z2 HR 139–159, Z2 power 112–152 W). No recalibration needed unless you do a formal test.
 
-### Insight 5: FTP needs recalibration based on recent 20m power data
-The stale FTP estimate of 271W from 2025-03-04 is outdated. Recent 20-minute efforts show true FTP likely between 150-195W, so training zones should be adjusted accordingly.
+### Insight 6: Polarized balance looks good
+Rides average in Z2 with brief Z4–Z5 spikes (max HR 179–195), suggesting ~80% easy / 20% hard. Keep conversational pace on easy days to maintain this split.
 
-### Insight 6: Polarized 80/20 training could boost performance
-Current readiness scores (70-98) indicate mostly moderate efforts, suggesting a more polarized approach (80% harder, 20% easy) could improve gains. Add one harder interval session per week to complement the current volume.
+### Insight 7: Sleep debt hit readiness Nov 6
+Readiness fell to 71 after 5h9m sleep on Nov 6 and consecutive rides. Prioritize 7+ hours sleep after hard days; HRV rebounded to 68 today — good sign.
 
-### Insight 7: Low sleep and activity on Nov 8 signal recovery needs
-The Nov 8 ride was accompanied by only 853 steps and 4h55m of sleep, with readiness at 76. These recovery metrics suggest the rider is under-stressed and should focus on adequate rest and easy rides before increasing load.
+### Insight 8: Strong sprint power shows neuromuscular zip
+Peak 10s power hit 981 W (Nov 5) and 579–583 W on other rides. One weekly strength session (squats, lunges, core) will sustain this snap and prevent injury.
 
-### Insight 8: Strongest power output on Nov 5 shows good strength capacity
-The Nov 5 ride produced a peak of 1095W, the highest among recent efforts, demonstrating solid strength and endurance. Building on this with interval training can further develop maximal efforts.
+### Insight 9: VO2max steady — add targeted intervals
+Cycling VO2max holds at 49.0. Try 2×/week: 4×4 min at 215–223 W (106–110% FTP) with 4 min easy spin to lift the ceiling.
 
-### Insight 9: To improve VO2max, add longer steady-state efforts
-The current average heart rate of 140-160 bpm suggests room for VO2max gains. Incorporating 60-90 minute rides at a consistent pace (Zone 2) will enhance aerobic capacity and support longer efforts.
-
-### Insight 10: FTP target should be 150-195W based on recent 20m power
-Estimating true FTP from recent 10-minute efforts (143-204W range) puts the rider's true FTP in the 150-195W band. Using this more accurate value for training zone planning will better guide intensity and recovery.
+### Insight 10: FTP estimate ready for verification
+Current FTP 203 W comes from 95% of your 214 W 20-min best (Oct 25). Do a fresh 20-min all-out test on a rested week to confirm or raise the number.

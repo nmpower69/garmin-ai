@@ -1,355 +1,385 @@
 {
-  "computed_at": "2026-11-09T11:31:01+00:00",
+  "computed_at": "2026-11-09T12:33:58+00:00",
   "ftp": 203,
-  "ftp_status": "Estimated: 95% of best 20-min power (214 W on 2026-10-25) \u2014 Garmin FTP 271 W from 2025-03-04T08:10:35.0 is stale. Normal rides aren't all-out tests, so true FTP is likely a bit higher.",
+  "ftp_status": "Estimated from the last 6 weeks: 95% of best 20-min power (214 W on 2026-10-25) \u2014 Garmin FTP 271 W from 2025-03-04T08:10:35.0 is stale. Updates after every ride; normal rides aren't all-out tests, so true FTP is likely a bit higher.",
   "curves": {
     "23856595924": {
       "date": "2026-08-05",
-      "10s": 307,
-      "30s": 208,
+      "v": 2,
+      "10s": 316,
+      "30s": 207,
       "60s": 202,
-      "300s": 156,
-      "1200s": 150,
-      "3600s": 150,
-      "avgPower": 68.0,
-      "normalizedPower": 92.0,
-      "maxPower": 229.0
+      "300s": 157,
+      "1200s": 128,
+      "3600s": 103,
+      "avgPower": 103.0,
+      "normalizedPower": 125.0,
+      "maxPower": 394,
+      "npSource": "garmin"
     },
     "23905806273": {
       "date": "2026-08-09",
-      "10s": 381,
-      "30s": 264,
-      "60s": 222,
-      "300s": 204,
-      "1200s": 204,
-      "3600s": 204,
+      "v": 2,
+      "10s": 362,
+      "30s": 278,
+      "60s": 226,
+      "300s": 160,
+      "1200s": 138,
+      "3600s": 122,
       "avgPower": 117.0,
       "normalizedPower": 140.0,
-      "maxPower": 579.0
+      "maxPower": 579,
+      "npSource": "garmin"
     },
     "23944001587": {
       "date": "2026-08-12",
-      "10s": 281,
-      "30s": 222,
-      "60s": 205,
-      "300s": 157,
-      "1200s": 157,
-      "3600s": 157,
+      "v": 2,
+      "10s": 259,
+      "30s": 217,
+      "60s": 200,
+      "300s": 152,
+      "1200s": 142,
+      "3600s": 134,
       "avgPower": 124.0,
       "normalizedPower": 139.0,
-      "maxPower": 414.0
+      "maxPower": 414,
+      "npSource": "garmin"
     },
     "23969452381": {
       "date": "2026-08-14",
-      "10s": 374,
-      "30s": 279,
+      "v": 2,
+      "10s": 384,
+      "30s": 280,
       "60s": 262,
       "300s": 187,
-      "1200s": 143,
-      "3600s": 127,
+      "1200s": 139,
+      "3600s": 124,
       "avgPower": 120.0,
-      "normalizedPower": 131.0,
-      "maxPower": 535.0,
-      "npSource": "computed"
+      "normalizedPower": 148.0,
+      "maxPower": 535,
+      "npSource": "garmin"
     },
     "24005039152": {
       "date": "2026-08-17",
-      "10s": 283,
-      "30s": 232,
-      "60s": 216,
-      "300s": 170,
-      "1200s": 154,
+      "v": 2,
+      "10s": 291,
+      "30s": 229,
+      "60s": 213,
+      "300s": 171,
+      "1200s": 152,
       "3600s": 142,
       "avgPower": 136.0,
-      "normalizedPower": 147.8,
-      "maxPower": 368.0,
-      "npSource": "computed"
+      "normalizedPower": 151.0,
+      "maxPower": 368,
+      "npSource": "garmin"
     },
     "24030665697": {
       "date": "2026-08-19",
-      "10s": 270,
-      "30s": 238,
-      "60s": 221,
+      "v": 2,
+      "10s": 265,
+      "30s": 239,
+      "60s": 220,
       "300s": 174,
-      "1200s": 145,
+      "1200s": 146,
       "3600s": 128,
       "avgPower": 117.0,
-      "normalizedPower": 140.1,
-      "maxPower": 381.0,
-      "npSource": "computed"
+      "normalizedPower": 143.0,
+      "maxPower": 381,
+      "npSource": "garmin"
     },
     "24055964834": {
       "date": "2026-08-21",
-      "10s": 439,
-      "30s": 333,
-      "60s": 224,
-      "300s": 187,
-      "1200s": 156,
-      "3600s": 134,
+      "v": 2,
+      "10s": 395,
+      "30s": 322,
+      "60s": 222,
+      "300s": 183,
+      "1200s": 151,
+      "3600s": 135,
       "avgPower": 133.0,
-      "normalizedPower": 149.3,
-      "maxPower": 522.0,
-      "npSource": "computed"
+      "normalizedPower": 152.0,
+      "maxPower": 522,
+      "npSource": "garmin"
     },
     "24079863099": {
       "date": "2026-08-23",
-      "10s": 344,
-      "30s": 262,
-      "60s": 225,
-      "300s": 198,
-      "1200s": 160,
-      "3600s": 160,
-      "avgPower": 120.4,
-      "normalizedPower": 144.4,
-      "maxPower": 593.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 380,
+      "30s": 270,
+      "60s": 229,
+      "300s": 186,
+      "1200s": 141,
+      "3600s": 133,
+      "avgPower": 127.0,
+      "normalizedPower": 147.0,
+      "maxPower": 593,
+      "npSource": "garmin"
     },
     "24131095490": {
       "date": "2026-08-27",
-      "10s": 421,
-      "30s": 305,
-      "60s": 264,
-      "300s": 186,
-      "1200s": 153,
-      "3600s": 153,
-      "avgPower": 109.0,
-      "normalizedPower": 153.2,
-      "maxPower": 501.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 393,
+      "30s": 282,
+      "60s": 260,
+      "300s": 185,
+      "1200s": 138,
+      "3600s": 124,
+      "avgPower": 112.0,
+      "normalizedPower": 154.0,
+      "maxPower": 501,
+      "npSource": "garmin"
     },
     "24154675322": {
       "date": "2026-08-29",
-      "10s": 373,
-      "30s": 274,
-      "60s": 226,
-      "300s": 182,
-      "1200s": 161,
-      "3600s": 160,
-      "avgPower": 132.9,
-      "normalizedPower": 155.9,
-      "maxPower": 405.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 355,
+      "30s": 278,
+      "60s": 232,
+      "300s": 178,
+      "1200s": 157,
+      "3600s": 144,
+      "avgPower": 138.0,
+      "normalizedPower": 158.0,
+      "maxPower": 405,
+      "npSource": "garmin"
     },
     "24191105303": {
       "date": "2026-09-01",
-      "10s": 395,
-      "30s": 296,
-      "60s": 230,
-      "300s": 179,
+      "v": 2,
+      "10s": 410,
+      "30s": 289,
+      "60s": 228,
+      "300s": 180,
       "1200s": 162,
-      "3600s": 150,
-      "avgPower": 139.3,
-      "normalizedPower": 160.6,
-      "maxPower": 460.0,
-      "npSource": "computed"
+      "3600s": 149,
+      "avgPower": 143.0,
+      "normalizedPower": 164.0,
+      "maxPower": 460,
+      "npSource": "garmin"
     },
     "24217871213": {
       "date": "2026-09-03",
-      "10s": 396,
-      "30s": 267,
-      "60s": 240,
-      "300s": 191,
-      "1200s": 191,
-      "3600s": 191,
-      "avgPower": 148.0,
-      "normalizedPower": 165.6,
-      "maxPower": 476.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 355,
+      "30s": 244,
+      "60s": 234,
+      "300s": 184,
+      "1200s": 164,
+      "3600s": 157,
+      "avgPower": 153.0,
+      "normalizedPower": 168.0,
+      "maxPower": 476,
+      "npSource": "garmin"
     },
     "24278574372": {
       "date": "2026-09-08",
-      "10s": 374,
-      "30s": 315,
-      "60s": 244,
-      "300s": 197,
-      "1200s": 168,
-      "3600s": 158,
-      "avgPower": 144.0,
-      "normalizedPower": 169.3,
-      "maxPower": 460.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 389,
+      "30s": 306,
+      "60s": 243,
+      "300s": 196,
+      "1200s": 166,
+      "3600s": 155,
+      "avgPower": 148.0,
+      "normalizedPower": 170.0,
+      "maxPower": 460,
+      "npSource": "garmin"
     },
     "24304329284": {
       "date": "2026-09-10",
-      "10s": 408,
-      "30s": 332,
-      "60s": 264,
-      "300s": 210,
-      "1200s": 184,
-      "3600s": 184,
-      "avgPower": 153.7,
-      "normalizedPower": 173.7,
-      "maxPower": 546.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 381,
+      "30s": 305,
+      "60s": 258,
+      "300s": 205,
+      "1200s": 178,
+      "3600s": 164,
+      "avgPower": 158.0,
+      "normalizedPower": 177.0,
+      "maxPower": 546,
+      "npSource": "garmin"
     },
     "24327972673": {
       "date": "2026-09-12",
-      "10s": 333,
-      "30s": 254,
-      "60s": 229,
+      "v": 2,
+      "10s": 328,
+      "30s": 262,
+      "60s": 236,
       "300s": 195,
-      "1200s": 176,
-      "3600s": 171,
-      "avgPower": 152.3,
-      "normalizedPower": 170.7,
-      "maxPower": 437.0,
-      "npSource": "computed"
+      "1200s": 179,
+      "3600s": 163,
+      "avgPower": 157.0,
+      "normalizedPower": 174.0,
+      "maxPower": 437,
+      "npSource": "garmin"
     },
     "24340348995": {
       "date": "2026-09-13",
-      "10s": 384,
-      "30s": 279,
-      "60s": 246,
+      "v": 2,
+      "10s": 389,
+      "30s": 293,
+      "60s": 249,
       "300s": 188,
-      "1200s": 154,
-      "3600s": 148,
-      "avgPower": 134.0,
-      "normalizedPower": 156.8,
-      "maxPower": 474.0,
-      "npSource": "computed"
+      "1200s": 153,
+      "3600s": 145,
+      "avgPower": 138.0,
+      "normalizedPower": 160.0,
+      "maxPower": 474,
+      "npSource": "garmin"
     },
     "24390942487": {
       "date": "2026-09-17",
-      "10s": 370,
-      "30s": 294,
-      "60s": 252,
-      "300s": 198,
-      "1200s": 173,
+      "v": 2,
+      "10s": 382,
+      "30s": 288,
+      "60s": 250,
+      "300s": 194,
+      "1200s": 171,
       "3600s": 152,
-      "avgPower": 135.6,
-      "normalizedPower": 162.7,
-      "maxPower": 540.0,
-      "npSource": "computed"
+      "avgPower": 139.0,
+      "normalizedPower": 165.0,
+      "maxPower": 540,
+      "npSource": "garmin"
     },
     "24403088892": {
       "date": "2026-09-18",
-      "10s": 374,
-      "30s": 280,
-      "60s": 250,
-      "300s": 204,
-      "1200s": 163,
-      "3600s": 143,
-      "avgPower": 131.5,
-      "normalizedPower": 162.3,
-      "maxPower": 496.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 376,
+      "30s": 274,
+      "60s": 248,
+      "300s": 205,
+      "1200s": 159,
+      "3600s": 141,
+      "avgPower": 136.0,
+      "normalizedPower": 164.0,
+      "maxPower": 496,
+      "npSource": "garmin"
     },
     "24426301586": {
       "date": "2026-09-20",
-      "10s": 301,
-      "30s": 252,
+      "v": 2,
+      "10s": 305,
+      "30s": 256,
       "60s": 232,
-      "300s": 193,
+      "300s": 191,
       "1200s": 167,
       "3600s": 155,
-      "avgPower": 142.3,
-      "normalizedPower": 164.6,
-      "maxPower": 420.0,
-      "npSource": "computed"
+      "avgPower": 148.0,
+      "normalizedPower": 169.0,
+      "maxPower": 420,
+      "npSource": "garmin"
     },
     "24450739702": {
       "date": "2026-09-22",
-      "10s": 404,
-      "30s": 340,
-      "60s": 275,
-      "300s": 247,
-      "1200s": 247,
-      "3600s": 247,
-      "avgPower": 147.0,
-      "normalizedPower": 173.8,
-      "maxPower": 514.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 424,
+      "30s": 356,
+      "60s": 287,
+      "300s": 191,
+      "1200s": 177,
+      "3600s": 160,
+      "avgPower": 154.0,
+      "normalizedPower": 178.0,
+      "maxPower": 514,
+      "npSource": "garmin"
     },
     "24476774280": {
       "date": "2026-09-24",
-      "10s": 321,
-      "30s": 291,
-      "60s": 252,
+      "v": 2,
+      "10s": 326,
+      "30s": 296,
+      "60s": 256,
       "300s": 201,
-      "1200s": 172,
-      "3600s": 158,
-      "avgPower": 143.3,
-      "normalizedPower": 168.7,
-      "maxPower": 422.0,
-      "npSource": "computed"
+      "1200s": 171,
+      "3600s": 157,
+      "avgPower": 149.0,
+      "normalizedPower": 173.0,
+      "maxPower": 422,
+      "npSource": "garmin"
     },
     "24499835322": {
       "date": "2026-09-26",
-      "10s": 402,
-      "30s": 294,
-      "60s": 240,
-      "300s": 196,
-      "1200s": 177,
-      "3600s": 160,
-      "avgPower": 139.8,
-      "normalizedPower": 166.2,
-      "maxPower": 564.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 370,
+      "30s": 267,
+      "60s": 244,
+      "300s": 195,
+      "1200s": 178,
+      "3600s": 161,
+      "avgPower": 144.0,
+      "normalizedPower": 168.0,
+      "maxPower": 564,
+      "npSource": "garmin"
     },
     "24524040752": {
       "date": "2026-09-28",
-      "10s": 299,
-      "30s": 279,
-      "60s": 220,
-      "300s": 178,
+      "v": 2,
+      "10s": 303,
+      "30s": 288,
+      "60s": 221,
+      "300s": 179,
       "1200s": 154,
-      "3600s": 140,
-      "avgPower": 128.0,
-      "normalizedPower": 152.6,
-      "maxPower": 380.0,
-      "npSource": "computed"
+      "3600s": 139,
+      "avgPower": 132.0,
+      "normalizedPower": 156.0,
+      "maxPower": 380,
+      "npSource": "garmin"
     },
     "24561739813": {
       "date": "2026-10-01",
-      "10s": 481,
-      "30s": 376,
-      "60s": 288,
-      "300s": 207,
-      "1200s": 170,
-      "3600s": 153,
-      "avgPower": 144.0,
-      "normalizedPower": 174.2,
-      "maxPower": 582.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 490,
+      "30s": 315,
+      "60s": 260,
+      "300s": 206,
+      "1200s": 171,
+      "3600s": 154,
+      "avgPower": 149.0,
+      "normalizedPower": 175.0,
+      "maxPower": 582,
+      "npSource": "garmin"
     },
     "24621409239": {
       "date": "2026-10-06",
-      "10s": 403,
-      "30s": 347,
-      "60s": 322,
+      "v": 2,
+      "10s": 399,
+      "30s": 348,
+      "60s": 330,
       "300s": 220,
       "1200s": 175,
-      "3600s": 161,
-      "avgPower": 150.6,
-      "normalizedPower": 177.8,
-      "maxPower": 476.0,
-      "npSource": "computed"
+      "3600s": 157,
+      "avgPower": 156.0,
+      "normalizedPower": 181.0,
+      "maxPower": 476,
+      "npSource": "garmin"
     },
     "24646921747": {
       "date": "2026-10-08",
-      "10s": 528,
-      "30s": 311,
-      "60s": 268,
-      "300s": 197,
-      "1200s": 170,
-      "3600s": 152,
-      "avgPower": 129.5,
-      "normalizedPower": 166.3,
-      "maxPower": 650.0,
-      "npSource": "computed"
+      "v": 2,
+      "10s": 550,
+      "30s": 321,
+      "60s": 274,
+      "300s": 194,
+      "1200s": 169,
+      "3600s": 151,
+      "avgPower": 136.0,
+      "normalizedPower": 169.0,
+      "maxPower": 650,
+      "npSource": "garmin"
     },
     "24669039032": {
       "date": "2026-10-10",
-      "10s": 382,
-      "30s": 296,
-      "60s": 238,
-      "300s": 189,
+      "v": 2,
+      "10s": 405,
+      "30s": 287,
+      "60s": 235,
+      "300s": 190,
       "1200s": 171,
-      "3600s": 152,
-      "avgPower": 131.9,
-      "normalizedPower": 157.9,
-      "maxPower": 518.0,
-      "npSource": "computed"
+      "3600s": 148,
+      "avgPower": 135.0,
+      "normalizedPower": 160.0,
+      "maxPower": 518,
+      "npSource": "garmin"
     },
     "24703969003": {
       "date": "2026-10-13",
@@ -573,6 +603,537 @@
   "ftp_estimate": {
     "value": 203,
     "from_20m": 214,
-    "date": "2026-10-25"
-  }
+    "date": "2026-10-25",
+    "best_60m": 171
+  },
+  "ftp_history": [
+    {
+      "date": "2026-07-01",
+      "value": null
+    },
+    {
+      "date": "2026-07-02",
+      "value": null
+    },
+    {
+      "date": "2026-07-03",
+      "value": null
+    },
+    {
+      "date": "2026-07-04",
+      "value": null
+    },
+    {
+      "date": "2026-07-05",
+      "value": null
+    },
+    {
+      "date": "2026-07-06",
+      "value": null
+    },
+    {
+      "date": "2026-07-07",
+      "value": null
+    },
+    {
+      "date": "2026-07-08",
+      "value": null
+    },
+    {
+      "date": "2026-07-09",
+      "value": null
+    },
+    {
+      "date": "2026-07-10",
+      "value": null
+    },
+    {
+      "date": "2026-07-11",
+      "value": null
+    },
+    {
+      "date": "2026-07-12",
+      "value": null
+    },
+    {
+      "date": "2026-07-13",
+      "value": null
+    },
+    {
+      "date": "2026-07-14",
+      "value": null
+    },
+    {
+      "date": "2026-07-15",
+      "value": null
+    },
+    {
+      "date": "2026-07-16",
+      "value": null
+    },
+    {
+      "date": "2026-07-17",
+      "value": null
+    },
+    {
+      "date": "2026-07-18",
+      "value": null
+    },
+    {
+      "date": "2026-07-19",
+      "value": null
+    },
+    {
+      "date": "2026-07-20",
+      "value": null
+    },
+    {
+      "date": "2026-07-21",
+      "value": null
+    },
+    {
+      "date": "2026-07-22",
+      "value": null
+    },
+    {
+      "date": "2026-07-23",
+      "value": null
+    },
+    {
+      "date": "2026-07-24",
+      "value": null
+    },
+    {
+      "date": "2026-07-25",
+      "value": null
+    },
+    {
+      "date": "2026-07-26",
+      "value": null
+    },
+    {
+      "date": "2026-07-27",
+      "value": null
+    },
+    {
+      "date": "2026-07-28",
+      "value": null
+    },
+    {
+      "date": "2026-07-29",
+      "value": null
+    },
+    {
+      "date": "2026-07-30",
+      "value": null
+    },
+    {
+      "date": "2026-07-31",
+      "value": null
+    },
+    {
+      "date": "2026-08-01",
+      "value": null
+    },
+    {
+      "date": "2026-08-02",
+      "value": null
+    },
+    {
+      "date": "2026-08-03",
+      "value": null
+    },
+    {
+      "date": "2026-08-04",
+      "value": null
+    },
+    {
+      "date": "2026-08-05",
+      "value": 122
+    },
+    {
+      "date": "2026-08-06",
+      "value": 122
+    },
+    {
+      "date": "2026-08-07",
+      "value": 122
+    },
+    {
+      "date": "2026-08-08",
+      "value": 122
+    },
+    {
+      "date": "2026-08-09",
+      "value": 131
+    },
+    {
+      "date": "2026-08-10",
+      "value": 131
+    },
+    {
+      "date": "2026-08-11",
+      "value": 131
+    },
+    {
+      "date": "2026-08-12",
+      "value": 135
+    },
+    {
+      "date": "2026-08-13",
+      "value": 135
+    },
+    {
+      "date": "2026-08-14",
+      "value": 135
+    },
+    {
+      "date": "2026-08-15",
+      "value": 135
+    },
+    {
+      "date": "2026-08-16",
+      "value": 135
+    },
+    {
+      "date": "2026-08-17",
+      "value": 144
+    },
+    {
+      "date": "2026-08-18",
+      "value": 144
+    },
+    {
+      "date": "2026-08-19",
+      "value": 144
+    },
+    {
+      "date": "2026-08-20",
+      "value": 144
+    },
+    {
+      "date": "2026-08-21",
+      "value": 144
+    },
+    {
+      "date": "2026-08-22",
+      "value": 144
+    },
+    {
+      "date": "2026-08-23",
+      "value": 144
+    },
+    {
+      "date": "2026-08-24",
+      "value": 144
+    },
+    {
+      "date": "2026-08-25",
+      "value": 144
+    },
+    {
+      "date": "2026-08-26",
+      "value": 144
+    },
+    {
+      "date": "2026-08-27",
+      "value": 144
+    },
+    {
+      "date": "2026-08-28",
+      "value": 144
+    },
+    {
+      "date": "2026-08-29",
+      "value": 149
+    },
+    {
+      "date": "2026-08-30",
+      "value": 149
+    },
+    {
+      "date": "2026-08-31",
+      "value": 149
+    },
+    {
+      "date": "2026-09-01",
+      "value": 154
+    },
+    {
+      "date": "2026-09-02",
+      "value": 154
+    },
+    {
+      "date": "2026-09-03",
+      "value": 157
+    },
+    {
+      "date": "2026-09-04",
+      "value": 157
+    },
+    {
+      "date": "2026-09-05",
+      "value": 157
+    },
+    {
+      "date": "2026-09-06",
+      "value": 157
+    },
+    {
+      "date": "2026-09-07",
+      "value": 157
+    },
+    {
+      "date": "2026-09-08",
+      "value": 158
+    },
+    {
+      "date": "2026-09-09",
+      "value": 158
+    },
+    {
+      "date": "2026-09-10",
+      "value": 169
+    },
+    {
+      "date": "2026-09-11",
+      "value": 169
+    },
+    {
+      "date": "2026-09-12",
+      "value": 170
+    },
+    {
+      "date": "2026-09-13",
+      "value": 170
+    },
+    {
+      "date": "2026-09-14",
+      "value": 170
+    },
+    {
+      "date": "2026-09-15",
+      "value": 170
+    },
+    {
+      "date": "2026-09-16",
+      "value": 170
+    },
+    {
+      "date": "2026-09-17",
+      "value": 170
+    },
+    {
+      "date": "2026-09-18",
+      "value": 170
+    },
+    {
+      "date": "2026-09-19",
+      "value": 170
+    },
+    {
+      "date": "2026-09-20",
+      "value": 170
+    },
+    {
+      "date": "2026-09-21",
+      "value": 170
+    },
+    {
+      "date": "2026-09-22",
+      "value": 170
+    },
+    {
+      "date": "2026-09-23",
+      "value": 170
+    },
+    {
+      "date": "2026-09-24",
+      "value": 170
+    },
+    {
+      "date": "2026-09-25",
+      "value": 170
+    },
+    {
+      "date": "2026-09-26",
+      "value": 170
+    },
+    {
+      "date": "2026-09-27",
+      "value": 170
+    },
+    {
+      "date": "2026-09-28",
+      "value": 170
+    },
+    {
+      "date": "2026-09-29",
+      "value": 170
+    },
+    {
+      "date": "2026-09-30",
+      "value": 170
+    },
+    {
+      "date": "2026-10-01",
+      "value": 170
+    },
+    {
+      "date": "2026-10-02",
+      "value": 170
+    },
+    {
+      "date": "2026-10-03",
+      "value": 170
+    },
+    {
+      "date": "2026-10-04",
+      "value": 170
+    },
+    {
+      "date": "2026-10-05",
+      "value": 170
+    },
+    {
+      "date": "2026-10-06",
+      "value": 170
+    },
+    {
+      "date": "2026-10-07",
+      "value": 170
+    },
+    {
+      "date": "2026-10-08",
+      "value": 170
+    },
+    {
+      "date": "2026-10-09",
+      "value": 170
+    },
+    {
+      "date": "2026-10-10",
+      "value": 170
+    },
+    {
+      "date": "2026-10-11",
+      "value": 170
+    },
+    {
+      "date": "2026-10-12",
+      "value": 170
+    },
+    {
+      "date": "2026-10-13",
+      "value": 170
+    },
+    {
+      "date": "2026-10-14",
+      "value": 184
+    },
+    {
+      "date": "2026-10-15",
+      "value": 184
+    },
+    {
+      "date": "2026-10-16",
+      "value": 184
+    },
+    {
+      "date": "2026-10-17",
+      "value": 184
+    },
+    {
+      "date": "2026-10-18",
+      "value": 184
+    },
+    {
+      "date": "2026-10-19",
+      "value": 184
+    },
+    {
+      "date": "2026-10-20",
+      "value": 184
+    },
+    {
+      "date": "2026-10-21",
+      "value": 184
+    },
+    {
+      "date": "2026-10-22",
+      "value": 184
+    },
+    {
+      "date": "2026-10-23",
+      "value": 184
+    },
+    {
+      "date": "2026-10-24",
+      "value": 184
+    },
+    {
+      "date": "2026-10-25",
+      "value": 203
+    },
+    {
+      "date": "2026-10-26",
+      "value": 203
+    },
+    {
+      "date": "2026-10-27",
+      "value": 203
+    },
+    {
+      "date": "2026-10-28",
+      "value": 203
+    },
+    {
+      "date": "2026-10-29",
+      "value": 203
+    },
+    {
+      "date": "2026-10-30",
+      "value": 203
+    },
+    {
+      "date": "2026-10-31",
+      "value": 203
+    },
+    {
+      "date": "2026-11-01",
+      "value": 203
+    },
+    {
+      "date": "2026-11-02",
+      "value": 203
+    },
+    {
+      "date": "2026-11-03",
+      "value": 203
+    },
+    {
+      "date": "2026-11-04",
+      "value": 203
+    },
+    {
+      "date": "2026-11-05",
+      "value": 203
+    },
+    {
+      "date": "2026-11-06",
+      "value": 203
+    },
+    {
+      "date": "2026-11-07",
+      "value": 203
+    },
+    {
+      "date": "2026-11-08",
+      "value": 203
+    },
+    {
+      "date": "2026-11-09",
+      "value": 203
+    }
+  ]
 }

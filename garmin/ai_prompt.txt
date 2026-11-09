@@ -9,7 +9,7 @@ Daily wellness last 7 days:
 2026-11-06: steps=3509 sleep=5h 9m (63 (FAIR)) hrv=70 rhr=53 bb=62 stress=42 readiness=71
 2026-11-07: steps=5489 sleep=6h 41m (82 (GOOD)) hrv=77 rhr=52 bb=76 stress=28 readiness=78
 2026-11-08: steps=2544 sleep=4h 55m (64 (FAIR)) hrv=67 rhr=52 bb=81 stress=28 readiness=76
-2026-11-09: steps=2741 sleep=7h 22m (81 (GOOD)) hrv=68 rhr=52 bb=90 stress=23 readiness=84
+2026-11-09: steps=2752 sleep=7h 22m (81 (GOOD)) hrv=68 rhr=52 bb=90 stress=24 readiness=84
 
 Recent rides last 7:
 2026-10-25 Kolhapur Road Cycling 54.02km 2h 18m avgHR=141.0 maxHR=181.0 elev=551.0 cals=1063.0
@@ -31,7 +31,7 @@ Best power per ride (real directPower rolling maxima):
 
 Physiology (from Garmin, latest sync):
 HR zones (Garmin CYCLING LACTATE_THRESHOLD; LTHR 175, max HR 196): Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172 bpm.
-FTP 203 W — Estimated: 95% of best 20-min power (214 W on 2026-10-25) — Garmin FTP 271 W from 2025-03-04T08:10:35.0 is stale. Normal rides aren't all-out tests, so true FTP is likely a bit higher.
+FTP 203 W — Estimated from the last 6 weeks: 95% of best 20-min power (214 W on 2026-10-25) — Garmin FTP 271 W from 2025-03-04T08:10:35.0 is stale. Updates after every ride; normal rides aren't all-out tests, so true FTP is likely a bit higher.
 Power zones from that FTP: Z1<112, Z2 112-152, Z3 152-183, Z4 183-213, Z5 213-244, Z6 244-304, Z7>304 W.
 VO2 max (cycling, Garmin): 49.0 as of 2026-11-08.
 VO2 max (running, Garmin): 49.4 as of 2026-10-24.
