@@ -62,12 +62,12 @@ jobs:
             python -c "import json; d=json.load(open('/home/runner/.garminconnect/garmin_tokens.json')); print('token JSON valid, top-level keys:', list(d.keys())[:5])" || echo "::warning::GARMINTOKENS secret is not valid JSON — sync will try credential fallback"
           fi
 
-      - name: Sync Garmin (last 30 days, keeps dashboard 30d view)
+      - name: Sync Garmin (this month + all of last month, for the month-by-month view)
         env:
           GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
           GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
         run: |
-          python sync_garmin.py --days 30 --sink files --out ./garmin
+          python sync_garmin.py --months 2 --sink files --out ./garmin
           echo "=== garmin folder ==="
           ls -R garmin || true
           echo "=== data.json head ==="

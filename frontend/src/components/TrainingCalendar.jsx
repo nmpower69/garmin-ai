@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
 const readinessColor = v => typeof v !== 'number' ? '#64748b' : v >= 75 ? '#22c55e' : v >= 50 ? '#f59e0b' : '#f87171'
 
-export default function TrainingCalendar({ calendar, daily, acts }){
+// Controlled by the dashboard's month picker: ‹ › here switches the whole page.
+export default function TrainingCalendar({ calendar, daily, acts, onMonth }){
   const reduced = useReducedMotion()
-  const { monthKeys, actsByDate, dataBase, winStart, winEnd } = calendar
-  const [calYM, setCalYM] = useState(monthKeys.length ? monthKeys[monthKeys.length-1] : null)
+  const { monthKeys, month, actsByDate, dataBase, winStart, winEnd } = calendar
+  const calYM = month
+  const setCalYM = ym => ym && onMonth && onMonth(ym)
 
   if(!calYM) return null
   const parts = calYM.split('-'); const Y = +parts[0], M = +parts[1]

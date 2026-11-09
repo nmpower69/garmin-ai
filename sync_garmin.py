@@ -427,19 +427,50 @@ def fetch_profile(client, today_iso):
             print(f"  Note: {err}")
     return profile
 
-def fetch_days(client, days: int):
-    """Fetch wellness + activities for last N days. Returns dict with 'daily' and 'activities'."""
+REFETCH_RECENT_DAYS = 7  # older days are final in Garmin; reuse them from the last sync
+
+def month_window_start(today, months):
+    """First day of the calendar month `months - 1` months before `today`'s month.
+
+    months=2 on 2026-11-09 -> 2026-10-01: the current month so far plus the
+    whole previous month, so the dashboard can show calendar months and
+    compare this month with last month.
+    """
+    y, m = today.year, today.month - (months - 1)
+    while m < 1:
+        y, m = y - 1, m + 12
+    return date(y, m, 1)
+
+def fetch_days(client, days: int = None, start_date: date = None, existing: dict = None):
+    """Fetch wellness + activities from `start_date` (or the last `days` days) to today.
+
+    `existing` is the previous data.json: days older than REFETCH_RECENT_DAYS
+    that it already holds in the current format are reused instead of
+    re-fetched (~10 API calls per day saved), so a two-month window costs
+    about the same as the old 30-day one.
+    """
     today = _today_ist()
-    dates = [(today - timedelta(days=i)).isoformat() for i in range(days)]
-    dates = sorted(dates)  # oldest first
+    if start_date is None:
+        start_date = today - timedelta(days=(days or 7) - 1)
+    n = (today - start_date).days + 1
+    dates = [(start_date + timedelta(days=i)).isoformat() for i in range(n)]  # oldest first
 
     # For activities, use range query
     start = dates[0]
     end = dates[-1]
+    reuse_before = (today - timedelta(days=REFETCH_RECENT_DAYS)).isoformat()
+    old_daily = (existing or {}).get("daily") or {}
 
-    print(f"Fetching {days} day(s): {start} to {end} ... (IST: {_now_ist().strftime('%Y-%m-%d %H:%M %Z')})")
+    print(f"Fetching {n} day(s): {start} to {end} ... (IST: {_now_ist().strftime('%Y-%m-%d %H:%M %Z')})")
     daily = {}
+    reused = 0
     for cdate in dates:
+        prev = old_daily.get(cdate)
+        # "vo2max_cycling" marks a day written by the current sync format
+        if cdate < reuse_before and isinstance(prev, dict) and "vo2max_cycling" in prev:
+            daily[cdate] = prev
+            reused += 1
+            continue
         # Call each API safely so one failing doesn't break the whole day
         stats, _ = _safe_call("stats", client.get_user_summary, cdate)
         hr, _ = _safe_call("heart", client.get_heart_rates, cdate)
@@ -544,7 +575,7 @@ def fetch_days(client, days: int):
     acts, err = _safe_call("activities_by_date", client.get_activities_by_date, start, end)
     if acts is None or err:
         print(f"  Note: get_activities_by_date failed ({err}), trying get_activities(0, 20)...")
-        acts2, err2 = _safe_call("activities", client.get_activities, 0, 30)
+        acts2, err2 = _safe_call("activities", client.get_activities, 0, 100)
         if acts2 is not None:
             # Filter by date
             if isinstance(acts2, dict) and "activities" in acts2:
@@ -693,7 +724,7 @@ def fetch_days(client, days: int):
                     break
     print(f"Profile: VO2max={profile['vo2max']} FTP={profile['ftp']} HRzones={profile['hr_zones']}")
 
-    print(f"Fetched {len(daily)} day(s) and {len(activities)} activit{'y' if len(activities)==1 else 'ies'}.")
+    print(f"Fetched {len(daily)} day(s) ({reused} reused from last sync) and {len(activities)} activit{'y' if len(activities)==1 else 'ies'}.")
     return {"daily": daily, "activities": activities, "date_range": [start, end], "profile": profile}
 
 def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
@@ -841,6 +872,9 @@ def main():
     )
     parser.add_argument("--login", action="store_true", help="One-time Garmin login (saves private token, never stores password)")
     parser.add_argument("--days", type=int, default=7, help="Number of recent days to pull (default 7)")
+    parser.add_argument("--months", type=int, default=None,
+                        help="Calendar-month window instead of --days: current month + the previous N-1 whole months "
+                             "(e.g. --months 2 on Nov 9 = Oct 1 -> Nov 9). Reuses older days from the existing data.json.")
     parser.add_argument("--dry-run", action="store_true", help="Fetch and print preview without writing files")
     parser.add_argument("--sink", choices=["files"], default="files", help="Where to save (only 'files' supported)")
     parser.add_argument("--out", default="./garmin", help="Output folder (default ./garmin)")
@@ -864,6 +898,9 @@ def main():
         sys.exit(1)
 
     # Validate days
+    if args.months is not None and not (1 <= args.months <= 12):
+        print("--months must be 1..12")
+        sys.exit(1)
     if args.days < 1 or args.days > 365:
         print("--days must be 1..365")
         sys.exit(1)
@@ -936,7 +973,16 @@ def main():
 
     # Fetch
     try:
-        data = fetch_days(client, args.days)
+        if args.months:
+            out_json = Path(args.out) / "data.json"
+            existing = None
+            try:
+                existing = json.loads(out_json.read_text(encoding="utf-8"))
+            except Exception:
+                pass
+            data = fetch_days(client, start_date=month_window_start(_today_ist(), args.months), existing=existing)
+        else:
+            data = fetch_days(client, args.days)
     except Exception as e:
         print(f"Failed to fetch data: {e}")
         import traceback

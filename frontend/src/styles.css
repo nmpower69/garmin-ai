@@ -108,6 +108,13 @@ h2.sec .acid{color:var(--acid)}
 }
 .kpi .unit{font-size:.45em;color:var(--muted);font-weight:500;margin-left:4px}
 .kpi-sub{color:var(--muted);font-size:12.5px;margin-top:10px;line-height:1.5}
+.kpi-delta{font-size:12px;margin-top:6px;color:var(--muted);font-variant-numeric:tabular-nums}
+.kpi-delta.up{color:#22c55e}
+.kpi-delta.down{color:#f59e0b}
+.month-picker{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:4px 0 18px}
+.month-chip{font-family:inherit;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:6px 14px;font-size:13px;line-height:1;transition:background-color .18s ease,border-color .18s ease,color .18s ease}
+.month-chip:hover{border-color:rgba(183,245,66,.4);color:var(--acid)}
+.month-chip.on{background:rgba(183,245,66,.14);border-color:rgba(183,245,66,.55);color:var(--acid);font-weight:600}
 
 .chart-card h3{margin:0 0 14px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
 canvas.chart{max-height:300px;width:100%!important}

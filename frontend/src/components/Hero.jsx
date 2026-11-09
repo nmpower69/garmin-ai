@@ -26,7 +26,7 @@ function HeroCopyContent({ totals }){
   return (
     <>
       <motion.p className="hero-kicker" initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.8}}>
-        Garmin Connect <b>·</b> synced daily 10 AM IST <b>·</b> {t.rides} rides in the last 30 days
+        Garmin Connect <b>·</b> synced daily 10 AM IST <b>·</b> {t.rides} rides in {t.monthName || 'this month'}
       </motion.p>
       <h1>
         <motion.span className="acid" {...word(0)} style={{display:'inline-block'}}>{t.km}</motion.span>

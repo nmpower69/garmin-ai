@@ -53,33 +53,81 @@ export function hrBoundsOf(profile){
   return Array.isArray(f) && f.length === 5 && f.every(v => typeof v === 'number') ? f.slice(1) : [139, 159, 167, 172]
 }
 
-export function buildModel(data, insights, aiModelName, powerCurves, briefing, dataUrl){
-  const acts = (data.activities || []).filter(a => a.sport === 'road_biking').sort((a,b) => a.date.localeCompare(b.date))
-  const daily = data.daily || {}
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December']
+const SHORT_MONTHS = MONTH_NAMES.map(m => m.slice(0,3))
+export const monthLabel = ym => { const [y, m] = ym.split('-').map(Number); return `${MONTH_NAMES[m-1]} ${y}` }
+const prevMonthKey = ym => { let [y, m] = ym.split('-').map(Number); m -= 1; if(m < 1){ m = 12; y -= 1 } return `${y}-${String(m).padStart(2,'0')}` }
+const daysInMonth = ym => { const [y, m] = ym.split('-').map(Number); return new Date(Date.UTC(y, m, 0)).getUTCDate() }
+
+// Ride totals for a list of rides — used for the month and for last month's comparison.
+function rideStats(list){
+  const km = list.reduce((s,a) => s + num(a.distance_km), 0)
+  const hrsT = list.reduce((s,a) => s + num(a.duration_seconds), 0) / 3600
+  const elev = list.reduce((s,a) => s + elevOf(a), 0)
+  const hr = list.filter(a => typeof a.avg_hr === 'number').map(a => a.avg_hr)
+  return { rides:list.length, km, hrs:hrsT, elev, speed: hrsT ? km/hrsT : 0, avgHR: hr.length ? hr.reduce((a,b) => a+b, 0)/hr.length : 0, hrCount:hr.length }
+}
+
+// "▲ 12% vs Oct 1–9" — month-to-month change for a KPI (null when there's nothing to compare).
+function deltaText(cur, prev, label, {pct = true, unit = '', decimals = 0} = {}){
+  if(prev == null || cur == null || !label) return null
+  const diff = cur - prev
+  if(pct){
+    if(!prev) return null
+    const p = Math.round(diff / prev * 100)
+    return `${p > 0 ? '▲' : p < 0 ? '▼' : '='} ${Math.abs(p)}% vs ${label}`
+  }
+  return `${diff > 0 ? '▲' : diff < 0 ? '▼' : '='} ${Math.abs(diff).toFixed(decimals)}${unit} vs ${label}`
+}
+
+export function buildModel(data, insights, aiModelName, powerCurves, briefing, dataUrl, month){
+  const allActs = (data.activities || []).filter(a => a.sport === 'road_biking').sort((a,b) => a.date.localeCompare(b.date))
+  const allDaily = data.daily || {}
   const profile = data.profile || {}
   const hrB = hrBoundsOf(profile)   // [Z2 floor, Z3 floor, Z4 floor, Z5 floor]
 
-  // ---- KPIs (same 6 as old dashboard) ----
-  const totalKm = acts.reduce((s,a) => s + num(a.distance_km), 0)
-  const totalHrs = acts.reduce((s,a) => s + num(a.duration_seconds), 0) / 3600
-  const totalElev = acts.reduce((s,a) => s + elevOf(a), 0)
-  const avgSpeed = totalHrs ? totalKm/totalHrs : 0
+  // ---- Calendar-month view (was a rolling "last 30 days") ----
+  const winStart = (data.date_range && data.date_range[0]) || null
+  const winEnd = (data.date_range && data.date_range[1]) || null
+  const months = Array.from(new Set([...Object.keys(allDaily), ...allActs.map(a => a.date)].map(d => d.slice(0,7)))).sort()
+  const selMonth = months.includes(month) ? month : (months[months.length-1] || null)
+  const inMonth = d => !!selMonth && d.startsWith(selMonth)
+  const acts = allActs.filter(a => inMonth(a.date))
+  const daily = Object.fromEntries(Object.entries(allDaily).filter(([d]) => inMonth(d)))
+  const monthDays = selMonth ? daysInMonth(selMonth) : 0
+  const monthFirst = selMonth ? `${selMonth}-01` : null
+  const monthLast = selMonth ? `${selMonth}-${String(monthDays).padStart(2,'0')}` : null
+  const monthInProgress = !!(winEnd && monthLast && winEnd < monthLast)
+  const shownEnd = monthInProgress ? winEnd : monthLast
+  const dayN = shownEnd ? +shownEnd.slice(8) : monthDays
+
+  // Compare with the same days of last month (whole month once this one is over),
+  // but only when last month is fully inside the synced data.
+  const pm = selMonth ? prevMonthKey(selMonth) : null
+  const pmDays = pm ? daysInMonth(pm) : 0
+  const cmpN = Math.min(dayN, pmDays)
+  const pmCovered = !!(pm && winStart && winStart <= `${pm}-01`)
+  const cmpLabel = pmCovered ? (monthInProgress ? `${SHORT_MONTHS[+pm.slice(5)-1]} 1–${cmpN}` : monthLabel(pm).split(' ')[0]) : null
+  const prevS = pmCovered ? rideStats(allActs.filter(a => a.date.startsWith(pm) && +a.date.slice(8) <= (monthInProgress ? cmpN : pmDays))) : null
+
+  // ---- KPIs (same 6 as old dashboard, now for the selected month) ----
+  const S = rideStats(acts)
+  const totalKm = S.km, totalHrs = S.hrs, totalElev = S.elev, avgSpeed = S.speed, avgHR = S.avgHR
   const hrs = acts.filter(a => typeof a.avg_hr === 'number').map(a => a.avg_hr)
-  const avgHR = hrs.length ? hrs.reduce((a,b) => a+b, 0)/hrs.length : 0
   const best = acts.length ? Math.max(...acts.map(a => num(a.distance_km))) : 0
   // FTP comes from power_curves.json (Garmin's FTP when recent, else an
   // estimate from 20-min bests). No invented fallback number.
   const ftpVal = numOrNull(powerCurves?.ftp)
   const ftpStatus = powerCurves?.ftp_status || 'FTP unknown — waiting for the next sync'
   const kpis = acts.length === 0 ? [
-    {label:'No rides', value:0, decimals:0, unit:'rides', sub:'rest week — check daily wellness'},
+    {label:'No rides', value:0, decimals:0, unit:'rides', sub:'no rides this month yet — check daily wellness', delta: prevS ? `${prevS.rides} rides in ${cmpLabel}` : null},
     {label:'FTP', value:ftpVal, decimals:0, unit:'W', sub:ftpStatus},
   ] : [
-    {label:'Total Distance', value:totalKm, decimals:1, unit:'km', sub:`${acts.length} rides · longest ${best.toFixed(0)} km`},
-    {label:'Total Time', value:totalHrs, decimals:1, unit:'h', sub:`avg ${(totalKm/acts.length).toFixed(1)} km / ride`},
-    {label:'Avg Speed', value:avgSpeed, decimals:1, unit:'km/h', sub: avgSpeed < 25 ? 'easy conversational pace' : 'brisk pace for joy rider'},
-    {label:'Vert Gain', value:totalElev, decimals:0, unit:'m', sub:`${(totalElev/Math.max(1,acts.length)).toFixed(0)} m / ride avg`},
-    {label:'Avg HR', value:avgHR, decimals:0, unit:'bpm', sub: hrs.length ? (avgHR >= hrB[2] ? 'mostly threshold — ease off' : avgHR >= hrB[1] ? 'tempo-heavy average' : 'balanced base') : 'no HR data'},
+    {label:'Total Distance', value:totalKm, decimals:1, unit:'km', sub:`${acts.length} rides · longest ${best.toFixed(0)} km`, delta: deltaText(S.km, prevS?.km, cmpLabel)},
+    {label:'Total Time', value:totalHrs, decimals:1, unit:'h', sub:`avg ${(totalKm/acts.length).toFixed(1)} km / ride`, delta: deltaText(S.hrs, prevS?.hrs, cmpLabel)},
+    {label:'Avg Speed', value:avgSpeed, decimals:1, unit:'km/h', sub: avgSpeed < 25 ? 'easy conversational pace' : 'brisk pace for joy rider', delta: prevS?.rides ? deltaText(S.speed, prevS.speed, cmpLabel, {pct:false, unit:' km/h', decimals:1}) : null},
+    {label:'Vert Gain', value:totalElev, decimals:0, unit:'m', sub:`${(totalElev/Math.max(1,acts.length)).toFixed(0)} m / ride avg`, delta: deltaText(S.elev, prevS?.elev, cmpLabel)},
+    {label:'Avg HR', value:avgHR, decimals:0, unit:'bpm', sub: hrs.length ? (avgHR >= hrB[2] ? 'mostly threshold — ease off' : avgHR >= hrB[1] ? 'tempo-heavy average' : 'balanced base') : 'no HR data', delta: prevS?.hrCount ? deltaText(S.avgHR, prevS.avgHR, cmpLabel, {pct:false, unit:' bpm'}) : null},
     {label:'FTP', value:ftpVal, decimals:0, unit:'W', sub:ftpStatus},
   ]
 
@@ -195,16 +243,20 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
   let longest = null
   acts.forEach(a => { if(typeof a.distance_km === 'number' && (!longest || a.distance_km > (longest.distance_km||0))) longest = a })
   const wkBest = Object.entries(weeks).sort((a,b) => b[1].km - a[1].km)[0]
-  // "Bests in this window" — only rides inside the 30-day window, not every
-  // curve ever cached in power_curves.json.
+  // Bests for the selected month — only its rides, not every curve ever
+  // cached in power_curves.json.
   const curves = (powerCurves && powerCurves.curves) ? powerCurves.curves : {}
   const windowCurves = acts.map(a => curves[String(a._raw?.activityId || a.id)]).filter(Boolean)
   const pbest = k => { let b = 0; windowCurves.forEach(c => { if(typeof c[k] === 'number' && c[k] > b) b = c[k] }); return b }
   const b10 = pbest('10s'), b5 = pbest('300s'), b20 = pbest('1200s')
-  const last14 = dates.slice(-14)
   const actsByDate = {}
   acts.forEach(a => { const k = a.date; if(!actsByDate[k]) actsByDate[k] = []; actsByDate[k].push(a) })
-  const last14Dots = last14.map(d => ({date:d, has:(actsByDate[d]||[]).length > 0}))
+  // One dot per day of the month so far (ride / no ride)
+  const monthDots = []
+  for(let d = 1; d <= dayN; d++){
+    const key = `${selMonth}-${String(d).padStart(2,'0')}`
+    monthDots.push({date:key, has:(actsByDate[key]||[]).length > 0})
+  }
 
   // ---- Power table ----
   const getCurve = id => powerCurves?.curves?.[id] || null
@@ -227,10 +279,8 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
   const latest = [...acts].reverse().slice(0,10)
 
   // ---- Calendar ----
-  const monthKeys = Array.from(new Set(Object.keys(daily).map(d => d.slice(0,7)))).sort()
+  const monthKeys = months
   const dataBase = dataUrl ? dataUrl.replace(/data\.json$/,'') : ''
-  const winStart = (data.date_range && data.date_range[0]) || null
-  const winEnd = (data.date_range && data.date_range[1]) || null
 
   // ---- AI status (same heuristic as old dashboard) ----
   const first = (insights && insights[0] && insights[0].title || '').toLowerCase()
@@ -239,9 +289,10 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
 
   return {
     acts, daily, data,
-    range: data.date_range || [],
+    months, month: selMonth, monthName: selMonth ? monthLabel(selMonth) : '', monthInProgress, cmpLabel,
+    range: selMonth ? [monthFirst, shownEnd] : (data.date_range || []),
     generatedAt: data.generated_at,
-    totals: { km: totalKm.toFixed(0), hrs: totalHrs.toFixed(1), rides: acts.length, vert: Math.round(totalElev) },
+    totals: { km: totalKm.toFixed(0), hrs: totalHrs.toFixed(1), rides: acts.length, vert: Math.round(totalElev), monthName: selMonth ? monthLabel(selMonth) : '' },
     totalKm, totalHrs, totalElev, avgSpeed, avgHR,
     kpis, ftpVal, ftpStatus, ftpSeries, ftpSource,
     weekLabels, volData, hrsData, vertData, counts, avgLine,
@@ -252,9 +303,9 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
     slpH, slpScore,
     rcAll, rcR, rcH, rcRh, rcB, rcS,
     skM, skTot, skSkip,
-    records: { longest, wkBest, b10, b5, b20, last14Dots, rideCount: acts.length },
+    records: { longest, wkBest, b10, b5, b20, monthDots, rideCount: acts.length, monthName: selMonth ? monthLabel(selMonth) : '', prevRides: prevS ? prevS.rides : null, cmpLabel },
     powerRows, powerCols, powerBests, latest,
-    calendar: { monthKeys, actsByDate, dataBase, winStart, winEnd },
+    calendar: { monthKeys, month: selMonth, actsByDate, dataBase, winStart, winEnd },
     briefing,
     insights: Array.isArray(insights) ? insights : null,
     aiLive, aiModelName,

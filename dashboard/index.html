@@ -38,6 +38,14 @@ h3{margin:0 0 10px;font-size:13px;font-weight:700;text-transform:uppercase;lette
 .kpi-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;background:#0e1830;border:1px solid var(--border);flex-shrink:0}
 .kpi{font-size:30px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
 .sub{color:var(--muted);font-size:12.5px;line-height:1.5}
+.delta{font-size:12px;margin-top:6px;color:var(--muted)}
+.delta.up{color:#22c55e}
+.delta.down{color:#f59e0b}
+.month-nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:20px 0 4px}
+.mchip{display:inline-block;padding:6px 14px;border-radius:999px;border:1px solid var(--border);background:#0e1830;color:var(--text);font-size:13px;text-decoration:none}
+.mchip:hover{border-color:#38bdf8;color:#38bdf8}
+.mchip.on{background:rgba(56,189,248,.16);border-color:#38bdf8;color:#38bdf8;font-weight:700}
+.mchip.nav.off{opacity:.3}
 .kpi-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
 canvas{max-height:300px;width:100%!important}
 .chart-sub{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}
@@ -141,7 +149,7 @@ a,button,.cal-day,.badge{transition:color .2s ease,background-color .2s ease,bor
 <header>
 <div>
 <h1><span class="emoji">🚴</span> Garmin Cycling Dashboard <span style="color:var(--muted);font-weight:400">· for Happiness, not Racing</span></h1>
-<div class="sub">Read-only from Garmin Connect • Daily 10 AM IST • Last 30 days: <span id="range"></span> • <a id="dataLink" href="garmin/data.json" target="_blank">data.json</a> • <span id="lastSync"></span></div>
+<div class="sub">Read-only from Garmin Connect • Daily sync • Showing <span id="range"></span> • <a id="dataLink" href="garmin/data.json" target="_blank">data.json</a> • <span id="lastSync"></span></div>
 </div>
 <div class="status" id="aiStatus" title="AI Insights status">
 <span class="dot" id="aiDot"></span>
@@ -150,6 +158,7 @@ a,button,.cal-day,.badge{transition:color .2s ease,background-color .2s ease,bor
 </header>
 
 <div class="wrap">
+<div class="month-nav" id="monthNav" aria-label="Choose month"></div>
 <div class="grid" id="kpis"></div>
 
 <h2>🌅 Tomorrow's Briefing</h2>
@@ -351,8 +360,45 @@ async function load(){
   const data = await res.json();
   document.getElementById('range').textContent = data.date_range.join(' → ');
   document.getElementById('lastSync').textContent = 'synced ' + new Date(data.generated_at).toLocaleString();
-  const daily = data.daily;
-  const acts = data.activities.filter(a=>a.sport==='road_biking').sort((a,b)=>a.date.localeCompare(b.date));
+  // ---- Calendar-month view (was a rolling "last 30 days"); ?month=YYYY-MM picks the month ----
+  const allDaily = data.daily || {};
+  const allActs = data.activities.filter(a=>a.sport==='road_biking').sort((a,b)=>a.date.localeCompare(b.date));
+  const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const mLabel = ym => MONTHS[+ym.slice(5)-1] + ' ' + ym.slice(0,4);
+  const dim = ym => new Date(Date.UTC(+ym.slice(0,4), +ym.slice(5), 0)).getUTCDate();
+  const months = Array.from(new Set([...Object.keys(allDaily), ...allActs.map(a=>a.date)].map(d=>d.slice(0,7)))).sort();
+  const qMonth = new URLSearchParams(location.search).get('month');
+  const selMonth = months.includes(qMonth) ? qMonth : months[months.length-1];
+  const monthUrl = ym => { const u = new URL(location.href); u.searchParams.set('month', ym); return u.pathname + u.search; };
+  const daily = Object.fromEntries(Object.entries(allDaily).filter(([d])=>d.startsWith(selMonth)));
+  const acts = allActs.filter(a=>a.date.startsWith(selMonth));
+  const winStart = data.date_range[0], winEnd = data.date_range[1];
+  const monthLast = selMonth + '-' + String(dim(selMonth)).padStart(2,'0');
+  const monthInProgress = winEnd < monthLast;
+  const shownEnd = monthInProgress ? winEnd : monthLast;
+  const dayN = +shownEnd.slice(8);
+  document.getElementById('range').textContent = mLabel(selMonth) + ' (' + selMonth + '-01 → ' + shownEnd + ')';
+  const mi = months.indexOf(selMonth);
+  document.getElementById('monthNav').innerHTML =
+    (mi>0 ? `<a class="mchip nav" href="${monthUrl(months[mi-1])}">‹</a>` : '<span class="mchip nav off">‹</span>') +
+    months.map(m=>`<a class="mchip${m===selMonth?' on':''}" href="${monthUrl(m)}">${mLabel(m)}</a>`).join('') +
+    (mi<months.length-1 ? `<a class="mchip nav" href="${monthUrl(months[mi+1])}">›</a>` : '<span class="mchip nav off">›</span>');
+  // Same days of last month (whole month once this one is over), only if fully synced
+  const pm = (()=>{ let y=+selMonth.slice(0,4), m=+selMonth.slice(5)-1; if(m<1){m=12;y--;} return y+'-'+String(m).padStart(2,'0'); })();
+  const cmpN = Math.min(dayN, dim(pm));
+  const pmCovered = winStart <= pm + '-01';
+  const cmpLabel = pmCovered ? (monthInProgress ? MONTHS[+pm.slice(5)-1].slice(0,3) + ' 1–' + cmpN : MONTHS[+pm.slice(5)-1]) : null;
+  const prevActs = pmCovered ? allActs.filter(a=>a.date.startsWith(pm) && +a.date.slice(8) <= (monthInProgress ? cmpN : dim(pm))) : null;
+  const statsOf = list => {
+    const km = list.reduce((s,a)=>s+(typeof a.distance_km==='number'?a.distance_km:0),0);
+    const h = list.reduce((s,a)=>s+(typeof a.duration_seconds==='number'?a.duration_seconds:0),0)/3600;
+    const el = list.reduce((s,a)=>s+((typeof a.elevation_gain==='number'?a.elevation_gain:a._raw?.elevationGain)||0),0);
+    const hr = list.filter(a=>typeof a.avg_hr==='number').map(a=>a.avg_hr);
+    return {n:list.length, km, h, el, sp:h?km/h:0, hr:hr.length?hr.reduce((x,y)=>x+y,0)/hr.length:null};
+  };
+  const P = prevActs ? statsOf(prevActs) : null;
+  const dPct = (c,p)=>{ if(!P || !p) return ''; const v=Math.round((c-p)/p*100); return (v>0?'▲ ':v<0?'▼ ':'= ')+Math.abs(v)+'% vs '+cmpLabel; };
+  const dAbs = (c,p,u,dec)=>{ if(!P || p==null || !P.n) return ''; const v=c-p; return (v>0?'▲ ':v<0?'▼ ':'= ')+Math.abs(v).toFixed(dec)+u+' vs '+cmpLabel; };
   let earlyPower = null;
   try{ const u = siblingOf('power_curves.json'); if(u){ const r=await fetchNoCache(u); if(r.ok) earlyPower=await r.json(); } }catch(e){}
   try{ if(!earlyPower){ const r=await fetchNoCache(new URL('garmin/power_curves.json', document.baseURI).href); if(r.ok) earlyPower=await r.json(); } }catch(e){}
@@ -376,17 +422,17 @@ async function load(){
   const best = acts.length?Math.max(...acts.map(a=>typeof a.distance_km==='number'?a.distance_km:0)):0;
   const icons = {dist:'🛣️',time:'⏱️',speed:'💨',vert:'⛰️',hr:'❤️',ftp:'⚡'};
   const kpis = acts.length===0 ? [
-    ['No rides','0 rides','rest week — check daily wellness','🛣️'],
+    ['No rides','0 rides','no rides in '+mLabel(selMonth)+' yet — check daily wellness','🛣️', P ? P.n+' rides in '+cmpLabel : ''],
     ['FTP', ftpText, ftpStatus,'⚡'],
   ] : [
-    ['Total Distance', totalKm.toFixed(1)+' km', acts.length+' rides · longest '+best.toFixed(0)+' km', icons.dist],
-    ['Total Time', totalHrs.toFixed(1)+' h', 'avg '+(totalKm/acts.length).toFixed(1)+' km / ride', icons.time],
-    ['Avg Speed', avgSpeed.toFixed(1)+' km/h', avgSpeed<25?'easy conversational pace':'brisk pace for joy rider', icons.speed],
-    ['Vert Gain', Math.round(totalElev)+' m', (totalElev/Math.max(1,acts.length)).toFixed(0)+' m / ride avg', icons.vert],
-    ['Avg HR', hrs.length?Math.round(avgHR)+' bpm':'—', hrs.length?(avgHR>=hrB[2]?'mostly threshold — ease off':avgHR>=hrB[1]?'tempo-heavy average':'balanced base'):'no HR data', icons.hr],
+    ['Total Distance', totalKm.toFixed(1)+' km', acts.length+' rides · longest '+best.toFixed(0)+' km', icons.dist, P && dPct(totalKm, P.km)],
+    ['Total Time', totalHrs.toFixed(1)+' h', 'avg '+(totalKm/acts.length).toFixed(1)+' km / ride', icons.time, P && dPct(totalHrs, P.h)],
+    ['Avg Speed', avgSpeed.toFixed(1)+' km/h', avgSpeed<25?'easy conversational pace':'brisk pace for joy rider', icons.speed, P && dAbs(avgSpeed, P.sp, ' km/h', 1)],
+    ['Vert Gain', Math.round(totalElev)+' m', (totalElev/Math.max(1,acts.length)).toFixed(0)+' m / ride avg', icons.vert, P && dPct(totalElev, P.el)],
+    ['Avg HR', hrs.length?Math.round(avgHR)+' bpm':'—', hrs.length?(avgHR>=hrB[2]?'mostly threshold — ease off':avgHR>=hrB[1]?'tempo-heavy average':'balanced base'):'no HR data', icons.hr, P && hrs.length && dAbs(avgHR, P.hr, ' bpm', 0)],
     ['FTP', ftpText, ftpStatus, icons.ftp],
   ];
-  document.getElementById('kpis').innerHTML = kpis.map(([t,v,s,ic])=>`<div class="card kpi-card"><div class="kpi-icon">${ic||'📊'}</div><div><div class="kpi-label">${t}</div><div class="kpi">${v}</div><div class="sub">${s}</div></div></div>`).join('');
+  document.getElementById('kpis').innerHTML = kpis.map(([t,v,s,ic,dl])=>`<div class="card kpi-card"><div class="kpi-icon">${ic||'📊'}</div><div><div class="kpi-label">${t}</div><div class="kpi">${v}</div><div class="sub">${s}</div>${dl?`<div class="delta ${dl.startsWith('▲')?'up':dl.startsWith('▼')?'down':''}">${dl}</div>`:''}</div></div>`).join('');
   document.querySelectorAll('#kpis .kpi').forEach(countUp);
 
   // ---- Weekly grouping ----
@@ -490,7 +536,7 @@ async function load(){
   try{
     if(vo2Latest) document.querySelector('#vo2').closest('.card').querySelector('h3').textContent = 'VO2 Max · ' + vo2Latest.value;
     document.getElementById('vo2Note').textContent = vo2Latest
-      ? `Garmin ${vo2Latest.sport} VO2 max ${vo2Latest.value}${vo2Latest.date?' (updated '+vo2Latest.date+')':''}.` + (vo2All.length>1 ? ' Dots = days Garmin re-estimated it.' : ' No new estimate inside this 30-day window.')
+      ? `Garmin ${vo2Latest.sport} VO2 max ${vo2Latest.value}${vo2Latest.date?' (updated '+vo2Latest.date+')':''}.` + (vo2All.length>1 ? ' Dots = days Garmin re-estimated it.' : ' No new estimate this month.')
       : 'No VO2 max from Garmin yet. Cycling VO2 max needs an outdoor ride with a power meter + heart rate (20+ min at a solid effort).';
   }catch(e){}
 
@@ -579,10 +625,9 @@ async function load(){
 
   // ---- Calendar ----
   const actsByDate = {}; acts.forEach(a=>{ const k = a.date; if(!actsByDate[k]) actsByDate[k]=[]; actsByDate[k].push(a); });
-  const monthKeys = Array.from(new Set(Object.keys(daily).map(d=>d.slice(0,7)))).sort();
-  let calYM = monthKeys.length ? monthKeys[monthKeys.length-1] : null;
-  const winStart = (data.date_range && data.date_range[0]) || null;
-  const winEnd = (data.date_range && data.date_range[1]) || null;
+  const monthKeys = months;
+  let calYM = selMonth || null;
+  // winStart / winEnd (synced range) are defined with the month selection above
   const dataBase = (()=>{ try{ return new URL(successPath, document.baseURI).href.replace(/data\.json$/, ''); }catch(e){ return ''; } })();
   const readinessColor = (v)=> typeof v!=='number' ? '#64748b' : v>=75 ? '#22c55e' : v>=50 ? '#f59e0b' : '#f87171';
   function renderCalendar(){
@@ -617,8 +662,9 @@ async function load(){
     }
     document.getElementById('calGrid').innerHTML = html;
   }
-  document.getElementById('calPrev').onclick = ()=>{ const i=monthKeys.indexOf(calYM); if(i>0){ calYM=monthKeys[i-1]; renderCalendar(); } };
-  document.getElementById('calNext').onclick = ()=>{ const i=monthKeys.indexOf(calYM); if(i<monthKeys.length-1){ calYM=monthKeys[i+1]; renderCalendar(); } };
+  // Calendar arrows switch the whole dashboard to that month
+  document.getElementById('calPrev').onclick = ()=>{ const i=monthKeys.indexOf(calYM); if(i>0) location.href = monthUrl(monthKeys[i-1]); };
+  document.getElementById('calNext').onclick = ()=>{ const i=monthKeys.indexOf(calYM); if(i<monthKeys.length-1) location.href = monthUrl(monthKeys[i+1]); };
   renderCalendar();
 
   // ---- Intensity donut (ride hours by avg-HR zone) ----
@@ -719,7 +765,7 @@ async function load(){
   if(longest) recCards.push(['Longest ride', longest.distance_km.toFixed(0)+' km', longest.date + ' · ' + longest.name, '🏁']);
   const wkBest = Object.entries(weeks).sort((a,b)=>b[1].km-a[1].km)[0];
   if(wkBest) recCards.push(['Biggest week', wkBest[1].km.toFixed(0)+' km', wkBest[0] + ' · ' + wkBest[1].count + ' rides', '📈']);
-  // Bests in this window: only rides inside the 30-day window, not every cached curve
+  // Bests for the selected month: only its rides, not every cached curve
   const curves = (earlyPower && earlyPower.curves) ? earlyPower.curves : {};
   const windowCurves = acts.map(a=>curves[String(a._raw?.activityId || a.id)]).filter(Boolean);
   const pbest = (k)=>{ let b=0; windowCurves.forEach(c=>{ if(typeof c[k]==='number' && c[k]>b) b=c[k]; }); return b; };
@@ -727,12 +773,12 @@ async function load(){
   if(b10>0) recCards.push(['Best 10s power', b10+' W', 'neuromuscular', '⚡']);
   if(b5>0) recCards.push(['Best 5m power', b5+' W', 'VO2', '🔥']);
   if(b20>0) recCards.push(['Best 20m power', b20+' W', 'approx FTP', '⏱️']);
-  const last14 = dates.slice(-14);
-  const dots = last14.map(d=>{
+  const monthDays = Array.from({length:dayN}, (_,i)=>selMonth+'-'+String(i+1).padStart(2,'0'));
+  const dots = monthDays.map(d=>{
     const has = (actsByDate[d]||[]).length>0;
-    return '<span title="' + d + (has?' — ride':'') + '" style="display:inline-block;width:14px;height:14px;border-radius:50%;background:' + (has?'#38bdf8':'#26344f') + ';margin-right:5px;border:1px solid #33507e;vertical-align:middle"></span>';
+    return '<span title="' + d + (has?' — ride':'') + '" style="display:inline-block;width:11px;height:11px;border-radius:50%;margin-bottom:4px;background:' + (has?'#38bdf8':'#26344f') + ';margin-right:4px;border:1px solid #33507e;vertical-align:middle"></span>';
   }).join('');
-  recCards.push(['Last 14 days', acts.length+' rides / 30d', dots, '🗓️']);
+  recCards.push(['Rides in '+mLabel(selMonth), acts.length+(acts.length===1?' ride':' rides'), dots + (P ? '<div style="margin-top:4px">'+P.n+' in '+cmpLabel+'</div>' : ''), '🗓️']);
   document.getElementById('recordsGrid').innerHTML = recCards.map(r=>'<div class="card kpi-card"><div class="kpi-icon">'+r[3]+'</div><div><div class="kpi-label">'+r[0]+'</div><div class="kpi">'+r[1]+'</div><div class="sub">'+r[2]+'</div></div></div>').join('');
   document.querySelectorAll('#recordsGrid .kpi').forEach(countUp);
 

@@ -6,7 +6,7 @@ import Briefing from './components/Briefing.jsx'
 import TrainingCalendar from './components/TrainingCalendar.jsx'
 import RecordsGrid from './components/RecordsGrid.jsx'
 import { PowerTable, LatestTable } from './components/Tables.jsx'
-import { loadRequired, loadJson, loadText, buildModel } from './lib/data.js'
+import { loadRequired, loadJson, loadText, buildModel, monthLabel } from './lib/data.js'
 import {
   weeklyBarConfig, hrSpeedConfig, readinessConfig, hrvRhrConfig, vo2Config,
   ftpConfig, zoneDonutConfig, sleepConfig, recoveryConfig, flowConfig,
@@ -22,7 +22,7 @@ function vo2Sub(model){
   const L = model.vo2Latest
   if(!L) return 'No VO2 max from Garmin yet. Cycling VO2 max needs an outdoor ride with a power meter + heart rate (20+ min at a solid effort).'
   const when = L.date ? ` (updated ${L.date})` : ''
-  const trend = model.vo2HasData ? ' Dots = days Garmin re-estimated it; the line joins them.' : ' No new estimate inside this 30-day window.'
+  const trend = model.vo2HasData ? ' Dots = days Garmin re-estimated it; the line joins them.' : ' No new estimate this month.'
   return `Garmin ${L.sport} VO2 max ${L.value}${when}.${trend}`
 }
 
@@ -45,7 +45,7 @@ function CountUp({ value, decimals = 0 }){
   return <span ref={ref}>{display.toFixed(decimals)}</span>
 }
 
-function Kpi({ label, value, decimals, unit, sub, i }){
+function Kpi({ label, value, decimals, unit, sub, delta, i }){
   const reduced = useReducedMotion()
   return (
     <motion.div className="card kpi-card"
@@ -58,7 +58,22 @@ function Kpi({ label, value, decimals, unit, sub, i }){
         {typeof value === 'number' ? <CountUp value={value} decimals={decimals}/> : '—'}<span className="unit">{unit}</span>
       </div>
       <div className="kpi-sub">{sub}</div>
+      {delta && <div className={'kpi-delta ' + (delta.startsWith('▲') ? 'up' : delta.startsWith('▼') ? 'down' : '')}>{delta}</div>}
     </motion.div>
+  )
+}
+
+function MonthPicker({ model, onMonth }){
+  const { months, month } = model
+  const i = months.indexOf(month)
+  return (
+    <div className="month-picker">
+      <button className="cal-nav" aria-label="Previous month" disabled={i <= 0} onClick={() => onMonth(months[i-1])}>‹</button>
+      {months.map(m => (
+        <button key={m} className={'month-chip' + (m === month ? ' on' : '')} onClick={() => onMonth(m)}>{monthLabel(m)}</button>
+      ))}
+      <button className="cal-nav" aria-label="Next month" disabled={i >= months.length-1} onClick={() => onMonth(months[i+1])}>›</button>
+    </div>
   )
 }
 
@@ -89,7 +104,7 @@ function Section({ title, acid, sub, children, id }){
 function StatusBand({ model, dataUrl }){
   const reduced = useReducedMotion()
   const chips = [
-    {label:'Window', value: model.range.join(' → ')},
+    {label:'Showing', value: model.range.join(' → ')},
     {label:'Last sync', value: model.generatedAt ? new Date(model.generatedAt).toLocaleString() : '—'},
     {label:'AI Insights', value: model.aiLive ? 'Live' : 'Error', cls: model.aiLive ? 'live' : 'err'},
   ]
@@ -116,9 +131,16 @@ function StatusBand({ model, dataUrl }){
 }
 
 export default function App(){
-  const [model, setModel] = useState(null)
+  const [raw, setRaw] = useState(null)
   const [error, setError] = useState(null)
   const [dataUrl, setDataUrl] = useState(null)
+  // Selected calendar month (YYYY-MM); ?month= in the URL makes a month linkable.
+  const [month, setMonthState] = useState(() => new URLSearchParams(window.location.search).get('month'))
+  const setMonth = m => {
+    setMonthState(m)
+    const u = new URL(window.location.href); u.searchParams.set('month', m)
+    window.history.replaceState(null, '', u)
+  }
 
   useEffect(() => {
     (async () => {
@@ -134,15 +156,15 @@ export default function App(){
           const m = mdRes.payload.match(/via\s+`([^`]+)`/)
           if(m) aiModelName = m[1]
         }
-        setModel(buildModel(
-          dataRes.payload,
-          insightsRes.payload, aiModelName,
-          powerRes.payload, briefingRes.payload,
-          dataRes.url,
-        ))
+        setRaw({
+          data: dataRes.payload, insights: insightsRes.payload, aiModelName,
+          power: powerRes.payload, briefing: briefingRes.payload, url: dataRes.url,
+        })
       }catch(e){ setError(e.message) }
     })()
   }, [])
+
+  const model = useMemo(() => raw ? buildModel(raw.data, raw.insights, raw.aiModelName, raw.power, raw.briefing, raw.url, month) : null, [raw, month])
 
   const charts = useMemo(() => {
     if(!model) return null
@@ -171,7 +193,8 @@ export default function App(){
       {model && <StatusBand model={model} dataUrl={dataUrl}/>}
 
       <div className="wrap">
-        <Section title="Last" acid="30 days." sub="Every number comes straight from garmin/data.json — no manual entry, no vanity metrics." id="charts">
+        <Section title="Month:" acid={(model?.monthName || 'this month') + '.'} sub={'Calendar-month totals from garmin/data.json' + (model?.cmpLabel ? `, compared with ${model.cmpLabel}` : '') + '. Pick a month — every section below follows it (briefing and coach notes always use the latest data).'} id="charts">
+          {model && <MonthPicker model={model} onMonth={setMonth}/>}
           <div className="grid">
             {(model?.kpis || []).map((k,i) => <Kpi key={k.label} {...k} i={i}/>)}
           </div>
@@ -182,7 +205,7 @@ export default function App(){
         </Section>
 
         <Section title="Training" acid="calendar." sub="Acid depth = ride distance, dot = readiness tier. Click a day to open its note.">
-          {model && <TrainingCalendar calendar={model.calendar} daily={model.daily} acts={model.acts}/>}
+          {model && <TrainingCalendar calendar={model.calendar} daily={model.daily} acts={model.acts} onMonth={setMonth}/>}
         </Section>
 
         <Section title="Intensity &" acid="sleep." sub="Where your hours went (rides bucketed by avg HR) and how you slept each night.">
@@ -211,7 +234,7 @@ export default function App(){
             sub={(model ? `Easy <${model.hrB[0]} bpm · Moderate ${model.hrB[0]}–${model.hrB[2]} · Hard >${model.hrB[2]}.` : '') + ' Short <1h · Medium 1–2h · Long 2h+.' + (model ? ' Total ' + model.skTot.toFixed(1) + ' h.' + (model.skSkip > 0 ? ' (' + model.skSkip + ' ride(s) missing HR excluded.)' : '') : '')}/>
         </Section>
 
-        <Section title="Records &" acid="streaks." sub="Bests in this window plus consistency.">
+        <Section title="Records &" acid="streaks." sub={`Bests for ${model?.monthName || "this month"} plus consistency.`}>
           {model && <RecordsGrid records={model.records}/>}
         </Section>
 
