@@ -1,44 +1,41 @@
 {
-  "generated_at": "2026-11-08T16:54:41.363264+05:30",
+  "generated_at": "2026-11-09T17:00:48.136892+05:30",
   "date_range": [
-    "2026-10-10",
-    "2026-11-08"
+    "2026-10-11",
+    "2026-11-09"
   ],
-  "daily": {
-    "2026-10-10": {
-      "date": "2026-10-10",
-      "steps": 2820,
-      "calories": 3044,
-      "distance_km": 72.3,
-      "sleep_hours": "6h 54m",
-      "sleep_score": "75 (FAIR)",
-      "sleep_deep": "56m",
-      "sleep_light": "5h 12m",
-      "sleep_rem": "46m",
-      "sleep_awake": "20m",
-      "hrv": 68,
-      "resting_hr": 52,
-      "body_battery": 73,
-      "stress": 39,
-      "training_readiness": 84,
-      "moderate_minutes": 51,
-      "vigorous_minutes": 79,
-      "_raw": {
-        "sleep": {
-          "dailySleepDTO": {
-            "sleepStartTimestampLocal": 1791583260000,
-            "sleepStartTimestampGMT": 1791563460000,
-            "sleepEndTimestampLocal": 1791609300000,
-            "sleepEndTimestampGMT": 1791589500000,
-            "sleepTimeSeconds": 24840,
-            "deepSleepSeconds": 3360,
-            "lightSleepSeconds": 18720,
-            "remSleepSeconds": 2760,
-            "awakeSleepSeconds": 1200
-          }
-        }
+  "profile": {
+    "vo2max": {
+      "cycling": {
+        "value": 49.0,
+        "date": "2026-11-08"
+      },
+      "running": {
+        "value": 49.4,
+        "date": "2026-10-24"
       }
     },
+    "ftp": {
+      "value": 271,
+      "date": "2025-03-04T08:10:35.0",
+      "is_stale": true
+    },
+    "hr_zones": {
+      "sport": "CYCLING",
+      "method": "LACTATE_THRESHOLD",
+      "floors": [
+        114,
+        139,
+        159,
+        167,
+        172
+      ],
+      "max_hr": 196,
+      "lthr": 175,
+      "resting_hr": null
+    }
+  },
+  "daily": {
     "2026-10-11": {
       "date": "2026-10-11",
       "steps": 5821,
@@ -52,9 +49,11 @@
       "sleep_awake": "N/A",
       "hrv": 78,
       "resting_hr": 50,
-      "body_battery": 68,
+      "body_battery": 85,
       "stress": 36,
       "training_readiness": 93,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 1,
       "vigorous_minutes": 1,
       "_raw": {
@@ -86,9 +85,11 @@
       "sleep_awake": "18m",
       "hrv": 66,
       "resting_hr": 54,
-      "body_battery": 74,
+      "body_battery": 84,
       "stress": 36,
       "training_readiness": 80,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -120,9 +121,11 @@
       "sleep_awake": "5m",
       "hrv": 63,
       "resting_hr": 53,
-      "body_battery": 58,
+      "body_battery": 68,
       "stress": 37,
       "training_readiness": 83,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 43,
       "vigorous_minutes": 78,
       "_raw": {
@@ -154,9 +157,11 @@
       "sleep_awake": "4m",
       "hrv": 75,
       "resting_hr": 50,
-      "body_battery": 70,
+      "body_battery": 74,
       "stress": 40,
       "training_readiness": 75,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 30,
       "vigorous_minutes": 51,
       "_raw": {
@@ -188,9 +193,11 @@
       "sleep_awake": "5m",
       "hrv": 70,
       "resting_hr": 54,
-      "body_battery": 75,
+      "body_battery": 73,
       "stress": 32,
       "training_readiness": 73,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -222,9 +229,11 @@
       "sleep_awake": "12m",
       "hrv": 70,
       "resting_hr": 52,
-      "body_battery": 59,
+      "body_battery": 80,
       "stress": 38,
       "training_readiness": 85,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 42,
       "vigorous_minutes": 78,
       "_raw": {
@@ -259,6 +268,8 @@
       "body_battery": 59,
       "stress": 34,
       "training_readiness": 78,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 15,
       "vigorous_minutes": 16,
       "_raw": {
@@ -290,9 +301,11 @@
       "sleep_awake": "15m",
       "hrv": 65,
       "resting_hr": 54,
-      "body_battery": 67,
+      "body_battery": 62,
       "stress": 36,
       "training_readiness": 74,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 56,
       "vigorous_minutes": 124,
       "_raw": {
@@ -327,6 +340,8 @@
       "body_battery": 94,
       "stress": 25,
       "training_readiness": 85,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -358,9 +373,11 @@
       "sleep_awake": "3m",
       "hrv": 71,
       "resting_hr": 50,
-      "body_battery": 67,
+      "body_battery": 97,
       "stress": 32,
       "training_readiness": 93,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 38,
       "vigorous_minutes": 55,
       "_raw": {
@@ -392,9 +409,11 @@
       "sleep_awake": "11m",
       "hrv": 68,
       "resting_hr": 52,
-      "body_battery": 81,
+      "body_battery": 93,
       "stress": 34,
       "training_readiness": 95,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -426,9 +445,11 @@
       "sleep_awake": "11m",
       "hrv": 72,
       "resting_hr": 52,
-      "body_battery": 72,
+      "body_battery": 88,
       "stress": 40,
       "training_readiness": 89,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 32,
       "vigorous_minutes": 62,
       "_raw": {
@@ -460,9 +481,11 @@
       "sleep_awake": "2m",
       "hrv": 69,
       "resting_hr": 53,
-      "body_battery": 71,
+      "body_battery": 79,
       "stress": 35,
       "training_readiness": 85,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 23,
       "vigorous_minutes": 12,
       "_raw": {
@@ -494,9 +517,11 @@
       "sleep_awake": "5m",
       "hrv": 69,
       "resting_hr": 49,
-      "body_battery": 89,
+      "body_battery": 91,
       "stress": 24,
       "training_readiness": 82,
+      "vo2max_cycling": 49.4,
+      "vo2max_running": 49.4,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -528,9 +553,11 @@
       "sleep_awake": "6m",
       "hrv": 65,
       "resting_hr": 49,
-      "body_battery": 71,
+      "body_battery": 95,
       "stress": 34,
       "training_readiness": 91,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 31,
       "vigorous_minutes": 85,
       "_raw": {
@@ -562,9 +589,11 @@
       "sleep_awake": "19m",
       "hrv": 71,
       "resting_hr": 53,
-      "body_battery": 79,
+      "body_battery": 77,
       "stress": 27,
       "training_readiness": 79,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -596,9 +625,11 @@
       "sleep_awake": "3m",
       "hrv": 68,
       "resting_hr": 51,
-      "body_battery": 61,
+      "body_battery": 82,
       "stress": 42,
       "training_readiness": 78,
+      "vo2max_cycling": 50.0,
+      "vo2max_running": null,
       "moderate_minutes": 20,
       "vigorous_minutes": 67,
       "_raw": {
@@ -630,9 +661,11 @@
       "sleep_awake": "41m",
       "hrv": 64,
       "resting_hr": 55,
-      "body_battery": 60,
+      "body_battery": 61,
       "stress": 32,
       "training_readiness": 58,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -664,9 +697,11 @@
       "sleep_awake": "9m",
       "hrv": 70,
       "resting_hr": 50,
-      "body_battery": 86,
+      "body_battery": 82,
       "stress": 31,
       "training_readiness": 73,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -698,9 +733,11 @@
       "sleep_awake": "2m",
       "hrv": 72,
       "resting_hr": 52,
-      "body_battery": 64,
+      "body_battery": 91,
       "stress": 40,
       "training_readiness": 83,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 37,
       "vigorous_minutes": 65,
       "_raw": {
@@ -732,9 +769,11 @@
       "sleep_awake": "10m",
       "hrv": 66,
       "resting_hr": 54,
-      "body_battery": 75,
+      "body_battery": 78,
       "stress": 34,
       "training_readiness": 69,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 3,
       "_raw": {
@@ -766,9 +805,11 @@
       "sleep_awake": "11m",
       "hrv": 67,
       "resting_hr": 55,
-      "body_battery": 66,
+      "body_battery": 70,
       "stress": 40,
       "training_readiness": 60,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 52,
       "vigorous_minutes": 76,
       "_raw": {
@@ -800,9 +841,11 @@
       "sleep_awake": "27m",
       "hrv": 69,
       "resting_hr": 55,
-      "body_battery": 77,
+      "body_battery": 82,
       "stress": 35,
       "training_readiness": 70,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -834,9 +877,11 @@
       "sleep_awake": "2m",
       "hrv": 73,
       "resting_hr": 53,
-      "body_battery": 83,
+      "body_battery": 90,
       "stress": 32,
       "training_readiness": 98,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -868,9 +913,11 @@
       "sleep_awake": "16m",
       "hrv": 77,
       "resting_hr": 52,
-      "body_battery": 91,
+      "body_battery": 95,
       "stress": 32,
       "training_readiness": 95,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 1,
       "_raw": {
@@ -902,9 +949,11 @@
       "sleep_awake": "6m",
       "hrv": 77,
       "resting_hr": 52,
-      "body_battery": 66,
+      "body_battery": 85,
       "stress": 38,
       "training_readiness": 90,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 36,
       "vigorous_minutes": 63,
       "_raw": {
@@ -936,9 +985,11 @@
       "sleep_awake": "35m",
       "hrv": 70,
       "resting_hr": 53,
-      "body_battery": 59,
+      "body_battery": 62,
       "stress": 42,
       "training_readiness": 71,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 30,
       "vigorous_minutes": 79,
       "_raw": {
@@ -970,9 +1021,11 @@
       "sleep_awake": "N/A",
       "hrv": 77,
       "resting_hr": 52,
-      "body_battery": 80,
+      "body_battery": 76,
       "stress": 28,
       "training_readiness": 78,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
       "moderate_minutes": 0,
       "vigorous_minutes": 0,
       "_raw": {
@@ -993,9 +1046,9 @@
     },
     "2026-11-08": {
       "date": "2026-11-08",
-      "steps": 853,
-      "calories": 1834,
-      "distance_km": 62.94,
+      "steps": 2544,
+      "calories": 3046,
+      "distance_km": 64.32,
       "sleep_hours": "4h 55m",
       "sleep_score": "64 (FAIR)",
       "sleep_deep": "1h 20m",
@@ -1004,9 +1057,11 @@
       "sleep_awake": "12m",
       "hrv": 67,
       "resting_hr": 52,
-      "body_battery": 65,
-      "stress": 19,
+      "body_battery": 81,
+      "stress": 28,
       "training_readiness": 76,
+      "vo2max_cycling": 49.0,
+      "vo2max_running": null,
       "moderate_minutes": 52,
       "vigorous_minutes": 73,
       "_raw": {
@@ -1024,27 +1079,45 @@
           }
         }
       }
+    },
+    "2026-11-09": {
+      "date": "2026-11-09",
+      "steps": 2741,
+      "calories": 1390,
+      "distance_km": 2.27,
+      "sleep_hours": "7h 22m",
+      "sleep_score": "81 (GOOD)",
+      "sleep_deep": "1h 18m",
+      "sleep_light": "4h 26m",
+      "sleep_rem": "1h 38m",
+      "sleep_awake": "32m",
+      "hrv": 68,
+      "resting_hr": 52,
+      "body_battery": 90,
+      "stress": 23,
+      "training_readiness": 84,
+      "vo2max_cycling": null,
+      "vo2max_running": null,
+      "moderate_minutes": 0,
+      "vigorous_minutes": 1,
+      "_raw": {
+        "sleep": {
+          "dailySleepDTO": {
+            "sleepStartTimestampLocal": 1794183060000,
+            "sleepStartTimestampGMT": 1794163260000,
+            "sleepEndTimestampLocal": 1794211500000,
+            "sleepEndTimestampGMT": 1794191700000,
+            "sleepTimeSeconds": 26520,
+            "deepSleepSeconds": 4680,
+            "lightSleepSeconds": 15960,
+            "remSleepSeconds": 5880,
+            "awakeSleepSeconds": 1920
+          }
+        }
+      }
     }
   },
   "activities": [
-    {
-      "id": "24669039032",
-      "date": "2026-10-10",
-      "name": "Kolhapur Road Cycling",
-      "sport": "road_biking",
-      "duration": "2h 16m",
-      "duration_seconds": 8202.9501953125,
-      "distance_km": 70.07,
-      "calories": 1106.0,
-      "avg_hr": 142.0,
-      "max_hr": 167.0,
-      "elevation_gain": 293.0,
-      "_raw": {
-        "activityId": 24669039032,
-        "elevationGain": 293.0,
-        "maxPower": 518.0
-      }
-    },
     {
       "id": "24703969003",
       "date": "2026-10-13",
@@ -1057,10 +1130,14 @@
       "avg_hr": 146.0,
       "max_hr": 178.0,
       "elevation_gain": 339.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24703969003,
         "elevationGain": 339.0,
-        "maxPower": 567.0
+        "averagePower": 148.0,
+        "maxPower": 567.0,
+        "normalizedPower": 178.0,
+        "max20MinPower": 171.99916666666667
       }
     },
     {
@@ -1075,10 +1152,14 @@
       "avg_hr": 141.0,
       "max_hr": 187.0,
       "elevation_gain": 306.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24716304499,
         "elevationGain": 306.0,
-        "maxPower": 448.0
+        "averagePower": 129.0,
+        "maxPower": 448.0,
+        "normalizedPower": 179.0,
+        "max20MinPower": 193.83916666666667
       }
     },
     {
@@ -1093,10 +1174,14 @@
       "avg_hr": 146.0,
       "max_hr": 182.0,
       "elevation_gain": 269.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24740426357,
         "elevationGain": 269.0,
-        "maxPower": 588.0
+        "averagePower": 145.0,
+        "maxPower": 588.0,
+        "normalizedPower": 171.0,
+        "max20MinPower": 173.20833333333334
       }
     },
     {
@@ -1111,10 +1196,14 @@
       "avg_hr": 120.0,
       "max_hr": 146.0,
       "elevation_gain": 153.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24751011418,
         "elevationGain": 153.0,
-        "maxPower": 506.0
+        "averagePower": 90.0,
+        "maxPower": 506.0,
+        "normalizedPower": 121.0,
+        "max20MinPower": 118.63416666666667
       }
     },
     {
@@ -1129,10 +1218,14 @@
       "avg_hr": 154.0,
       "max_hr": 182.0,
       "elevation_gain": 454.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24762729319,
         "elevationGain": 454.0,
-        "maxPower": 476.0
+        "averagePower": 158.0,
+        "maxPower": 476.0,
+        "normalizedPower": 182.0,
+        "max20MinPower": 186.93083333333334
       }
     },
     {
@@ -1147,10 +1240,14 @@
       "avg_hr": 142.0,
       "max_hr": 168.0,
       "elevation_gain": 298.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24785733667,
         "elevationGain": 298.0,
-        "maxPower": 377.0
+        "averagePower": 147.0,
+        "maxPower": 377.0,
+        "normalizedPower": 171.0,
+        "max20MinPower": 166.62666666666667
       }
     },
     {
@@ -1165,10 +1262,14 @@
       "avg_hr": 144.0,
       "max_hr": 181.0,
       "elevation_gain": 221.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24809702386,
         "elevationGain": 221.0,
-        "maxPower": 564.0
+        "averagePower": 148.0,
+        "maxPower": 564.0,
+        "normalizedPower": 177.0,
+        "max20MinPower": 177.25666666666666
       }
     },
     {
@@ -1183,10 +1284,14 @@
       "avg_hr": 120.0,
       "max_hr": 155.0,
       "elevation_gain": 189.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24820908721,
         "elevationGain": 189.0,
-        "maxPower": 463.0
+        "averagePower": 96.0,
+        "maxPower": 463.0,
+        "normalizedPower": 125.0,
+        "max20MinPower": 108.85583333333334
       }
     },
     {
@@ -1201,10 +1306,14 @@
       "avg_hr": 141.0,
       "max_hr": 181.0,
       "elevation_gain": 551.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24841830939,
         "elevationGain": 551.0,
-        "maxPower": 499.0
+        "averagePower": 128.0,
+        "maxPower": 499.0,
+        "normalizedPower": 172.0,
+        "max20MinPower": 214.2125
       }
     },
     {
@@ -1219,10 +1328,14 @@
       "avg_hr": 145.0,
       "max_hr": 184.0,
       "elevation_gain": 229.0,
+      "vo2max": 50.0,
       "_raw": {
         "activityId": 24864174876,
         "elevationGain": 229.0,
-        "maxPower": 966.0
+        "averagePower": 154.0,
+        "maxPower": 966.0,
+        "normalizedPower": 192.0,
+        "max20MinPower": 182.19166666666666
       }
     },
     {
@@ -1237,10 +1350,14 @@
       "avg_hr": 146.0,
       "max_hr": 184.0,
       "elevation_gain": 228.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24900110789,
         "elevationGain": 228.0,
-        "maxPower": 516.0
+        "averagePower": 135.0,
+        "maxPower": 516.0,
+        "normalizedPower": 168.0,
+        "max20MinPower": 168.15583333333333
       }
     },
     {
@@ -1255,10 +1372,14 @@
       "avg_hr": 158.0,
       "max_hr": 195.0,
       "elevation_gain": 253.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24923468977,
         "elevationGain": 253.0,
-        "maxPower": 627.0
+        "averagePower": 149.0,
+        "maxPower": 627.0,
+        "normalizedPower": 185.0,
+        "max20MinPower": 177.21083333333334
       }
     },
     {
@@ -1273,10 +1394,14 @@
       "avg_hr": 140.0,
       "max_hr": 179.0,
       "elevation_gain": 220.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24970794315,
         "elevationGain": 220.0,
-        "maxPower": 1095.0
+        "averagePower": 130.0,
+        "maxPower": 1095.0,
+        "normalizedPower": 174.0,
+        "max20MinPower": 173.78833333333333
       }
     },
     {
@@ -1291,10 +1416,14 @@
       "avg_hr": 148.0,
       "max_hr": 186.0,
       "elevation_gain": 433.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 24982254501,
         "elevationGain": 433.0,
-        "maxPower": 423.0
+        "averagePower": 139.0,
+        "maxPower": 423.0,
+        "normalizedPower": 180.0,
+        "max20MinPower": 198.89166666666668
       }
     },
     {
@@ -1309,10 +1438,14 @@
       "avg_hr": 152.0,
       "max_hr": 186.0,
       "elevation_gain": 265.0,
+      "vo2max": 49.0,
       "_raw": {
         "activityId": 25004042642,
         "elevationGain": 265.0,
-        "maxPower": 687.0
+        "averagePower": 151.0,
+        "maxPower": 687.0,
+        "normalizedPower": 184.0,
+        "max20MinPower": 188.0925
       }
     }
   ]

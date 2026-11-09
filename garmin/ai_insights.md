@@ -1,6 +1,8 @@
-# AI Cycling Insights — 2026-11-08  (via liquid/lfm-2.5-2.6b:free)
+# AI Cycling Insights — showing last successful set
 
-_Model: `liquid/lfm-2.5-2.6b:free` via OpenRouter — auto-generated after daily Garmin sync._
+_AI generation failed 2026-11-09T11:31:46.244379: All models failed. Last: liquid/lfm-2.5-2.6b:free: unusable JSON (Expecting value: line 1 column 1 (char 0))_
+
+The insights below are from the previous successful run. Garmin data in `garmin/data.json` is still fresh.
 
 ### Insight 1: 62km ride on Nov 8 lacked intensity despite long distance
 The 62.39km ride on 2026-11-08 showed a low power average of 144.2W and no max power data, suggesting the effort was too easy for the distance. A longer ride should include more sustained climbing or higher cadence to build true fitness.

@@ -1,30 +1,37 @@
-# Tomorrow's briefing — 2026-11-09 (Rest day)
+# Tomorrow's briefing — 2026-11-10 (Ride tomorrow — Happy endurance)
 
 ## Verdict
-- Only 4h 55m sleep (2026-11-08)
-- Today's ride was big (62 km, avg HR 152) — body needs absorption time
+- Recovery is green (no flags) — readiness 84 (2026-11-09), HRV 68 (2026-11-09), RHR 52 (2026-11-09)
+- 1 day(s) since last ride (2026-11-08), 1 since last hard effort
 
-_Last 7d: 4 rides, 221.5 km · avg gap 2.1d · 0d since ride, 2d since hard · today: 62 km, avg HR 152_
+_Last 7d: 3 rides, 159.5 km · avg gap 2.1d · 1d since ride, 1d since hard · today: rest_
 
-_Kolhapur ride hours (5–9 AM): 22.5C, 45% RH, rain 0%, wind 8.8 km/h_
+_Kolhapur ride hours (5–9 AM): 22.4C, 47% RH, rain 0%, wind 8.8 km/h_
 
-## Rest plan
-- No bike. 20–30 min easy walk (conversational pace, <5k steps extra) OR full couch — your call
-- 5-min mobility: calves, quads, hip flexors, thoracic opener
-- If legs feel heavy: 10 min easy spin with zero resistance is allowed, HR <130
-- Normal food + the hydration above; early night beats everything
+## Ride plan
+- **Happy endurance** — 50 km (≈111 min)
+- Warmup: First 15 min Z1–Z2, let HR settle
+- Main: Steady Z2 (139–159 bpm), nose-breathing; final 15 min may drift to Z3 (159–167)
+- Twist: Progressive thirds: each third a touch brisker, capped at 159 bpm
+- Cooldown: Last 10 min Z1 + stretch
+- Pace: Cap 159 bpm except the closing 15 min (cap 167); RPE 4–5/10
 
 ## Fuel (bananas / Fast&Up gels / Reload)
+### Pre
+- Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs
+- 5:30 AM +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll 6:20 AM
+### During
+- 2 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)
+- 1 × Fast&Up energy gel (~1 per 40–45 min after the first hour)
 ### Post
-- Eat normally; keep 1–2 bananas in the day as usual
-- 2–3 L water through the day + 1 Reload serving in the afternoon bottle
-- Dinner with protein + carbs — recovery is built overnight
+- Within 30–60 min: 1–2 bananas + a protein-rich meal
+- 500 ml water with 1 Reload within the hour
 
 ## Sleep tonight
-- Lights out: **9:30 PM** (usual 12:13 AM) — target **8.0 h**
+- Lights out: **9:30 PM** (usual 12:11 AM) — target **8.0 h**
 - Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM
-- Your recent usual is 12:13 AM — move 15 min earlier every 2 nights
+- Your recent usual is 12:11 AM — move 15 min earlier every 2 nights
 - You're running a small sleep debt — tonight matters more than usual
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-11-08T11:25:05.862560+00:00 by rules-v1_
+_Generated 2026-11-09T11:31:46.489280+00:00 by rules-v1_

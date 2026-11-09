@@ -1,15 +1,15 @@
 You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is 2026-11-08. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is 2026-11-09. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-11-02: steps=4377 sleep=8h 56m (81 (GOOD)) hrv=69 rhr=55 bb=77 stress=35 readiness=70
-2026-11-03: steps=3176 sleep=8h 7m (96 (EXCELLENT)) hrv=73 rhr=53 bb=83 stress=32 readiness=98
-2026-11-04: steps=4332 sleep=6h 44m (78 (FAIR)) hrv=77 rhr=52 bb=91 stress=32 readiness=95
-2026-11-05: steps=3814 sleep=6h 20m (78 (FAIR)) hrv=77 rhr=52 bb=66 stress=38 readiness=90
-2026-11-06: steps=3509 sleep=5h 9m (63 (FAIR)) hrv=70 rhr=53 bb=59 stress=42 readiness=71
-2026-11-07: steps=5489 sleep=6h 41m (82 (GOOD)) hrv=77 rhr=52 bb=80 stress=28 readiness=78
-2026-11-08: steps=853 sleep=4h 55m (64 (FAIR)) hrv=67 rhr=52 bb=65 stress=19 readiness=76
+2026-11-03: steps=3176 sleep=8h 7m (96 (EXCELLENT)) hrv=73 rhr=53 bb=90 stress=32 readiness=98
+2026-11-04: steps=4332 sleep=6h 44m (78 (FAIR)) hrv=77 rhr=52 bb=95 stress=32 readiness=95
+2026-11-05: steps=3814 sleep=6h 20m (78 (FAIR)) hrv=77 rhr=52 bb=85 stress=38 readiness=90
+2026-11-06: steps=3509 sleep=5h 9m (63 (FAIR)) hrv=70 rhr=53 bb=62 stress=42 readiness=71
+2026-11-07: steps=5489 sleep=6h 41m (82 (GOOD)) hrv=77 rhr=52 bb=76 stress=28 readiness=78
+2026-11-08: steps=2544 sleep=4h 55m (64 (FAIR)) hrv=67 rhr=52 bb=81 stress=28 readiness=76
+2026-11-09: steps=2741 sleep=7h 22m (81 (GOOD)) hrv=68 rhr=52 bb=90 stress=23 readiness=84
 
 Recent rides last 7:
 2026-10-25 Kolhapur Road Cycling 54.02km 2h 18m avgHR=141.0 maxHR=181.0 elev=551.0 cals=1063.0
@@ -21,24 +21,30 @@ Recent rides last 7:
 2026-11-08 Kolhapur Road Cycling 62.39km 2h 0m avgHR=152.0 maxHR=186.0 elev=265.0 cals=1083.0
 
 Best power per ride (real directPower rolling maxima):
-2026-10-25 30939: 10s=402 30s=300 60s=294 5m=238 20m=215 1h=188 avg=123.7 NP=169.6 max=499.0
-2026-10-27 74876: 10s=567 30s=440 60s=343 5m=230 20m=183 1h=162 avg=146.5 NP=187.4 max=966.0
-2026-10-30 10789: 10s=401 30s=340 60s=316 5m=204 20m=170 1h=150 avg=129.5 NP=165.6 max=516.0
-2026-11-01 68977: 10s=503 30s=368 60s=319 5m=222 20m=181 1h=168 avg=145.0 NP=182.6 max=627.0
-2026-11-05 94315: 10s=977 30s=577 60s=336 5m=200 20m=172 1h=142 avg=123.9 NP=179.2 max=1095.0
-2026-11-06 54501: 10s=375 30s=350 60s=330 5m=239 20m=198 1h=177 avg=136.1 NP=178.8 max=423.0
-2026-11-08 42642: 10s=587 30s=405 60s=308 5m=218 20m=188 1h=170 avg=144.2 NP=None max=None
+2026-10-25 30939: 10s=426 30s=308 60s=292 5m=236 20m=214 1h=170 avg=128.0 NP=172.0 max=499
+2026-10-27 74876: 10s=583 30s=446 60s=342 5m=230 20m=182 1h=160 avg=154.0 NP=192.0 max=966
+2026-10-30 10789: 10s=379 30s=338 60s=311 5m=203 20m=169 1h=150 avg=135.0 NP=168.0 max=516
+2026-11-01 68977: 10s=518 30s=378 60s=309 5m=221 20m=177 1h=167 avg=149.0 NP=185.0 max=627
+2026-11-05 94315: 10s=981 30s=474 60s=272 5m=194 20m=174 1h=143 avg=130.0 NP=174.0 max=1095
+2026-11-06 54501: 10s=369 30s=354 60s=337 5m=235 20m=199 1h=171 avg=139.0 NP=180.0 max=423
+2026-11-08 42642: 10s=579 30s=385 60s=293 5m=213 20m=188 1h=167 avg=151.0 NP=184.0 max=687
 
-Additional: HR zones: LTHR 175, Max 196 => Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172. Power zones: FTP 271W (stale 2025-03-04) => Z1<148, Z2 148-203, Z3 203-244, Z4 244-284, Z5 284-324, Z6 324-406, Z7>406. VO2max null.
-FTP is stale (271W from 2025-03-04). 20m bests are 143-204W, so true FTP likely ~150-195W. Training readiness, HRV, RHR, sleep are volatile.
+Physiology (from Garmin, latest sync):
+HR zones (Garmin CYCLING LACTATE_THRESHOLD; LTHR 175, max HR 196): Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172 bpm.
+FTP 203 W — Estimated: 95% of best 20-min power (214 W on 2026-10-25) — Garmin FTP 271 W from 2025-03-04T08:10:35.0 is stale. Normal rides aren't all-out tests, so true FTP is likely a bit higher.
+Power zones from that FTP: Z1<112, Z2 112-152, Z3 152-183, Z4 183-213, Z5 213-244, Z6 244-304, Z7>304 W.
+VO2 max (cycling, Garmin): 49.0 as of 2026-11-08.
+VO2 max (running, Garmin): 49.4 as of 2026-10-24.
+Cycling VO2 max updates in window: 2026-10-22: 49.0, 2026-10-23: 49.0, 2026-10-24: 49.4, 2026-10-25: 49.0, 2026-10-27: 50.0, 2026-10-30: 49.0, 2026-11-01: 49.0, 2026-11-05: 49.0, 2026-11-06: 49.0, 2026-11-08: 49.0
+Training readiness, HRV, RHR, sleep are volatile day to day — look at trends, not single days.
 
 Task: Generate exactly 10 insights as JSON array. Each insight must have: "title" (short, like "Insight 1: Aug 12 ride breached easy ceiling by ~8 bpm") and "description" (2-3 sentences, plain English, specific to cycling, referencing actual dates/numbers above, actionable for happiness). Make them parallel to these running examples but cycling-appropriate:
 Insight 1: Aug 20 run, breached easy ceiling by 3 beats.
 Insight 2: Long run, vertical load is high for a road marathon block
 Insight 3: Three-run day August 24 flags recovery sequencing risk
 Insight 4: Marathon progression (now Cycling progression)
-Insight 5: Zone model (recalibrated 2026-08-09)
-Insight 6: Polarized 80/20
+Insight 5: Zone model check (are the HR / power zones above still right for this rider?)
+Insight 6: Polarized 80/20 (~80% of time easy, ~20% hard)
 Insight 7: Recovery/warning signs
 Insight 8: Strength - maximal/reactive
 Insight 9: Activity suggestion for Vo2max improvements.
