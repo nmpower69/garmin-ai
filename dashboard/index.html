@@ -500,14 +500,22 @@ async function load(){
   try{ document.getElementById('ftpTitle').textContent = ftpLabel + ' · Power Zones'; }catch(e){}
   const fEl = document.getElementById('ftp');
   const zB = [0, Math.round(ftpVal*0.55), Math.round(ftpVal*0.75), Math.round(ftpVal*0.90), Math.round(ftpVal*1.05), Math.round(ftpVal*1.20), Math.round(ftpVal*1.50)];
-  new Chart(fEl,{type:'line',data:{labels:shortDates,datasets:[{label:ftpLabel,data:shortDates.map(()=>ftpVal),borderColor:'#38bdf8',borderWidth:3,pointRadius:0,fill:false}]},
-    options:{plugins:{legend:{labels:{boxWidth:12}}},scales:{y:{min:Math.max(100,zB[0]),max:Math.round(ftpVal*1.6)}}},
+  // Solid line = rolling 6-week FTP estimate as it stood each day; Garmin's FTP dashed when it's the current one
+  const ftpHist = {}; (earlyPower?.ftp_history||[]).forEach(h=>{ if(h && typeof h.value==='number') ftpHist[h.date]=h.value; });
+  const ftpSeries = dates.map(d=>ftpHist[d] ?? null);
+  const hasTrend = ftpSeries.some(v=>v!=null);
+  const ftpSets = [];
+  if(hasTrend) ftpSets.push({label:'FTP estimate (rolling 6 wk)',data:ftpSeries,borderColor:'#38bdf8',borderWidth:3,pointRadius:0,stepped:true,spanGaps:true,fill:false});
+  if(!hasTrend || earlyPower?.ftp_source==='garmin') ftpSets.push({label:(earlyPower?.ftp_source==='garmin'?'Garmin ':'')+ftpLabel,data:shortDates.map(()=>ftpVal),borderColor:hasTrend?'#e2e8f0':'#38bdf8',borderDash:hasTrend?[6,5]:[],borderWidth:hasTrend?1.5:3,pointRadius:0,fill:false});
+  const ftpMax = Math.max(ftpVal, ...ftpSeries.filter(v=>v!=null));
+  new Chart(fEl,{type:'line',data:{labels:shortDates,datasets:ftpSets},
+    options:{interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:12}}},scales:{y:{min:Math.max(100,zB[0]),max:Math.round(ftpMax*1.6)}}},
     plugins:[bandPlugin([
       {yMin:zB[0],yMax:zB[1],color:'rgba(148,163,184,.10)'},{yMin:zB[1],yMax:zB[2],color:'rgba(56,189,248,.10)'},
       {yMin:zB[2],yMax:zB[3],color:'rgba(34,197,94,.10)'},{yMin:zB[3],yMax:zB[4],color:'rgba(245,158,11,.12)'},
       {yMin:zB[4],yMax:zB[6],color:'rgba(248,113,113,.10)'}
     ])]});
-  document.getElementById('ftpNote').textContent = `${ftpStatus}. Shading = zones behind the FTP line.`;
+  document.getElementById('ftpNote').textContent = `${ftpStatus} Line = FTP as it stood each day; shading = power zones from today's FTP.`;
   document.getElementById('ftpPills').innerHTML = [`Z1 <${zB[1]}`,`Z2 ${zB[1]}–${zB[2]}`,`Z3 ${zB[2]}–${zB[3]}`,`Z4 ${zB[3]}–${zB[4]}`,`Z5 ${zB[4]}–${zB[5]}`,`Z6+ >${zB[5]}`].map(z=>`<span>${z}W</span>`).join('');
   } else {
     try{ document.getElementById('ftpTitle').textContent = 'FTP · Power Zones'; }catch(e){}

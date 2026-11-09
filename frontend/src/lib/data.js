@@ -128,6 +128,12 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
     : lastIn(vo2Run) ? {...lastIn(vo2Run), sport:'running'} : null
   const vo2HasData = vo2Cyc.some(v => v != null) || vo2Run.some(v => v != null)
 
+  // ---- FTP trend: the rolling 6-week estimate as it stood each day ----
+  const ftpHist = {}
+  ;(powerCurves?.ftp_history || []).forEach(h => { if(h && typeof h.value === 'number') ftpHist[h.date] = h.value })
+  const ftpSeries = dates.map(d => ftpHist[d] ?? null)
+  const ftpSource = powerCurves?.ftp_source || null
+
   // ---- FTP zones ----
   const zB = ftpVal ? [0, Math.round(ftpVal*0.55), Math.round(ftpVal*0.75), Math.round(ftpVal*0.90), Math.round(ftpVal*1.05), Math.round(ftpVal*1.20), Math.round(ftpVal*1.50)] : null
 
@@ -237,7 +243,7 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
     generatedAt: data.generated_at,
     totals: { km: totalKm.toFixed(0), hrs: totalHrs.toFixed(1), rides: acts.length, vert: Math.round(totalElev) },
     totalKm, totalHrs, totalElev, avgSpeed, avgHR,
-    kpis, ftpVal, ftpStatus,
+    kpis, ftpVal, ftpStatus, ftpSeries, ftpSource,
     weekLabels, volData, hrsData, vertData, counts, avgLine,
     rideLabels, hrData, speedData,
     dates, shortDates, readiness, hrv, rhr, ma7, zB, hrB,

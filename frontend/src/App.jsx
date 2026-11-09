@@ -233,7 +233,7 @@ export default function App(){
             <ChartCard title="Training readiness (0–100)" config={charts?.readiness}
               sub="Green ≥ 75 ready · Amber 50–75 normal · Red < 50 rest. Dashed lines mark 50 / 75."/>
             <ChartCard title={model?.ftpVal ? `FTP ${model.ftpVal}W · power zones` : 'FTP · power zones'} config={charts?.ftp}
-              sub={(model?.ftpStatus ?? '') + (model?.ftpVal ? ' Shading = zones behind the FTP line.' : '')}
+              sub={(model?.ftpStatus ?? '') + (model?.ftpVal ? ' Line = FTP as it stood each day; shading = power zones from today\'s FTP.' : '')}
               wrapAfter={(
                 <div className="zone-pills">
                   {model?.zB && [0,1,2,3,4,5].map(i => {

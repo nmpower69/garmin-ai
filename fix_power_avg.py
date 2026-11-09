@@ -39,6 +39,7 @@ WINDOWS = [10, 30, 60, 300, 1200, 3600]
 MAXCHART = 20000          # ask for full-resolution samples (default is 2000)
 FTP_FRESH_DAYS = 120      # a Garmin FTP older than this is treated as stale
 FTP_LOOKBACK_DAYS = 42    # 20-min bests considered for the estimate
+MAX_LEGACY_PER_RUN = 40   # older v1 curves upgraded per sync (bounds API calls)
 
 
 # ---------------------------------------------------------------- pure math --
@@ -158,17 +159,56 @@ def curve_from_stream(times_s, powers):
     }
 
 
-def choose_ftp(garmin_ftp, curves, today, prev=None):
-    """Return (ftp, status, source, estimate) for the dashboard / AI prompt."""
-    cutoff = (today - datetime.timedelta(days=FTP_LOOKBACK_DAYS)).isoformat()
-    b20, b20_date = None, None
+def rolling_ftp_estimate(curves, as_of):
+    """FTP estimate as of a date, from rides in the FTP_LOOKBACK_DAYS before it.
+
+    95% of the best 20-min power, but never below the best 60-min power
+    (FTP is by definition ~ the power you can hold for an hour). Only
+    corrected (v2) curves count. Returns None when no ride qualifies.
+    """
+    lo = (as_of - datetime.timedelta(days=FTP_LOOKBACK_DAYS)).isoformat()
+    hi = as_of.isoformat()
+    b20 = b20_date = b60 = None
     for c in curves.values():
         if not isinstance(c, dict) or c.get("v") != CURVE_VERSION:
             continue
-        v = c.get("1200s")
-        if isinstance(v, (int, float)) and str(c.get("date", "")) >= cutoff and (b20 is None or v > b20):
-            b20, b20_date = v, c.get("date")
-    estimate = {"value": round(0.95 * b20), "from_20m": b20, "date": b20_date} if b20 else None
+        d = str(c.get("date", ""))
+        if not (lo <= d <= hi):
+            continue
+        v20, v60 = c.get("1200s"), c.get("3600s")
+        if isinstance(v20, (int, float)) and (b20 is None or v20 > b20):
+            b20, b20_date = v20, d
+        if isinstance(v60, (int, float)) and (b60 is None or v60 > b60):
+            b60 = v60
+    if not b20:
+        return None
+    value = max(round(0.95 * b20), round(b60) if b60 else 0)
+    return {"value": value, "from_20m": b20, "date": b20_date, "best_60m": b60}
+
+
+def ftp_history(curves, dates):
+    """[{date, value}] — the rolling estimate as it stood on each date."""
+    out = []
+    for d in sorted(dates):
+        try:
+            est = rolling_ftp_estimate(curves, datetime.date.fromisoformat(d))
+        except ValueError:
+            continue
+        out.append({"date": d, "value": est["value"] if est else None})
+    return out
+
+
+def choose_ftp(garmin_ftp, curves, today, prev=None):
+    """Return (ftp, status, source, estimate) for the dashboard / AI prompt.
+
+    Re-evaluated on every sync: a fresh Garmin FTP (e.g. after an FTP test or
+    Garmin's auto-detect) wins; otherwise the rolling estimate tracks the
+    rider's latest 6 weeks of rides, so it rises after strong efforts and
+    drifts down if there have been none.
+    """
+    estimate = rolling_ftp_estimate(curves, today)
+    b20 = estimate["from_20m"] if estimate else None
+    b20_date = estimate["date"] if estimate else None
 
     g_val = garmin_ftp.get("value") if isinstance(garmin_ftp, dict) else None
     g_date = garmin_ftp.get("date") if isinstance(garmin_ftp, dict) else None
@@ -186,8 +226,9 @@ def choose_ftp(garmin_ftp, curves, today, prev=None):
         why = (f"Garmin FTP {g_val} W from {g_date} is stale" if g_val
                else "Garmin has no cycling FTP on file")
         return (estimate["value"],
-                f"Estimated: 95% of best 20-min power ({b20} W on {b20_date}) — {why}. "
-                "Normal rides aren't all-out tests, so true FTP is likely a bit higher.",
+                f"Estimated from the last {FTP_LOOKBACK_DAYS // 7} weeks: 95% of best 20-min power "
+                f"({b20} W on {b20_date}) — {why}. Updates after every ride; normal rides aren't "
+                "all-out tests, so true FTP is likely a bit higher.",
                 "estimate", estimate)
     if g_val:
         return g_val, f"Garmin FTP from {g_date or 'unknown date'} — stale, retest recommended", "garmin-stale", None
@@ -217,6 +258,43 @@ def _today_ist():
         return datetime.date.today()
 
 
+def refresh_ride(g, aid, date, raw):
+    """Recompute one ride's curve entry from Garmin (summary + full-res stream)."""
+    act = g.get_activity(aid) or {}
+    summ = act.get("summaryDTO") if isinstance(act.get("summaryDTO"), dict) else act
+    details = g.get_activity_details(aid, maxchart=MAXCHART)
+    times, powers = power_stream(details)
+    stream = curve_from_stream(times, powers)
+    raw = raw or {}
+
+    avg = _num(summ, "averagePower", "avgPower") or _num(raw, "averagePower")
+    np_ = _num(summ, "normalizedPower", "normPower") or _num(raw, "normalizedPower")
+    mx = _num(summ, "maxPower") or _num(raw, "maxPower")
+    np_src = "garmin" if np_ is not None else None
+    if stream:
+        avg = avg if avg is not None else stream["streamAvg"]
+        mx = mx if mx is not None else stream["streamMax"]
+        if np_ is None and stream["streamNP"] is not None:
+            np_, np_src = stream["streamNP"], "computed"
+        elif np_ is not None and stream["streamNP"] is not None and abs(stream["streamNP"] - np_) > 15:
+            print(f"{aid}: note — Garmin NP {np_} vs stream NP {stream['streamNP']}, keeping Garmin's")
+
+    if not date:
+        date = str(summ.get("startTimeLocal") or act.get("startTimeLocal") or "")[:10] or None
+    new = {"date": date, "v": CURVE_VERSION}
+    if stream:
+        new.update({k: stream[k] for k in [f"{w}s" for w in WINDOWS]})
+    else:
+        new["noPower"] = True
+    new.update({
+        "avgPower": round(avg, 1) if avg is not None else None,
+        "normalizedPower": round(np_, 1) if np_ is not None else None,
+        "maxPower": round(mx) if mx is not None else None,
+        "npSource": np_src,
+    })
+    return new
+
+
 def main():
     data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
     rides = [a for a in data.get("activities", []) if a.get("sport") == "road_biking"]
@@ -227,11 +305,22 @@ def main():
     pc.setdefault("curves", {})
     print(f"Found {len(rides)} cycling activities in data.json")
 
-    g = None
+    # Rides in the sync window, then older rides still cached with the buggy
+    # v1 math (so the 6-week FTP lookback and history use correct numbers).
+    todo = []
     for a in rides:
         aid = str(a.get("id") or (a.get("_raw") or {}).get("activityId") or "")
-        if not aid or aid == "None":
-            continue
+        if aid and aid != "None":
+            todo.append((aid, a.get("date"), a.get("_raw") or {}))
+    in_window = {t[0] for t in todo}
+    legacy = [(aid, c.get("date"), {}) for aid, c in pc["curves"].items()
+              if aid not in in_window and isinstance(c, dict) and c.get("v") != CURVE_VERSION]
+    if legacy:
+        print(f"Upgrading {min(len(legacy), MAX_LEGACY_PER_RUN)} of {len(legacy)} older rides to curve v{CURVE_VERSION}")
+    todo += sorted(legacy, key=lambda t: str(t[1] or ""), reverse=True)[:MAX_LEGACY_PER_RUN]
+
+    g = None
+    for aid, date, raw in todo:
         entry = pc["curves"].get(aid) or {}
         done = entry.get("v") == CURVE_VERSION and (
             entry.get("noPower") or all(entry.get(k) is not None for k in ("avgPower", "normalizedPower", "maxPower"))
@@ -241,43 +330,15 @@ def main():
         if g is None:
             g = _login()
         try:
-            act = g.get_activity(aid) or {}
-            summ = act.get("summaryDTO") if isinstance(act.get("summaryDTO"), dict) else act
-            details = g.get_activity_details(aid, maxchart=MAXCHART)
-            times, powers = power_stream(details)
-            stream = curve_from_stream(times, powers)
-            raw = a.get("_raw") or {}
-
-            avg = _num(summ, "averagePower", "avgPower") or _num(raw, "averagePower")
-            np_ = _num(summ, "normalizedPower", "normPower") or _num(raw, "normalizedPower")
-            mx = _num(summ, "maxPower") or _num(raw, "maxPower")
-            np_src = "garmin" if np_ is not None else None
-            if stream:
-                avg = avg if avg is not None else stream["streamAvg"]
-                mx = mx if mx is not None else stream["streamMax"]
-                if np_ is None and stream["streamNP"] is not None:
-                    np_, np_src = stream["streamNP"], "computed"
-                elif np_ is not None and stream["streamNP"] is not None and abs(stream["streamNP"] - np_) > 15:
-                    print(f"{aid}: note — Garmin NP {np_} vs stream NP {stream['streamNP']}, keeping Garmin's")
-
-            new = {"date": a.get("date"), "v": CURVE_VERSION}
-            if stream:
-                new.update({k: stream[k] for k in [f"{w}s" for w in WINDOWS]})
-            else:
-                new["noPower"] = True
-            new.update({
-                "avgPower": round(avg, 1) if avg is not None else None,
-                "normalizedPower": round(np_, 1) if np_ is not None else None,
-                "maxPower": round(mx) if mx is not None else None,
-                "npSource": np_src,
-            })
+            new = refresh_ride(g, aid, date, raw)
             pc["curves"][aid] = new
-            print(aid, a.get("date"), {k: new.get(k) for k in ("10s", "300s", "1200s", "3600s", "avgPower", "normalizedPower", "maxPower", "npSource")})
+            print(aid, new.get("date"), {k: new.get(k) for k in ("10s", "300s", "1200s", "3600s", "avgPower", "normalizedPower", "maxPower", "npSource")})
         except Exception as e:
             print(f"{aid}: failed ({e}) — keeping previous entry")
 
+    today = _today_ist()
     profile_ftp = (data.get("profile") or {}).get("ftp")
-    ftp, status, source, estimate = choose_ftp(profile_ftp, pc["curves"], _today_ist(), prev=pc)
+    ftp, status, source, estimate = choose_ftp(profile_ftp, pc["curves"], today, prev=pc)
     pc.update({
         "computed_at": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
         "curve_version": CURVE_VERSION,
@@ -286,6 +347,8 @@ def main():
         "ftp_source": source,
         "ftp_garmin": profile_ftp,
         "ftp_estimate": estimate,
+        # Rolling estimate as it stood on each day of the sync window -> FTP trend chart
+        "ftp_history": ftp_history(pc["curves"], list((data.get("daily") or {}).keys())),
         "notes": ("Rolling bests from Garmin's directPower stream resampled to 1 Hz (pauses removed); "
                   "a window only counts when completely filled. 10s=neuromuscular, 30-60s=anaerobic, "
                   "5m=VO2, 20m≈FTP proxy, 1h=endurance. Entries without \"v\": 2 are legacy values."),

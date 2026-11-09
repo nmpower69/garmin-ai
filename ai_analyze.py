@@ -15,20 +15,28 @@ In GitHub Actions: secret OPENROUTER_API_KEY is injected.
 """
 import json, os, sys, pathlib, datetime, textwrap, requests
 
-MODEL = os.getenv("AI_MODEL", "z-ai/glm-5.2:free")
-# Free-tier models only — no paid key, no BYOK models (nvidia/ultra needs BYOK).
-# Order matters: larger models first, then progressively different providers so
-# a rate-limited or empty-returning model still leaves healthy candidates behind.
-# The 2.6B liquid model is last resort only: as the primary it produced coaching
-# that contradicted the data (e.g. "80% harder, 20% easy" for polarized training).
-# Each entry has returned valid JSON on the free pool at least once.
+MODEL = os.getenv("AI_MODEL")  # optional override, tried first
+# Free models come and go on OpenRouter: on 2026-11-09 six of the seven
+# previously hardcoded ":free" ids returned 404 ("no longer free" /
+# "deprecated"), leaving only a 2.6B model. So the list is now discovered at
+# run time from OpenRouter's public model catalogue. PREFERRED only sets the
+# order among whatever is free *today*; anything else free follows, tiny and
+# code-only models last. FALLBACK_MODELS is used only if discovery fails.
+MODELS_URL = "https://openrouter.ai/api/v1/models"
+PREFERRED = [
+    "google/gemma-4-31b",
+    "nvidia/nemotron-3-ultra",
+    "nvidia/nemotron-3.5-super",
+    "google/gemma-4-26b",
+    "openrouter/free",          # OpenRouter's own router over free models
+]
+DEPRIORITIZED = ("liquid/", "-code", "1.7b", "2.6b", "nano")
+MAX_ATTEMPTS = 6   # x 75 s timeout stays well inside the 15-min job limit
 FALLBACK_MODELS = [
-    "z-ai/glm-5.2:free",
-    "minimax/minimax-m3:free",
-    "qwen/qwen3-235b-a22b:free",
-    "deepseek/deepseek-chat-v3-0324:free",
-    "meta-llama/llama-3.3-70b-instruct:free",
-    "google/gemini-2.0-flash-exp:free",
+    "google/gemma-4-31b-it:free",
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "openrouter/free",
     "liquid/lfm-2.5-2.6b:free",
 ]
 DATA_JSON = pathlib.Path("garmin/data.json")
@@ -166,9 +174,13 @@ def _extract_content(j):
         if not choices:
             return ""
         msg = choices[0].get("message") or {}
-        parts = [msg.get("content"), msg.get("reasoning"), msg.get("reasoning_content")]
-        for p in parts:
-            if isinstance(p, str) and p.strip():
+        c = msg.get("content")
+        if isinstance(c, str) and c.strip():
+            return c
+        # Only fall back to the reasoning trace if it actually carries the array —
+        # otherwise it's just the model thinking out loud.
+        for p in (msg.get("reasoning"), msg.get("reasoning_content")):
+            if isinstance(p, str) and "[" in p and "{" in p:
                 return p
         # Some providers return content as a list of blocks
         c = msg.get("content")
@@ -180,6 +192,66 @@ def _extract_content(j):
         return ""
     except Exception:
         return ""
+
+
+def _find_json_array(content):
+    """Cut the JSON array out of a reply that wraps it in prose.
+
+    Some free models answer "Here are your insights: [ ... ] Hope this helps".
+    Returns the substring from the first '[{' to the last ']' (or the input).
+    """
+    import re
+    s = content.strip()
+    if s.startswith("["):
+        return s
+    m = re.search(r"\[\s*\{", s)
+    if not m:
+        return s
+    end = s.rfind("]")
+    return s[m.start():end + 1] if end > m.start() else s[m.start():]
+
+
+def discover_free_models():
+    """Today's free text models on OpenRouter, best first.
+
+    Returns [(model_id, supports_reasoning_param)]. Falls back to the static
+    FALLBACK_MODELS list if the public catalogue can't be fetched.
+    """
+    try:
+        r = requests.get(MODELS_URL, timeout=20)
+        r.raise_for_status()
+        models = r.json().get("data") or []
+    except Exception as e:
+        print(f"Model discovery failed ({e}) — using static fallback list")
+        return [(m, False) for m in FALLBACK_MODELS]
+
+    free = []
+    for m in models:
+        mid = m.get("id") or ""
+        if not (mid.endswith(":free") or mid == "openrouter/free"):
+            continue
+        p = m.get("pricing") or {}
+        if str(p.get("prompt", "0")) not in ("0", "0.0") or str(p.get("completion", "0")) not in ("0", "0.0"):
+            continue
+        arch = m.get("architecture") or {}
+        if "text" not in (arch.get("input_modalities") or ["text"]) or (arch.get("output_modalities") or ["text"]) != ["text"]:
+            continue  # skip audio/image generators
+        if (m.get("context_length") or 0) < 16000:
+            continue
+        free.append((mid, "reasoning" in (m.get("supported_parameters") or []), m.get("context_length") or 0))
+
+    def rank(item):
+        mid = item[0]
+        pref = next((i for i, p in enumerate(PREFERRED) if mid.startswith(p)), len(PREFERRED))
+        low = any(t in mid for t in DEPRIORITIZED)
+        return (low, pref, -item[2])
+
+    ordered = [(mid, rs) for mid, rs, _ in sorted(free, key=rank)]
+    if not ordered:
+        print("No free text models found in catalogue — using static fallback list")
+        return [(m, False) for m in FALLBACK_MODELS]
+    print("Free models today (in try order):", ", ".join(m for m, _ in ordered[:MAX_ATTEMPTS]))
+    return ordered
 
 
 def _strip_fences(content):
@@ -199,6 +271,7 @@ def _parse_insights(content):
 
     Raises ValueError if the payload can't be turned into exactly 10 insights.
     """
+    content = _find_json_array(content)
     try:
         insights = json.loads(content)
     except json.JSONDecodeError as je:
@@ -242,12 +315,13 @@ def call_openrouter(prompt, api_key, model=None):
         "HTTP-Referer": "https://github.com/nmpower69/garmin-ai",
         "X-Title": "garmin-ai cycling dashboard",
     }
+    candidates = discover_free_models()
     primary = model or MODEL
-    tried = [primary] + [m for m in FALLBACK_MODELS if m != primary]
+    if primary:
+        candidates = [(primary, any(rs for m, rs in candidates if m == primary))] + [c for c in candidates if c[0] != primary]
+    tried = candidates[:MAX_ATTEMPTS]
     last_err = None
-    for mdl in tried:
-        # Reasoning models (Nemotron) require reasoning.enabled per OpenRouter sample
-        is_reasoning = "nemotron" in mdl or "reasoning" in mdl
+    for mdl, supports_reasoning in tried:
         body = {
             "model": mdl,
             "messages": [
@@ -255,13 +329,15 @@ def call_openrouter(prompt, api_key, model=None):
                 {"role": "user", "content": prompt}
             ],
             "temperature": 0.7,
-            "max_tokens": 5000,
+            "max_tokens": 6000,
         }
-        if is_reasoning:
-            body["reasoning"] = {"enabled": True}
+        if supports_reasoning:
+            # Keep thinking short and out of the reply: on 2026-11-09 a reasoning
+            # model spent its answer on "The user wants me to..." with no JSON.
+            body["reasoning"] = {"effort": "low", "exclude": True}
         print(f"Calling OpenRouter {mdl}...")
         try:
-            resp = requests.post(url, headers=headers, json=body, timeout=90)
+            resp = requests.post(url, headers=headers, json=body, timeout=75)
         except Exception as e:
             # Network blip / timeout — treat as a model failure and move on
             print(f"Request error for {mdl}: {e}")

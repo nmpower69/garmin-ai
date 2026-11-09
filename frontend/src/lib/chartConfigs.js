@@ -107,14 +107,21 @@ export function vo2Config(model){
 export function ftpConfig(model){
   const zB = model.zB
   if(!zB) return () => ({type:'line', data:{labels:model.shortDates, datasets:[]}, options:{plugins:{legend:{display:false}}}})
+  // Solid line = FTP estimate as it stood each day (moves with the rider's
+  // last 6 weeks). When Garmin's own FTP is current, it is drawn dashed and
+  // the zones follow it.
+  const hasTrend = (model.ftpSeries || []).some(v => v != null)
+  const datasets = []
+  if(hasTrend) datasets.push({label:'FTP estimate (rolling 6 wk)', data:model.ftpSeries, borderColor:ACID, borderWidth:3, pointRadius:0, stepped:true, spanGaps:true, fill:false, _glow:{color:'rgba(183,245,66,.40)', blur:14}})
+  if(!hasTrend || model.ftpSource === 'garmin') datasets.push({label:(model.ftpSource === 'garmin' ? 'Garmin FTP ' : 'FTP ') + model.ftpVal + 'W', data:model.shortDates.map(() => model.ftpVal), borderColor:hasTrend ? 'rgba(255,255,255,.75)' : ACID, borderDash:hasTrend ? [6,5] : [], borderWidth:hasTrend ? 1.5 : 3, pointRadius:0, fill:false})
+  const vals = [model.ftpVal, ...(model.ftpSeries || [])].filter(v => v != null)
   return () => ({
     type:'line',
-    data:{labels:model.shortDates, datasets:[
-      {label:`FTP ${model.ftpVal}W`, data:model.shortDates.map(() => model.ftpVal), borderColor:ACID, borderWidth:3, pointRadius:0, fill:false, _glow:{color:'rgba(183,245,66,.40)', blur:14}},
-    ]},
+    data:{labels:model.shortDates, datasets},
     options:{
+      interaction:{mode:'index', intersect:false},
       plugins:{legend:{labels:{boxWidth:12}}},
-      scales:{x:{grid:{display:false}}, y:{min:Math.max(100, zB[0]), max:Math.round(model.ftpVal*1.6), grid:{color:'rgba(255,255,255,.05)'}}},
+      scales:{x:{grid:{display:false}}, y:{min:Math.max(100, zB[0]), max:Math.round(Math.max(...vals)*1.6), grid:{color:'rgba(255,255,255,.05)'}}},
     },
     plugins:[glowPlugin(), bandPlugin([
       {yMin:zB[0], yMax:zB[1], color:'rgba(148,163,184,.10)'},
