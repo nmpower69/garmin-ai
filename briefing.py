@@ -95,6 +95,11 @@ def build():
     if not data or not data.get("daily"):
         raise ValueError("garmin/data.json missing or empty — run sync first")
     curves = load_json(CURVES) or {}
+    # Garmin's own HR zones when the sync captured them (Z2..Z5 floors).
+    global Z1_TOP, Z2_TOP, Z3_TOP, Z4_TOP
+    floors = ((data.get("profile") or {}).get("hr_zones") or {}).get("floors")
+    if isinstance(floors, list) and len(floors) == 5 and all(num(f) is not None for f in floors):
+        Z1_TOP, Z2_TOP, Z3_TOP, Z4_TOP = (int(f) for f in floors[1:])
     daily = data["daily"]
     dates = sorted(daily.keys())
     acts = sorted(
@@ -112,6 +117,13 @@ def build():
     def d_dist(a):
         return num(a.get("distance_km"))
 
+    # "Hard" by power = NP at or above ~85% of FTP (tempo/threshold). Only
+    # with a current FTP (fresh Garmin value or the 20-min estimate) — a stale
+    # one (e.g. 271 W from 2025) would push the bar so high nothing counts as
+    # hard. 170 W is the old fixed guess, kept as the fallback.
+    _ftp = num(curves.get("ftp")) if curves.get("ftp_source") in ("garmin", "estimate") else None
+    NP_HARD = round(0.85 * _ftp) if _ftp else 170
+
     np_by_id = {}
     try:
         for _cid, _c in (curves.get("curves") or {}).items():
@@ -123,12 +135,12 @@ def build():
         pass
 
     def is_hard(a):
-        # HR-based OR power-based: long intervals can average <167 bpm
+        # HR-based OR power-based: long intervals can average below Z4
         # while still being neuromuscularly hard (high NP).
-        if (num(a.get("avg_hr")) or 0) >= 167:
+        if (num(a.get("avg_hr")) or 0) >= Z3_TOP:
             return True
         _n = np_by_id.get(str(a.get("id") or ""))
-        return _n is not None and _n >= 170
+        return _n is not None and _n >= NP_HARD
 
     dists = [d_dist(a) for a in last10 if d_dist(a) is not None]
     avg_dist = sum(dists) / len(dists) if dists else 40.0
@@ -144,8 +156,10 @@ def build():
     today_rides = [a for a in acts if a.get("date") == today.isoformat()]
     t_km = sum(d_dist(a) or 0 for a in today_rides)
     t_hr = max([num(a.get("avg_hr")) or 0 for a in today_rides] + [0])
+    # Last 7 days = today + the 6 before it (">=" on today-7 counted 8 days,
+    # and disagreed with the 7-day `acute` load below).
     week_ago = (today - datetime.timedelta(days=7)).isoformat()
-    rides_7d = [a for a in acts if a.get("date", "") >= week_ago]
+    rides_7d = [a for a in acts if a.get("date", "") > week_ago]
     km_7d = sum(d_dist(a) or 0 for a in rides_7d)
 
     # ---- weather: tomorrow 5–9 AM Kolhapur (Open-Meteo, keyless, non-fatal) ----
@@ -255,7 +269,7 @@ def build():
         _n = np_by_id.get(str(_ta.get("id") or ""))
         if _n is not None and _n > t_np:
             t_np = _n
-    today_hard = (t_hr >= 159 and t_km >= 30) or t_np >= 170
+    today_hard = (t_hr >= Z2_TOP and t_km >= 30) or t_np >= NP_HARD
     if today_long or today_hard:
         flags.append(f"Today's ride was big ({t_km:.0f} km, avg HR {t_hr:.0f}) — body needs absorption time")
     last3 = [(today - datetime.timedelta(days=i)).isoformat() for i in range(3)]

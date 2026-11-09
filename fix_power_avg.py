@@ -1,32 +1,47 @@
-import os, json, pathlib
-from garminconnect import Garmin
-_tokenstore = os.path.expanduser("~/.garminconnect")
-_email = os.getenv("GARMIN_EMAIL")
-_password = os.getenv("GARMIN_PASSWORD")
-# Pass credentials when available so garminconnect>=0.3.6 can self-heal from
-# expired/poisoned cached tokens ("Failed to retrieve social profile").
-# Without credentials, an expired token file is fatal in CI.
-if _email and _password:
-    g = Garmin(email=_email, password=_password)
-else:
-    g = Garmin()
-g.login(_tokenstore)
-# Dynamic: read all activity IDs from garmin/data.json (fresh from sync)
-data_path = pathlib.Path("garmin/data.json")
-try:
-    data = json.loads(data_path.read_text(encoding="utf-8"))
-    aids = [str(a.get("id") or a.get("_raw",{}).get("activityId")) for a in data.get("activities",[]) if a.get("sport")=="road_biking"]
-    aids = [a for a in aids if a and a != "None"]
-    print(f"Found {len(aids)} cycling activities in data.json: {aids[-5:]}")
-except Exception as e:
-    print(f"Failed to load {data_path}: {e}")
-    aids = []
-pc_path = pathlib.Path("garmin/power_curves.json")
-try:
-    pc=json.load(open(pc_path))
-except:
-    pc={"computed_at": "", "ftp": 271, "ftp_status": "stale", "curves": {}}
-pc.setdefault("curves", {})
+#!/usr/bin/env python3
+"""
+Per-ride power numbers + FTP for the dashboard -> garmin/power_curves.json.
+
+For every road_biking ride in garmin/data.json:
+  - best average power over 10s / 30s / 60s / 5m / 20m / 1h (rolling, from the
+    directPower stream)
+  - whole-ride avg / normalized / max power (Garmin's own summary values first,
+    stream-computed as a fallback)
+
+Then picks the FTP the dashboard shows: Garmin's current cycling FTP when it is
+recent, otherwise an estimate from the best 20-minute power of the last 6 weeks.
+
+What was wrong before (curve_version 1):
+  * Rolling windows that ran off the end of the ride were still counted, so a
+    hard final 2 minutes became the "best 5 min", "best 20 min" AND "best 1 h"
+    (e.g. 281/281/281 W on 2026-10-18). Windows must now be completely filled;
+    a ride shorter than the window has no value for it.
+  * Windows averaged samples, not time. Garmin records irregularly (and the
+    details endpoint downsamples to 2000 points by default), so the stream is
+    now resampled to 1 Hz before any averaging, with auto-pause gaps removed.
+  * Garmin's summary numbers sit under get_activity()["summaryDTO"], but were
+    read from the top level, so Garmin's own NP/avg were never used.
+  * New rides only got NP/max a day late (first pass skipped unknown ids).
+
+Run after sync_garmin.py:  python fix_power_avg.py
+"""
+
+import datetime
+import json
+import os
+import pathlib
+
+DATA_PATH = pathlib.Path("garmin/data.json")
+PC_PATH = pathlib.Path("garmin/power_curves.json")
+
+CURVE_VERSION = 2
+WINDOWS = [10, 30, 60, 300, 1200, 3600]
+MAXCHART = 20000          # ask for full-resolution samples (default is 2000)
+FTP_FRESH_DAYS = 120      # a Garmin FTP older than this is treated as stale
+FTP_LOOKBACK_DAYS = 42    # 20-min bests considered for the estimate
+
+
+# ---------------------------------------------------------------- pure math --
 
 def _num(d, *keys):
     """First numeric value found (0 preserved — unlike `or` chains)."""
@@ -40,253 +55,244 @@ def _num(d, *keys):
             return float(v)
     return None
 
-def _coggan_np(powers, window=30):
-    """Sample-count fallback for whole-ride NP (assumes ~1Hz).
 
-    Only used when timestamps are missing. Prefer _coggan_np_ts below:
-    Garmin smart recording samples irregularly, so 30 samples != 30 s.
+def to_1hz(times_s, powers, hold_max=None):
+    """Resample an irregular power stream to one value per second.
+
+    Each sample holds until the next one. Gaps longer than `hold_max` are
+    auto-pause / stops and are collapsed rather than filled, so a café stop
+    neither adds zeros nor stretches a sample across ten minutes.
     """
-    n = len(powers)
-    if n < window:
-        return None
-    tot = 0.0
-    cnt = 0
-    run = sum(powers[:window])
-    tot += (run / window) ** 4
-    cnt += 1
-    for i in range(window, n):
-        run += powers[i] - powers[i - window]
-        tot += (run / window) ** 4
-        cnt += 1
-    return (tot / cnt) ** 0.25 if cnt else None
-
-def _coggan_np_ts(times, powers, window_s=30.0):
-    """Whole-ride Normalized Power (Coggan) on TIME-based 30 s rolling means.
-
-    Windows are carved by timestamp, so irregular (smart-recorded) sampling
-    can't bias the result. Zeros kept (coasting), Nones already removed.
-    """
-    n = len(powers)
-    if n < 2 or len(times) != n:
-        return None
-    paired = sorted(zip(times, powers))
-    ts = [float(p[0]) for p in paired]
-    ps = [float(p[1]) for p in paired]
-    pref = [0.0] * (n + 1)
-    for i, p in enumerate(ps):
-        pref[i + 1] = pref[i] + p
-    tot, cnt, j = 0.0, 0, 0
-    for i in range(n):
-        if j < i:
-            j = i
-        while j + 1 < n and ts[j + 1] - ts[i] <= window_s:
-            j += 1
-        c = j - i + 1
-        if c <= 0:
-            continue
-        m = (pref[j + 1] - pref[i]) / c
-        tot += m ** 4
-        cnt += 1
-    return (tot / cnt) ** 0.25 if cnt else None
-
-# List-summary values from data.json (whole-ride, per Garmin's activity list)
-raw_by_id = {}
-try:
-    for _a in data.get("activities", []):
-        _raw = _a.get("_raw") if isinstance(_a, dict) else None
-        if isinstance(_raw, dict):
-            for _key in (str(_a.get("id") or ""), str(_raw.get("activityId") or "")):
-                if _key and _key != "None":
-                    raw_by_id[_key] = _raw
-except Exception:
-    pass
-
-# fetch avg, NP, max for each — whole-ride values FIRST, single-lap LAST
-# (lapDTOs[0] is one lap, not the ride: using it as ride NP understates
-# variable rides, e.g. NP 139 for a ride whose true whole-ride NP is 171)
-for aid in aids:
-    splits = None
-    try:
-        act = g.get_activity(aid) or {}
-        try:
-            details = g.get_activity_details(aid)
-        except Exception as e:
-            print(aid, "details fail", e)
-            details = None
-        try:
-            splits = g.get_activity_splits(aid)
-        except Exception:
-            splits = None
-        lap0 = None
-        try:
-            if splits and isinstance(splits.get("lapDTOs"), list) and splits["lapDTOs"]:
-                lap0 = splits["lapDTOs"][0]
-                if len(splits["lapDTOs"]) > 1:
-                    print(f"{aid}: {len(splits['lapDTOs'])} laps — ignoring lap values for ride totals, whole-ride only")
-                    lap0 = None  # multi-lap: lap0 is NOT the ride, never use it
-        except Exception:
-            lap0 = None
-        raw = raw_by_id.get(str(aid), {})
-        # 1) Whole-ride values from detailed activity, then list summary
-        avg = _num(act, "averagePower", "avgPower")
-        if avg is None:
-            avg = _num(raw, "averagePower", "avgPower")
-        maxp = _num(act, "maxPower", "maximalPower")
-        if maxp is None:
-            maxp = _num(raw, "maxPower")
-        np_val = _num(act, "normalizedPower", "normPower")
-        if np_val is None:
-            np_val = _num(raw, "normalizedPower")
-        np_source = "activity" if np_val is not None else None
-        # 2) Stream-computed whole-ride NP (Coggan) — independent of laps/keys
-        try:
-            if details:
-                descs = {m["key"]: m["metricsIndex"] for m in details.get("metricDescriptors", [])}
-                if "directPower" in descs:
-                    p_idx = descs["directPower"]
-                    t_idx = descs.get("directTimestamp")
-                    tp = []
-                    for m in details.get("activityDetailMetrics", []):
-                        arr = m.get("metrics")
-                        if not arr:
-                            continue
-                        p = arr[p_idx] if p_idx < len(arr) else None
-                        t = arr[t_idx] / 1000.0 if (t_idx is not None and t_idx < len(arr) and arr[t_idx] is not None) else None
-                        if p is None or t is None:
-                            continue
-                        tp.append((t, float(p)))
-                    powers = [p for _, p in tp]
-                    if powers:
-                        if avg is None:
-                            avg = round(sum(powers) / len(powers), 1)
-                        cn = _coggan_np_ts([t for t, _ in tp], powers)
-                        if cn is None:
-                            cn = _coggan_np(powers)
-                        if cn is not None:
-                            if np_val is None:
-                                np_val, np_source = round(cn, 1), "computed"
-                            elif abs(cn - np_val) > 15:
-                                print(f"{aid}: WARN NP sources disagree (activity {np_val} vs stream-computed {round(cn,1)}) — keeping activity value")
-        except Exception as e:
-            print(aid, "stream NP fail", e)
-        # 3) Single-lap values ONLY for single-lap rides missing everything else
-        if lap0:
-            if avg is None:
-                a2 = _num(lap0, "averagePower", "avgPower")
-                if a2 is not None:
-                    avg = a2
-            if maxp is None:
-                m2 = _num(lap0, "maxPower")
-                if m2 is not None:
-                    maxp = m2
-            if np_val is None:
-                n2 = _num(lap0, "normalizedPower")
-                if n2 is not None:
-                    np_val, np_source = n2, "lap(partial)"
-        # Sanity: NP can never be below avg for the same effort
-        if np_val is not None and avg is not None and np_val < avg - 1:
-            print(f"{aid}: WARN inconsistent pair (avg {avg} / NP {np_val}) — mixed scopes, NP kept but flagged")
-            np_source = (np_source or "unknown") + "+suspect"
-        print(aid, "avg", avg, "np", np_val, "max", maxp, "src", np_source)
-        # Update pc
-        if aid in pc["curves"]:
-            pc["curves"][aid]["avgPower"] = avg
-            pc["curves"][aid]["normalizedPower"] = np_val
-            pc["curves"][aid]["maxPower"] = maxp
-            pc["curves"][aid]["npSource"] = np_source
-            # Also update if _raw missing
+    pairs = sorted(
+        (float(t), float(p)) for t, p in zip(times_s, powers)
+        if t is not None and p is not None
+    )
+    if not pairs:
+        return []
+    gaps = sorted(pairs[i + 1][0] - pairs[i][0] for i in range(len(pairs) - 1))
+    gaps = [g for g in gaps if g > 0]
+    med = gaps[len(gaps) // 2] if gaps else 1.0
+    if hold_max is None:
+        # Smart recording leaves gaps of several seconds during steady riding;
+        # only longer silences are real stops.
+        hold_max = max(15.0, 4 * med)
+    out, carry = [], 0.0
+    for i, (t, p) in enumerate(pairs):
+        if i + 1 < len(pairs):
+            dt = pairs[i + 1][0] - t
+            if dt <= 0:
+                continue  # duplicate timestamp: the later sample wins
+            if dt > hold_max:
+                dt = med
         else:
-            print("not in pc", aid)
-    except Exception as e:
-        print(aid, "fail", e)
-        import traceback; traceback.print_exc()
-# also need to handle reading back
-# For aids where avg still None, try to compute avg from directPower average
-for aid in aids:
-    if pc["curves"].get(aid, {}).get("avgPower") is None:
-        # compute avg from directPower
-        try:
-            d=g.get_activity_details(aid)
-            descs={m["key"]:m["metricsIndex"] for m in d["metricDescriptors"]}
-            if "directPower" not in descs:
-                print(f"Skipping {aid} - no power meter data")
-                continue
-            p_idx=descs["directPower"]
-            metrics=d["activityDetailMetrics"]
-            powers=[m["metrics"][p_idx] for m in metrics if m["metrics"][p_idx] is not None]
-            avg_calc = sum(powers)/len(powers) if powers else None
-            if aid not in pc["curves"]:
-                pc["curves"][aid] = {}
-            pc["curves"][aid]["avgPower"] = round(avg_calc,1) if avg_calc else None
-            print(f"computed avg for {aid}: {avg_calc}")
-        except Exception as e:
-            print("compute fail", aid, e)
+            dt = med
+        carry += dt
+        n = int(carry)
+        carry -= n
+        out.extend([p] * n)
+    return out
 
-# For any aid not in power_curves or missing 10s/30s curves, compute full rolling best power via directPower
-for aid in aids:
-    if aid not in pc["curves"] or "10s" not in pc["curves"].get(aid, {}):
-        try:
-            print(f"Computing full power curve for new activity {aid}...")
-            d=g.get_activity_details(aid)
-            descs={m["key"]:m["metricsIndex"] for m in d["metricDescriptors"]}
-            if "directPower" not in descs or "directTimestamp" not in descs:
-                print(f"Skipping {aid} - no power/timestamp data")
-                continue
-            p_idx=descs["directPower"]
-            t_idx=descs["directTimestamp"]
-            metrics=d["activityDetailMetrics"]
-            powers=[]
-            times=[]
-            for m in metrics:
-                arr=m["metrics"]
-                p=arr[p_idx]
-                t=arr[t_idx]
-                if p is not None and t is not None:
-                    powers.append(float(p))
-                    times.append(float(t))
-            if not powers:
-                print(f"No power data for {aid}")
-                continue
-            t0=times[0]
-            rel=[(t-t0)/1000 for t in times]
-            windows=[10,30,60,300,1200,3600]
-            results={}
-            for w in windows:
-                best=0
-                j=0
-                s=0
-                for i in range(len(powers)):
-                    while j < len(powers) and rel[j]-rel[i] <= w:
-                        s+=powers[j]
-                        j+=1
-                    cnt=j-i
-                    if cnt>0:
-                        avg=s/cnt
-                        if avg>best:
-                            best=avg
-                    s-=powers[i]
-                    if j<=i:
-                        j=i+1
-                results[w]=round(best)
-            # Get date from data.json
-            date = next((a["date"] for a in data.get("activities",[]) if str(a.get("id"))==aid), "unknown")
-            pc["curves"][aid] = {
-                "date": date,
-                "10s": results[10],
-                "30s": results[30],
-                "60s": results[60],
-                "300s": results[300],
-                "1200s": results[1200],
-                "3600s": results[3600],
-                "avgPower": pc["curves"].get(aid, {}).get("avgPower"),
-                "normalizedPower": pc["curves"].get(aid, {}).get("normalizedPower"),
-                "maxPower": pc["curves"].get(aid, {}).get("maxPower"),
-            }
-            print(f"New curve {aid} {date}: {results}")
-        except Exception as e:
-            print(f"Failed to compute curve for {aid}: {e}")
-            import traceback; traceback.print_exc()
 
-json.dump(pc, open(pc_path,"w"), indent=2)
-print("updated", pc_path)
-print(json.dumps(pc, indent=2)[:2000])
+def best_avg(series, window_s):
+    """Best mean power over any *complete* window of `window_s` seconds (1 Hz series)."""
+    n = len(series)
+    if n < window_s or window_s <= 0:
+        return None
+    run = sum(series[:window_s])
+    best = run
+    for i in range(window_s, n):
+        run += series[i] - series[i - window_s]
+        if run > best:
+            best = run
+    return best / window_s
+
+
+def normalized_power(series):
+    """Coggan NP: 4th-power mean of 30 s rolling averages (1 Hz series)."""
+    n = len(series)
+    if n < 30:
+        return None
+    run = sum(series[:30])
+    tot, cnt = (run / 30) ** 4, 1
+    for i in range(30, n):
+        run += series[i] - series[i - 30]
+        tot += (run / 30) ** 4
+        cnt += 1
+    return (tot / cnt) ** 0.25
+
+
+def power_stream(details):
+    """(times_s, powers) from a get_activity_details() payload, or ([], [])."""
+    if not isinstance(details, dict):
+        return [], []
+    descs = {m.get("key"): m.get("metricsIndex") for m in details.get("metricDescriptors") or []}
+    p_idx, t_idx = descs.get("directPower"), descs.get("directTimestamp")
+    if not isinstance(p_idx, int) or not isinstance(t_idx, int):
+        return [], []
+    times, powers = [], []
+    for m in details.get("activityDetailMetrics") or []:
+        arr = m.get("metrics") or []
+        if p_idx >= len(arr) or t_idx >= len(arr):
+            continue
+        p, t = arr[p_idx], arr[t_idx]
+        if p is None or t is None:
+            continue
+        times.append(t / 1000.0)
+        powers.append(float(p))
+    return times, powers
+
+
+def curve_from_stream(times_s, powers):
+    """Rolling bests + stream avg/NP/max, or None when there is no power data."""
+    series = to_1hz(times_s, powers)
+    if not series:
+        return None
+    bests = {f"{w}s": (round(b) if (b := best_avg(series, w)) is not None else None) for w in WINDOWS}
+    np_ = normalized_power(series)
+    return {
+        **bests,
+        "streamAvg": round(sum(series) / len(series), 1),
+        "streamNP": round(np_, 1) if np_ is not None else None,
+        "streamMax": round(max(series)),
+        "seconds": len(series),
+    }
+
+
+def choose_ftp(garmin_ftp, curves, today, prev=None):
+    """Return (ftp, status, source, estimate) for the dashboard / AI prompt."""
+    cutoff = (today - datetime.timedelta(days=FTP_LOOKBACK_DAYS)).isoformat()
+    b20, b20_date = None, None
+    for c in curves.values():
+        if not isinstance(c, dict) or c.get("v") != CURVE_VERSION:
+            continue
+        v = c.get("1200s")
+        if isinstance(v, (int, float)) and str(c.get("date", "")) >= cutoff and (b20 is None or v > b20):
+            b20, b20_date = v, c.get("date")
+    estimate = {"value": round(0.95 * b20), "from_20m": b20, "date": b20_date} if b20 else None
+
+    g_val = garmin_ftp.get("value") if isinstance(garmin_ftp, dict) else None
+    g_date = garmin_ftp.get("date") if isinstance(garmin_ftp, dict) else None
+    age = None
+    if g_date:
+        try:
+            age = (today - datetime.date.fromisoformat(str(g_date)[:10])).days
+        except ValueError:
+            age = None
+    fresh = g_val and age is not None and age <= FTP_FRESH_DAYS and garmin_ftp.get("is_stale") is not True
+
+    if fresh:
+        return g_val, f"Garmin FTP, set {g_date}", "garmin", estimate
+    if estimate:
+        why = (f"Garmin FTP {g_val} W from {g_date} is stale" if g_val
+               else "Garmin has no cycling FTP on file")
+        return (estimate["value"],
+                f"Estimated: 95% of best 20-min power ({b20} W on {b20_date}) — {why}. "
+                "Normal rides aren't all-out tests, so true FTP is likely a bit higher.",
+                "estimate", estimate)
+    if g_val:
+        return g_val, f"Garmin FTP from {g_date or 'unknown date'} — stale, retest recommended", "garmin-stale", None
+    if prev and prev.get("ftp"):
+        return prev["ftp"], prev.get("ftp_status") or "previous value", prev.get("ftp_source") or "previous", None
+    return None, "Unknown — no Garmin FTP and no 20-min power yet", "none", None
+
+
+# ------------------------------------------------------------- Garmin I/O --
+
+def _login():
+    from garminconnect import Garmin
+    tokenstore = os.path.expanduser("~/.garminconnect")
+    email, password = os.getenv("GARMIN_EMAIL"), os.getenv("GARMIN_PASSWORD")
+    # Pass credentials when available so garminconnect>=0.3.6 can self-heal from
+    # expired/poisoned cached tokens ("Failed to retrieve social profile").
+    g = Garmin(email=email, password=password) if email and password else Garmin()
+    g.login(tokenstore)
+    return g
+
+
+def _today_ist():
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.datetime.now(ZoneInfo("Asia/Kolkata")).date()
+    except Exception:
+        return datetime.date.today()
+
+
+def main():
+    data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    rides = [a for a in data.get("activities", []) if a.get("sport") == "road_biking"]
+    try:
+        pc = json.loads(PC_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        pc = {}
+    pc.setdefault("curves", {})
+    print(f"Found {len(rides)} cycling activities in data.json")
+
+    g = None
+    for a in rides:
+        aid = str(a.get("id") or (a.get("_raw") or {}).get("activityId") or "")
+        if not aid or aid == "None":
+            continue
+        entry = pc["curves"].get(aid) or {}
+        done = entry.get("v") == CURVE_VERSION and (
+            entry.get("noPower") or all(entry.get(k) is not None for k in ("avgPower", "normalizedPower", "maxPower"))
+        )
+        if done:
+            continue
+        if g is None:
+            g = _login()
+        try:
+            act = g.get_activity(aid) or {}
+            summ = act.get("summaryDTO") if isinstance(act.get("summaryDTO"), dict) else act
+            details = g.get_activity_details(aid, maxchart=MAXCHART)
+            times, powers = power_stream(details)
+            stream = curve_from_stream(times, powers)
+            raw = a.get("_raw") or {}
+
+            avg = _num(summ, "averagePower", "avgPower") or _num(raw, "averagePower")
+            np_ = _num(summ, "normalizedPower", "normPower") or _num(raw, "normalizedPower")
+            mx = _num(summ, "maxPower") or _num(raw, "maxPower")
+            np_src = "garmin" if np_ is not None else None
+            if stream:
+                avg = avg if avg is not None else stream["streamAvg"]
+                mx = mx if mx is not None else stream["streamMax"]
+                if np_ is None and stream["streamNP"] is not None:
+                    np_, np_src = stream["streamNP"], "computed"
+                elif np_ is not None and stream["streamNP"] is not None and abs(stream["streamNP"] - np_) > 15:
+                    print(f"{aid}: note — Garmin NP {np_} vs stream NP {stream['streamNP']}, keeping Garmin's")
+
+            new = {"date": a.get("date"), "v": CURVE_VERSION}
+            if stream:
+                new.update({k: stream[k] for k in [f"{w}s" for w in WINDOWS]})
+            else:
+                new["noPower"] = True
+            new.update({
+                "avgPower": round(avg, 1) if avg is not None else None,
+                "normalizedPower": round(np_, 1) if np_ is not None else None,
+                "maxPower": round(mx) if mx is not None else None,
+                "npSource": np_src,
+            })
+            pc["curves"][aid] = new
+            print(aid, a.get("date"), {k: new.get(k) for k in ("10s", "300s", "1200s", "3600s", "avgPower", "normalizedPower", "maxPower", "npSource")})
+        except Exception as e:
+            print(f"{aid}: failed ({e}) — keeping previous entry")
+
+    profile_ftp = (data.get("profile") or {}).get("ftp")
+    ftp, status, source, estimate = choose_ftp(profile_ftp, pc["curves"], _today_ist(), prev=pc)
+    pc.update({
+        "computed_at": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
+        "curve_version": CURVE_VERSION,
+        "ftp": ftp,
+        "ftp_status": status,
+        "ftp_source": source,
+        "ftp_garmin": profile_ftp,
+        "ftp_estimate": estimate,
+        "notes": ("Rolling bests from Garmin's directPower stream resampled to 1 Hz (pauses removed); "
+                  "a window only counts when completely filled. 10s=neuromuscular, 30-60s=anaerobic, "
+                  "5m=VO2, 20m≈FTP proxy, 1h=endurance. Entries without \"v\": 2 are legacy values."),
+    })
+    PC_PATH.write_text(json.dumps(pc, indent=2), encoding="utf-8")
+    print(f"updated {PC_PATH} — FTP {ftp} W ({source}): {status}")
+
+
+if __name__ == "__main__":
+    main()

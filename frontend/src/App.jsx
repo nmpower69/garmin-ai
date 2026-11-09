@@ -17,6 +17,15 @@ function garminFileUrl(dataUrl, file){
   return dataUrl ? dataUrl.replace(/data\.json$/, file) : '#'
 }
 
+function vo2Sub(model){
+  if(!model) return ''
+  const L = model.vo2Latest
+  if(!L) return 'No VO2 max from Garmin yet. Cycling VO2 max needs an outdoor ride with a power meter + heart rate (20+ min at a solid effort).'
+  const when = L.date ? ` (updated ${L.date})` : ''
+  const trend = model.vo2HasData ? ' Dots = days Garmin re-estimated it; the line joins them.' : ' No new estimate inside this 30-day window.'
+  return `Garmin ${L.sport} VO2 max ${L.value}${when}.${trend}`
+}
+
 function CountUp({ value, decimals = 0 }){
   const ref = React.useRef(null)
   const inView = useInView(ref, {once:true, amount:.5})
@@ -46,7 +55,7 @@ function Kpi({ label, value, decimals, unit, sub, i }){
       transition={{type:'spring', stiffness:100, damping:18, delay:(i%3)*.07}}>
       <div className="kpi-label">{label}</div>
       <div className="kpi">
-        <CountUp value={value} decimals={decimals}/><span className="unit">{unit}</span>
+        {typeof value === 'number' ? <CountUp value={value} decimals={decimals}/> : '—'}<span className="unit">{unit}</span>
       </div>
       <div className="kpi-sub">{sub}</div>
     </motion.div>
@@ -144,7 +153,7 @@ export default function App(){
       hrSpeed: hrSpeedConfig(model),
       readiness: readinessConfig(model),
       hrvRhr: hrvRhrConfig(model),
-      vo2: vo2Config(),
+      vo2: vo2Config(model),
       ftp: ftpConfig(model),
       zoneDonut: zoneDonutConfig(model),
       sleep: sleepConfig(model),
@@ -199,7 +208,7 @@ export default function App(){
 
         <Section title="Ride time:" acid="intensity × length." sub="Bar height = intensity bucket, segments = ride length. Hover for exact hours.">
           <ChartCard title="Hours by intensity × length" config={charts?.flow}
-            sub={'Easy <139 bpm · Moderate 139–167 · Hard >167. Short <1h · Medium 1–2h · Long 2h+.' + (model ? ' Total ' + model.skTot.toFixed(1) + ' h.' + (model.skSkip > 0 ? ' (' + model.skSkip + ' ride(s) missing HR excluded.)' : '') : '')}/>
+            sub={(model ? `Easy <${model.hrB[0]} bpm · Moderate ${model.hrB[0]}–${model.hrB[2]} · Hard >${model.hrB[2]}.` : '') + ' Short <1h · Medium 1–2h · Long 2h+.' + (model ? ' Total ' + model.skTot.toFixed(1) + ' h.' + (model.skSkip > 0 ? ' (' + model.skSkip + ' ride(s) missing HR excluded.)' : '') : '')}/>
         </Section>
 
         <Section title="Records &" acid="streaks." sub="Bests in this window plus consistency.">
@@ -223,11 +232,11 @@ export default function App(){
               sub="Pink band = threshold (Z4+), green = easy (Z1). Dots = rides; line connects in date order."/>
             <ChartCard title="Training readiness (0–100)" config={charts?.readiness}
               sub="Green ≥ 75 ready · Amber 50–75 normal · Red < 50 rest. Dashed lines mark 50 / 75."/>
-            <ChartCard title={'FTP ' + (model?.ftpVal ?? '') + 'W · power zones'} config={charts?.ftp}
-              sub={(model?.ftpStatus ?? '') + ' Shading = zones behind the FTP line.'}
+            <ChartCard title={model?.ftpVal ? `FTP ${model.ftpVal}W · power zones` : 'FTP · power zones'} config={charts?.ftp}
+              sub={(model?.ftpStatus ?? '') + (model?.ftpVal ? ' Shading = zones behind the FTP line.' : '')}
               wrapAfter={(
                 <div className="zone-pills">
-                  {model && [0,1,2,3,4,5].map(i => {
+                  {model?.zB && [0,1,2,3,4,5].map(i => {
                     const zB = model.zB
                     const labels = [`Z1 <${zB[1]}`, `Z2 ${zB[1]}–${zB[2]}`, `Z3 ${zB[2]}–${zB[3]}`, `Z4 ${zB[3]}–${zB[4]}`, `Z5 ${zB[4]}–${zB[5]}`, `Z6+ >${zB[5]}`]
                     return <span key={i}>{labels[i]}W</span>
@@ -239,8 +248,8 @@ export default function App(){
 
         <Section title="VO2 max &" acid="HRV · RHR." sub="Garmin's VO2 estimate plus the HRV / resting-HR fatigue pair.">
           <div className="grid-3">
-            <ChartCard title="VO2 max" config={charts?.vo2}
-              sub="Garmin returns null — chart will populate when Garmin provides it."/>
+            <ChartCard title={model?.vo2Latest ? `VO2 max · ${model.vo2Latest.value}` : 'VO2 max'} config={charts?.vo2}
+              sub={vo2Sub(model)}/>
             <ChartCard title="HRV & resting HR trend" config={charts?.hrvRhr} span={2}
               sub="Green = HRV (ms, left axis) with 7-day average dashed · Amber = resting HR (bpm, right axis). Falling HRV + rising RHR together = fatigue."/>
           </div>

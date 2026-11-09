@@ -76,7 +76,7 @@ jobs:
           python fix_power_avg.py || echo "power curves update failed (non-fatal)"
           ls -lh garmin/power_curves.json || true
 
-      - name: AI Analysis via OpenRouter (nvidia/nemotron-3-ultra)
+      - name: AI Analysis via OpenRouter (free models)
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |

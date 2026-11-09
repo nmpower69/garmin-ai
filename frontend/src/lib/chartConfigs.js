@@ -38,8 +38,8 @@ export function hrSpeedConfig(model){
       },
     },
     plugins:[glowPlugin(), bandPlugin([
-      {yMin:167, yMax:180, color:'rgba(248,113,113,.10)'},
-      {yMin:120, yMax:139, color:'rgba(183,245,66,.08)'},
+      {yMin:model.hrB[2], yMax:180, color:'rgba(248,113,113,.10)'},
+      {yMin:120, yMax:model.hrB[0], color:'rgba(183,245,66,.08)'},
     ])],
   })
 }
@@ -83,16 +83,30 @@ export function hrvRhrConfig(model){
   })
 }
 
-export function vo2Config(){
+export function vo2Config(model){
+  const all = [...model.vo2Cyc, ...model.vo2Run].filter(v => v != null)
+  if(model.vo2Latest) all.push(model.vo2Latest.value)
+  const lo = all.length ? Math.floor(Math.min(...all) - 2) : 30
+  const hi = all.length ? Math.ceil(Math.max(...all) + 2) : 60
+  const hasRun = model.vo2Run.some(v => v != null)
+  const datasets = [
+    {label:'Cycling VO2 max', data:model.vo2Cyc, borderColor:ACID, backgroundColor:ACID, spanGaps:true, tension:.3, borderWidth:2.5, pointRadius:4, _glow:{color:'rgba(183,245,66,.35)', blur:10}},
+  ]
+  if(hasRun) datasets.push({label:'Running VO2 max', data:model.vo2Run, borderColor:'#38bdf8', backgroundColor:'#38bdf8', spanGaps:true, tension:.3, borderWidth:2, pointRadius:3})
   return () => ({
     type:'line',
-    data:{labels:[], datasets:[{data:[], borderColor:'#94a3b8', borderDash:[4,4]}]},
-    options:{plugins:{legend:{display:false}}, scales:{x:{grid:{display:false}}, y:{min:30, max:60}}},
+    data:{labels:model.shortDates, datasets},
+    options:{
+      plugins:{legend:{display:hasRun, labels:{boxWidth:12, usePointStyle:true}}},
+      scales:{x:{grid:{display:false}}, y:{min:lo, max:hi, grid:{color:'rgba(255,255,255,.05)'}, title:{display:true, text:'ml/kg/min'}}},
+    },
+    plugins:[glowPlugin()],
   })
 }
 
 export function ftpConfig(model){
   const zB = model.zB
+  if(!zB) return () => ({type:'line', data:{labels:model.shortDates, datasets:[]}, options:{plugins:{legend:{display:false}}}})
   return () => ({
     type:'line',
     data:{labels:model.shortDates, datasets:[
@@ -180,7 +194,7 @@ export function flowConfig(model){
   const skM = model.skM
   return () => ({
     type:'bar',
-    data:{labels:['Easy <139','Moderate 139-167','Hard >167'], datasets:[
+    data:{labels:[`Easy <${model.hrB[0]}`, `Moderate ${model.hrB[0]}-${model.hrB[2]}`, `Hard >${model.hrB[2]}`], datasets:[
       {label:'Short <1h', data:[+skM[0][0].toFixed(2), +skM[1][0].toFixed(2), +skM[2][0].toFixed(2)], backgroundColor:'#7dd3fc', borderRadius:6},
       {label:'Med 1-2h', data:[+skM[0][1].toFixed(2), +skM[1][1].toFixed(2), +skM[2][1].toFixed(2)], backgroundColor:'#38bdf8', borderRadius:6},
       {label:'Long 2h+', data:[+skM[0][2].toFixed(2), +skM[1][2].toFixed(2), +skM[2][2].toFixed(2)], backgroundColor:'#818cf8', borderRadius:6},

@@ -357,8 +357,13 @@ async function load(){
   try{ const u = siblingOf('power_curves.json'); if(u){ const r=await fetchNoCache(u); if(r.ok) earlyPower=await r.json(); } }catch(e){}
   try{ if(!earlyPower){ const r=await fetchNoCache(new URL('garmin/power_curves.json', document.baseURI).href); if(r.ok) earlyPower=await r.json(); } }catch(e){}
   try{ if(!earlyPower){ const r2=await fetchNoCache('../garmin/power_curves.json'); if(r2.ok) earlyPower=await r2.json(); }}catch(e){}
-  const ftpVal = earlyPower?.ftp || 271;
-  const ftpStatus = earlyPower?.ftp_status || 'stale 2025-03-04 — retest needed';
+  // FTP from power_curves.json (Garmin's when recent, else 20-min estimate) — no invented fallback
+  const ftpVal = typeof earlyPower?.ftp === 'number' ? earlyPower.ftp : null;
+  const ftpStatus = earlyPower?.ftp_status || 'FTP unknown — waiting for the next sync';
+  const ftpText = ftpVal ? ftpVal+' W' : '—';
+  // Garmin HR zone floors (Z2..Z5) when synced, else the previous hardcoded ones
+  const hzF = data.profile?.hr_zones?.floors;
+  const hrB = Array.isArray(hzF) && hzF.length===5 && hzF.every(v=>typeof v==='number') ? hzF.slice(1) : [139,159,167,172];
 
   // ---- KPIs (same 6, better visuals) ----
   const totalKm = acts.reduce((s,a)=>s+(typeof a.distance_km==='number'?a.distance_km:0),0);
@@ -372,14 +377,14 @@ async function load(){
   const icons = {dist:'🛣️',time:'⏱️',speed:'💨',vert:'⛰️',hr:'❤️',ftp:'⚡'};
   const kpis = acts.length===0 ? [
     ['No rides','0 rides','rest week — check daily wellness','🛣️'],
-    ['FTP', ftpVal+' W', ftpStatus,'⚡'],
+    ['FTP', ftpText, ftpStatus,'⚡'],
   ] : [
     ['Total Distance', totalKm.toFixed(1)+' km', acts.length+' rides · longest '+best.toFixed(0)+' km', icons.dist],
     ['Total Time', totalHrs.toFixed(1)+' h', 'avg '+(totalKm/acts.length).toFixed(1)+' km / ride', icons.time],
     ['Avg Speed', avgSpeed.toFixed(1)+' km/h', avgSpeed<25?'easy conversational pace':'brisk pace for joy rider', icons.speed],
     ['Vert Gain', Math.round(totalElev)+' m', (totalElev/Math.max(1,acts.length)).toFixed(0)+' m / ride avg', icons.vert],
-    ['Avg HR', hrs.length?Math.round(avgHR)+' bpm':'—', hrs.length?(avgHR>150?'mostly threshold — ease off':'balanced base'):'no HR data', icons.hr],
-    ['FTP', ftpVal+' W', ftpStatus, icons.ftp],
+    ['Avg HR', hrs.length?Math.round(avgHR)+' bpm':'—', hrs.length?(avgHR>=hrB[2]?'mostly threshold — ease off':avgHR>=hrB[1]?'tempo-heavy average':'balanced base'):'no HR data', icons.hr],
+    ['FTP', ftpText, ftpStatus, icons.ftp],
   ];
   document.getElementById('kpis').innerHTML = kpis.map(([t,v,s,ic])=>`<div class="card kpi-card"><div class="kpi-icon">${ic||'📊'}</div><div><div class="kpi-label">${t}</div><div class="kpi">${v}</div><div class="sub">${s}</div></div></div>`).join('');
   document.querySelectorAll('#kpis .kpi').forEach(countUp);
@@ -387,12 +392,13 @@ async function load(){
   // ---- Weekly grouping ----
   const weeks = {};
   acts.forEach(a=>{
-    const d = new Date(a.date);
-    const year = d.getFullYear();
-    const jan1 = new Date(year,0,1);
-    const days = Math.floor((d - jan1)/86400000);
-    const week = Math.ceil((days + jan1.getDay()+1)/7);
-    const key = `${year}-W${String(week).padStart(2,'0')}`;
+    // ISO-8601 week (Mon–Sun) in UTC — was a Sunday-start local-time week labelled like ISO
+    const [yy,mm,dd] = a.date.split('-').map(Number);
+    const t = new Date(Date.UTC(yy,mm-1,dd));
+    t.setUTCDate(t.getUTCDate() + 4 - (t.getUTCDay()||7));
+    const isoYear = t.getUTCFullYear();
+    const week = Math.ceil(((t - Date.UTC(isoYear,0,1))/86400000 + 1)/7);
+    const key = `${isoYear}-W${String(week).padStart(2,'0')}`;
     if(!weeks[key]) weeks[key]={km:0,sec:0,vert:0,count:0};
     weeks[key].km += typeof a.distance_km==='number'?a.distance_km:0;
     weeks[key].sec += typeof a.duration_seconds==='number'?a.duration_seconds:0;
@@ -435,7 +441,7 @@ async function load(){
       y:{type:'linear',position:'left',min:120,max:180,title:{display:true,text:'bpm',color:'#f87171'}},
       y1:{type:'linear',position:'right',min:15,max:40,grid:{drawOnChartArea:false},title:{display:true,text:'km/h',color:'#38bdf8'}}
     }},
-    plugins:[bandPlugin([{yMin:167,yMax:180,color:'rgba(248,113,113,.10)'},{yMin:120,yMax:139,color:'rgba(56,189,248,.08)'}])]});
+    plugins:[bandPlugin([{yMin:hrB[2],yMax:180,color:'rgba(248,113,113,.10)'},{yMin:120,yMax:hrB[0],color:'rgba(56,189,248,.08)'}])]});
 
   // ---- Readiness (gradient + thresholds + segment colors) ----
   const dates = Object.keys(daily).sort();
@@ -467,10 +473,29 @@ async function load(){
       y1:{position:'right',min:35,max:70,grid:{drawOnChartArea:false},title:{display:true,text:'RHR bpm',color:'#f59e0b'}}
     }}});
 
-  // ---- VO2 (graceful empty) ----
-  new Chart(document.getElementById('vo2'),{type:'line',data:{labels:shortDates,datasets:[{data:shortDates.map(()=>null),borderColor:'#94a3b8',borderDash:[4,4]}]},options:{plugins:{legend:{display:false}},scales:{y:{min:30,max:60}}}});
+  // ---- VO2 max (synced from Garmin; only re-estimated after qualifying workouts) ----
+  const numOrNull = v => typeof v==='number' && !isNaN(v) ? v : null;
+  const vo2Cyc = dates.map(d=>numOrNull(daily[d].vo2max_cycling));
+  const vo2Run = dates.map(d=>numOrNull(daily[d].vo2max_running));
+  const pv = data.profile?.vo2max || {};
+  const lastIn = arr => { for(let i=arr.length-1;i>=0;i--) if(arr[i]!=null) return {value:arr[i], date:dates[i]}; return null; };
+  const vo2Latest = pv.cycling ? {...pv.cycling, sport:'cycling'} : lastIn(vo2Cyc) ? {...lastIn(vo2Cyc), sport:'cycling'}
+    : pv.running ? {...pv.running, sport:'running'} : lastIn(vo2Run) ? {...lastIn(vo2Run), sport:'running'} : null;
+  const vo2All = [...vo2Cyc, ...vo2Run].filter(v=>v!=null).concat(vo2Latest ? [vo2Latest.value] : []);
+  const vo2Sets = [{label:'Cycling VO2 max',data:vo2Cyc,borderColor:'#38bdf8',backgroundColor:'#38bdf8',spanGaps:true,tension:.3,borderWidth:2.5,pointRadius:4}];
+  const vo2HasRun = vo2Run.some(v=>v!=null);
+  if(vo2HasRun) vo2Sets.push({label:'Running VO2 max',data:vo2Run,borderColor:'#22c55e',backgroundColor:'#22c55e',spanGaps:true,tension:.3,borderWidth:2,pointRadius:3});
+  new Chart(document.getElementById('vo2'),{type:'line',data:{labels:shortDates,datasets:vo2Sets},
+    options:{plugins:{legend:{display:vo2HasRun}},scales:{y:{min:vo2All.length?Math.floor(Math.min(...vo2All)-2):30,max:vo2All.length?Math.ceil(Math.max(...vo2All)+2):60,title:{display:true,text:'ml/kg/min'}}}}});
+  try{
+    if(vo2Latest) document.querySelector('#vo2').closest('.card').querySelector('h3').textContent = 'VO2 Max · ' + vo2Latest.value;
+    document.getElementById('vo2Note').textContent = vo2Latest
+      ? `Garmin ${vo2Latest.sport} VO2 max ${vo2Latest.value}${vo2Latest.date?' (updated '+vo2Latest.date+')':''}.` + (vo2All.length>1 ? ' Dots = days Garmin re-estimated it.' : ' No new estimate inside this 30-day window.')
+      : 'No VO2 max from Garmin yet. Cycling VO2 max needs an outdoor ride with a power meter + heart rate (20+ min at a solid effort).';
+  }catch(e){}
 
   // ---- FTP zones ----
+  if(ftpVal){
   const ftpLabel = `FTP ${ftpVal}W`;
   try{ document.getElementById('ftpTitle').textContent = ftpLabel + ' · Power Zones'; }catch(e){}
   const fEl = document.getElementById('ftp');
@@ -484,6 +509,10 @@ async function load(){
     ])]});
   document.getElementById('ftpNote').textContent = `${ftpStatus}. Shading = zones behind the FTP line.`;
   document.getElementById('ftpPills').innerHTML = [`Z1 <${zB[1]}`,`Z2 ${zB[1]}–${zB[2]}`,`Z3 ${zB[2]}–${zB[3]}`,`Z4 ${zB[3]}–${zB[4]}`,`Z5 ${zB[4]}–${zB[5]}`,`Z6+ >${zB[5]}`].map(z=>`<span>${z}W</span>`).join('');
+  } else {
+    try{ document.getElementById('ftpTitle').textContent = 'FTP · Power Zones'; }catch(e){}
+    document.getElementById('ftpNote').textContent = ftpStatus;
+  }
 
   // ---- Tomorrow's briefing ----
   let briefing = null;
@@ -585,7 +614,7 @@ async function load(){
   renderCalendar();
 
   // ---- Intensity donut (ride hours by avg-HR zone) ----
-  const zoneDef = [[-1000,139,'Z1 Easy','#38bdf8'],[139,159,'Z2 Base','#22c55e'],[159,167,'Z3 Tempo','#a78bfa'],[167,172,'Z4 Threshold','#fb923c'],[172,10000,'Z5 Max','#f87171']];
+  const zoneDef = [[-1000,hrB[0],'Z1 Easy','#38bdf8'],[hrB[0],hrB[1],'Z2 Base','#22c55e'],[hrB[1],hrB[2],'Z3 Tempo','#a78bfa'],[hrB[2],hrB[3],'Z4 Threshold','#fb923c'],[hrB[3],10000,'Z5 Max','#f87171']];
   const zoneHrs = [0,0,0,0,0]; let zonedHrs = 0;
   acts.forEach(a=>{
     if(typeof a.avg_hr==='number' && typeof a.duration_seconds==='number'){
@@ -655,7 +684,7 @@ async function load(){
     const skM = [[0,0,0],[0,0,0],[0,0,0]]; let skSkip = 0;
     acts.forEach(a=>{
       if(typeof a.avg_hr==='number' && typeof a.duration_seconds==='number'){
-        const zi = a.avg_hr<139 ? 0 : (a.avg_hr<=167 ? 1 : 2);
+        const zi = a.avg_hr<hrB[0] ? 0 : (a.avg_hr<=hrB[2] ? 1 : 2);
         const li = a.duration_seconds<3600 ? 0 : (a.duration_seconds<=7200 ? 1 : 2);
         skM[zi][li] += a.duration_seconds/3600;
       } else { skSkip++; }
@@ -664,7 +693,7 @@ async function load(){
     const skTot = zt[0]+zt[1]+zt[2];
     if(!(skTot>0)){ flEl.outerHTML = '<div class="empty-state">Not enough HR data.</div>'; return; }
     new Chart(flEl,{type:'bar',
-      data:{labels:['Easy <139','Moderate 139-167','Hard >167'],datasets:[
+      data:{labels:[`Easy <${hrB[0]}`,`Moderate ${hrB[0]}-${hrB[2]}`,`Hard >${hrB[2]}`],datasets:[
         {label:'Short <1h',data:[+(skM[0][0]).toFixed(2),+(skM[1][0]).toFixed(2),+(skM[2][0]).toFixed(2)],backgroundColor:'#7dd3fc',borderRadius:6},
         {label:'Med 1-2h',data:[+(skM[0][1]).toFixed(2),+(skM[1][1]).toFixed(2),+(skM[2][1]).toFixed(2)],backgroundColor:'#38bdf8',borderRadius:6},
         {label:'Long 2h+',data:[+(skM[0][2]).toFixed(2),+(skM[1][2]).toFixed(2),+(skM[2][2]).toFixed(2)],backgroundColor:'#818cf8',borderRadius:6}
@@ -672,7 +701,7 @@ async function load(){
       options:{interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:12,usePointStyle:true}},tooltip:{callbacks:{footer:(items)=>{ let ft=0; items.forEach(it=>{ ft+=it.raw; }); return 'Total ' + ft.toFixed(1) + ' h'; }}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,beginAtZero:true,title:{display:true,text:'hours'}}}},
       plugins:[barValuesPlugin()]});
     const fnote = document.getElementById('flowNote');
-    if(fnote) fnote.textContent += ' Total ' + skTot.toFixed(1) + ' h.' + (skSkip>0 ? ' (' + skSkip + ' ride(s) missing HR excluded.)' : '');
+    if(fnote) fnote.textContent = `Easy <${hrB[0]} bpm · Moderate ${hrB[0]}–${hrB[2]} · Hard >${hrB[2]}. Short <1h · Medium 1–2h · Long 2h+.` + ' Total ' + skTot.toFixed(1) + ' h.' + (skSkip>0 ? ' (' + skSkip + ' ride(s) missing HR excluded.)' : '');
   })();
 
   // ---- Records & streaks ----
@@ -682,8 +711,10 @@ async function load(){
   if(longest) recCards.push(['Longest ride', longest.distance_km.toFixed(0)+' km', longest.date + ' · ' + longest.name, '🏁']);
   const wkBest = Object.entries(weeks).sort((a,b)=>b[1].km-a[1].km)[0];
   if(wkBest) recCards.push(['Biggest week', wkBest[1].km.toFixed(0)+' km', wkBest[0] + ' · ' + wkBest[1].count + ' rides', '📈']);
+  // Bests in this window: only rides inside the 30-day window, not every cached curve
   const curves = (earlyPower && earlyPower.curves) ? earlyPower.curves : {};
-  const pbest = (k)=>{ let b=0; Object.values(curves).forEach(c=>{ if(c && typeof c[k]==='number' && c[k]>b) b=c[k]; }); return b; };
+  const windowCurves = acts.map(a=>curves[String(a._raw?.activityId || a.id)]).filter(Boolean);
+  const pbest = (k)=>{ let b=0; windowCurves.forEach(c=>{ if(typeof c[k]==='number' && c[k]>b) b=c[k]; }); return b; };
   const b10=pbest('10s'), b5=pbest('300s'), b20=pbest('1200s');
   if(b10>0) recCards.push(['Best 10s power', b10+' W', 'neuromuscular', '⚡']);
   if(b5>0) recCards.push(['Best 5m power', b5+' W', 'VO2', '🔥']);
@@ -698,7 +729,7 @@ async function load(){
   document.querySelectorAll('#recordsGrid .kpi').forEach(countUp);
 
   // ---- Latest activities (same table, better formatting + HR badges) ----
-  const hrBadge = (v)=>{ if(typeof v!=='number') return '—'; const c = v<139?'ok':v<=159?'ok':v<=167?'warn':'bad'; return `<span class="badge ${c}">${v}</span>`; };
+  const hrBadge = (v)=>{ if(typeof v!=='number') return '—'; const c = v<=hrB[1]?'ok':v<=hrB[2]?'warn':'bad'; return `<span class="badge ${c}">${v}</span>`; };
   const latestBody = document.querySelector('#latest tbody');
   [...acts].reverse().slice(0,10).forEach(a=>{
     const speed = a.distance_km && a.duration_seconds ? (a.distance_km/(a.duration_seconds/3600)).toFixed(1):'—';
@@ -717,20 +748,22 @@ async function load(){
   const getCurve = (id) => powerCurves?.curves?.[id] || null;
   const rows = acts.map(a=>{
     const real = getCurve(String(a._raw?.activityId || a.id));
-    const avg = real?.avgPower ?? a._raw?.averagePower ?? a._raw?.avgPower ?? 110;
-    const max = real?.maxPower ?? a._raw?.maxPower ?? 400;
-    const np = real?.normalizedPower ?? a._raw?.normalizedPower ?? Math.round(avg*1.3);
-    const p = real ? { '10s': real['10s'], '30s': real['30s'], '60s': real['60s'], '5m': real['300s'], '20m': real['1200s'], '1h': real['3600s'] } : null;
+    // Missing numbers stay "—" (this used to invent 110 W / 400 W / avg×1.3)
+    const avg = numOrNull(real?.avgPower ?? a._raw?.averagePower ?? a._raw?.avgPower);
+    const max = numOrNull(real?.maxPower ?? a._raw?.maxPower);
+    const np = numOrNull(real?.normalizedPower ?? a._raw?.normalizedPower);
+    const p = real && !real.noPower ? { '10s': real['10s'], '30s': real['30s'], '60s': real['60s'], '5m': real['300s'], '20m': real['1200s'], '1h': real['3600s'] } : null;
     return {a, avg, max, np, p};
   });
   const cols = ['10s','30s','60s','5m','20m','1h'];
   const withP = rows.filter(r=>r.p);
-  const bests = {}; cols.forEach(c=>{ const vs = withP.map(r=>r.p[c]||0); bests[c] = vs.length ? Math.max(...vs) : 0; });
+  const bests = {}; cols.forEach(c=>{ const vs = withP.map(r=>r.p[c]).filter(v=>typeof v==='number'); bests[c] = vs.length ? Math.max(...vs) : null; });
+  const w = v => typeof v==='number' ? Math.round(v) : '—';
   rows.forEach(({a,avg,max,np,p})=>{
     const tr = document.createElement('tr');
     let tds = `<td>${a.date}</td><td>${a.name.slice(0,18)}</td>`;
     cols.forEach(c=>{ const v = p ? p[c] : null; tds += `<td class="num ${v!=null && v===bests[c]?'pb':''}">${v ?? '—'}</td>`; });
-    tds += `<td class="num">${avg}</td><td class="num">${np}</td><td class="num">${max}</td>`;
+    tds += `<td class="num">${w(avg)}</td><td class="num">${w(np)}</td><td class="num">${w(max)}</td>`;
     tr.innerHTML = tds;
     powerBody.appendChild(tr);
   });

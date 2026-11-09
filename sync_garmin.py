@@ -224,51 +224,47 @@ def _extract_sleep(sleep_data):
         "raw": dto,
     }
 
+def _is_num(v):
+    return isinstance(v, (int, float)) and not isinstance(v, bool)
+
 def _extract_hrv(hrv_data):
+    """Last night's average HRV (ms) — the value Garmin shows as 'last night'.
+
+    Never substitutes the weekly average: on nights without an HRV reading the
+    day is "N/A" instead of silently showing a 7-day mean labelled as last night.
+    """
     if not hrv_data or not isinstance(hrv_data, dict):
         return "N/A"
-    # Try several known shapes
-    for k in ["lastNightAvg", "hrvValue", "avg", "weeklyAvg", "baseline", "status"]:
-        if k in hrv_data and hrv_data[k] not in (None, ""):
-            v = hrv_data[k]
-            if isinstance(v, dict):
-                # sometimes nested
-                return v.get("value") or v.get("avg") or str(v)
-            return v
-    # Check nested list
-    if "hrvSummary" in hrv_data:
-        summ = hrv_data["hrvSummary"]
-        if isinstance(summ, dict):
-            return summ.get("lastNightAvg") or summ.get("weeklyAvg") or "N/A"
-        if isinstance(summ, list) and summ:
-            return summ[0].get("lastNightAvg") or "N/A"
-    # Check for hrvReadings
-    if "hrvReadings" in hrv_data and isinstance(hrv_data["hrvReadings"], list) and hrv_data["hrvReadings"]:
-        last = hrv_data["hrvReadings"][-1]
-        if isinstance(last, dict):
-            return last.get("hrvValue") or last.get("value") or "N/A"
+    summ = hrv_data.get("hrvSummary")
+    if isinstance(summ, list):
+        summ = summ[0] if summ else None
+    if isinstance(summ, dict) and _is_num(summ.get("lastNightAvg")):
+        return summ["lastNightAvg"]
+    if _is_num(hrv_data.get("lastNightAvg")):
+        return hrv_data["lastNightAvg"]
     return "N/A"
 
-def _extract_body_battery(bb_data):
-    if not bb_data:
-        return "N/A"
+def _extract_body_battery(stats, bb_data):
+    """Highest Body Battery level of the day (0-100).
+
+    get_body_battery() returns {charged, drained, bodyBatteryValuesArray, ...} —
+    it has no "highest" field, so the old code fell through to `charged` (how
+    many points were *gained*), which is not a level. The daily summary carries
+    the real bodyBatteryHighestValue; the level array is the fallback.
+    """
+    if isinstance(stats, dict) and _is_num(stats.get("bodyBatteryHighestValue")):
+        return stats["bodyBatteryHighestValue"]
     try:
-        if isinstance(bb_data, list) and bb_data:
-            # list of daily entries
-            last = bb_data[-1]
-            if isinstance(last, dict):
-                for k in ["bodyBatteryHighestValue", "highest", "value", "charged", "bodyBatteryValue"]:
-                    if k in last and last[k] not in (None, ""):
-                        return last[k]
-                # fallback: find numeric
-                for v in last.values():
-                    if isinstance(v, int):
-                        return v
-            return str(last)[:80]
-        if isinstance(bb_data, dict):
-            for k in ["bodyBatteryHighestValue", "value", "highest", "charged"]:
-                if k in bb_data and bb_data[k] not in (None, ""):
-                    return bb_data[k]
+        entries = bb_data if isinstance(bb_data, list) else [bb_data]
+        levels = []
+        for e in entries:
+            if not isinstance(e, dict):
+                continue
+            for pair in e.get("bodyBatteryValuesArray") or []:
+                if isinstance(pair, (list, tuple)) and len(pair) >= 2 and _is_num(pair[1]):
+                    levels.append(pair[1])
+        if levels:
+            return max(levels)
     except Exception:
         pass
     return "N/A"
@@ -277,8 +273,10 @@ def _extract_stress(stress_data):
     if not stress_data or not isinstance(stress_data, dict):
         return "N/A"
     for k in ["overallStressLevel", "avgStressLevel", "averageStressLevel", "stressLevel", "value"]:
-        if k in stress_data and stress_data[k] not in (None, ""):
-            return stress_data[k]
+        v = stress_data.get(k)
+        # Garmin uses -1/-2 for "not enough data" — that is not a stress level
+        if _is_num(v) and v >= 0:
+            return v
     # Sometimes stress in list
     if "stressValuesArray" in stress_data and stress_data["stressValuesArray"]:
         try:
@@ -320,25 +318,114 @@ def _extract_rhr(hr_data, rhr_data):
     return "N/A"
 
 def _extract_training_readiness(tr_data):
+    """Morning Training Readiness score (0-100).
+
+    Garmin returns several snapshots per day (wake-up, after each workout, ...)
+    in no guaranteed order, so taking element [0] gave a different kind of
+    reading from day to day. Prefer the wake-up snapshot (what the Morning
+    Report shows); otherwise the most recent snapshot by timestamp.
+    """
     if not tr_data:
         return "N/A"
     try:
-        if isinstance(tr_data, list) and tr_data:
-            item = tr_data[0]
-            if isinstance(item, dict):
-                for k in ["score", "trainingReadiness", "readinessScore", "level", "value"]:
-                    if k in item and item[k] not in (None, ""):
-                        return item[k]
-                # sometimes nested
-                if "trainingReadinessScore" in item:
-                    return item["trainingReadinessScore"]
-        if isinstance(tr_data, dict):
-            for k in ["score", "trainingReadinessScore", "readinessScore", "value"]:
-                if k in tr_data and tr_data[k] not in (None, ""):
-                    return tr_data[k]
+        items = tr_data if isinstance(tr_data, list) else [tr_data]
+        items = [i for i in items if isinstance(i, dict) and _is_num(i.get("score"))]
+        if not items:
+            return "N/A"
+        morning = [i for i in items if i.get("inputContext") == "AFTER_WAKEUP_RESET"]
+        if morning:
+            return morning[0]["score"]
+        items.sort(key=lambda i: str(i.get("timestampLocal") or i.get("timestamp") or ""))
+        return items[-1]["score"]
     except Exception:
         pass
     return "N/A"
+
+def _extract_vo2max(mm_data):
+    """VO2 max from Garmin's max-metrics ("maxmet") payload.
+
+    Shape: [{"generic": {...running/walking...}, "cycling": {...}, ...}] where
+    each block has vo2MaxPreciseValue / vo2MaxValue / calendarDate. A rider who
+    only cycles has generic=None and the number lives under "cycling" — which
+    is why reading the generic value alone always looked like "null".
+    Returns {"cycling": {"value", "date"} | None, "running": ... | None}.
+    """
+    out = {"cycling": None, "running": None}
+    entries = mm_data if isinstance(mm_data, list) else [mm_data]
+    for e in entries:
+        if not isinstance(e, dict):
+            continue
+        for key, label in (("cycling", "cycling"), ("generic", "running")):
+            blk = e.get(key)
+            if not isinstance(blk, dict):
+                continue
+            v = blk.get("vo2MaxPreciseValue")
+            if not _is_num(v) or v <= 0:
+                v = blk.get("vo2MaxValue")
+            if _is_num(v) and v > 0:
+                prev = out[label]
+                date_ = blk.get("calendarDate")
+                if prev is None or str(date_ or "") >= str(prev.get("date") or ""):
+                    out[label] = {"value": round(float(v), 1), "date": date_}
+    return out
+
+def _extract_ftp(ftp_data):
+    """Latest cycling FTP from /biometric-service/biometric/latestFunctionalThresholdPower/CYCLING."""
+    entries = ftp_data if isinstance(ftp_data, list) else [ftp_data]
+    best = None
+    for e in entries:
+        if not isinstance(e, dict):
+            continue
+        v = e.get("functionalThresholdPower")
+        if not _is_num(v):
+            v = e.get("value")
+        if _is_num(v) and v > 0:
+            cand = {"value": int(round(v)), "date": e.get("calendarDate") or e.get("updatedDate"),
+                    "is_stale": e.get("isStale")}
+            if best is None or str(cand["date"] or "") >= str(best["date"] or ""):
+                best = cand
+    return best
+
+def _extract_hr_zones(zones_data):
+    """Cycling (else default) heart-rate zone floors from get_heart_rate_zones()."""
+    if not isinstance(zones_data, list):
+        return None
+    by_sport = {str(z.get("sport") or "").upper(): z for z in zones_data if isinstance(z, dict)}
+    z = by_sport.get("CYCLING") or by_sport.get("DEFAULT") or (next(iter(by_sport.values())) if by_sport else None)
+    if not z:
+        return None
+    floors = [z.get(f"zone{i}Floor") for i in range(1, 6)]
+    if not all(_is_num(f) for f in floors):
+        return None
+    return {
+        "sport": z.get("sport"),
+        "method": z.get("trainingMethod"),
+        "floors": [int(f) for f in floors],  # Z1..Z5 lower bounds (bpm)
+        "max_hr": z.get("maxHeartRateUsed"),
+        "lthr": z.get("lactateThresholdHeartRateUsed"),
+        "resting_hr": z.get("restingHeartRateUsed"),
+    }
+
+def fetch_profile(client, today_iso):
+    """Slow-moving physiology: latest VO2 max, cycling FTP, HR zones. One call each."""
+    profile = {"vo2max": {"cycling": None, "running": None}, "ftp": None, "hr_zones": None}
+    if hasattr(client, "get_max_metrics_latest"):
+        mm, err = _safe_call("vo2maxLatest", client.get_max_metrics_latest, today_iso)
+        if mm:
+            profile["vo2max"] = _extract_vo2max(mm)
+        elif err:
+            print(f"  Note: {err}")
+    if hasattr(client, "get_cycling_ftp"):
+        ftp, err = _safe_call("cyclingFtp", client.get_cycling_ftp)
+        profile["ftp"] = _extract_ftp(ftp)
+        if err:
+            print(f"  Note: {err}")
+    if hasattr(client, "get_heart_rate_zones"):
+        hz, err = _safe_call("hrZones", client.get_heart_rate_zones)
+        profile["hr_zones"] = _extract_hr_zones(hz)
+        if err:
+            print(f"  Note: {err}")
+    return profile
 
 def fetch_days(client, days: int):
     """Fetch wellness + activities for last N days. Returns dict with 'daily' and 'activities'."""
@@ -367,6 +454,9 @@ def fetch_days(client, days: int):
                 stress = stress2
         rhr, _ = _safe_call("rhr", client.get_rhr_day, cdate)
         tr, _ = _safe_call("trainingReadiness", client.get_training_readiness, cdate)
+        # VO2 max is only re-estimated on days with a qualifying workout, so most
+        # days come back empty — the dashboard connects the dots between updates.
+        mm, _ = _safe_call("vo2max", client.get_max_metrics, cdate)
 
         steps = "N/A"
         if stats and isinstance(stats, dict):
@@ -377,10 +467,15 @@ def fetch_days(client, days: int):
 
         sleep_info = _extract_sleep(sleep)
         hrv_val = _extract_hrv(hrv) if hrv else "N/A"
-        bb_val = _extract_body_battery(bb)
+        bb_val = _extract_body_battery(stats, bb)
         stress_val = _extract_stress(stress)
         rhr_val = _extract_rhr(hr, rhr)
         tr_val = _extract_training_readiness(tr)
+        vo2 = _extract_vo2max(mm)
+        # maxmet for a single day can echo an older estimate — only count it
+        # for this day if Garmin dated it this day.
+        vo2_cyc = vo2["cycling"]["value"] if vo2["cycling"] and vo2["cycling"].get("date") in (None, cdate) else None
+        vo2_run = vo2["running"]["value"] if vo2["running"] and vo2["running"].get("date") in (None, cdate) else None
 
         # Calories, distance from stats
         calories = "N/A"
@@ -432,6 +527,8 @@ def fetch_days(client, days: int):
             "body_battery": bb_val,
             "stress": stress_val,
             "training_readiness": tr_val,
+            "vo2max_cycling": vo2_cyc,
+            "vo2max_running": vo2_run,
             "moderate_minutes": moderate_min if isinstance(moderate_min, (int, float)) else None,
             "vigorous_minutes": vigorous_min if isinstance(vigorous_min, (int, float)) else None,
             "_raw": {
@@ -439,7 +536,7 @@ def fetch_days(client, days: int):
             } if minimal_sleep else {"sleep": None},
         }
         # Progress dot
-        print(f"  {cdate}: steps={steps} hrv={hrv_val} rhr={rhr_val} bb={bb_val} stress={stress_val} readiness={tr_val} sleep={sleep_info['hours']} ({sleep_info['score']})")
+        print(f"  {cdate}: steps={steps} hrv={hrv_val} rhr={rhr_val} bb={bb_val} stress={stress_val} readiness={tr_val} vo2max(cyc/run)={vo2_cyc}/{vo2_run} sleep={sleep_info['hours']} ({sleep_info['score']})")
 
     # Activities
     activities = []
@@ -537,10 +634,21 @@ def fetch_days(client, days: int):
             min_raw["activityId"] = a.get("activityId")
         if elev is not None:
             min_raw["elevationGain"] = elev
-        # Power fallbacks kept only if power_curves missing — tiny keep
-        for pk in ("averagePower", "maxPower", "normalizedPower"):
-            if a.get(pk) is not None and pk not in min_raw:
-                min_raw[pk] = a.get(pk)
+        # Garmin's activity *list* names these avgPower / maxPower / normPower
+        # (the detail endpoint's summaryDTO uses averagePower / normalizedPower).
+        # Only maxPower ever matched before, so avg/NP were silently dropped.
+        # Stored under the names the dashboards already read.
+        for out_key, src_keys in (
+            ("averagePower", ("avgPower", "averagePower")),
+            ("maxPower", ("maxPower",)),
+            ("normalizedPower", ("normPower", "normalizedPower")),
+            ("max20MinPower", ("max20MinPower",)),
+        ):
+            for sk in src_keys:
+                if _is_num(a.get(sk)):
+                    min_raw[out_key] = a.get(sk)
+                    break
+        act_vo2 = a.get("vO2MaxValue")
         activities.append({
             "id": str(aid),
             "date": adate,
@@ -553,6 +661,7 @@ def fetch_days(client, days: int):
             "avg_hr": avg_hr if avg_hr is not None else "N/A",
             "max_hr": max_hr if max_hr is not None else "N/A",
             "elevation_gain": elev if isinstance(elev, (int, float)) else None,
+            "vo2max": act_vo2 if _is_num(act_vo2) and act_vo2 > 0 else None,
             "_raw": min_raw,
         })
 
@@ -562,8 +671,30 @@ def fetch_days(client, days: int):
     except Exception:
         pass
 
+    # Backfill daily VO2 max from the ride's own estimate when the per-day
+    # max-metrics call came back empty (the activity carries the same number).
+    for a in activities:
+        v = a.get("vo2max")
+        d = daily.get(a.get("date"))
+        if d is None or not _is_num(v):
+            continue
+        key = "vo2max_cycling" if "biking" in a["sport"] or "cycling" in a["sport"] else "vo2max_running" if "running" in a["sport"] else None
+        if key and d.get(key) is None:
+            d[key] = v
+
+    profile = fetch_profile(client, end)
+    # If the "latest" endpoint gave nothing, fall back to the newest value in the window.
+    for sport in ("cycling", "running"):
+        if profile["vo2max"].get(sport) is None:
+            for cdate in sorted(daily, reverse=True):
+                v = daily[cdate].get(f"vo2max_{sport}")
+                if _is_num(v):
+                    profile["vo2max"][sport] = {"value": v, "date": cdate}
+                    break
+    print(f"Profile: VO2max={profile['vo2max']} FTP={profile['ftp']} HRzones={profile['hr_zones']}")
+
     print(f"Fetched {len(daily)} day(s) and {len(activities)} activit{'y' if len(activities)==1 else 'ies'}.")
-    return {"daily": daily, "activities": activities, "date_range": [start, end]}
+    return {"daily": daily, "activities": activities, "date_range": [start, end], "profile": profile}
 
 def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
     """Write garmin/ folder: data.json + daily notes + activity notes."""
@@ -598,6 +729,7 @@ def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
     serializable = {
         "generated_at": _now_ist().isoformat(),
         "date_range": [start, end],
+        "profile": data.get("profile") or {},
         "daily": daily,
         "activities": activities,
     }
@@ -621,6 +753,7 @@ def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
 - **Body Battery (highest):** {d['body_battery']}
 - **Stress (avg):** {d['stress']}
 - **Training Readiness:** {d['training_readiness']}
+- **VO2 max update:** {d.get('vo2max_cycling') or d.get('vo2max_running') or '— (only updates after a qualifying workout)'}
 
 *Generated {_now_ist().strftime('%Y-%m-%d %H:%M %Z')} — data.json has full detail.*
 

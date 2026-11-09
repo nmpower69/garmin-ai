@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-AI daily analysis for cycling — uses OpenRouter model nvidia/nemotron-3-ultra-550b-a55b:free
+AI daily analysis for cycling — uses free OpenRouter models (see FALLBACK_MODELS)
 
 Reads garmin/data.json + garmin/power_curves.json (fresh from sync)
 Calls OpenRouter chat/completions and writes:
@@ -8,25 +8,28 @@ Calls OpenRouter chat/completions and writes:
   - garmin/ai_insights.json (structured for dashboard)
 
 Env required: OPENROUTER_API_KEY
-Model: nvidia/nemotron-3-ultra-550b-a55b:free  (free tier via OpenRouter)
+Model: free OpenRouter models, tried in order (see MODEL / FALLBACK_MODELS)
 
 Run locally:  OPENROUTER_API_KEY=sk-or-v1-... python ai_analyze.py
 In GitHub Actions: secret OPENROUTER_API_KEY is injected.
 """
 import json, os, sys, pathlib, datetime, textwrap, requests
 
-MODEL = os.getenv("AI_MODEL", "liquid/lfm-2.5-2.6b:free")
+MODEL = os.getenv("AI_MODEL", "z-ai/glm-5.2:free")
 # Free-tier models only — no paid key, no BYOK models (nvidia/ultra needs BYOK).
-# Order matters: cheap/fast first, then progressively different providers so a
-# rate-limited or empty-returning model still leaves healthy candidates behind.
+# Order matters: larger models first, then progressively different providers so
+# a rate-limited or empty-returning model still leaves healthy candidates behind.
+# The 2.6B liquid model is last resort only: as the primary it produced coaching
+# that contradicted the data (e.g. "80% harder, 20% easy" for polarized training).
 # Each entry has returned valid JSON on the free pool at least once.
 FALLBACK_MODELS = [
     "z-ai/glm-5.2:free",
     "minimax/minimax-m3:free",
-    "google/gemini-2.0-flash-exp:free",
-    "meta-llama/llama-3.3-70b-instruct:free",
     "qwen/qwen3-235b-a22b:free",
     "deepseek/deepseek-chat-v3-0324:free",
+    "meta-llama/llama-3.3-70b-instruct:free",
+    "google/gemini-2.0-flash-exp:free",
+    "liquid/lfm-2.5-2.6b:free",
 ]
 DATA_JSON = pathlib.Path("garmin/data.json")
 CURVES_JSON = pathlib.Path("garmin/power_curves.json")
@@ -39,6 +42,53 @@ def load_json(p):
     except Exception as e:
         print(f"WARN: could not load {p}: {e}")
         return None
+
+def today_ist():
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.datetime.now(ZoneInfo("Asia/Kolkata")).date()
+    except Exception:
+        return datetime.date.today()
+
+
+def build_zone_context(data, curves):
+    """HR zones, FTP and VO2 max as plain lines, from data.json profile + power_curves.json."""
+    profile = (data or {}).get("profile") or {}
+    lines = []
+
+    hz = profile.get("hr_zones") or {}
+    f = hz.get("floors")
+    if isinstance(f, list) and len(f) == 5:
+        extra = ", ".join(x for x in (
+            f"LTHR {hz['lthr']}" if hz.get("lthr") else "",
+            f"max HR {hz['max_hr']}" if hz.get("max_hr") else "",
+        ) if x)
+        lines.append(f"HR zones (Garmin {hz.get('sport') or ''} {hz.get('method') or ''}{'; ' + extra if extra else ''}): "
+                     f"Z1<{f[1]}, Z2 {f[1]}-{f[2]}, Z3 {f[2]}-{f[3]}, Z4 {f[3]}-{f[4]}, Z5>{f[4]} bpm.")
+    else:
+        lines.append("HR zones (from Garmin profile, not re-synced): LTHR 175, Max 196 => Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172 bpm.")
+
+    ftp = (curves or {}).get("ftp")
+    if isinstance(ftp, (int, float)) and ftp > 0:
+        z = [round(ftp * k) for k in (0.55, 0.75, 0.90, 1.05, 1.20, 1.50)]
+        lines.append(f"FTP {ftp} W — {(curves or {}).get('ftp_status') or ''}")
+        lines.append(f"Power zones from that FTP: Z1<{z[0]}, Z2 {z[0]}-{z[1]}, Z3 {z[1]}-{z[2]}, Z4 {z[2]}-{z[3]}, Z5 {z[3]}-{z[4]}, Z6 {z[4]}-{z[5]}, Z7>{z[5]} W.")
+    else:
+        lines.append("FTP unknown — use HR zones.")
+
+    vo2 = profile.get("vo2max") or {}
+    daily = (data or {}).get("daily") or {}
+    trend = [f"{d}: {v['vo2max_cycling']}" for d, v in sorted(daily.items()) if isinstance(v.get("vo2max_cycling"), (int, float))]
+    for sport in ("cycling", "running"):
+        v = vo2.get(sport)
+        if isinstance(v, dict) and v.get("value"):
+            lines.append(f"VO2 max ({sport}, Garmin): {v['value']} as of {v.get('date') or 'unknown date'}.")
+    if trend:
+        lines.append("Cycling VO2 max updates in window: " + ", ".join(trend[-10:]))
+    if not any(isinstance(vo2.get(s), dict) and vo2[s].get("value") for s in ("cycling", "running")) and not trend:
+        lines.append("VO2 max: Garmin has no estimate on file.")
+    return "\n".join(lines)
+
 
 def build_prompt(data, curves):
     # Compact summary for LLM — keep under ~8k tokens
@@ -61,12 +111,13 @@ def build_prompt(data, curves):
         for k,v in sorted_curves[-7:]:
             if isinstance(v, dict) and "10s" in v:
                 curves_lines.append(f"{v.get('date')} {k[-5:]}: 10s={v.get('10s')} 30s={v.get('30s')} 60s={v.get('60s')} 5m={v.get('300s')} 20m={v.get('1200s')} 1h={v.get('3600s')} avg={v.get('avgPower')} NP={v.get('normalizedPower')} max={v.get('maxPower')}")
-    # FTP/HR zones from previous analysis (hardcoded from garmin profile, but also include if in data)
-    zones = "HR zones: LTHR 175, Max 196 => Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172. Power zones: FTP 271W (stale 2025-03-04) => Z1<148, Z2 148-203, Z3 203-244, Z4 244-284, Z5 284-324, Z6 324-406, Z7>406. VO2max null."
+    # Physiology from the latest sync (was a hardcoded string that said
+    # "FTP 271W ... VO2max null" forever, whatever Garmin actually had).
+    zones = build_zone_context(data, curves)
 
     prompt = f"""You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is {datetime.date.today().isoformat()}. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is {today_ist().isoformat()}. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
 {chr(10).join(daily_lines)}
@@ -77,16 +128,17 @@ Recent rides last 7:
 Best power per ride (real directPower rolling maxima):
 {chr(10).join(curves_lines)}
 
-Additional: {zones}
-FTP is stale (271W from 2025-03-04). 20m bests are 143-204W, so true FTP likely ~150-195W. Training readiness, HRV, RHR, sleep are volatile.
+Physiology (from Garmin, latest sync):
+{zones}
+Training readiness, HRV, RHR, sleep are volatile day to day — look at trends, not single days.
 
 Task: Generate exactly 10 insights as JSON array. Each insight must have: "title" (short, like "Insight 1: Aug 12 ride breached easy ceiling by ~8 bpm") and "description" (2-3 sentences, plain English, specific to cycling, referencing actual dates/numbers above, actionable for happiness). Make them parallel to these running examples but cycling-appropriate:
 Insight 1: Aug 20 run, breached easy ceiling by 3 beats.
 Insight 2: Long run, vertical load is high for a road marathon block
 Insight 3: Three-run day August 24 flags recovery sequencing risk
 Insight 4: Marathon progression (now Cycling progression)
-Insight 5: Zone model (recalibrated 2026-08-09)
-Insight 6: Polarized 80/20
+Insight 5: Zone model check (are the HR / power zones above still right for this rider?)
+Insight 6: Polarized 80/20 (~80% of time easy, ~20% hard)
 Insight 7: Recovery/warning signs
 Insight 8: Strength - maximal/reactive
 Insight 9: Activity suggestion for Vo2max improvements.
@@ -274,7 +326,7 @@ def main():
         # Write JSON for dashboard
         OUT_JSON.write_text(json.dumps(insights, indent=2, ensure_ascii=False), encoding="utf-8")
         # Write markdown for humans
-        md_lines = [f"# AI Cycling Insights — {datetime.date.today().isoformat()}  (via {used_model})", ""]
+        md_lines = [f"# AI Cycling Insights — {today_ist().isoformat()}  (via {used_model})", ""]
         md_lines.append(f"_Model: `{used_model}` via OpenRouter — auto-generated after daily Garmin sync._\n")
         for ins in insights:
             md_lines.append(f"### {ins['title']}")

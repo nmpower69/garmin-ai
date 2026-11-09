@@ -1,11 +1,12 @@
 import React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 
-const hrBadge = v => {
+const hrBadge = (v, hrB) => {
   if(typeof v !== 'number') return '—'
-  const c = v < 139 ? 'ok' : v <= 159 ? 'ok' : v <= 167 ? 'warn' : 'bad'
+  const c = v <= hrB[1] ? 'ok' : v <= hrB[2] ? 'warn' : 'bad'
   return <span className={'badge ' + c}>{v}</span>
 }
+const watts = v => typeof v === 'number' ? Math.round(v) : '—'
 
 const fade = (reduced, i) => reduced ? {} : ({
   initial:{opacity:0}, whileInView:{opacity:1},
@@ -38,7 +39,7 @@ export function PowerTable({ model }){
               const pb = v != null && v === powerBests[c]
               return <td key={c} data-label={c} className={'num' + (pb ? ' pb' : '')}>{v ?? '—'}</td>
             })}
-            <td data-label="Avg W" className="num">{avg}</td><td data-label="NP W" className="num">{np}</td><td data-label="Max W" className="num">{max}</td>
+            <td data-label="Avg W" className="num">{watts(avg)}</td><td data-label="NP W" className="num">{watts(np)}</td><td data-label="Max W" className="num">{watts(max)}</td>
           </motion.tr>
         ))}
       </tbody>
@@ -60,8 +61,8 @@ export function LatestTable({ model }){
             <td data-label="Date">{a.date}</td><td data-label="Name">{a.name}</td>
             <td data-label="Dist" className="num">{a.distance_km} km</td><td data-label="Time">{a.duration}</td>
             <td data-label="Elev" className="num">{(typeof a.elevation_gain === 'number' ? a.elevation_gain : a._raw?.elevationGain) || '—'} m</td>
-            <td data-label="Avg HR" className="num">{hrBadge(a.avg_hr)}</td>
-            <td data-label="Max HR" className="num">{hrBadge(a.max_hr)}</td>
+            <td data-label="Avg HR" className="num">{hrBadge(a.avg_hr, model.hrB)}</td>
+            <td data-label="Max HR" className="num">{hrBadge(a.max_hr, model.hrB)}</td>
             <td data-label="Speed" className="num">{a.distance_km && a.duration_seconds ? (a.distance_km/(a.duration_seconds/3600)).toFixed(1) : '—'}</td>
             <td data-label="Cal" className="num">{a.calories}</td>
           </motion.tr>

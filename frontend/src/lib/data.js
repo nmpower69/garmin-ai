@@ -31,11 +31,33 @@ export const loadJson = f => tryFetch(f, r => r.json())
 export const loadText = f => tryFetch(f, r => r.text())
 
 const num = v => typeof v === 'number' ? v : 0
+const numOrNull = v => typeof v === 'number' && !isNaN(v) ? v : null
 const elevOf = a => num(a.elevation_gain ?? a._raw?.elevationGain)
+
+// ISO-8601 week (Mon–Sun) for a 'YYYY-MM-DD' string, computed in UTC so the
+// viewer's timezone can't shift a ride into the neighbouring week.
+export function isoWeekKey(dateStr){
+  const [y, m, d] = dateStr.split('-').map(Number)
+  const t = new Date(Date.UTC(y, m - 1, d))
+  const dow = t.getUTCDay() || 7            // Mon=1 … Sun=7
+  t.setUTCDate(t.getUTCDate() + 4 - dow)    // Thursday decides the ISO year
+  const isoYear = t.getUTCFullYear()
+  const week = Math.ceil(((t - Date.UTC(isoYear, 0, 1)) / 86400000 + 1) / 7)
+  return `${isoYear}-W${String(week).padStart(2,'0')}`
+}
+
+// Garmin HR zone floors (Z2..Z5 lower bounds). Falls back to the zones that
+// were hardcoded from the Garmin profile before they were synced.
+export function hrBoundsOf(profile){
+  const f = profile?.hr_zones?.floors
+  return Array.isArray(f) && f.length === 5 && f.every(v => typeof v === 'number') ? f.slice(1) : [139, 159, 167, 172]
+}
 
 export function buildModel(data, insights, aiModelName, powerCurves, briefing, dataUrl){
   const acts = (data.activities || []).filter(a => a.sport === 'road_biking').sort((a,b) => a.date.localeCompare(b.date))
   const daily = data.daily || {}
+  const profile = data.profile || {}
+  const hrB = hrBoundsOf(profile)   // [Z2 floor, Z3 floor, Z4 floor, Z5 floor]
 
   // ---- KPIs (same 6 as old dashboard) ----
   const totalKm = acts.reduce((s,a) => s + num(a.distance_km), 0)
@@ -45,8 +67,10 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
   const hrs = acts.filter(a => typeof a.avg_hr === 'number').map(a => a.avg_hr)
   const avgHR = hrs.length ? hrs.reduce((a,b) => a+b, 0)/hrs.length : 0
   const best = acts.length ? Math.max(...acts.map(a => num(a.distance_km))) : 0
-  const ftpVal = powerCurves?.ftp || 271
-  const ftpStatus = powerCurves?.ftp_status || 'stale 2025-03-04 — retest needed'
+  // FTP comes from power_curves.json (Garmin's FTP when recent, else an
+  // estimate from 20-min bests). No invented fallback number.
+  const ftpVal = numOrNull(powerCurves?.ftp)
+  const ftpStatus = powerCurves?.ftp_status || 'FTP unknown — waiting for the next sync'
   const kpis = acts.length === 0 ? [
     {label:'No rides', value:0, decimals:0, unit:'rides', sub:'rest week — check daily wellness'},
     {label:'FTP', value:ftpVal, decimals:0, unit:'W', sub:ftpStatus},
@@ -55,19 +79,15 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
     {label:'Total Time', value:totalHrs, decimals:1, unit:'h', sub:`avg ${(totalKm/acts.length).toFixed(1)} km / ride`},
     {label:'Avg Speed', value:avgSpeed, decimals:1, unit:'km/h', sub: avgSpeed < 25 ? 'easy conversational pace' : 'brisk pace for joy rider'},
     {label:'Vert Gain', value:totalElev, decimals:0, unit:'m', sub:`${(totalElev/Math.max(1,acts.length)).toFixed(0)} m / ride avg`},
-    {label:'Avg HR', value:avgHR, decimals:0, unit:'bpm', sub: hrs.length ? (avgHR > 150 ? 'mostly threshold — ease off' : 'balanced base') : 'no HR data'},
+    {label:'Avg HR', value:avgHR, decimals:0, unit:'bpm', sub: hrs.length ? (avgHR >= hrB[2] ? 'mostly threshold — ease off' : avgHR >= hrB[1] ? 'tempo-heavy average' : 'balanced base') : 'no HR data'},
     {label:'FTP', value:ftpVal, decimals:0, unit:'W', sub:ftpStatus},
   ]
 
   // ---- Weekly grouping (same formula as old dashboard) ----
+  // (was a Sunday-start week computed in local time but labelled like ISO weeks)
   const weeks = {}
   acts.forEach(a => {
-    const d = new Date(a.date)
-    const year = d.getFullYear()
-    const jan1 = new Date(year,0,1)
-    const days = Math.floor((d - jan1)/86400000)
-    const week = Math.ceil((days + jan1.getDay() + 1)/7)
-    const key = `${year}-W${String(week).padStart(2,'0')}`
+    const key = isoWeekKey(a.date)
     if(!weeks[key]) weeks[key] = {km:0, sec:0, vert:0, count:0}
     weeks[key].km += num(a.distance_km)
     weeks[key].sec += num(a.duration_seconds)
@@ -97,11 +117,22 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
     return w.length >= 3 ? +(w.reduce((a,b) => a+b,0)/w.length).toFixed(1) : null
   })
 
+  // ---- VO2 max (Garmin only re-estimates after qualifying workouts) ----
+  const vo2Cyc = dates.map(d => numOrNull(daily[d].vo2max_cycling))
+  const vo2Run = dates.map(d => numOrNull(daily[d].vo2max_running))
+  const pv = profile.vo2max || {}
+  const lastIn = arr => { for(let i = arr.length - 1; i >= 0; i--) if(arr[i] != null) return {value:arr[i], date:dates[i]}; return null }
+  const vo2Latest = pv.cycling ? {...pv.cycling, sport:'cycling'}
+    : lastIn(vo2Cyc) ? {...lastIn(vo2Cyc), sport:'cycling'}
+    : pv.running ? {...pv.running, sport:'running'}
+    : lastIn(vo2Run) ? {...lastIn(vo2Run), sport:'running'} : null
+  const vo2HasData = vo2Cyc.some(v => v != null) || vo2Run.some(v => v != null)
+
   // ---- FTP zones ----
-  const zB = [0, Math.round(ftpVal*0.55), Math.round(ftpVal*0.75), Math.round(ftpVal*0.90), Math.round(ftpVal*1.05), Math.round(ftpVal*1.20), Math.round(ftpVal*1.50)]
+  const zB = ftpVal ? [0, Math.round(ftpVal*0.55), Math.round(ftpVal*0.75), Math.round(ftpVal*0.90), Math.round(ftpVal*1.05), Math.round(ftpVal*1.20), Math.round(ftpVal*1.50)] : null
 
   // ---- Intensity donut (ride hours by avg-HR zone) ----
-  const zoneDef = [[-1000,139,'Z1 Easy','#38bdf8'],[139,159,'Z2 Base','#22c55e'],[159,167,'Z3 Tempo','#a78bfa'],[167,172,'Z4 Threshold','#fb923c'],[172,10000,'Z5 Max','#f87171']]
+  const zoneDef = [[-1000,hrB[0],'Z1 Easy','#38bdf8'],[hrB[0],hrB[1],'Z2 Base','#22c55e'],[hrB[1],hrB[2],'Z3 Tempo','#a78bfa'],[hrB[2],hrB[3],'Z4 Threshold','#fb923c'],[hrB[3],10000,'Z5 Max','#f87171']]
   const zoneHrs = [0,0,0,0,0]; let zonedHrs = 0
   acts.forEach(a => {
     if(typeof a.avg_hr === 'number' && typeof a.duration_seconds === 'number'){
@@ -146,7 +177,7 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
   const skM = [[0,0,0],[0,0,0],[0,0,0]]; let skSkip = 0
   acts.forEach(a => {
     if(typeof a.avg_hr === 'number' && typeof a.duration_seconds === 'number'){
-      const zi = a.avg_hr < 139 ? 0 : (a.avg_hr <= 167 ? 1 : 2)
+      const zi = a.avg_hr < hrB[0] ? 0 : (a.avg_hr <= hrB[2] ? 1 : 2)
       const li = a.duration_seconds < 3600 ? 0 : (a.duration_seconds <= 7200 ? 1 : 2)
       skM[zi][li] += a.duration_seconds/3600
     } else { skSkip++ }
@@ -158,8 +189,11 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
   let longest = null
   acts.forEach(a => { if(typeof a.distance_km === 'number' && (!longest || a.distance_km > (longest.distance_km||0))) longest = a })
   const wkBest = Object.entries(weeks).sort((a,b) => b[1].km - a[1].km)[0]
+  // "Bests in this window" — only rides inside the 30-day window, not every
+  // curve ever cached in power_curves.json.
   const curves = (powerCurves && powerCurves.curves) ? powerCurves.curves : {}
-  const pbest = k => { let b = 0; Object.values(curves).forEach(c => { if(c && typeof c[k] === 'number' && c[k] > b) b = c[k] }); return b }
+  const windowCurves = acts.map(a => curves[String(a._raw?.activityId || a.id)]).filter(Boolean)
+  const pbest = k => { let b = 0; windowCurves.forEach(c => { if(typeof c[k] === 'number' && c[k] > b) b = c[k] }); return b }
   const b10 = pbest('10s'), b5 = pbest('300s'), b20 = pbest('1200s')
   const last14 = dates.slice(-14)
   const actsByDate = {}
@@ -170,16 +204,18 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
   const getCurve = id => powerCurves?.curves?.[id] || null
   const powerRows = acts.map(a => {
     const real = getCurve(String(a._raw?.activityId || a.id))
-    const avg = real?.avgPower ?? a._raw?.averagePower ?? a._raw?.avgPower ?? 110
-    const max = real?.maxPower ?? a._raw?.maxPower ?? 400
-    const np = real?.normalizedPower ?? a._raw?.normalizedPower ?? Math.round(avg*1.3)
-    const p = real ? { '10s':real['10s'], '30s':real['30s'], '60s':real['60s'], '5m':real['300s'], '20m':real['1200s'], '1h':real['3600s'] } : null
+    // Missing numbers stay missing (shown as —). This used to invent 110 W /
+    // 400 W / avg×1.3 whenever a value hadn't been fetched yet.
+    const avg = numOrNull(real?.avgPower ?? a._raw?.averagePower ?? a._raw?.avgPower)
+    const max = numOrNull(real?.maxPower ?? a._raw?.maxPower)
+    const np = numOrNull(real?.normalizedPower ?? a._raw?.normalizedPower)
+    const p = real && !real.noPower ? { '10s':real['10s'], '30s':real['30s'], '60s':real['60s'], '5m':real['300s'], '20m':real['1200s'], '1h':real['3600s'] } : null
     return {a, avg, max, np, p}
   })
   const powerCols = ['10s','30s','60s','5m','20m','1h']
   const withP = powerRows.filter(r => r.p)
   const powerBests = {}
-  powerCols.forEach(c => { const vs = withP.map(r => r.p[c] || 0); powerBests[c] = vs.length ? Math.max(...vs) : 0 })
+  powerCols.forEach(c => { const vs = withP.map(r => r.p[c]).filter(v => typeof v === 'number'); powerBests[c] = vs.length ? Math.max(...vs) : null })
 
   // ---- Latest activities ----
   const latest = [...acts].reverse().slice(0,10)
@@ -204,7 +240,8 @@ export function buildModel(data, insights, aiModelName, powerCurves, briefing, d
     kpis, ftpVal, ftpStatus,
     weekLabels, volData, hrsData, vertData, counts, avgLine,
     rideLabels, hrData, speedData,
-    dates, shortDates, readiness, hrv, rhr, ma7, zB,
+    dates, shortDates, readiness, hrv, rhr, ma7, zB, hrB,
+    vo2Cyc, vo2Run, vo2Latest, vo2HasData,
     zoneDef, zoneHrs, zonedHrs,
     slpH, slpScore,
     rcAll, rcR, rcH, rcRh, rcB, rcS,
