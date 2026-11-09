@@ -33,6 +33,7 @@ from datetime import date, datetime, timedelta
 from getpass import getpass
 from pathlib import Path
 import stat
+import time
 try:
     from zoneinfo import ZoneInfo
     IST = ZoneInfo("Asia/Kolkata")
@@ -152,12 +153,39 @@ def do_login(tokenstore: str):
         print("Tip: double-check email/password and 2FA code. If it persists, wait a few minutes (Garmin rate limit).")
         return False
 
+RATE_LIMIT_HITS = 0   # calls that stayed rate-limited after retries (stops the backfill)
+TRANSIENT_ERRORS = 0  # rate limits, timeouts, connection/5xx errors: the day is retried next run
+
+def _is_rate_limited(e):
+    s = f"{type(e).__name__} {e}".lower()
+    return "429" in s or "too many" in s or "toomanyrequests" in s or "rate limit" in s
+
+def _is_transient(e):
+    s = f"{type(e).__name__} {e}".lower()
+    return _is_rate_limited(e) or any(t in s for t in (
+        "timeout", "timed out", "connection", "temporarily", " 500", " 502", " 503", " 504"))
+
 def _safe_call(label, func, *args, **kwargs):
-    try:
-        result = func(*args, **kwargs)
-        return result, None
-    except Exception as e:
-        return None, f"{label}: {e}"
+    """Call a Garmin API; return (result, None) or (None, error text).
+
+    On HTTP 429 (Garmin rate limit) wait and retry twice before giving up —
+    a long history backfill makes hundreds of calls.
+    """
+    global RATE_LIMIT_HITS, TRANSIENT_ERRORS
+    for attempt in range(3):
+        try:
+            return func(*args, **kwargs), None
+        except Exception as e:
+            if _is_rate_limited(e) and attempt < 2:
+                wait = 20 * (attempt + 1)
+                print(f"  rate-limited on {label} — waiting {wait}s and retrying")
+                time.sleep(wait)
+                continue
+            if _is_rate_limited(e):
+                RATE_LIMIT_HITS += 1
+            if _is_transient(e):
+                TRANSIENT_ERRORS += 1
+            return None, f"{label}: {e}"
 
 def _format_duration(seconds):
     if seconds is None:
@@ -441,13 +469,28 @@ def month_window_start(today, months):
         y, m = y - 1, m + 12
     return date(y, m, 1)
 
-def fetch_days(client, days: int = None, start_date: date = None, existing: dict = None):
-    """Fetch wellness + activities from `start_date` (or the last `days` days) to today.
+MAX_BACKFILL_DAYS = 120   # older missing days fetched per run (~10 calls each); the rest next run
+RATE_LIMIT_STOP = 3       # stop backfilling after this many calls stay rate-limited
 
-    `existing` is the previous data.json: days older than REFETCH_RECENT_DAYS
-    that it already holds in the current format are reused instead of
-    re-fetched (~10 API calls per day saved), so a two-month window costs
-    about the same as the old 30-day one.
+def _reusable_day(prev):
+    """True if a stored day is complete and in the current format (no refetch needed)."""
+    if not isinstance(prev, dict) or "vo2max_cycling" not in prev:
+        return False  # written by the old sync format
+    ok = prev.get("_sync_ok")
+    if ok is None:  # stored before the flag existed: trust it if the daily summary had data
+        ok = _is_num(prev.get("steps"))
+    return bool(ok)
+
+def fetch_days(client, days: int = None, start_date: date = None, existing: dict = None):
+    """Make sure every day from `start_date` (or the last `days` days) to today is synced.
+
+    data.json is a growing history, not a rolling window: days already stored
+    (in the current format) are kept as they are and never dropped, the last
+    REFETCH_RECENT_DAYS are always refreshed, and any missing day is fetched —
+    newest first, at most MAX_BACKFILL_DAYS per run, so a long backfill
+    finishes over a few runs instead of hitting Garmin's rate limit.
+    Previously each sync overwrote data.json with only its window, which is
+    why early-October rides (and all of Aug/Sep) disappeared.
     """
     today = _today_ist()
     if start_date is None:
@@ -461,18 +504,22 @@ def fetch_days(client, days: int = None, start_date: date = None, existing: dict
     reuse_before = (today - timedelta(days=REFETCH_RECENT_DAYS)).isoformat()
     old_daily = (existing or {}).get("daily") or {}
 
-    print(f"Fetching {n} day(s): {start} to {end} ... (IST: {_now_ist().strftime('%Y-%m-%d %H:%M %Z')})")
-    daily = {}
-    reused = 0
-    for cdate in dates:
-        prev = old_daily.get(cdate)
-        # "vo2max_cycling" marks a day written by the current sync format
-        if cdate < reuse_before and isinstance(prev, dict) and "vo2max_cycling" in prev:
-            daily[cdate] = prev
-            reused += 1
+    recent = sorted((d for d in dates if d >= reuse_before), reverse=True)
+    missing = sorted((d for d in dates if d < reuse_before and not _reusable_day(old_daily.get(d))), reverse=True)
+    todo = recent + missing[:MAX_BACKFILL_DAYS]
+    deferred = missing[MAX_BACKFILL_DAYS:]
+    reused = len(dates) - len(recent) - len(missing)
+
+    print(f"Syncing {start} to {end}: {len(recent)} recent day(s) to refresh, {len(missing)} missing day(s) to backfill, "
+          f"{reused} already stored ... (IST: {_now_ist().strftime('%Y-%m-%d %H:%M %Z')})")
+    daily = {}  # days fetched in this run
+    for cdate in todo:
+        if cdate < reuse_before and RATE_LIMIT_HITS >= RATE_LIMIT_STOP:
+            deferred.append(cdate)  # Garmin is throttling us: leave the rest for the next run
             continue
         # Call each API safely so one failing doesn't break the whole day
-        stats, _ = _safe_call("stats", client.get_user_summary, cdate)
+        transient_before = TRANSIENT_ERRORS
+        stats, stats_err = _safe_call("stats", client.get_user_summary, cdate)
         hr, _ = _safe_call("heart", client.get_heart_rates, cdate)
         sleep, _ = _safe_call("sleep", client.get_sleep_data, cdate)
         hrv, _ = _safe_call("hrv", client.get_hrv_data, cdate)
@@ -562,6 +609,9 @@ def fetch_days(client, days: int = None, start_date: date = None, existing: dict
             "vo2max_running": vo2_run,
             "moderate_minutes": moderate_min if isinstance(moderate_min, (int, float)) else None,
             "vigorous_minutes": vigorous_min if isinstance(vigorous_min, (int, float)) else None,
+            # False if any call that day hit a temporary error (rate limit, timeout,
+            # 5xx) or the daily summary failed -> the whole day is refetched next run
+            "_sync_ok": stats_err is None and TRANSIENT_ERRORS == transient_before,
             "_raw": {
                 "sleep": minimal_sleep,
             } if minimal_sleep else {"sleep": None},
@@ -573,6 +623,9 @@ def fetch_days(client, days: int = None, start_date: date = None, existing: dict
     activities = []
     # Try date-range method first, fallback to recent list
     acts, err = _safe_call("activities_by_date", client.get_activities_by_date, start, end)
+    # Only the full date-range list is authoritative; the fallback below is just
+    # the latest 100, so with it stored rides are merged, never dropped.
+    acts_ok = acts is not None and not err
     if acts is None or err:
         print(f"  Note: get_activities_by_date failed ({err}), trying get_activities(0, 20)...")
         acts2, err2 = _safe_call("activities", client.get_activities, 0, 100)
@@ -696,6 +749,24 @@ def fetch_days(client, days: int = None, start_date: date = None, existing: dict
             "_raw": min_raw,
         })
 
+    # Merge with stored activities: Garmin's list is authoritative for the synced
+    # range when the call worked; anything stored outside the range is kept.
+    old_acts = (existing or {}).get("activities") or []
+    old_ids = {str(a.get("id")) for a in old_acts if isinstance(a, dict)}
+    fetched_ok = acts_ok and bool(activities or not old_acts)
+    if fetched_ok:
+        new_ids = {a["id"] for a in activities}
+        keep = [a for a in old_acts if isinstance(a, dict) and (str(a.get("date", "")) < start or str(a.get("date", "")) > end) and str(a.get("id")) not in new_ids]
+        activities = keep + activities
+    else:
+        print("  Note: activity list unavailable — keeping stored activities")
+        by_id = {str(a.get("id")): a for a in old_acts if isinstance(a, dict)}
+        for a in activities:
+            by_id[a["id"]] = a
+        activities = list(by_id.values())
+    # Notes are only (re)written for rides that are new or recent
+    note_ids = [a["id"] for a in activities if a["id"] not in old_ids or str(a.get("date", "")) >= reuse_before]
+
     # Sort activities by date then id
     try:
         activities.sort(key=lambda x: (x["date"], x["id"]))
@@ -713,29 +784,44 @@ def fetch_days(client, days: int = None, start_date: date = None, existing: dict
         if key and d.get(key) is None:
             d[key] = v
 
+    # Full history = everything stored before + what this run fetched
+    fetched_dates = sorted(daily)
+    merged = dict(old_daily)
+    merged.update(daily)
+    merged = {k: merged[k] for k in sorted(merged)}
+
     profile = fetch_profile(client, end)
-    # If the "latest" endpoint gave nothing, fall back to the newest value in the window.
+    # If the "latest" endpoint gave nothing, fall back to the newest value stored.
     for sport in ("cycling", "running"):
         if profile["vo2max"].get(sport) is None:
-            for cdate in sorted(daily, reverse=True):
-                v = daily[cdate].get(f"vo2max_{sport}")
+            for cdate in sorted(merged, reverse=True):
+                v = merged[cdate].get(f"vo2max_{sport}")
                 if _is_num(v):
                     profile["vo2max"][sport] = {"value": v, "date": cdate}
                     break
     print(f"Profile: VO2max={profile['vo2max']} FTP={profile['ftp']} HRzones={profile['hr_zones']}")
 
-    print(f"Fetched {len(daily)} day(s) ({reused} reused from last sync) and {len(activities)} activit{'y' if len(activities)==1 else 'ies'}.")
-    return {"daily": daily, "activities": activities, "date_range": [start, end], "profile": profile}
+    if deferred:
+        print(f"  {len(deferred)} older day(s) left for the next run (oldest {min(deferred)}).")
+    print(f"Fetched {len(daily)} day(s), {reused} already stored; history now {len(merged)} day(s) "
+          f"({next(iter(merged), '-')} -> {end}) and {len(activities)} activit{'y' if len(activities)==1 else 'ies'}.")
+    return {"daily": merged, "activities": activities, "date_range": [next(iter(merged), start), end],
+            "profile": profile, "fetched_dates": fetched_dates, "note_activity_ids": note_ids}
 
 def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
     """Write garmin/ folder: data.json + daily notes + activity notes."""
     daily = data["daily"]
     activities = data["activities"]
     start, end = data["date_range"]
+    # Only rewrite notes for days/rides touched by this run (history notes stay as they are)
+    note_days = set(data.get("fetched_dates") or daily.keys())
+    note_ids = set(data.get("note_activity_ids") or [a["id"] for a in activities])
 
     if dry_run:
         print("\n--- DRY RUN PREVIEW (no files written) ---")
         for cdate, d in daily.items():
+            if cdate not in note_days:
+                continue
             print(f"\n[{cdate}] wellness: steps={d['steps']} sleep={d['sleep_hours']} ({d['sleep_score']}) hrv={d['hrv']} rhr={d['resting_hr']} bb={d['body_battery']} stress={d['stress']} readiness={d['training_readiness']}")
         if activities:
             print(f"\nActivities ({len(activities)}):")
@@ -770,6 +856,8 @@ def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
 
     # Write one wellness markdown per day — plain English
     for cdate, d in daily.items():
+        if cdate not in note_days:
+            continue
         md = f"""# {cdate} — Wellness
 
 > Recovery data Strava can't give you. Read-only from Garmin Connect.
@@ -805,6 +893,8 @@ def write_markdown_and_json(data, out_dir: Path, dry_run: bool = False):
 
     # Write one note per workout
     for a in activities:
+        if a["id"] not in note_ids:
+            continue
         # Sanitize filename
         safe_sport = "".join(c if c.isalnum() or c in "-_" else "-" for c in a['sport'])[:20]
         safe_name = "".join(c if c.isalnum() or c in "-_ " else "-" for c in a['name']).strip().replace(" ", "-")[:30]
@@ -875,6 +965,9 @@ def main():
     parser.add_argument("--months", type=int, default=None,
                         help="Calendar-month window instead of --days: current month + the previous N-1 whole months "
                              "(e.g. --months 2 on Nov 9 = Oct 1 -> Nov 9). Reuses older days from the existing data.json.")
+    parser.add_argument("--since", default=None,
+                        help="Keep history back to this date (YYYY-MM-DD): any missing day since then is backfilled "
+                             f"(max {MAX_BACKFILL_DAYS} per run, newest first). Stored days are never dropped.")
     parser.add_argument("--dry-run", action="store_true", help="Fetch and print preview without writing files")
     parser.add_argument("--sink", choices=["files"], default="files", help="Where to save (only 'files' supported)")
     parser.add_argument("--out", default="./garmin", help="Output folder (default ./garmin)")
@@ -904,6 +997,16 @@ def main():
     if args.days < 1 or args.days > 365:
         print("--days must be 1..365")
         sys.exit(1)
+    since_date = None
+    if args.since:
+        try:
+            since_date = date.fromisoformat(args.since.strip())
+        except ValueError:
+            print("--since must be a date like 2026-07-01")
+            sys.exit(1)
+        if since_date > _today_ist():
+            print("--since can't be in the future")
+            sys.exit(1)
 
     # Try to load existing tokens, with credential fallback for CI self-healing.
     # Newer garminconnect (>=0.3.6) auto-discards poisoned/expired cached tokens
@@ -973,16 +1076,21 @@ def main():
 
     # Fetch
     try:
+        # data.json is a growing history: load it so nothing stored is dropped
+        existing = None
+        try:
+            existing = json.loads((Path(args.out) / "data.json").read_text(encoding="utf-8"))
+        except Exception:
+            pass
+        today = _today_ist()
+        starts = []
+        if since_date:
+            starts.append(since_date)
         if args.months:
-            out_json = Path(args.out) / "data.json"
-            existing = None
-            try:
-                existing = json.loads(out_json.read_text(encoding="utf-8"))
-            except Exception:
-                pass
-            data = fetch_days(client, start_date=month_window_start(_today_ist(), args.months), existing=existing)
-        else:
-            data = fetch_days(client, args.days)
+            starts.append(month_window_start(today, args.months))
+        if not starts:
+            starts.append(today - timedelta(days=args.days - 1))
+        data = fetch_days(client, start_date=min(starts), existing=existing)
     except Exception as e:
         print(f"Failed to fetch data: {e}")
         import traceback

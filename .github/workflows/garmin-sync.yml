@@ -9,7 +9,12 @@ name: Garmin Daily Sync
 on:
   schedule:
     - cron: "30 4 * * *" # 10:00 AM IST — fallback only
-  workflow_dispatch: {} # used by EventBridge each morning
+  workflow_dispatch: # manual "Run workflow" (and EventBridge, if configured)
+    inputs:
+      history_start:
+        description: "Keep daily history back to this date (YYYY-MM-DD). Missing days are backfilled, up to 120 per run."
+        required: false
+        default: "2026-07-01"
 
 permissions:
   contents: write
@@ -21,7 +26,7 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30 # a history backfill makes several hundred Garmin calls
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -62,12 +67,14 @@ jobs:
             python -c "import json; d=json.load(open('/home/runner/.garminconnect/garmin_tokens.json')); print('token JSON valid, top-level keys:', list(d.keys())[:5])" || echo "::warning::GARMINTOKENS secret is not valid JSON — sync will try credential fallback"
           fi
 
-      - name: Sync Garmin (this month + all of last month, for the month-by-month view)
+      - name: Sync Garmin (keeps full history; refreshes the last week, backfills gaps)
         env:
           GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
           GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+          # Scheduled runs have no inputs -> default history start
+          HISTORY_START: ${{ inputs.history_start || '2026-07-01' }}
         run: |
-          python sync_garmin.py --months 2 --sink files --out ./garmin
+          python sync_garmin.py --since "$HISTORY_START" --months 2 --sink files --out ./garmin
           echo "=== garmin folder ==="
           ls -R garmin || true
           echo "=== data.json head ==="
