@@ -6,7 +6,7 @@
 
 _Last 7d: 4 rides, 214.5 km · avg gap 2.1d · 0d since ride, 2d since hard · today: 55 km, avg HR 135_
 
-_Kolhapur ride hours (5–9 AM): 21.2C, 52% RH, rain 0%, wind 7.6 km/h_
+_Kolhapur ride hours (5–9 AM): 21.1C, 51% RH, rain 0%, wind 8.1 km/h_
 
 ## Ride plan
 - **Recovery spin** — 19 km (≈52 min)
@@ -34,4 +34,4 @@ _Kolhapur ride hours (5–9 AM): 21.2C, 52% RH, rain 0%, wind 7.6 km/h_
 - You're running a small sleep debt — tonight matters more than usual
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-11-10T12:51:02.644284+00:00 by rules-v1_
+_Generated 2026-11-10T14:59:53.353328+00:00 by rules-v1_

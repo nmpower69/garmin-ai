@@ -107,14 +107,14 @@
     ]
   },
   "weather": {
-    "temp_c": 21.2,
-    "humidity": 52,
+    "temp_c": 21.1,
+    "humidity": 51,
     "rain_pct": 0,
-    "wind_kmh": 7.6
+    "wind_kmh": 8.1
   },
   "wx_notes": [],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-11-10T12:51:02.644284+00:00",
+  "generated_at": "2026-11-10T14:59:53.353328+00:00",
   "model": "rules-v1"
 }
