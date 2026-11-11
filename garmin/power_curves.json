@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-11-10T14:58:06+00:00",
+  "computed_at": "2026-11-11T11:58:59+00:00",
   "ftp": 203,
   "ftp_status": "Estimated from the last 6 weeks: 95% of best 20-min power (214 W on 2026-10-25) \u2014 Garmin FTP 271 W from 2025-03-04T08:10:35.0 is stale. Updates after every ride; normal rides aren't all-out tests, so true FTP is likely a bit higher.",
   "curves": {
@@ -1151,6 +1151,10 @@
     },
     {
       "date": "2026-11-10",
+      "value": 203
+    },
+    {
+      "date": "2026-11-11",
       "value": 203
     }
   ]

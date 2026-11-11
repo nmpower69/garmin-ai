@@ -1,12 +1,12 @@
-# Tomorrow's briefing — 2026-11-11 (Easy spin only — Recovery spin)
+# Tomorrow's briefing — 2026-11-12 (Easy spin only — Recovery spin)
 
 ## Verdict
 - Only 4h 42m sleep (2026-11-10)
-- Today you rode 55 km — tomorrow stays gentle
+- One yellow flag: keep it conversational
 
-_Last 7d: 4 rides, 214.5 km · avg gap 2.1d · 0d since ride, 2d since hard · today: 55 km, avg HR 135_
+_Last 7d: 4 rides, 214.5 km · avg gap 2.1d · 1d since ride, 3d since hard · today: rest_
 
-_Kolhapur ride hours (5–9 AM): 21.1C, 51% RH, rain 0%, wind 8.1 km/h_
+_Kolhapur ride hours (5–9 AM): 21.5C, 55% RH, rain 0%, wind 5.8 km/h_
 
 ## Ride plan
 - **Recovery spin** — 19 km (≈52 min)
@@ -28,10 +28,10 @@ _Kolhapur ride hours (5–9 AM): 21.1C, 51% RH, rain 0%, wind 8.1 km/h_
 - 500 ml water with 1 Reload within the hour
 
 ## Sleep tonight
-- Lights out: **9:30 PM** (usual 12:13 AM) — target **8.0 h**
+- Lights out: **9:30 PM** (usual 12:11 AM) — target **8.0 h**
 - Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM
-- Your recent usual is 12:13 AM — move 15 min earlier every 2 nights
+- Your recent usual is 12:11 AM — move 15 min earlier every 2 nights
 - You're running a small sleep debt — tonight matters more than usual
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-11-10T14:59:53.353328+00:00 by rules-v1_
+_Generated 2026-11-11T12:01:11.394360+00:00 by rules-v1_
