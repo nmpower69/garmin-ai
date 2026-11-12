@@ -1,33 +1,33 @@
-# AI Cycling Insights — 2026-11-11  (via nvidia/nemotron-3.5-super-vl:free)
+# AI Cycling Insights — 2026-11-12  (via nvidia/nemotron-3-ultra-550b-a55b:free)
 
-_Model: `nvidia/nemotron-3.5-super-vl:free` via OpenRouter — auto-generated after daily Garmin sync._
+_Model: `nvidia/nemotron-3-ultra-550b-a55b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-### Insight 1: Nov 8 ride breached easy ceiling by ~27 bpm
-On Nov 8 your ride averaged 152 bpm but peaked at 186 bpm, well above the Z2 easy ceiling of 159 bpm. If that spin was meant to be relaxed, the spikes pushed it into Z4/Z5 territory. Try keeping the next easy ride’s max under 160 bpm so it stays joyful and conversational.
+### Insight 1: Nov 1 ride brushed threshold ceiling
+Your Nov 1 ride averaged 158 bpm, just 1 beat below your Z2 ceiling (159 bpm), with max HR hitting 195 bpm. Consider keeping easy rides truly easy by targeting ≤150 bpm to preserve recovery.
 
-### Insight 2: Long ride vertical load is gentle for flat Kolhapur roads
-Your longest recent rides (Nov 1 and Nov 8, about 62 km) carried only 253–265 m of elevation, and even Nov 6’s 433 m was modest for 47 km. That suits the flat-rolling terrain around Kolhapur and keeps the load joyful rather than grinding. There’s no need to chase big climbing yet.
+### Insight 2: Nov 12 long ride carried high vertical load
+The Nov 12 ride packed 506 m of climbing into 2 hours (≈250 m/h), the steepest rate in your recent block. On rolling terrain, that adds muscular fatigue — enjoy the hills but spin easier on climbs next time.
 
-### Insight 3: Nov 5–6 back-to-back rides flag recovery sequencing risk
-You rode on Nov 5 and Nov 6 on consecutive days, then again on Nov 8 and Nov 10. Sleep fell to just 4 h 42 m on Nov 10 and readiness was 80, down from 90 earlier in the week. Spacing harder rides with a rest or very easy day will protect your energy and happiness.
+### Insight 3: Five rides in eight days flags recovery sequencing risk
+From Nov 5–12 you rode five times (≈every 1.6 days). Your readiness dropped to 67 and HRV to 57 on Nov 11. Insert a rest day or a very easy spin after two consecutive ride days.
 
-### Insight 4: Cycling progression is steady and joyful
-Over the last two weeks you’ve ridden 47–62 km per outing, staying under 2 h 0 m each time. Normalized power has hovered around 157–192 W without big jumps, showing a smooth return to fitness. This gradual build is perfect for a casual rider who wants to keep smiling on the bike.
+### Insight 4: Cycling progression — VO₂max 50, FTP ~213 W
+Garmin VO₂max rose to 50 on Nov 12, and your best 20‑min power (224 W) suggests FTP around 213 W. That’s a solid gain since restart — keep enjoying the upward trend without chasing numbers.
 
-### Insight 5: Zone model check — HR and power zones may be drifting
-Your HR Z2 tops out at 159 bpm, yet rides like Nov 1 averaged 158 bpm and Nov 8 averaged 152 bpm with peaks to 186 bpm. Meanwhile power Z2 caps at 152 W, but your estimated FTP is 203 W while Garmin still shows a stale 271 W. A quick perceived-effort check can realign the zones so your easy rides actually feel easy.
+### Insight 5: Zone model check — HR and power zones aligned?
+Your HR zones (LTHR 175) and power zones (FTP 213 W) come from different sources. A short ramp test would confirm whether 160 W (power Z3) matches 159 bpm (HR Z3) for you.
 
-### Insight 6: Polarized 80/20 shape fits recent rides
-Most rides average 135–158 bpm, sitting in Z1–Z2, with brief spikes to 184–195 bpm (Z4–Z5) on Nov 1, Nov 6, and Nov 8. That pattern is close to an easygoing 80/20: keep the bulk of minutes conversational and let the short punchy moments be your small hard slice.
+### Insight 6: Polarized 80/20 — time in zone suggests ~75/25
+Most rides sit in HR Z2 (avg 135–158 bpm) with only brief Z4/Z5 spikes. That’s close to 80/20; try making one weekly ride deliberately easy (Z1 only) and one with 3×5 min at 110% FTP to sharpen the split.
 
-### Insight 7: Sleep and HRV dip are gentle recovery warnings
-Sleep dropped to 4 h 42 m on Nov 10 and HRV fell to 64 from 77 on Nov 5, while steps plummeted to 419. These are soft signals to take a rest day or a very easy spin before your next ride, keeping cycling a source of joy rather than fatigue.
+### Insight 7: Recovery warning — readiness 67, HRV 57, sleep <5 h
+Nov 11–12 wellness shows readiness 67, HRV 57 ms, and only 5 h 30 min sleep. Your body is asking for a pause — skip the next scheduled ride or do a 30‑min coffee spin at <130 bpm.
 
-### Insight 8: Strength — add low-cadence leg work for flat terrain
-Because Kolhapur’s roads are flat-rolling, you don’t get much natural leg-strength stimulus from climbs. Try one short low-cadence segment (around 50–60 rpm in a bigger gear) or bodyweight squats twice a week. This builds strength for the occasional rise without adding race pressure.
+### Insight 8: Strength — maximal power strong (10 s up to 981 W)
+Your 10‑second peak hit 981 W on Nov 5 and 579 W on Nov 8. That’s plenty of sprint punch for fun rides. Maintain with occasional 10‑sec sprints every 2 weeks — no gym needed.
 
-### Insight 9: VO2 max activity — one weekly brisk effort block
-Your cycling VO2 max has held steady at 49.0 since late October. To nudge it upward while keeping it fun, add one weekly ride with 3–4 efforts of 3–5 minutes at a “comfortably hard” pace, followed by easy spinning. Keep the total ride under 3 hours.
+### Insight 9: VO₂max booster — add 3×3 min at 115% FTP
+To nudge VO₂max above 50, try a ride with 3×3 min at ~245 W (115% of 213 W) with 3 min easy spin between. Do this once a week on a fresh day, keep it playful.
 
-### Insight 10: FTP — use current ~203 W, not stale 271 W
-Garmin still lists a stale 271 W FTP from March 2025, but your recent best 20-minute power supports roughly 203 W (95 % of a 214 W effort on Oct 25). Use 203 W for your power zones, and if you want to refresh it later, do a relaxed 20-minute effort on a flat route—no racing required.
+### Insight 10: FTP suggestion — test or use 20‑min field test
+Current FTP 213 W is 95% of your best 20‑min effort (224 W on Nov 12). A proper 20‑min all‑out test (or a 5‑min + 20‑min protocol) would give a cleaner number than the stale 271 W from Garmin.
