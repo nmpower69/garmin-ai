@@ -1,41 +1,41 @@
 You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is 2026-11-13. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is 2026-11-14. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-11-07: steps=5489 sleep=6h 41m (82 (GOOD)) hrv=77 rhr=52 bb=76 stress=28 readiness=78
 2026-11-08: steps=2544 sleep=4h 55m (64 (FAIR)) hrv=67 rhr=52 bb=81 stress=28 readiness=76
 2026-11-09: steps=4500 sleep=7h 22m (81 (GOOD)) hrv=68 rhr=52 bb=90 stress=28 readiness=84
 2026-11-10: steps=3140 sleep=4h 42m (60 (FAIR)) hrv=64 rhr=53 bb=63 stress=40 readiness=80
 2026-11-11: steps=2999 sleep=8h 55m (68 (FAIR)) hrv=57 rhr=54 bb=74 stress=34 readiness=67
-2026-11-12: steps=348 sleep=5h 30m (70 (FAIR)) hrv=69 rhr=52 bb=77 stress=18 readiness=67
-2026-11-13: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb=N/A stress=N/A readiness=N/A
+2026-11-12: steps=4475 sleep=5h 30m (70 (FAIR)) hrv=69 rhr=52 bb=77 stress=38 readiness=67
+2026-11-13: steps=3744 sleep=8h 2m (90 (EXCELLENT)) hrv=69 rhr=54 bb=88 stress=32 readiness=75
+2026-11-14: steps=366 sleep=6h 24m (73 (FAIR)) hrv=71 rhr=50 bb=92 stress=13 readiness=77
 
 Recent rides last 7:
-2026-10-30 Kolhapur Road Cycling 54.34km 1h 47m avgHR=146.0 maxHR=184.0 elev=228.0 cals=873.0
 2026-11-01 Kolhapur Road Cycling 62.02km 1h 54m avgHR=158.0 maxHR=195.0 elev=253.0 cals=1027.0
 2026-11-05 Kolhapur Road Cycling 50.06km 1h 46m avgHR=140.0 maxHR=179.0 elev=220.0 cals=833.0
 2026-11-06 Kolhapur Road Cycling 47.06km 1h 54m avgHR=148.0 maxHR=186.0 elev=433.0 cals=957.0
 2026-11-08 Kolhapur Road Cycling 62.39km 2h 0m avgHR=152.0 maxHR=186.0 elev=265.0 cals=1083.0
 2026-11-10 Kolhapur Road Cycling 55.03km 1h 51m avgHR=135.0 maxHR=159.0 elev=243.0 cals=910.0
 2026-11-12 Kolhapur Road Cycling 50.35km 2h 0m avgHR=144.0 maxHR=179.0 elev=506.0 cals=1020.0
+2026-11-14 Kolhapur Road Cycling 51.81km 1h 43m avgHR=145.0 maxHR=169.0 elev=297.0 cals=969.0
 
 Best power per ride (real directPower rolling maxima):
-2026-10-30 10789: 10s=379 30s=338 60s=311 5m=203 20m=169 1h=150 avg=135.0 NP=168.0 max=516
 2026-11-01 68977: 10s=518 30s=378 60s=309 5m=221 20m=177 1h=167 avg=149.0 NP=185.0 max=627
 2026-11-05 94315: 10s=981 30s=474 60s=272 5m=194 20m=174 1h=143 avg=130.0 NP=174.0 max=1095
 2026-11-06 54501: 10s=369 30s=354 60s=337 5m=235 20m=199 1h=171 avg=139.0 NP=180.0 max=423
 2026-11-08 42642: 10s=579 30s=385 60s=293 5m=213 20m=188 1h=167 avg=151.0 NP=184.0 max=687
 2026-11-10 32499: 10s=279 30s=241 60s=221 5m=187 20m=171 1h=156 avg=136.0 NP=157.0 max=471
 2026-11-12 65087: 10s=329 30s=303 60s=293 5m=248 20m=224 1h=183 avg=141.0 NP=184.0 max=503
+2026-11-14 70940: 10s=381 30s=287 60s=256 5m=206 20m=173 1h=159 avg=156.0 NP=175.0 max=553
 
 Physiology (from Garmin, latest sync):
 HR zones (Garmin CYCLING LACTATE_THRESHOLD; LTHR 175, max HR 196): Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172 bpm.
 FTP 213 W — Estimated from the last 6 weeks: 95% of best 20-min power (224 W on 2026-11-12) — Garmin FTP 271 W from 2025-03-04T08:10:35.0 is stale. Updates after every ride; normal rides aren't all-out tests, so true FTP is likely a bit higher.
 Power zones from that FTP: Z1<117, Z2 117-160, Z3 160-192, Z4 192-224, Z5 224-256, Z6 256-320, Z7>320 W.
-VO2 max (cycling, Garmin): 50.0 as of 2026-11-12.
+VO2 max (cycling, Garmin): 50.0 as of 2026-11-14.
 VO2 max (running, Garmin): 49.4 as of 2026-10-24.
-Cycling VO2 max updates in window: 2026-10-24: 49.4, 2026-10-25: 49.0, 2026-10-27: 50.0, 2026-10-30: 49.0, 2026-11-01: 49.0, 2026-11-05: 49.0, 2026-11-06: 49.0, 2026-11-08: 49.0, 2026-11-10: 49.0, 2026-11-12: 50.0
+Cycling VO2 max updates in window: 2026-10-25: 49.0, 2026-10-27: 50.0, 2026-10-30: 49.0, 2026-11-01: 49.0, 2026-11-05: 49.0, 2026-11-06: 49.0, 2026-11-08: 49.0, 2026-11-10: 49.0, 2026-11-12: 50.0, 2026-11-14: 50.0
 Training readiness, HRV, RHR, sleep are volatile day to day — look at trends, not single days.
 
 Task: Generate exactly 10 insights as JSON array. Each insight must have: "title" (short, like "Insight 1: Aug 12 ride breached easy ceiling by ~8 bpm") and "description" (2-3 sentences, plain English, specific to cycling, referencing actual dates/numbers above, actionable for happiness). Make them parallel to these running examples but cycling-appropriate:

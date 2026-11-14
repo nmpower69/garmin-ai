@@ -1,13 +1,12 @@
-# Tomorrow's briefing — 2026-11-14 (Easy spin only — Recovery spin)
+# Tomorrow's briefing — 2026-11-15 (Easy spin only — Recovery spin)
 
 ## Verdict
-- Only 5h 30m sleep (2026-11-12)
-- One yellow flag: keep it conversational
+- Today was an easy 52 km — a recovery spin keeps legs turning over
 
-_Last 7d: 3 rides, 167.8 km · avg gap 2.2d · 1d since ride, 1d since hard · today: rest_
+_Last 7d: 4 rides, 219.6 km · avg gap 2.2d · 0d since ride, 2d since hard · today: 52 km, avg HR 145_
 
 ## Ride plan
-- **Recovery spin** — 18 km (≈49 min)
+- **Recovery spin** — 19 km (≈52 min)
 - Warmup: First 10 min dead easy, cadence 85–95
 - Main: Entirely Z1 (<139 bpm), conversational — you should be able to hum
 - Twist: 6 × 1-min fast pedals (100+ rpm, stays Z1) with 4-min easy between — leg speed, zero load
@@ -26,9 +25,10 @@ _Last 7d: 3 rides, 167.8 km · avg gap 2.2d · 1d since ride, 1d since hard · t
 - 500 ml water with 1 Reload within the hour
 
 ## Sleep tonight
-- Lights out: **9:30 PM** (usual 11:57 PM) — target **8.0 h**
+- Lights out: **9:30 PM** (usual 12:11 AM) — target **8.0 h**
 - Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM
-- Your recent usual is 11:57 PM — move 15 min earlier every 2 nights
+- Your recent usual is 12:11 AM — move 15 min earlier every 2 nights
+- You're running a small sleep debt — tonight matters more than usual
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-11-13T12:26:58.305288+00:00 by rules-v1_
+_Generated 2026-11-14T02:53:36.848495+00:00 by rules-v1_

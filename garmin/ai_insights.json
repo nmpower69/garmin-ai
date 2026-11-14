@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: Nov 1 ride breached easy ceiling by ~19 bpm",
-    "description": "Your Nov 1 ride averaged 158 bpm (top of Z2) but hit a max of 195 bpm — well into Z5 and above your lactate threshold of 175 bpm. For a joyful rider, keep easy days truly easy: aim to stay under 139 bpm (Z1) or low Z2 on recovery spins.",
+    "title": "Insight 1: Nov 1 ride breached easy ceiling by ~8 bpm",
+    "description": "Your Nov 1 ride averaged 158 bpm, just 1 beat below your Z2 ceiling (159 bpm), and normalized power was 185 W (87% of FTP). For a joyful easy ride, aim to keep avg HR under 145 bpm (mid-Z2) and NP below 160 W.",
     "badge": "warn",
     "badgeText": "Zone drift"
   },
   {
-    "title": "Insight 2: Nov 12 long ride vertical load high for flat terrain",
-    "description": "The Nov 12 ride packed 506 m of climbing into 50 km (≈10 m/km), and Nov 6 had 433 m in 47 km — both notably steeper than your usual 220–265 m rides. Enjoy the hills, but treat these as your 'hard' days and follow with an extra easy spin or rest.",
-    "badge": "warn",
-    "badgeText": "Vert load"
+    "title": "Insight 2: Nov 12 long ride vertical load is high for flat-rolling terrain",
+    "description": "The Nov 12 ride packed 506 m of climbing into 50 km (10 m/km), the steepest density in your recent block. That's a solid strength stimulus, but pair it with a flatter recovery spin next time to keep legs fresh.",
+    "badge": "ok",
+    "badgeText": "Strength gain"
   },
   {
-    "title": "Insight 3: Three rides in seven days with poor sleep flags recovery risk",
-    "description": "You rode Nov 8, 10, and 12 while sleep dropped to 4h55m, 4h42m, and 5h30m respectively; readiness fell to 67 on Nov 11–12 and HRV dipped to 57. Clustered rides + short sleep = accumulated fatigue — insert a full rest day after any two consecutive riding days.",
+    "title": "Insight 3: Four rides in seven days flags recovery sequencing risk",
+    "description": "You rode Nov 8, 10, 12, and 14 — four rides in a week with only one rest day. Sleep dipped to 4h42m on Nov 10 and readiness fell to 67 on Nov 12. Consider inserting a full rest day or easy walk after two consecutive ride days.",
     "badge": "warn",
-    "badgeText": "Recovery sequencing"
+    "badgeText": "Density alert"
   },
   {
-    "title": "Insight 4: Cycling progression trending up — VO₂max 50, FTP ~213 W",
-    "description": "Your cycling VO₂max rose from 49 to 50 (Nov 12) and your best 20‑min power reached 224 W (Nov 12), giving an estimated FTP of 213 W. That’s a solid, happy improvement — keep the consistency, not intensity, as your main driver.",
+    "title": "Insight 4: Cycling progression — VO2max steady at 50, FTP likely higher than 213 W",
+    "description": "Your cycling VO2max has held at 49–50 since late October, but your best 20‑min power jumped to 224 W on Nov 12 (95% = 213 W FTP). That 224 W effort suggests true FTP may be 215–220 W. Celebrate the gain, but don't chase numbers — just enjoy the stronger legs.",
     "badge": "ok",
     "badgeText": "Progress"
   },
   {
-    "title": "Insight 5: Zone model check — HR zones (LTHR 175) vs. power zones (FTP 213) show a gap",
-    "description": "Garmin’s stale FTP of 271 W inflates power zones; your real FTP ~213 W puts Z2 at 117–160 W, but many rides show NP 157–185 W (74–87% FTP), meaning you’re often in high Z2/low Z3. Update your device FTP to 213 W so zone alerts match your actual effort.",
-    "badge": "warn",
-    "badgeText": "Zone mismatch"
-  },
-  {
-    "title": "Insight 6: Polarized 80/20 balance — current rides lean too much 'moderate'",
-    "description": "Most rides average 135–158 bpm (Z2), with only Nov 10 at 135 bpm (Z1) truly easy. For polarized fun, make 4 of 5 rides conversational (Z1/Z2 <145 bpm) and reserve 1 ride for short, sharp intervals (Z4–Z5). This keeps joy high and burnout low.",
-    "badge": "warn",
-    "badgeText": "80/20 balance"
-  },
-  {
-    "title": "Insight 7: Recovery warning signs — HRV drop, sleep debt, readiness dip",
-    "description": "HRV fell to 57 (Nov 11) and readiness hit 67 two days straight; sleep averaged only 5h30m over the last three ride days. Your body is asking for a pause — take a full rest day, stretch, and prioritize 7+ hours sleep before the next ride.",
-    "badge": "warn",
-    "badgeText": "Recovery alert"
-  },
-  {
-    "title": "Insight 8: Strength — add maximal/reactive work for resilience",
-    "description": "No strength data in your log, but 1–2 weekly sessions of bodyweight squats, lunges, and 5‑second sprints on the bike (3×5 sec all‑out, full recovery) will boost sprint power (your 10‑s max ~300–500 W) and protect joints on those hilly Kolhapur roads.",
+    "title": "Insight 5: Zone model check — HR and power zones align reasonably, but FTP may need updating",
+    "description": "Your HR Z2 (139–159 bpm) and power Z2 (117–160 W) match well on rides like Nov 10 (avg 135 bpm, 136 W). However, FTP 213 W is based on a single 20‑min effort; a fresh 20‑min test or a hard group ride would confirm if zones should shift up.",
     "badge": "ok",
-    "badgeText": "Strength add"
+    "badgeText": "Zones okay"
   },
   {
-    "title": "Insight 9: VO₂max booster — try 4×4‑min intervals at 105% FTP",
-    "description": "With FTP ~213 W, ride 4×4 min at ~225 W (or 90–95% max HR) with 4 min easy spinning between. Do this once a week on a fresh day (e.g., after a rest day) — it’s the most time‑efficient way to nudge VO₂max above 50 while keeping it playful.",
+    "title": "Insight 6: Polarized 80/20 — most rides sit in tempo (Z2), not easy (Z1)",
+    "description": "Six of your last seven rides averaged 140–158 bpm (Z2), with only Nov 10 at 135 bpm (Z1). For a happier, less fatiguing week, try making 3 of 4 rides truly easy (HR <139 bpm) and save one ride for focused harder efforts.",
+    "badge": "warn",
+    "badgeText": "Polarize more"
+  },
+  {
+    "title": "Insight 7: Recovery warning — sleep debt and HRV dip mid‑week",
+    "description": "Sleep dropped below 5 h on Nov 8, 10, and 12; HRV fell to 57 on Nov 11 and readiness hit 67 on Nov 12. Your body is absorbing the ride load, but the trend says prioritize 7+ h sleep for the next 3 days before adding intensity.",
+    "badge": "bad",
+    "badgeText": "Recovery risk"
+  },
+  {
+    "title": "Insight 8: Strength — maximal sprint power varies wildly (279–981 W)",
+    "description": "Your 10‑sec peak power ranges from 279 W (Nov 10) to 981 W (Nov 5), suggesting occasional all‑out sprints but no consistent neuromuscular stimulus. Add 2× 6‑sec seated sprints every 7–10 days on a flat road to build reactive strength without fatigue.",
+    "badge": "ok",
+    "badgeText": "Sprint variability"
+  },
+  {
+    "title": "Insight 9: VO2max booster — try 4×4 min at 230–240 W with 4 min easy",
+    "description": "To nudge VO2max above 50, do one weekly session: warm up 20 min, then 4×4 min at 110–115% FTP (≈230–240 W) with 4 min easy spin between. Keep it fun — pick a scenic loop and imagine you're chasing a sunset.",
     "badge": "ok",
     "badgeText": "VO2max workout"
   },
   {
-    "title": "Insight 10: FTP suggestion — retest or confirm 213 W estimate",
-    "description": "Your current FTP estimate (213 W) comes from 95% of your best 20‑min power (224 W on Nov 12). Garmin still shows 271 W from March 2025. Do a proper 20‑min test on a calm day, or trust the 213 W and update your device — accurate zones make every ride more enjoyable.",
-    "badge": "warn",
+    "title": "Insight 10: FTP suggestion — retest or use 95% of best 20‑min (224 W = 213 W)",
+    "description": "Your current FTP 213 W comes from 95% of the 224 W 20‑min effort on Nov 12. Garmin's old 271 W is stale. Either do a dedicated 20‑min test on a fresh day, or simply ride hard for 20 min on a quiet road and take 95% of that average — no pressure, just curiosity.",
+    "badge": "ok",
     "badgeText": "FTP update"
   }
 ]
