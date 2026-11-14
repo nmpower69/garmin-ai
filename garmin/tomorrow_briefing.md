@@ -31,4 +31,4 @@ _Last 7d: 4 rides, 219.6 km · avg gap 2.2d · 0d since ride, 2d since hard · t
 - You're running a small sleep debt — tonight matters more than usual
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-11-14T02:53:36.848495+00:00 by rules-v1_
+_Generated 2026-11-14T11:39:56.067562+00:00 by rules-v1_
