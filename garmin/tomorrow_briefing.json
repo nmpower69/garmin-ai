@@ -1,18 +1,18 @@
 {
-  "for_date": "2026-11-17",
+  "for_date": "2026-11-18",
   "verdict": "ride",
   "verdict_label": "Ride tomorrow — VO2 refresher (5 × 3 min)",
   "reasons": [
     "Recovery is green (no flags) — readiness 77 (2026-11-14), HRV 71 (2026-11-14), RHR 50 (2026-11-14)",
-    "2 day(s) since last ride (2026-11-14), 4 since last hard effort"
+    "3 day(s) since last ride (2026-11-14), 5 since last hard effort"
   ],
   "context": {
-    "rides_7d": 3,
-    "km_7d": 157.2,
-    "acwr": 0.9,
+    "rides_7d": 2,
+    "km_7d": 102.2,
+    "acwr": 0.58,
     "avg_gap_days": 2.2,
-    "days_since_ride": 2,
-    "days_since_hard": 4,
+    "days_since_ride": 3,
+    "days_since_hard": 5,
     "today": "rest",
     "flags": [],
     "last10": [
@@ -94,25 +94,24 @@
     ]
   },
   "sleep": {
-    "usual_bedtime": "12:11 AM",
+    "usual_bedtime": "11:57 PM",
     "tonight": "9:30 PM",
     "target": "8.0 h",
     "notes": [
       "Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM",
-      "Your recent usual is 12:11 AM — move 15 min earlier every 2 nights",
-      "You're running a small sleep debt — tonight matters more than usual",
+      "Your recent usual is 11:57 PM — move 15 min earlier every 2 nights",
       "Screens off 30 min before bed; cool, dark room"
     ]
   },
   "weather": {
-    "temp_c": 21.5,
-    "humidity": 53,
+    "temp_c": 21.8,
+    "humidity": 52,
     "rain_pct": 0,
-    "wind_kmh": 2.5
+    "wind_kmh": 9.7
   },
   "wx_notes": [],
   "wake": "5:30 AM",
   "ride_start": "6:20 AM",
-  "generated_at": "2026-11-16T12:59:53.252156+00:00",
+  "generated_at": "2026-11-17T13:41:36.657247+00:00",
   "model": "rules-v1"
 }
