@@ -1,33 +1,33 @@
-# AI Cycling Insights — 2026-11-17  (via nvidia/nemotron-3-ultra-550b-a55b:free)
+# AI Cycling Insights — 2026-11-18  (via nvidia/nemotron-3-ultra-550b-a55b:free)
 
 _Model: `nvidia/nemotron-3-ultra-550b-a55b:free` via OpenRouter — auto-generated after daily Garmin sync._
 
-### Insight 1: Nov 1 ride breached easy ceiling by ~19 bpm
-On Nov 1, your max HR hit 195 bpm, well above your lactate threshold (175 bpm). For a joyful rider, keep easy days truly easy — aim to stay under 159 bpm (Z2 ceiling) on recovery rides.
+### Insight 1: Nov 6 ride breached easy ceiling by ~9 bpm
+Your Nov 6 ride averaged 148 bpm, which sits in Zone 2 (139-159) rather than the intended easy Zone 1 (<139). Keeping easy days truly easy helps recovery and aerobic base; try capping HR at 135 bpm on your next recovery spin.
 
-### Insight 2: Nov 12 long ride vertical load high at 506m over 50km
-The Nov 12 ride packed 506 m of climbing into 50 km (10 m/km), the steepest density in your recent block. That's fine for fun, but if legs feel heavy next day, consider a flatter route for the next long ride.
+### Insight 2: Nov 12 long ride packed 506 m elevation in 2 h
+The Nov 12 ride covered 50 km with 506 m of climbing over 2 hours, giving a vertical speed of ~250 m/h — higher than your typical 200 m/h on flatter days. That extra climbing load is fine for strength, but pair it with a lighter day after to avoid residual fatigue.
 
-### Insight 3: Back-to-back rides Nov 5–6 flag recovery sequencing risk
-You rode on consecutive days Nov 5 (50 km) and Nov 6 (47 km) with only ~22 h between finishes. For happiness riding, insert a rest or easy spin day after two-day blocks to keep freshness high.
+### Insight 3: Three rides in seven days (Nov 12, 14, 18) with short gaps
+You rode on Nov 12, 14, and 18 — three sessions in a week with only one rest day between the first two. This density is manageable, but watch for cumulative fatigue if you add a fourth ride; consider a full rest day after two consecutive ride days.
 
-### Insight 4: Cycling progression — VO2max up to 50, 20-min power 224 W
-Your cycling VO2max has nudged from 49 to 50 since late Oct, and your best 20-min power (224 W on Nov 12) suggests FTP around 213 W. That's a solid, gradual gain — keep enjoying the process.
+### Insight 4: Cycling VO2 max climbed from 49 to 51 in three weeks
+Garmin shows your cycling VO2 max rising from 49 (early Nov) to 51 on Nov 18, matching your improved 20-min power (224 W on Nov 12). This steady gain suggests your current volume and occasional harder efforts are working — keep the consistency.
 
-### Insight 5: Zone model check — HR and power zones align reasonably
-Your HR Z2 (139–159 bpm) matches power Z2 (117–160 W) well for your current FTP (213 W) and LTHR (175 bpm). No urgent need to retest, but a fresh 20-min effort would tighten both.
+### Insight 5: HR and power zones show a ~10 W mismatch at threshold
+Your LTHR-based Zone 4 starts at 167 bpm, while your FTP-based Zone 4 starts at 192 W. On Nov 12 you averaged 144 bpm (HR Zone 2) but 141 W (Power Zone 2), while NP was 184 W (Power Zone 3). The zones are close but not perfectly aligned; a lab test or a focused 20-min effort would tighten them.
 
-### Insight 6: Polarized 80/20 — most ride time in Z2, few hard efforts
-Average HRs (135–158 bpm) show >80% of recent ride time in Z1–Z2, with only brief spikes above threshold. That's a healthy polarised split for a happiness rider — no change needed.
+### Insight 6: Polarized 80/20 check — most ride time sits in Zone 2
+Across your last seven rides, average HRs cluster in Zone 2 (139-159) with only brief peaks into Zone 4-5. True 80/20 polarization means ~80% of time in Zone 1 (<139) and ~20% in Zone 4+. Try making one weekly ride strictly Zone 1 (HR <135) and add a short interval set (e.g., 4×4 min at 165-175 bpm) to sharpen the hard end.
 
-### Insight 7: Recovery signs — readiness rising but last 3 days missing
-Readiness climbed from 67 to 77 between Nov 11–14, HRV 57→71, RHR 54→50. However, no wellness data for Nov 15–17; if you feel tired, trust the gap and take an easy day.
+### Insight 7: Nov 15 poor sleep (3 h 12 m) dropped readiness to 65
+After only 3 h 12 m of sleep on Nov 15, your HRV fell to 62 and readiness hit 65 — the lowest in the week. The next day (Nov 16) you bounced back with 8 h sleep and readiness 85. One bad night is normal, but if sleep drops below 6 h repeatedly, schedule an extra easy day or skip a ride.
 
-### Insight 8: Strength — maximal power shows sprint potential (981 W 10s)
-Your 10-sec peak hit 981 W (Nov 5) and 579 W (Nov 8), indicating good neuromuscular pop. One weekly hill sprint or gym session can maintain this reactive strength without fatigue.
+### Insight 8: Sprint power varies widely (279–981 W in 10 s)
+Your 10-second peak power ranges from 279 W (Nov 10) to 981 W (Nov 5), showing inconsistent maximal efforts. For fun and neuromuscular sharpness, try adding 3×10 s all-out sprints with full recovery once a week — it’s low stress and boosts reactive strength.
 
-### Insight 9: VO2max booster — add 4×4 min at 230–240 W once a week
-To nudge VO2max above 50, try a simple set: 4 × 4 min at ~110% FTP (230–240 W) with 4 min easy spin, on a fresh day. Keep it playful — stop if it feels like a chore.
+### Insight 9: VO2 max boost — add 4×4 min intervals at 165-175 bpm
+Your VO2 max rose to 51, and the best stimulus for further gains is time at 90-95% of max HR. Once a week, ride 4×4 min at 165-175 bpm (Zone 4) with 4 min easy spinning between; keep total ride under 2 h for happiness.
 
-### Insight 10: FTP suggestion — update from 213 W using recent 20-min best
-Your current FTP estimate (213 W) comes from 95% of 224 W (Nov 12). A dedicated 20-min test or a hard 30-min group ride would give a fresher number and sharpen zone targets.
+### Insight 10: FTP estimate 213 W vs stale Garmin 271 W — do a 20-min test
+Your current FTP is derived from 95% of your best 20-min power (224 W on Nov 12) giving ~213 W, while Garmin still shows 271 W from March 2025. A fresh 20-min all-out effort (or a ramp test) will give a true number and make your power zones accurate for training.
