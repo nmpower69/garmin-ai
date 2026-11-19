@@ -1,33 +1,33 @@
 You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is 2026-11-18. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is 2026-11-19. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-11-12: steps=4475 sleep=5h 30m (70 (FAIR)) hrv=69 rhr=52 bb=77 stress=38 readiness=67
 2026-11-13: steps=3744 sleep=8h 2m (90 (EXCELLENT)) hrv=69 rhr=54 bb=88 stress=32 readiness=75
 2026-11-14: steps=6585 sleep=6h 24m (73 (FAIR)) hrv=71 rhr=50 bb=92 stress=42 readiness=77
 2026-11-15: steps=4348 sleep=3h 12m (31 (POOR)) hrv=62 rhr=55 bb=59 stress=28 readiness=65
 2026-11-16: steps=3674 sleep=8h 12m (93 (EXCELLENT)) hrv=69 rhr=51 bb=100 stress=28 readiness=85
 2026-11-17: steps=3163 sleep=6h 14m (79 (FAIR)) hrv=65 rhr=50 bb=98 stress=26 readiness=82
-2026-11-18: steps=2670 sleep=6h 16m (75 (FAIR)) hrv=67 rhr=52 bb=87 stress=31 readiness=82
+2026-11-18: steps=4839 sleep=6h 16m (75 (FAIR)) hrv=67 rhr=52 bb=87 stress=38 readiness=82
+2026-11-19: steps=352 sleep=5h 30m (71 (FAIR)) hrv=69 rhr=52 bb=70 stress=27 readiness=72
 
 Recent rides last 7:
-2026-11-05 Kolhapur Road Cycling 50.06km 1h 46m avgHR=140.0 maxHR=179.0 elev=220.0 cals=833.0
 2026-11-06 Kolhapur Road Cycling 47.06km 1h 54m avgHR=148.0 maxHR=186.0 elev=433.0 cals=957.0
 2026-11-08 Kolhapur Road Cycling 62.39km 2h 0m avgHR=152.0 maxHR=186.0 elev=265.0 cals=1083.0
 2026-11-10 Kolhapur Road Cycling 55.03km 1h 51m avgHR=135.0 maxHR=159.0 elev=243.0 cals=910.0
 2026-11-12 Kolhapur Road Cycling 50.35km 2h 0m avgHR=144.0 maxHR=179.0 elev=506.0 cals=1020.0
 2026-11-14 Kolhapur Road Cycling 51.81km 1h 43m avgHR=145.0 maxHR=169.0 elev=297.0 cals=969.0
 2026-11-18 Kolhapur Road Cycling 51.04km 1h 45m avgHR=135.0 maxHR=160.0 elev=288.0 cals=889.0
+2026-11-19 Kolhapur Road Cycling 12.57km 47m avgHR=104.0 maxHR=129.0 elev=82.0 cals=152.0
 
 Best power per ride (real directPower rolling maxima):
-2026-11-05 94315: 10s=981 30s=474 60s=272 5m=194 20m=174 1h=143 avg=130.0 NP=174.0 max=1095
 2026-11-06 54501: 10s=369 30s=354 60s=337 5m=235 20m=199 1h=171 avg=139.0 NP=180.0 max=423
 2026-11-08 42642: 10s=579 30s=385 60s=293 5m=213 20m=188 1h=167 avg=151.0 NP=184.0 max=687
 2026-11-10 32499: 10s=279 30s=241 60s=221 5m=187 20m=171 1h=156 avg=136.0 NP=157.0 max=471
 2026-11-12 65087: 10s=329 30s=303 60s=293 5m=248 20m=224 1h=183 avg=141.0 NP=184.0 max=503
 2026-11-14 70940: 10s=381 30s=287 60s=256 5m=206 20m=173 1h=159 avg=156.0 NP=175.0 max=553
 2026-11-18 63915: 10s=356 30s=266 60s=250 5m=200 20m=169 1h=150 avg=141.0 NP=165.0 max=452
+2026-11-19 42971: 10s=193 30s=184 60s=150 5m=121 20m=78 1h=None avg=54.0 NP=90.0 max=246
 
 Physiology (from Garmin, latest sync):
 HR zones (Garmin CYCLING LACTATE_THRESHOLD; LTHR 175, max HR 196): Z1<139, Z2 139-159, Z3 159-167, Z4 167-172, Z5>172 bpm.
