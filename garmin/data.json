@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-20T18:47:34.709598+05:30",
+  "generated_at": "2026-11-21T18:21:07.216234+05:30",
   "date_range": [
     "2026-07-01",
-    "2026-11-20"
+    "2026-11-21"
   ],
   "profile": {
     "vo2max": {
       "cycling": {
         "value": 51.0,
-        "date": "2026-11-18"
+        "date": "2026-11-21"
       },
       "running": {
         "value": 49.4,
@@ -5233,9 +5233,9 @@
     },
     "2026-11-19": {
       "date": "2026-11-19",
-      "steps": 352,
-      "calories": 737,
-      "distance_km": 12.77,
+      "steps": 5878,
+      "calories": 2184,
+      "distance_km": 17.27,
       "sleep_hours": "5h 30m",
       "sleep_score": "71 (FAIR)",
       "sleep_deep": "1h 18m",
@@ -5245,7 +5245,7 @@
       "hrv": 69,
       "resting_hr": 52,
       "body_battery": 70,
-      "stress": 27,
+      "stress": 36,
       "training_readiness": 72,
       "vo2max_cycling": null,
       "vo2max_running": null,
@@ -5270,37 +5270,74 @@
     },
     "2026-11-20": {
       "date": "2026-11-20",
-      "steps": null,
-      "calories": "N/A",
-      "distance_km": "N/A",
-      "sleep_hours": "N/A",
-      "sleep_score": "N/A",
-      "sleep_deep": "N/A",
-      "sleep_light": "N/A",
-      "sleep_rem": "N/A",
-      "sleep_awake": "N/A",
-      "hrv": "N/A",
-      "resting_hr": "N/A",
-      "body_battery": "N/A",
-      "stress": "N/A",
-      "training_readiness": "N/A",
+      "steps": 5267,
+      "calories": 2096,
+      "distance_km": 4.29,
+      "sleep_hours": "8h 55m",
+      "sleep_score": "87 (GOOD)",
+      "sleep_deep": "1h 59m",
+      "sleep_light": "5h 9m",
+      "sleep_rem": "1h 47m",
+      "sleep_awake": "33m",
+      "hrv": 62,
+      "resting_hr": 53,
+      "body_battery": 92,
+      "stress": 30,
+      "training_readiness": 83,
       "vo2max_cycling": null,
       "vo2max_running": null,
-      "moderate_minutes": null,
-      "vigorous_minutes": null,
+      "moderate_minutes": 0,
+      "vigorous_minutes": 0,
       "_sync_ok": true,
       "_raw": {
         "sleep": {
           "dailySleepDTO": {
-            "sleepStartTimestampLocal": null,
-            "sleepStartTimestampGMT": null,
-            "sleepEndTimestampLocal": null,
-            "sleepEndTimestampGMT": null,
-            "sleepTimeSeconds": null,
-            "deepSleepSeconds": null,
-            "lightSleepSeconds": null,
-            "remSleepSeconds": null,
-            "awakeSleepSeconds": null
+            "sleepStartTimestampLocal": 1795129260000,
+            "sleepStartTimestampGMT": 1795109460000,
+            "sleepEndTimestampLocal": 1795163340000,
+            "sleepEndTimestampGMT": 1795143540000,
+            "sleepTimeSeconds": 32100,
+            "deepSleepSeconds": 7140,
+            "lightSleepSeconds": 18540,
+            "remSleepSeconds": 6420,
+            "awakeSleepSeconds": 1980
+          }
+        }
+      }
+    },
+    "2026-11-21": {
+      "date": "2026-11-21",
+      "steps": 319,
+      "calories": 1470,
+      "distance_km": 52.04,
+      "sleep_hours": "6h 25m",
+      "sleep_score": "80 (GOOD)",
+      "sleep_deep": "1h 9m",
+      "sleep_light": "3h 39m",
+      "sleep_rem": "1h 38m",
+      "sleep_awake": "N/A",
+      "hrv": 78,
+      "resting_hr": 52,
+      "body_battery": 97,
+      "stress": 16,
+      "training_readiness": 85,
+      "vo2max_cycling": 51.0,
+      "vo2max_running": null,
+      "moderate_minutes": 52,
+      "vigorous_minutes": 46,
+      "_sync_ok": true,
+      "_raw": {
+        "sleep": {
+          "dailySleepDTO": {
+            "sleepStartTimestampLocal": 1795215840000,
+            "sleepStartTimestampGMT": 1795196040000,
+            "sleepEndTimestampLocal": 1795238974000,
+            "sleepEndTimestampGMT": 1795219174000,
+            "sleepTimeSeconds": 23134,
+            "deepSleepSeconds": 4140,
+            "lightSleepSeconds": 13140,
+            "remSleepSeconds": 5880,
+            "awakeSleepSeconds": 0
           }
         }
       }
@@ -6462,6 +6499,28 @@
         "maxPower": 246.0,
         "normalizedPower": 90.0,
         "max20MinPower": 75.60166666666667
+      }
+    },
+    {
+      "id": "25147138872",
+      "date": "2026-11-21",
+      "name": "Kolhapur Road Cycling",
+      "sport": "road_biking",
+      "duration": "1h 51m",
+      "duration_seconds": 6660.251953125,
+      "distance_km": 51.81,
+      "calories": 910.0,
+      "avg_hr": 133.0,
+      "max_hr": 167.0,
+      "elevation_gain": 299.0,
+      "vo2max": 51.0,
+      "_raw": {
+        "activityId": 25147138872,
+        "elevationGain": 299.0,
+        "averagePower": 137.0,
+        "maxPower": 444.0,
+        "normalizedPower": 164.0,
+        "max20MinPower": 158.74833333333333
       }
     }
   ]
