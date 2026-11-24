@@ -1,37 +1,26 @@
-# Tomorrow's briefing — 2026-11-24 (Ride tomorrow — VO2 refresher (5 × 3 min))
+# Tomorrow's briefing — 2026-11-25 (Rest day)
 
 ## Verdict
-- Recovery is green (no flags) — readiness 85 (2026-11-21), HRV 78 (2026-11-21), RHR 52 (2026-11-21)
-- 2 day(s) since last ride (2026-11-21), 11 since last hard effort
+- Today's ride was big (53 km, avg HR 145) — body needs absorption time
 
-_Last 7d: 3 rides, 115.4 km · avg gap 2.2d · 2d since ride, 11d since hard · today: rest_
+_Last 7d: 4 rides, 168.1 km · avg gap 2.1d · 0d since ride, 0d since hard · today: 53 km, avg HR 145_
 
-_Kolhapur ride hours (5–9 AM): 23.2C, 54% RH, rain 0%, wind 8.9 km/h_
-
-## Ride plan
-- **VO2 refresher (5 × 3 min)** — ≈40 km (≈85 min total)
-- Warmup: 15 min Z1–Z2 + 3 × 30-s openers
-- Main: 5 × 3 min at 172–178 bpm (high Z4/low Z5) with 3-min easy spins between
-- Twist: If legs feel great on rep 4, extend rep 5 to 4 min — never add a 6th rep
-- Cooldown: 12–15 min Z1 + stretch
-- Pace: Reps 172–178 bpm; everything else <159 bpm; RPE 8/10 on reps, 3/10 off
+## Rest plan
+- No bike. 20–30 min easy walk (conversational pace, <5k steps extra) OR full couch — your call
+- 5-min mobility: calves, quads, hip flexors, thoracic opener
+- If legs feel heavy: 10 min easy spin with zero resistance is allowed, HR <130
+- Normal food + the hydration above; early night beats everything
 
 ## Fuel (bananas / Fast&Up gels / Reload)
-### Pre
-- Tonight (night before): carb-forward dinner — rice/roti + dal/paneer/eggs, plus 1 extra roti — tomorrow is long/hard
-- 5:30 AM +5 min on waking: 1 banana + 250–500 ml water with Reload — nothing heavy, wheels roll 6:20 AM
-### During
-- 1 × 500–750 ml bottle(s) with Reload (1 serving per bottle, ~1 bottle/hr)
-- 1 × Fast&Up energy gel (~1 per 40–45 min after the first hour)
 ### Post
-- Within 30–60 min: 1–2 bananas + a protein-rich meal
-- 500 ml water with 1 Reload within the hour
+- Eat normally; keep 1–2 bananas in the day as usual
+- 2–3 L water through the day + 1 Reload serving in the afternoon bottle
+- Dinner with protein + carbs — recovery is built overnight
 
 ## Sleep tonight
-- Lights out: **9:30 PM** (usual 11:09 PM) — target **8.0 h**
-- Anchored to your 5:30 AM alarm: 8.0 h ⇒ lights out 9:30 PM
-- Your recent usual is 11:09 PM — move 15 min earlier every 2 nights
-- You're running a small sleep debt — tonight matters more than usual
+- Lights out: **10:00 PM** (usual 11:08 PM) — target **7.5 h**
+- Anchored to your 5:30 AM alarm: 7.5 h ⇒ lights out 10:00 PM
+- Your recent usual is 11:08 PM — move 15 min earlier every 2 nights
 - Screens off 30 min before bed; cool, dark room
 
-_Generated 2026-11-23T15:03:44.143259+00:00 by rules-v1_
+_Generated 2026-11-24T15:03:23.695965+00:00 by rules-v1_

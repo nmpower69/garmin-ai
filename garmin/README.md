@@ -1,4 +1,4 @@
-# Garmin data — last sync 2026-11-23 20:32 IST
+# Garmin data — last sync 2026-11-24 20:31 IST
 
 This folder is read-only from Garmin. It updates when you run `py sync_garmin.py`.
 
@@ -6,10 +6,10 @@ This folder is read-only from Garmin. It updates when you run `py sync_garmin.py
 - `daily/YYYY-MM-DD.md` — one wellness note per day (sleep, HRV, RHR, body battery, stress, training readiness, steps)
 - `activities/YYYY-MM-DD-<id>-<sport>.md` — one note per workout
 
-## Quick stats: 2026-07-01 to 2026-11-23
+## Quick stats: 2026-07-01 to 2026-11-24
 
-- Days: 146
-- Activities: 54
+- Days: 147
+- Activities: 55
 
 ## How to use
 
