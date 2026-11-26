@@ -1,5 +1,5 @@
 {
-  "computed_at": "2026-11-25T14:41:31+00:00",
+  "computed_at": "2026-11-26T14:05:39+00:00",
   "ftp": 213,
   "ftp_status": "Estimated from the last 6 weeks: 95% of best 20-min power (224 W on 2026-11-12) \u2014 Garmin FTP 271 W from 2025-03-04T08:10:35.0 is stale. Updates after every ride; normal rides aren't all-out tests, so true FTP is likely a bit higher.",
   "curves": {
@@ -688,6 +688,20 @@
       "normalizedPower": 183.0,
       "maxPower": 620,
       "npSource": "garmin"
+    },
+    "25201421176": {
+      "date": "2026-11-26",
+      "v": 2,
+      "10s": 379,
+      "30s": 322,
+      "60s": 275,
+      "300s": 206,
+      "1200s": 179,
+      "3600s": 166,
+      "avgPower": 154.0,
+      "normalizedPower": 177.0,
+      "maxPower": 421,
+      "npSource": "garmin"
     }
   },
   "notes": "Rolling bests from Garmin's directPower stream resampled to 1 Hz (pauses removed); a window only counts when completely filled. 10s=neuromuscular, 30-60s=anaerobic, 5m=VO2, 20m\u2248FTP proxy, 1h=endurance. Entries without \"v\": 2 are legacy values.",
@@ -1295,6 +1309,10 @@
     },
     {
       "date": "2026-11-25",
+      "value": 213
+    },
+    {
+      "date": "2026-11-26",
       "value": 213
     }
   ]

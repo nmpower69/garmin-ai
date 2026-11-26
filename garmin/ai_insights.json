@@ -1,62 +1,62 @@
 [
   {
-    "title": "Insight 1: Three recent rides averaged above easy ceiling (138 bpm)",
-    "description": "On Nov 12, 14, and 24 your average HR was 144–145 bpm, solidly in Zone 2. For pure recovery or easy endurance, aim to keep at least 1–2 rides per week under 138 bpm to build aerobic base without extra fatigue.",
+    "title": "Insight 1: Nov 24 & 26 rides pushed upper Z2",
+    "description": "Your last two long rides (Nov 24: 52.6km, avg HR 145; Nov 26: 61.1km, avg HR 146) sat at the top of Z2 (139-159). For joyful improvement, keep easy rides closer to 135-140 bpm to build aerobic base without extra fatigue.",
     "badge": "warn",
     "badgeText": "Zone drift"
   },
   {
-    "title": "Insight 2: Nov 12 long ride carried the highest vertical load (506 m in 50 km)",
-    "description": "That climb density (≈10 m/km) is noticeably steeper than your other rides (typically 5–6 m/km). It’s fine occasionally, but stacking big climbing days back‑to‑back can delay recovery — keep the next ride flat and easy.",
+    "title": "Insight 2: Nov 12 ride had highest climbing load",
+    "description": "The Nov 12 ride (50.3km, 506m elevation) gave ~10m climbing per km, higher than recent rides (Nov 24: 450m/52km, Nov 26: 325m/61km). On flat-rolling terrain, this is manageable, but watch cumulative vertical if adding more climbing.",
     "badge": "ok",
     "badgeText": "Vert load"
   },
   {
-    "title": "Insight 3: Four rides in seven days (Nov 18–24) raises density flag",
-    "description": "You rode Nov 18, 19, 21, and 24 — only one true rest day. The short Nov 19 spin (12 km, 104 bpm) helped, but consider inserting an extra off‑day or very easy spin after any three‑ride week to absorb the work.",
+    "title": "Insight 3: Three rides in six days (Nov 21, 24, 26)",
+    "description": "You rode 52km, 53km, and 61km within six days with only one rest day between Nov 24-26. Readiness dropped to 66 on Nov 25 after short sleep. Consider an extra easy day or shorter ride after back-to-back long efforts.",
     "badge": "warn",
-    "badgeText": "Density"
+    "badgeText": "Density risk"
   },
   {
-    "title": "Insight 4: Cycling VO₂ max climbed from 49 to 51 in three weeks",
-    "description": "Garmin shows 49.0 on Nov 5 → 51.0 on Nov 24. That’s a solid gain for a returning rider. Consistency (6 rides in 15 days) and some harder efforts (NP 175–184 W) are driving it — keep the rhythm.",
+    "title": "Insight 4: VO2max rising from 49 to 51 in three weeks",
+    "description": "Cycling VO2max climbed from 49 (Nov 6) to 51 (Nov 26) while 20-min power dipped slightly (224W→179W). The trend suggests improved efficiency—keep consistency, and a fresh FTP test will clarify true threshold.",
     "badge": "ok",
-    "badgeText": "Progress"
+    "badgeText": "Fitness up"
   },
   {
-    "title": "Insight 5: HR and power zones appear aligned but FTP may be underestimated",
-    "description": "Your LTHR 175 bpm and FTP 213 W give comparable Zone 2 ranges (HR 139–159, Power 117–160 W). However, Garmin’s stale FTP 271 W suggests a recent test could raise your working zones and make intervals more precise.",
+    "title": "Insight 5: HR and power zones may need realignment",
+    "description": "HR zones use LTHR 175 (Z2 139-159), power zones use FTP 213W (Z2 117-160W). Your Nov 26 ride averaged 154W (NP 177W) at 146 bpm—power suggests low Z2, HR suggests high Z2. A short ramp test can sync them for happier pacing.",
     "badge": "warn",
-    "badgeText": "Zone check"
+    "badgeText": "Zone sync"
   },
   {
-    "title": "Insight 6: Training leans moderate — polarize more (80/20)",
-    "description": "Most rides sit in Zone 2 (avg HR 133–145). True Zone 1 (<139) appears only on the Nov 19 recovery spin, and hard Zone 4+ efforts are brief sprints. Try making one ride very easy (Z1) and one session with 3–4×4 min at 225–235 W (Zone 5) each week.",
+    "title": "Insight 6: Training time mostly Z2, little true Z1 or Z4+",
+    "description": "Recent rides show 80-90% time in Z2 (139-159 bpm) with brief peaks into Z4/Z5. For polarized fun, add one weekly ride with 2-3×5 min at 165-175 bpm (Z3/Z4) and keep other rides strictly <139 bpm. This sharpens fitness without burnout.",
+    "badge": "ok",
+    "badgeText": "Polarized"
+  },
+  {
+    "title": "Insight 7: Sleep dip Nov 25-26 dragged readiness down",
+    "description": "Sleep fell to 5h21m (Nov 25) and 5h49m (Nov 26), readiness dropped to 66 then 75, HRV fluctuated (61→74). Prioritize 7.5h+ sleep for two nights; if readiness stays <80, swap a long ride for a 30-min spin or walk.",
     "badge": "warn",
-    "badgeText": "Polarize"
+    "badgeText": "Recovery dip"
   },
   {
-    "title": "Insight 7: Wellness trends look healthy — no acute warning signs",
-    "description": "Readiness 83–93, HRV 62–78 ms, RHR 51–53 bpm, sleep mostly 7–9 h. The Nov 19 sleep dip (5.5 h) didn’t tank readiness. Keep prioritizing 7+ h sleep; it’s your best recovery tool.",
+    "title": "Insight 8: Sprint power strong (10s 588W Nov 24)",
+    "description": "Your 10-sec peak hit 588W (Nov 24) and 379W (Nov 26)—excellent for a casual rider. Maintain with occasional 6-8 sec all-out sprints every 10 days; no structured strength needed unless you want more snap.",
     "badge": "ok",
-    "badgeText": "Recovery"
+    "badgeText": "Sprint ok"
   },
   {
-    "title": "Insight 8: Maximal power is strong — 10 s peak 588 W (Nov 24)",
-    "description": "Your 10‑second bests (381–588 W) show good neuromuscular sharpness. To maintain it, add a few 8–10 s all‑out sprints every 7–10 days (e.g., 4×10 s with full recovery) — fun and keeps the snap.",
+    "title": "Insight 9: Add one weekly 30-min VO2max booster",
+    "description": "Try a fun fartlek: warm 15 min, then 4×3 min at 165-175 bpm (feels 'comfortably hard') with 3 min easy spin, cool 10 min. Do this once a week on a fresh day (e.g., Tuesday) to nudge VO2max above 51 without pressure.",
     "badge": "ok",
-    "badgeText": "Sprint"
+    "badgeText": "VO2max fun"
   },
   {
-    "title": "Insight 9: VO₂ max booster — add a weekly 4×4 min interval at 106 % FTP",
-    "description": "With FTP ~213 W, target 225–230 W for 4 min intervals (4×4 min, 4 min easy). This specific dose lifts VO₂ max efficiently and fits in a 90 min ride. Do it fresh, not after a long weekend ride.",
+    "title": "Insight 10: FTP estimate 213W—test or use 20-min ×0.95",
+    "description": "Current FTP 213W comes from 95% of your best 20-min (224W Nov 12). Garmin's 271W is stale. Next time you feel great, do a 20-min all-out effort (or 2×8 min) and multiply average by 0.95. Until then, 213W is a solid, conservative guide for zone setting.",
     "badge": "ok",
-    "badgeText": "VO2max"
-  },
-  {
-    "title": "Insight 10: FTP test recommended — 20 min or ramp test to replace stale 271 W",
-    "description": "Your current 213 W estimate comes from 95 % of a 224 W 20‑min effort (Nov 12). A fresh 20‑min all‑out or a ramp test will confirm if FTP is higher, ensuring zones match your actual fitness.",
-    "badge": "warn",
-    "badgeText": "FTP test"
+    "badgeText": "FTP guide"
   }
 ]
