@@ -1,15 +1,15 @@
 You are a cycling coach for a casual happiness rider, not a racer. The rider is a cyclist (outdoor road_biking), restarted after a break, never rides >3h, wants joyful improvement.
 
-Context: Today is 2026-11-26. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
+Context: Today is 2026-11-27. Data window last 7-30 days. The rider is in Kolhapur, India, flat-rolling terrain.
 
 Daily wellness last 7 days:
-2026-11-20: steps=5267 sleep=8h 55m (87 (GOOD)) hrv=62 rhr=53 bb=92 stress=30 readiness=83
 2026-11-21: steps=4143 sleep=6h 25m (80 (GOOD)) hrv=78 rhr=52 bb=97 stress=34 readiness=85
 2026-11-22: steps=5279 sleep=7h 42m (86 (GOOD)) hrv=64 rhr=53 bb=87 stress=33 readiness=86
 2026-11-23: steps=5524 sleep=8h 46m (89 (GOOD)) hrv=69 rhr=51 bb=98 stress=30 readiness=93
 2026-11-24: steps=6475 sleep=6h 43m (80 (GOOD)) hrv=78 rhr=52 bb=91 stress=44 readiness=92
 2026-11-25: steps=4206 sleep=5h 21m (65 (FAIR)) hrv=61 rhr=55 bb=69 stress=32 readiness=66
 2026-11-26: steps=730 sleep=5h 49m (75 (FAIR)) hrv=74 rhr=51 bb=81 stress=17 readiness=75
+2026-11-27: steps=None sleep=N/A (N/A) hrv=N/A rhr=N/A bb=N/A stress=N/A readiness=N/A
 
 Recent rides last 7:
 2026-11-12 Kolhapur Road Cycling 50.35km 2h 0m avgHR=144.0 maxHR=179.0 elev=506.0 cals=1020.0
